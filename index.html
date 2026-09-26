@@ -18,10 +18,7 @@
     padding: 12px;
     margin: 0;
   }
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-  }
+  .container { max-width: 900px; margin: 0 auto; }
   .card {
     background: #fff;
     border-radius: 20px;
@@ -29,21 +26,9 @@
     margin-bottom: 16px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.15);
   }
-  .header-title {
-    color: #fff;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .header-title h1 {
-    font-size: 28px;
-    font-weight: 800;
-    margin: 0 0 6px;
-  }
-  .header-title p {
-    font-size: 14px;
-    opacity: 0.9;
-    margin: 0;
-  }
+  .header-title { color: #fff; text-align: center; margin-bottom: 20px; }
+  .header-title h1 { font-size: 28px; font-weight: 800; margin: 0 0 6px; }
+  .header-title p { font-size: 14px; opacity: 0.9; margin: 0; }
   canvas { 
     max-width: 100%; 
     height: auto;
@@ -53,16 +38,12 @@
     margin: 0 auto;
   }
   input[type="color"] { 
-    height: 48px; 
-    width: 100%;
-    border-radius: 12px; 
-    cursor: pointer;
-    border: 2px solid #e5e7eb;
-    padding: 2px;
+    height: 48px; width: 100%;
+    border-radius: 12px; cursor: pointer;
+    border: 2px solid #e5e7eb; padding: 2px;
   }
   input[type="text"], textarea, select {
-    width: 100%;
-    padding: 12px;
+    width: 100%; padding: 12px;
     border: 2px solid #e5e7eb;
     border-radius: 12px;
     font-family: 'Cairo', sans-serif;
@@ -71,52 +52,51 @@
     background: #fafafa;
   }
   input[type="text"]:focus, textarea:focus, select:focus {
-    outline: none;
-    border-color: #667eea;
-    background: #fff;
+    outline: none; border-color: #667eea; background: #fff;
   }
   textarea { resize: vertical; min-height: 70px; }
   label {
-    display: block;
-    font-weight: 700;
-    color: #374151;
-    margin-bottom: 8px;
-    font-size: 14px;
+    display: block; font-weight: 700;
+    color: #374151; margin-bottom: 8px; font-size: 14px;
   }
   .field { margin-bottom: 16px; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .templates {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+  .templates { display: flex; flex-wrap: wrap; gap: 8px; }
   .template-btn {
-    padding: 10px 16px;
-    border-radius: 10px;
-    border: 2px solid #e5e7eb;
-    background: #fff;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    color: #6b7280;
+    padding: 10px 16px; border-radius: 10px;
+    border: 2px solid #e5e7eb; background: #fff;
+    cursor: pointer; font-family: 'Cairo', sans-serif;
+    font-weight: 700; font-size: 13px; color: #6b7280;
     transition: all 0.2s;
   }
   .template-btn.active {
-    border-color: #667eea;
-    background: #eef2ff;
-    color: #4338ca;
+    border-color: #667eea; background: #eef2ff; color: #4338ca;
   }
   .template-btn:active { transform: scale(0.95); }
-  .btn {
-    padding: 14px 20px;
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+  }
+  .palette-color {
+    aspect-ratio: 1; border-radius: 8px;
+    cursor: pointer; border: 3px solid transparent;
+    transition: transform 0.2s;
+  }
+  .palette-color:hover { transform: scale(1.1); }
+  .palette-color.active { border-color: #111; }
+  .file-input {
+    width: 100%; padding: 10px;
+    border: 2px dashed #cbd5e1;
     border-radius: 12px;
-    border: none;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 800;
-    font-size: 15px;
+    background: #f8fafc;
     cursor: pointer;
-    transition: all 0.2s;
+    font-family: 'Cairo', sans-serif;
+  }
+  .btn {
+    padding: 14px 20px; border-radius: 12px; border: none;
+    font-family: 'Cairo', sans-serif; font-weight: 800;
+    font-size: 15px; cursor: pointer; transition: all 0.2s;
     color: white;
   }
   .btn:active { transform: scale(0.97); }
@@ -126,27 +106,39 @@
   .btn-green:hover { background: #059669; }
   .btn-purple { background: #8b5cf6; padding: 14px 20px; }
   .btn-purple:hover { background: #7c3aed; }
-  .btn-row { display: flex; gap: 10px; }
+  .btn-red { background: #ef4444; flex: 1; }
+  .btn-red:hover { background: #dc2626; }
+  .btn-small {
+    margin-top: 8px; padding: 8px 14px;
+    border-radius: 8px; border: none;
+    background: #ef4444; color: #fff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700; font-size: 12px; cursor: pointer;
+  }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .status-box {
+    margin-top: 8px; padding: 10px;
+    border-radius: 10px;
+    background: #f1f5f9;
+    font-size: 13px; color: #475569;
+    text-align: center; font-weight: 700;
+  }
   .footer {
-    text-align: center;
-    color: #fff;
-    font-size: 13px;
-    padding: 16px;
+    text-align: center; color: #fff;
+    font-size: 13px; padding: 16px;
     background: rgba(0,0,0,0.15);
-    border-radius: 14px;
-    margin-top: 16px;
+    border-radius: 14px; margin-top: 16px;
     font-weight: 700;
   }
   .footer small {
-    display: block;
-    margin-top: 4px;
-    opacity: 0.85;
-    font-weight: 400;
+    display: block; margin-top: 4px;
+    opacity: 0.85; font-weight: 400;
   }
   @media (max-width: 480px) {
     .header-title h1 { font-size: 22px; }
     .grid-2 { grid-template-columns: 1fr; }
     .card { padding: 16px; }
+    .palette { grid-template-columns: repeat(6, 1fr); }
   }
 </style>
 </head>
@@ -157,7 +149,7 @@
   <!-- العنوان -->
   <div class="header-title">
     <h1>🖌️ ريشة</h1>
-    <p>استوديو الصور العربية — </p>
+    <p>استوديو الصور العربية — مجاني 100%</p>
   </div>
 
   <!-- المعاينة -->
@@ -185,7 +177,13 @@
       </div>
     </div>
 
-    <!-- الألوان -->
+    <!-- الألوان الجاهزة -->
+    <div class="field">
+      <label>🌈 ألوان جاهزة (اضغط للاختيار)</label>
+      <div class="palette" id="palette"></div>
+    </div>
+
+    <!-- الألوان المخصصة -->
     <div class="grid-2">
       <div class="field">
         <label>🎨 الخلفية</label>
@@ -225,11 +223,32 @@
       <input type="text" id="signature" value="@username" placeholder="@حسابك">
     </div>
 
-    <!-- الأزرار -->
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="downloadImage()">💾 تحميل</button>
-      <button class="btn btn-green" onclick="copyToClipboard()">📋 نسخ</button>
-      <button class="btn btn-purple" onclick="randomize()">🎲</button>
+    <!-- صورة خلفية -->
+    <div class="field">
+      <label>🖼️ صورة خلفية (اختياري)</label>
+      <input type="file" id="imageUpload" accept="image/*" class="file-input">
+      <button class="btn-small" onclick="clearImage()">🗑️ حذف الصورة</button>
+    </div>
+
+    <!-- الأزرار الرئيسية -->
+    <div class="field">
+      <label>💾 تصدير الصورة</label>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="downloadImage()">💾 تحميل PNG</button>
+        <button class="btn btn-green" onclick="copyToClipboard()">📋 نسخ</button>
+        <button class="btn btn-purple" onclick="randomize()">🎲</button>
+      </div>
+    </div>
+
+    <!-- تصدير الفيديو -->
+    <div class="field">
+      <label>🎬 تصدير فيديو (مع حركة)</label>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="exportVideo(3)">🎬 3 ثواني</button>
+        <button class="btn btn-primary" onclick="exportVideo(5)">🎬 5 ثواني</button>
+        <button class="btn btn-primary" onclick="exportVideo(10)">🎬 10 ثواني</button>
+      </div>
+      <div id="videoStatus" class="status-box" style="display:none;"></div>
     </div>
 
   </div>
@@ -243,10 +262,17 @@
 </div>
 
 <script>
+// ═══════════════════════════════════════
+// الإعدادات الأساسية
+// ═══════════════════════════════════════
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let currentTemplate = 'quote';
+let bgImage = null;
 
+// ═══════════════════════════════════════
+// المستمعون
+// ═══════════════════════════════════════
 ['textInput','bgColor','textColor','fontSelect','sizeSelect','signature'].forEach(id => {
   document.getElementById(id).addEventListener('input', draw);
 });
@@ -260,6 +286,60 @@ document.querySelectorAll('.template-btn').forEach(btn => {
   });
 });
 
+// ═══════════════════════════════════════
+// 🎨 لوحة الألوان الجاهزة
+// ═══════════════════════════════════════
+const PALETTE = [
+  '#1e40af','#7c3aed','#db2777','#dc2626',
+  '#ea580c','#f59e0b','#16a34a','#0891b2',
+  '#0f172a','#334155','#78350f','#064e3b',
+  '#831843','#1e1b4b','#14532d','#7f1d1d'
+];
+
+function buildPalette() {
+  const wrap = document.getElementById('palette');
+  PALETTE.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'palette-color';
+    div.style.background = c;
+    div.onclick = () => {
+      document.getElementById('bgColor').value = c;
+      document.querySelectorAll('.palette-color').forEach(p => p.classList.remove('active'));
+      div.classList.add('active');
+      draw();
+    };
+    wrap.appendChild(div);
+  });
+}
+buildPalette();
+
+// ═══════════════════════════════════════
+// 🖼️ رفع صورة خلفية
+// ═══════════════════════════════════════
+document.getElementById('imageUpload').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = new Image();
+    img.onload = () => {
+      bgImage = img;
+      draw();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+function clearImage() {
+  bgImage = null;
+  document.getElementById('imageUpload').value = '';
+  draw();
+}
+
+// ═══════════════════════════════════════
+// 🎨 الرسم الأساسي
+// ═══════════════════════════════════════
 function draw() {
   const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
   canvas.width = w;
@@ -271,7 +351,10 @@ function draw() {
   const font = document.getElementById('fontSelect').value;
   const sig = document.getElementById('signature').value;
 
-  if (currentTemplate === 'gradient') {
+  // الخلفية
+  if (bgImage) {
+    ctx.drawImage(bgImage, 0, 0, w, h);
+  } else if (currentTemplate === 'gradient') {
     const grad = ctx.createLinearGradient(0, 0, w, h);
     grad.addColorStop(0, bg);
     grad.addColorStop(1, shadeColor(bg, 50));
@@ -288,8 +371,79 @@ function draw() {
     ctx.fillRect(0, 0, w, h);
   }
 
+  // النص
   const fontSize = w / 14;
   ctx.fillStyle = fg;
+  ctx.font = `bold ${fontSize}px "${font}", sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.direction = 'rtl';
+
+  const lines = wrapText(ctx, text, w * 0.8);
+  const lineHeight = fontSize * 1.4;
+  const totalHeight = lines.length * lineHeight;
+  const startY = (h - totalHeight) / 2 + lineHeight / 2;
+
+  lines.forEach((line, i) => {
+    ctx.fillText(line, w / 2, startY + i * lineHeight);
+  });
+
+  // التوقيع
+  if (sig.trim()) {
+    const sigSize = w / 28;
+    ctx.font = `600 ${sigSize}px "${font}", sans-serif`;
+    ctx.globalAlpha = 0.85;
+    ctx.fillText(sig, w / 2, h - sigSize * 2.5);
+    ctx.globalAlpha = 1;
+  }
+
+  // الحقوق
+  const copySize = w / 55;
+  ctx.font = `600 ${copySize}px "Cairo", sans-serif`;
+  ctx.globalAlpha = 0.55;
+  ctx.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
+  ctx.globalAlpha = 1;
+}
+
+// ═══════════════════════════════════════
+// 🎬 الرسم مع تأثير الظهور (للفيديو)
+// ═══════════════════════════════════════
+function drawWithOpacity(opacity) {
+  const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
+  canvas.width = w;
+  canvas.height = h;
+
+  const text = document.getElementById('textInput').value || ' ';
+  const bg = document.getElementById('bgColor').value;
+  const fg = document.getElementById('textColor').value;
+  const font = document.getElementById('fontSelect').value;
+  const sig = document.getElementById('signature').value;
+
+  // الخلفية كاملة
+  if (bgImage) {
+    ctx.drawImage(bgImage, 0, 0, w, h);
+  } else if (currentTemplate === 'gradient') {
+    const grad = ctx.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, bg);
+    grad.addColorStop(1, shadeColor(bg, 50));
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+  } else if (currentTemplate === 'frame') {
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = fg;
+    ctx.lineWidth = 10;
+    ctx.strokeRect(50, 50, w - 100, h - 100);
+  } else {
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  // النص مع شفافية
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  ctx.fillStyle = fg;
+  const fontSize = w / 14;
   ctx.font = `bold ${fontSize}px "${font}", sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -307,19 +461,20 @@ function draw() {
   if (sig.trim()) {
     const sigSize = w / 28;
     ctx.font = `600 ${sigSize}px "${font}", sans-serif`;
-    ctx.globalAlpha = 0.85;
+    ctx.globalAlpha = opacity * 0.85;
     ctx.fillText(sig, w / 2, h - sigSize * 2.5);
-    ctx.globalAlpha = 1;
   }
 
-  // حقوق صغيرة في أسفل الصورة
   const copySize = w / 55;
   ctx.font = `600 ${copySize}px "Cairo", sans-serif`;
-  ctx.globalAlpha = 0.55;
+  ctx.globalAlpha = opacity * 0.55;
   ctx.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
-  ctx.globalAlpha = 1;
+  ctx.restore();
 }
 
+// ═══════════════════════════════════════
+// أدوات مساعدة
+// ═══════════════════════════════════════
 function wrapText(ctx, text, maxWidth) {
   const words = text.split(/\s+/);
   const lines = [];
@@ -345,6 +500,9 @@ function shadeColor(color, percent) {
   return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
 }
 
+// ═══════════════════════════════════════
+// 💾 تحميل الصورة
+// ═══════════════════════════════════════
 function downloadImage() {
   const link = document.createElement('a');
   link.download = `resha-${Date.now()}.png`;
@@ -352,6 +510,9 @@ function downloadImage() {
   link.click();
 }
 
+// ═══════════════════════════════════════
+// 📋 نسخ للحافظة
+// ═══════════════════════════════════════
 async function copyToClipboard() {
   try {
     const blob = await new Promise(r => canvas.toBlob(r));
@@ -362,6 +523,9 @@ async function copyToClipboard() {
   }
 }
 
+// ═══════════════════════════════════════
+// 🎲 عشوائي
+// ═══════════════════════════════════════
 function randomize() {
   const colors = ['#1e40af','#7c3aed','#db2777','#dc2626','#ea580c','#16a34a','#0891b2','#0f172a'];
   const fonts = ['Cairo','Amiri','Tajawal','Rubik'];
@@ -378,6 +542,73 @@ function randomize() {
   draw();
 }
 
+// ═══════════════════════════════════════
+// 🎬 تصدير فيديو WebM
+// ═══════════════════════════════════════
+async function exportVideo(seconds) {
+  const status = document.getElementById('videoStatus');
+  status.style.display = 'block';
+  status.textContent = '🎬 جاري التحضير...';
+  
+  try {
+    if (!canvas.captureStream || typeof MediaRecorder === 'undefined') {
+      throw new Error('غير مدعوم');
+    }
+    
+    const stream = canvas.captureStream(30);
+    const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+    const chunks = [];
+    
+    recorder.ondataavailable = (e) => {
+      if (e.data.size > 0) chunks.push(e.data);
+    };
+    
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: 'video/webm' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `resha-${Date.now()}.webm`;
+      a.click();
+      URL.revokeObjectURL(url);
+      status.textContent = '✅ تم تحميل الفيديو بنجاح';
+      setTimeout(() => { status.style.display = 'none'; }, 3000);
+    };
+    
+    recorder.start();
+    status.textContent = `🎬 جاري التسجيل (${seconds} ثواني)...`;
+    
+    const fps = 30;
+    const totalFrames = seconds * fps;
+    let frame = 0;
+    
+    const animate = () => {
+      if (frame >= totalFrames) {
+        recorder.stop();
+        draw();
+        return;
+      }
+      
+      // النص يظهر في أول 40% من الفيديو
+      const progress = Math.min(1, frame / (totalFrames * 0.4));
+      // منحنى سلس
+      const eased = 1 - Math.pow(1 - progress, 3);
+      drawWithOpacity(eased);
+      
+      frame++;
+      requestAnimationFrame(animate);
+    };
+    
+    animate();
+    
+  } catch (e) {
+    status.textContent = '❌ المتصفح لا يدعم تسجيل الفيديو (جرّب Chrome على الكمبيوتر)';
+  }
+}
+
+// ═══════════════════════════════════════
+// التشغيل الأولي
+// ═══════════════════════════════════════
 window.addEventListener('load', () => {
   setTimeout(draw, 300);
   draw();
