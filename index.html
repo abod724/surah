@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🖌️ ريشة — استوديو الصور العربية</title>
+<meta name="author" content="نبراس GP">
+<meta name="copyright" content="جميع الحقوق محفوظة © نبراس GP 2026">
+<meta name="description" content="🖌️ ريشة — استوديو الصور العربية مجاني بدون مفتاح API">
+<title>🖌️ ريشة — استوديو الصور العربية | نبراس GP</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Amiri:wght@700&family=Tajawal:wght@700&family=Rubik:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -126,9 +129,19 @@
   .btn-row { display: flex; gap: 10px; }
   .footer {
     text-align: center;
-    color: rgba(255,255,255,0.8);
+    color: #fff;
     font-size: 13px;
-    padding: 10px 0 20px;
+    padding: 16px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 14px;
+    margin-top: 16px;
+    font-weight: 700;
+  }
+  .footer small {
+    display: block;
+    margin-top: 4px;
+    opacity: 0.85;
+    font-weight: 400;
   }
   @media (max-width: 480px) {
     .header-title h1 { font-size: 22px; }
@@ -221,8 +234,10 @@
 
   </div>
 
+  <!-- الحقوق -->
   <div class="footer">
-    صُنع ـ ❤️ 
+    جميع الحقوق محفوظة © نبراس GP 2026
+    <small>🖌️ ريشة — استوديو الصور العربية</small>
   </div>
 
 </div>
@@ -296,6 +311,13 @@ function draw() {
     ctx.fillText(sig, w / 2, h - sigSize * 2.5);
     ctx.globalAlpha = 1;
   }
+
+  // حقوق صغيرة في أسفل الصورة
+  const copySize = w / 55;
+  ctx.font = `600 ${copySize}px "Cairo", sans-serif`;
+  ctx.globalAlpha = 0.55;
+  ctx.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
+  ctx.globalAlpha = 1;
 }
 
 function wrapText(ctx, text, maxWidth) {
