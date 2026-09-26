@@ -1,1 +1,30 @@
-
+{
+  "name": "ريشة — استوديو الصور والفيديوهات",
+  "short_name": "ريشة",
+  "description": "استوديو الصور والفيديوهات العربية — مجاني 100%",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/surah/",
+  "scope": "/surah/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#667eea",
+  "categories": ["graphics", "photo", "productivity"],
+  "icons": [
+    {
+      "src": "resha-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "resha-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "author": "نبراس GP",
+  "copyright": "جميع الحقوق محفوظة © نبراس GP 2026"
+}
