@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="نبراس GP">
 <meta name="copyright" content="جميع الحقوق محفوظة © نبراس GP 2026">
-<meta name="description" content="ريشة — استوديو الصور والفيديوهات العربية. أنشئ صوراً أنيقة بالنصوص العربية مجاناً، بدون تسجيل.">
-<meta name="keywords" content="ريشة, استوديو الصور, تصميم عربي, صور عربية, نبراس">
+<meta name="description" content="ريشة — استوديو الصور والفيديوهات العربية">
+<meta name="keywords" content="ريشة, استوديو الصور, تصميم عربي, نبراس">
 <title>🖌️ ريشة — استوديو الصور والفيديوهات | نبراس GP</title>
 
 <!-- PWA -->
@@ -15,12 +15,11 @@
 <link rel="apple-touch-icon" href="resha-192.png">
 <meta name="theme-color" content="#667eea">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="ريشة">
 
 <!-- Open Graph -->
 <meta property="og:title" content="ريشة — استوديو الصور العربية">
-<meta property="og:description" content="أنشئ صوراً وفيديوهات أنيقة بالنصوص العربية مجاناً">
+<meta property="og:description" content="أنشئ صوراً وفيديوهات أنيقة بالنصوص العربية">
 <meta property="og:image" content="https://abod724.github.io/surah/resha-512.png">
 <meta property="og:url" content="https://abod724.github.io/surah/">
 <meta property="og:type" content="website">
@@ -28,7 +27,6 @@
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ريشة — استوديو الصور العربية">
-<meta name="twitter:description" content="أنشئ صوراً وفيديوهات أنيقة بالنصوص العربية مجاناً">
 <meta name="twitter:image" content="https://abod724.github.io/surah/resha-512.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Amiri:wght@700&family=Tajawal:wght@700&family=Rubik:wght@700&display=swap" rel="stylesheet">
@@ -199,9 +197,6 @@
     .palette { grid-template-columns: repeat(6, 1fr); }
   }
 
-  /* ═══════════════════════════════════════ */
-  /* ✨ زر "اسأل نبراس" العائم                */
-  /* ═══════════════════════════════════════ */
   #nibras-bubble {
     position: fixed;
     bottom: 24px;
@@ -338,7 +333,7 @@
   <div class="header-title">
     <img src="resha-512.png" alt="ريشة" class="logo">
     <h1>🖌️ ريشة</h1>
-    <p>استوديو الصور والفيديوهات </p>
+    <p>استوديو الصور والفيديوهات</p>
   </div>
 
   <!-- المعاينة -->
@@ -349,13 +344,11 @@
   <!-- الأدوات -->
   <div class="card">
 
-    <!-- النص -->
     <div class="field">
       <label>✍️ النص</label>
       <textarea id="textInput" rows="2" placeholder="اكتب نصك هنا...">اترك أثراً جميلاً أينما ذهبت</textarea>
     </div>
 
-    <!-- القوالب -->
     <div class="field">
       <label>🎭 القالب</label>
       <div class="templates" id="templates">
@@ -366,13 +359,11 @@
       </div>
     </div>
 
-    <!-- الألوان الجاهزة -->
     <div class="field">
-      <label> ألوان جاهزة</label>
+      <label>🌈 ألوان جاهزة</label>
       <div class="palette" id="palette"></div>
     </div>
 
-    <!-- الألوان المخصصة -->
     <div class="grid-2">
       <div class="field">
         <label>🎨 الخلفية</label>
@@ -384,7 +375,6 @@
       </div>
     </div>
 
-    <!-- الخط -->
     <div class="field">
       <label>📝 الخط</label>
       <select id="fontSelect">
@@ -395,7 +385,6 @@
       </select>
     </div>
 
-    <!-- القياس -->
     <div class="field">
       <label>📐 القياس</label>
       <select id="sizeSelect">
@@ -406,13 +395,11 @@
       </select>
     </div>
 
-    <!-- التوقيع -->
     <div class="field">
       <label>🏷️ التوقيع (اختياري)</label>
       <input type="text" id="signature" value="@username" placeholder="@حسابك">
     </div>
 
-    <!-- خيار الحقوق -->
     <div class="field">
       <label class="checkbox-label">
         <input type="checkbox" id="showCopyright" checked onchange="draw()">
@@ -420,14 +407,12 @@
       </label>
     </div>
 
-    <!-- صورة خلفية -->
     <div class="field">
       <label>🖼️ صورة خلفية (اختياري)</label>
       <input type="file" id="imageUpload" accept="image/*" class="file-input">
       <button class="btn-small" onclick="clearImage()">🗑️ حذف الصورة</button>
     </div>
 
-    <!-- الأزرار الرئيسية -->
     <div class="field">
       <label>💾 تصدير الصورة</label>
       <div class="btn-row">
@@ -437,11 +422,9 @@
       </div>
     </div>
 
-    <!-- تصدير الفيديو -->
     <div class="field">
       <label>🎬 تصدير فيديو</label>
       
-      <!-- الحركة -->
       <label style="font-size:13px;color:#6b7280;margin-top:8px;">نوع الحركة</label>
       <select id="animationType" style="margin-bottom:12px;">
         <option value="fade">✨ تلاشي (Fade)</option>
@@ -451,13 +434,11 @@
         <option value="zoom">🔍 تكبير تدريجي</option>
       </select>
 
-      <!-- الصوت -->
       <label style="font-size:13px;color:#6b7280;">الصوت (اختياري)</label>
       <input type="file" id="audioUpload" accept="audio/*" class="file-input" style="margin-bottom:8px;">
       <button class="btn-small" onclick="clearAudio()">🗑️ حذف الصوت</button>
       <div id="audioInfo" class="hint" style="display:none;"></div>
 
-      <!-- أزرار المدة -->
       <div class="btn-row" style="margin-top:12px;">
         <button class="btn btn-primary" onclick="exportVideo(3)">🎬 3 ثواني</button>
         <button class="btn btn-primary" onclick="exportVideo(5)">🎬 5 ثواني</button>
@@ -468,7 +449,6 @@
 
   </div>
 
-  <!-- الحقوق -->
   <div class="footer">
     جميع الحقوق محفوظة © نبراس GP 2026
     <small>🖌️ ريشة — استوديو الصور والفيديوهات</small>
@@ -476,9 +456,6 @@
 
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- ✨ زر "اسأل نبراس" العائم                -->
-<!-- ═══════════════════════════════════════ -->
 <button id="nibras-bubble" onclick="toggleNibras()" title="اسأل نبراس">
   <span class="spark">✨</span>
   <span>اسأل نبراس</span>
@@ -499,9 +476,6 @@
 </div>
 
 <script>
-// ═══════════════════════════════════════
-// الإعدادات الأساسية
-// ═══════════════════════════════════════
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let currentTemplate = 'quote';
@@ -511,9 +485,6 @@ let audioFile = null;
 let audioURL = null;
 let audioElement = null;
 
-// ═══════════════════════════════════════
-// المستمعون
-// ═══════════════════════════════════════
 ['textInput','bgColor','textColor','fontSelect','sizeSelect','signature'].forEach(id => {
   document.getElementById(id).addEventListener('input', draw);
 });
@@ -529,9 +500,6 @@ document.querySelectorAll('.template-btn').forEach(btn => {
   });
 });
 
-// ═══════════════════════════════════════
-// 🎨 لوحة الألوان
-// ═══════════════════════════════════════
 const PALETTE = [
   '#1e40af','#7c3aed','#db2777','#dc2626',
   '#ea580c','#f59e0b','#16a34a','#0891b2',
@@ -556,9 +524,6 @@ function buildPalette() {
 }
 buildPalette();
 
-// ═══════════════════════════════════════
-// 🖼️ رفع صورة
-// ═══════════════════════════════════════
 document.getElementById('imageUpload').addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -581,9 +546,6 @@ function clearImage() {
   draw();
 }
 
-// ═══════════════════════════════════════
-// 🎵 رفع الصوت
-// ═══════════════════════════════════════
 document.getElementById('audioUpload').addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -607,9 +569,6 @@ function clearAudio() {
   document.getElementById('audioInfo').style.display = 'none';
 }
 
-// ═══════════════════════════════════════
-// 📜 التمرير للمعاينة
-// ═══════════════════════════════════════
 function scrollToPreview() {
   const canvasEl = document.getElementById('canvas');
   const rect = canvasEl.getBoundingClientRect();
@@ -621,9 +580,6 @@ function scrollToPreview() {
   }
 }
 
-// ═══════════════════════════════════════
-// 🎨 الرسم
-// ═══════════════════════════════════════
 function draw() {
   const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
   canvas.width = w;
@@ -671,9 +627,6 @@ function draw() {
   }
 }
 
-// ═══════════════════════════════════════
-// 🎨 رسم الخلفية
-// ═══════════════════════════════════════
 function drawBackground(w, h, bg, fg) {
   if (bgImage) {
     ctx.drawImage(bgImage, 0, 0, w, h);
@@ -695,9 +648,6 @@ function drawBackground(w, h, bg, fg) {
   }
 }
 
-// ═══════════════════════════════════════
-// 🎬 الحركات
-// ═══════════════════════════════════════
 function animFade(progress) {
   const opacity = 1 - Math.pow(1 - progress, 3);
   return { opacity: opacity, offsetX: 0, offsetY: 0, scale: 1, textVisible: 1 };
@@ -740,9 +690,6 @@ function animZoom(progress) {
   };
 }
 
-// ═══════════════════════════════════════
-// 🎬 رسم مع حركة
-// ═══════════════════════════════════════
 function drawWithAnimation(anim) {
   const w = canvas.width;
   const h = canvas.height;
@@ -802,9 +749,6 @@ function drawWithAnimation(anim) {
   ctx.restore();
 }
 
-// ═══════════════════════════════════════
-// أدوات
-// ═══════════════════════════════════════
 function wrapText(ctx, text, maxWidth) {
   const words = text.split(/\s+/);
   const lines = [];
@@ -830,9 +774,7 @@ function shadeColor(color, percent) {
   return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
 }
 
-// ═══════════════════════════════════════
-// 💾 تحميل PNG
-// ═══════════════════════════════════════function downloadImage() {
+function downloadImage() {
   scrollToPreview();
   const link = document.createElement('a');
   link.download = `resha-${Date.now()}.png`;
@@ -840,9 +782,6 @@ function shadeColor(color, percent) {
   link.click();
 }
 
-// ═══════════════════════════════════════
-// 📋 نسخ
-// ═══════════════════════════════════════
 async function copyToClipboard() {
   scrollToPreview();
   try {
@@ -854,9 +793,6 @@ async function copyToClipboard() {
   }
 }
 
-// ═══════════════════════════════════════
-// 🎲 عشوائي
-// ═══════════════════════════════════════
 function randomize() {
   const colors = ['#1e40af','#7c3aed','#db2777','#dc2626','#ea580c','#16a34a','#0891b2','#0f172a'];
   const fonts = ['Cairo','Amiri','Tajawal','Rubik'];
@@ -874,9 +810,6 @@ function randomize() {
   scrollToPreview();
 }
 
-// ═══════════════════════════════════════
-// 🎬 تصدير فيديو
-// ═══════════════════════════════════════
 async function exportVideo(seconds) {
   const status = document.getElementById('videoStatus');
   status.style.display = 'block';
@@ -1017,9 +950,6 @@ async function exportVideo(seconds) {
   }
 }
 
-// ═══════════════════════════════════════
-// ✨ نبراس
-// ═══════════════════════════════════════
 const NIBRAS_URL = "https://nibras-al.onrender.com/";
 let nibrasLoaded = false;
 
@@ -1047,9 +977,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// ═══════════════════════════════════════
-// تسجيل Service Worker
-// ═══════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./service-worker.js')
@@ -1058,9 +985,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// ═══════════════════════════════════════
-// التشغيل الأولي
-// ═══════════════════════════════════════
 window.addEventListener('load', () => {
   setTimeout(draw, 300);
   draw();
