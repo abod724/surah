@@ -1,1 +1,366 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🖌️ ريشة — استوديو الصور العربية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Amiri:wght@700&family=Tajawal:wght@700&family=Rubik:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { 
+    font-family: 'Cairo', sans-serif; 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 12px;
+    margin: 0;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  }
+  .header-title {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .header-title h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 6px;
+  }
+  .header-title p {
+    font-size: 14px;
+    opacity: 0.9;
+    margin: 0;
+  }
+  canvas { 
+    max-width: 100%; 
+    height: auto;
+    border-radius: 14px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    display: block;
+    margin: 0 auto;
+  }
+  input[type="color"] { 
+    height: 48px; 
+    width: 100%;
+    border-radius: 12px; 
+    cursor: pointer;
+    border: 2px solid #e5e7eb;
+    padding: 2px;
+  }
+  input[type="text"], textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    transition: border 0.2s;
+    background: #fafafa;
+  }
+  input[type="text"]:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #667eea;
+    background: #fff;
+  }
+  textarea { resize: vertical; min-height: 70px; }
+  label {
+    display: block;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .field { margin-bottom: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .templates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .template-btn {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 2px solid #e5e7eb;
+    background: #fff;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: #6b7280;
+    transition: all 0.2s;
+  }
+  .template-btn.active {
+    border-color: #667eea;
+    background: #eef2ff;
+    color: #4338ca;
+  }
+  .template-btn:active { transform: scale(0.95); }
+  .btn {
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: #667eea; flex: 1; }
+  .btn-primary:hover { background: #5568d3; }
+  .btn-green { background: #10b981; flex: 1; }
+  .btn-green:hover { background: #059669; }
+  .btn-purple { background: #8b5cf6; padding: 14px 20px; }
+  .btn-purple:hover { background: #7c3aed; }
+  .btn-row { display: flex; gap: 10px; }
+  .footer {
+    text-align: center;
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    padding: 10px 0 20px;
+  }
+  @media (max-width: 480px) {
+    .header-title h1 { font-size: 22px; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .card { padding: 16px; }
+  }
+</style>
+</head>
+<body>
 
+<div class="container">
+
+  <!-- العنوان -->
+  <div class="header-title">
+    <h1>🖌️ ريشة</h1>
+    <p>استوديو الصور العربية — مجاني 100%</p>
+  </div>
+
+  <!-- المعاينة -->
+  <div class="card">
+    <canvas id="canvas" width="1080" height="1080"></canvas>
+  </div>
+
+  <!-- الأدوات -->
+  <div class="card">
+
+    <!-- النص -->
+    <div class="field">
+      <label>✍️ النص</label>
+      <textarea id="textInput" rows="2" placeholder="اكتب نصك هنا...">العلم نور والجهل ظلام</textarea>
+    </div>
+
+    <!-- القوالب -->
+    <div class="field">
+      <label>🎭 القالب</label>
+      <div class="templates" id="templates">
+        <button class="template-btn active" data-tpl="quote">اقتباس</button>
+        <button class="template-btn" data-tpl="gradient">تدرج</button>
+        <button class="template-btn" data-tpl="solid">لون صلب</button>
+        <button class="template-btn" data-tpl="frame">إطار</button>
+      </div>
+    </div>
+
+    <!-- الألوان -->
+    <div class="grid-2">
+      <div class="field">
+        <label>🎨 الخلفية</label>
+        <input type="color" id="bgColor" value="#1e40af">
+      </div>
+      <div class="field">
+        <label>✏️ لون النص</label>
+        <input type="color" id="textColor" value="#ffffff">
+      </div>
+    </div>
+
+    <!-- الخط -->
+    <div class="field">
+      <label>📝 الخط</label>
+      <select id="fontSelect">
+        <option value="Cairo">Cairo — حديث</option>
+        <option value="Amiri">Amiri — كلاسيكي</option>
+        <option value="Tajawal">Tajawal — أنيق</option>
+        <option value="Rubik">Rubik — عصري</option>
+      </select>
+    </div>
+
+    <!-- القياس -->
+    <div class="field">
+      <label>📐 القياس</label>
+      <select id="sizeSelect">
+        <option value="1080x1080">مربع (Post)</option>
+        <option value="1080x1920">طويل (Story)</option>
+        <option value="1200x675">عريض (Twitter)</option>
+        <option value="1080x1350">عمودي (Instagram)</option>
+      </select>
+    </div>
+
+    <!-- التوقيع -->
+    <div class="field">
+      <label>🏷️ التوقيع (اختياري)</label>
+      <input type="text" id="signature" value="@username" placeholder="@حسابك">
+    </div>
+
+    <!-- الأزرار -->
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="downloadImage()">💾 تحميل</button>
+      <button class="btn btn-green" onclick="copyToClipboard()">📋 نسخ</button>
+      <button class="btn btn-purple" onclick="randomize()">🎲</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    صُنع بـ ❤️ — بدون أي مفتاح API
+  </div>
+
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let currentTemplate = 'quote';
+
+['textInput','bgColor','textColor','fontSelect','sizeSelect','signature'].forEach(id => {
+  document.getElementById(id).addEventListener('input', draw);
+});
+
+document.querySelectorAll('.template-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentTemplate = btn.dataset.tpl;
+    draw();
+  });
+});
+
+function draw() {
+  const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
+  canvas.width = w;
+  canvas.height = h;
+
+  const text = document.getElementById('textInput').value || ' ';
+  const bg = document.getElementById('bgColor').value;
+  const fg = document.getElementById('textColor').value;
+  const font = document.getElementById('fontSelect').value;
+  const sig = document.getElementById('signature').value;
+
+  if (currentTemplate === 'gradient') {
+    const grad = ctx.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, bg);
+    grad.addColorStop(1, shadeColor(bg, 50));
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+  } else if (currentTemplate === 'frame') {
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = fg;
+    ctx.lineWidth = 10;
+    ctx.strokeRect(50, 50, w - 100, h - 100);
+  } else {
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  const fontSize = w / 14;
+  ctx.fillStyle = fg;
+  ctx.font = `bold ${fontSize}px "${font}", sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.direction = 'rtl';
+
+  const lines = wrapText(ctx, text, w * 0.8);
+  const lineHeight = fontSize * 1.4;
+  const totalHeight = lines.length * lineHeight;
+  const startY = (h - totalHeight) / 2 + lineHeight / 2;
+
+  lines.forEach((line, i) => {
+    ctx.fillText(line, w / 2, startY + i * lineHeight);
+  });
+
+  if (sig.trim()) {
+    const sigSize = w / 28;
+    ctx.font = `600 ${sigSize}px "${font}", sans-serif`;
+    ctx.globalAlpha = 0.85;
+    ctx.fillText(sig, w / 2, h - sigSize * 2.5);
+    ctx.globalAlpha = 1;
+  }
+}
+
+function wrapText(ctx, text, maxWidth) {
+  const words = text.split(/\s+/);
+  const lines = [];
+  let current = '';
+  words.forEach(word => {
+    const test = current ? current + ' ' + word : word;
+    if (ctx.measureText(test).width > maxWidth && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = test;
+    }
+  });
+  if (current) lines.push(current);
+  return lines;
+}
+
+function shadeColor(color, percent) {
+  const num = parseInt(color.replace('#',''), 16);
+  const r = Math.min(255, Math.max(0, (num >> 16) + percent));
+  const g = Math.min(255, Math.max(0, ((num >> 8) & 0xff) + percent));
+  const b = Math.min(255, Math.max(0, (num & 0xff) + percent));
+  return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+}
+
+function downloadImage() {
+  const link = document.createElement('a');
+  link.download = `resha-${Date.now()}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+async function copyToClipboard() {
+  try {
+    const blob = await new Promise(r => canvas.toBlob(r));
+    await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]);
+    alert('✅ تم نسخ الصورة!');
+  } catch (e) {
+    alert('⚠️ استخدم زر التحميل');
+  }
+}
+
+function randomize() {
+  const colors = ['#1e40af','#7c3aed','#db2777','#dc2626','#ea580c','#16a34a','#0891b2','#0f172a'];
+  const fonts = ['Cairo','Amiri','Tajawal','Rubik'];
+  const templates = ['quote','gradient','solid','frame'];
+  
+  document.getElementById('bgColor').value = colors[Math.floor(Math.random() * colors.length)];
+  document.getElementById('fontSelect').value = fonts[Math.floor(Math.random() * fonts.length)];
+  
+  const tplBtn = document.querySelector(`[data-tpl="${templates[Math.floor(Math.random() * templates.length)]}"]`);
+  document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+  tplBtn.classList.add('active');
+  currentTemplate = tplBtn.dataset.tpl;
+  
+  draw();
+}
+
+window.addEventListener('load', () => {
+  setTimeout(draw, 300);
+  draw();
+});
+</script>
+
+</body>
+</html>
