@@ -5,8 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="نبراس GP">
 <meta name="copyright" content="جميع الحقوق محفوظة © نبراس GP 2026">
-<meta name="description" content="🖌️ ريشة — استوديو الصور والفيديوهات العربية مجاني">
+<meta name="description" content="ريشة — استوديو الصور والفيديوهات العربية. أنشئ صوراً أنيقة بالنصوص العربية مجاناً، بدون تسجيل.">
+<meta name="keywords" content="ريشة, استوديو الصور, تصميم عربي, صور عربية, نبراس">
 <title>🖌️ ريشة — استوديو الصور والفيديوهات | نبراس GP</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="resha-192.png">
+<link rel="apple-touch-icon" href="resha-192.png">
+<meta name="theme-color" content="#667eea">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ريشة">
+
+<!-- Open Graph -->
+<meta property="og:title" content="ريشة — استوديو الصور العربية">
+<meta property="og:description" content="أنشئ صوراً وفيديوهات أنيقة بالنصوص العربية مجاناً">
+<meta property="og:image" content="https://abod724.github.io/surah/resha-512.png">
+<meta property="og:url" content="https://abod724.github.io/surah/">
+<meta property="og:type" content="website">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ريشة — استوديو الصور العربية">
+<meta name="twitter:description" content="أنشئ صوراً وفيديوهات أنيقة بالنصوص العربية مجاناً">
+<meta name="twitter:image" content="https://abod724.github.io/surah/resha-512.png">
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Amiri:wght@700&family=Tajawal:wght@700&family=Rubik:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -28,6 +52,14 @@
     box-shadow: 0 10px 40px rgba(0,0,0,0.15);
   }
   .header-title { color: #fff; text-align: center; margin-bottom: 20px; }
+  .header-title .logo {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 12px;
+    border-radius: 22px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    display: block;
+  }
   .header-title h1 { font-size: 28px; font-weight: 800; margin: 0 0 6px; }
   .header-title p { font-size: 14px; opacity: 0.9; margin: 0; }
   canvas { 
@@ -161,6 +193,7 @@
   }
   @media (max-width: 480px) {
     .header-title h1 { font-size: 22px; }
+    .header-title .logo { width: 75px; height: 75px; }
     .grid-2 { grid-template-columns: 1fr; }
     .card { padding: 16px; }
     .palette { grid-template-columns: repeat(6, 1fr); }
@@ -303,6 +336,7 @@
 
   <!-- العنوان -->
   <div class="header-title">
+    <img src="resha-512.png" alt="ريشة" class="logo">
     <h1>🖌️ ريشة</h1>
     <p>استوديو الصور والفيديوهات </p>
   </div>
@@ -473,7 +507,6 @@ const ctx = canvas.getContext('2d');
 let currentTemplate = 'quote';
 let bgImage = null;
 
-// متغيرات الصوت
 let audioFile = null;
 let audioURL = null;
 let audioElement = null;
@@ -589,7 +622,7 @@ function scrollToPreview() {
 }
 
 // ═══════════════════════════════════════
-// 🎨 الرسم الأساسي
+// 🎨 الرسم
 // ═══════════════════════════════════════
 function draw() {
   const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
@@ -1014,6 +1047,17 @@ document.addEventListener('keydown', (e) => {
     document.getElementById('nibras-chat').classList.remove('active');
   }
 });
+
+// ═══════════════════════════════════════
+// تسجيل Service Worker
+// ═══════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(reg => console.log('✅ SW مسجل:', reg.scope))
+      .catch(err => console.warn('⚠️ SW فشل:', err));
+  });
+}
 
 // ═══════════════════════════════════════
 // التشغيل الأولي
