@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="نبراس GP">
 <meta name="copyright" content="جميع الحقوق محفوظة © نبراس GP 2026">
-<meta name="description" content="🖌️ ريشة — استوديو الصور العربية مجاني">
-<title>🖌️ ريشة — استوديو الصور العربية | نبراس GP</title>
+<meta name="description" content="🖌️ ريشة — استوديو الصور والفيديوهات العربية مجاني">
+<title>🖌️ ريشة — استوديو الصور والفيديوهات | نبراس GP</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Amiri:wght@700&family=Tajawal:wght@700&family=Rubik:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -342,7 +342,7 @@
     <div class="grid-2">
       <div class="field">
         <label>🎨 الخلفية</label>
-        <input type="color" id="bgColor" value="#ea580c">
+        <input type="color" id="bgColor" value="#ffffff">
       </div>
       <div class="field">
         <label>✏️ لون النص</label>
@@ -437,7 +437,7 @@
   <!-- الحقوق -->
   <div class="footer">
     جميع الحقوق محفوظة © نبراس GP 2026
-    <small>🖌️ ريشة — استوديو الصور العربية</small>
+    <small>🖌️ ريشة — استوديو الصور والفيديوهات</small>
   </div>
 
 </div>
@@ -580,7 +580,6 @@ function clearAudio() {
 function scrollToPreview() {
   const canvasEl = document.getElementById('canvas');
   const rect = canvasEl.getBoundingClientRect();
-  // إذا المعاينة غير ظاهرة، اصعد لها
   if (rect.top < 0 || rect.bottom > window.innerHeight) {
     canvasEl.scrollIntoView({ 
       behavior: 'smooth', 
@@ -824,7 +823,7 @@ async function copyToClipboard() {
 }
 
 // ═══════════════════════════════════════
-// 🎲 عشوائي (مع صعود تلقائي)
+// 🎲 عشوائي
 // ═══════════════════════════════════════
 function randomize() {
   const colors = ['#1e40af','#7c3aed','#db2777','#dc2626','#ea580c','#16a34a','#0891b2','#0f172a'];
@@ -840,8 +839,6 @@ function randomize() {
   currentTemplate = tplBtn.dataset.tpl;
   
   draw();
-  
-  // ⬆️ اصعد للمعاينة
   scrollToPreview();
 }
 
