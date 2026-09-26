@@ -106,8 +106,6 @@
   .btn-green:hover { background: #059669; }
   .btn-purple { background: #8b5cf6; padding: 14px 20px; }
   .btn-purple:hover { background: #7c3aed; }
-  .btn-red { background: #ef4444; flex: 1; }
-  .btn-red:hover { background: #dc2626; }
   .btn-small {
     margin-top: 8px; padding: 8px 14px;
     border-radius: 8px; border: none;
@@ -139,6 +137,119 @@
     .grid-2 { grid-template-columns: 1fr; }
     .card { padding: 16px; }
     .palette { grid-template-columns: repeat(6, 1fr); }
+  }
+
+  /* ═══════════════════════════════════════ */
+  /* 🤖 زر نبراس العائم (أسفل يمين)          */
+  /* ═══════════════════════════════════════ */
+  #nibras-bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(102,126,234,0.55);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    animation: nibras-pulse 2s infinite;
+  }
+  #nibras-bubble:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 32px rgba(102,126,234,0.7);
+  }
+  #nibras-bubble:active { transform: scale(0.95); }
+  @keyframes nibras-pulse {
+    0%, 100% { box-shadow: 0 8px 24px rgba(102,126,234,0.55); }
+    50% { box-shadow: 0 8px 32px rgba(102,126,234,0.9), 0 0 0 10px rgba(102,126,234,0.1); }
+  }
+
+  #nibras-chat {
+    position: fixed;
+    bottom: 95px;
+    right: 20px;
+    width: 380px;
+    height: 520px;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.25);
+    display: none;
+    z-index: 9998;
+    background: white;
+    overflow: hidden;
+  }
+  #nibras-chat.active {
+    display: block;
+    animation: nibras-slide 0.3s ease-out;
+  }
+  @keyframes nibras-slide {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  #nibras-close {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  #nibras-close:hover { background: rgba(0,0,0,0.85); }
+
+  #nibras-loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 700;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .nibras-spin {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e2e8f0;
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: nibras-spin 0.8s linear infinite;
+  }
+  @keyframes nibras-spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 480px) {
+    #nibras-bubble {
+      width: 58px; height: 58px;
+      font-size: 28px;
+      bottom: 16px; right: 16px;
+    }
+    #nibras-chat {
+      width: calc(100vw - 32px);
+      height: 75vh;
+      bottom: 82px; right: 16px;
+      border-radius: 14px;
+    }
   }
 </style>
 </head>
@@ -179,7 +290,7 @@
 
     <!-- الألوان الجاهزة -->
     <div class="field">
-      <label>🌈 ألوان جاهزة (اضغط للاختيار)</label>
+      <label>🌈 ألوان جاهزة</label>
       <div class="palette" id="palette"></div>
     </div>
 
@@ -242,7 +353,7 @@
 
     <!-- تصدير الفيديو -->
     <div class="field">
-      <label>🎬 تصدير فيديو (مع حركة)</label>
+      <label>🎬 تصدير فيديو</label>
       <div class="btn-row">
         <button class="btn btn-primary" onclick="exportVideo(3)">🎬 3 ثواني</button>
         <button class="btn btn-primary" onclick="exportVideo(5)">🎬 5 ثواني</button>
@@ -259,6 +370,25 @@
     <small>🖌️ ريشة — استوديو الصور العربية</small>
   </div>
 
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 🤖 زر نبراس العائم                       -->
+<!-- ═══════════════════════════════════════ -->
+<button id="nibras-bubble" onclick="toggleNibras()" title="تحدث مع نبراس">🤖</button>
+
+<div id="nibras-chat">
+  <button id="nibras-close" onclick="toggleNibras()">✕</button>
+  <div id="nibras-loader">
+    <div class="nibras-spin"></div>
+    <span>جاري تحميل نبراس...</span>
+  </div>
+  <iframe 
+    id="nibras-iframe"
+    src=""
+    style="width:100%;height:100%;border:none;position:relative;z-index:1;"
+    allow="microphone; clipboard-write;"
+  ></iframe>
 </div>
 
 <script>
@@ -287,7 +417,7 @@ document.querySelectorAll('.template-btn').forEach(btn => {
 });
 
 // ═══════════════════════════════════════
-// 🎨 لوحة الألوان الجاهزة
+// 🎨 لوحة الألوان
 // ═══════════════════════════════════════
 const PALETTE = [
   '#1e40af','#7c3aed','#db2777','#dc2626',
@@ -314,7 +444,7 @@ function buildPalette() {
 buildPalette();
 
 // ═══════════════════════════════════════
-// 🖼️ رفع صورة خلفية
+// 🖼️ رفع صورة
 // ═══════════════════════════════════════
 document.getElementById('imageUpload').addEventListener('change', (e) => {
   const file = e.target.files[0];
@@ -322,10 +452,7 @@ document.getElementById('imageUpload').addEventListener('change', (e) => {
   const reader = new FileReader();
   reader.onload = (ev) => {
     const img = new Image();
-    img.onload = () => {
-      bgImage = img;
-      draw();
-    };
+    img.onload = () => { bgImage = img; draw(); };
     img.src = ev.target.result;
   };
   reader.readAsDataURL(file);
@@ -338,7 +465,7 @@ function clearImage() {
 }
 
 // ═══════════════════════════════════════
-// 🎨 الرسم الأساسي
+// 🎨 الرسم
 // ═══════════════════════════════════════
 function draw() {
   const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
@@ -351,7 +478,6 @@ function draw() {
   const font = document.getElementById('fontSelect').value;
   const sig = document.getElementById('signature').value;
 
-  // الخلفية
   if (bgImage) {
     ctx.drawImage(bgImage, 0, 0, w, h);
   } else if (currentTemplate === 'gradient') {
@@ -371,7 +497,6 @@ function draw() {
     ctx.fillRect(0, 0, w, h);
   }
 
-  // النص
   const fontSize = w / 14;
   ctx.fillStyle = fg;
   ctx.font = `bold ${fontSize}px "${font}", sans-serif`;
@@ -388,7 +513,6 @@ function draw() {
     ctx.fillText(line, w / 2, startY + i * lineHeight);
   });
 
-  // التوقيع
   if (sig.trim()) {
     const sigSize = w / 28;
     ctx.font = `600 ${sigSize}px "${font}", sans-serif`;
@@ -397,7 +521,6 @@ function draw() {
     ctx.globalAlpha = 1;
   }
 
-  // الحقوق
   const copySize = w / 55;
   ctx.font = `600 ${copySize}px "Cairo", sans-serif`;
   ctx.globalAlpha = 0.55;
@@ -406,7 +529,7 @@ function draw() {
 }
 
 // ═══════════════════════════════════════
-// 🎬 الرسم مع تأثير الظهور (للفيديو)
+// 🎬 رسم مع شفافية (للفيديو)
 // ═══════════════════════════════════════
 function drawWithOpacity(opacity) {
   const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
@@ -419,7 +542,6 @@ function drawWithOpacity(opacity) {
   const font = document.getElementById('fontSelect').value;
   const sig = document.getElementById('signature').value;
 
-  // الخلفية كاملة
   if (bgImage) {
     ctx.drawImage(bgImage, 0, 0, w, h);
   } else if (currentTemplate === 'gradient') {
@@ -439,7 +561,6 @@ function drawWithOpacity(opacity) {
     ctx.fillRect(0, 0, w, h);
   }
 
-  // النص مع شفافية
   ctx.save();
   ctx.globalAlpha = opacity;
   ctx.fillStyle = fg;
@@ -473,7 +594,7 @@ function drawWithOpacity(opacity) {
 }
 
 // ═══════════════════════════════════════
-// أدوات مساعدة
+// أدوات
 // ═══════════════════════════════════════
 function wrapText(ctx, text, maxWidth) {
   const words = text.split(/\s+/);
@@ -501,7 +622,7 @@ function shadeColor(color, percent) {
 }
 
 // ═══════════════════════════════════════
-// 💾 تحميل الصورة
+// 💾 تحميل PNG
 // ═══════════════════════════════════════
 function downloadImage() {
   const link = document.createElement('a');
@@ -511,7 +632,7 @@ function downloadImage() {
 }
 
 // ═══════════════════════════════════════
-// 📋 نسخ للحافظة
+// 📋 نسخ
 // ═══════════════════════════════════════
 async function copyToClipboard() {
   try {
@@ -543,7 +664,7 @@ function randomize() {
 }
 
 // ═══════════════════════════════════════
-// 🎬 تصدير فيديو WebM
+// 🎬 تصدير فيديو
 // ═══════════════════════════════════════
 async function exportVideo(seconds) {
   const status = document.getElementById('videoStatus');
@@ -559,9 +680,7 @@ async function exportVideo(seconds) {
     const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
     const chunks = [];
     
-    recorder.ondataavailable = (e) => {
-      if (e.data.size > 0) chunks.push(e.data);
-    };
+    recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
     
     recorder.onstop = () => {
       const blob = new Blob(chunks, { type: 'video/webm' });
@@ -571,7 +690,7 @@ async function exportVideo(seconds) {
       a.download = `resha-${Date.now()}.webm`;
       a.click();
       URL.revokeObjectURL(url);
-      status.textContent = '✅ تم تحميل الفيديو بنجاح';
+      status.textContent = '✅ تم تحميل الفيديو';
       setTimeout(() => { status.style.display = 'none'; }, 3000);
     };
     
@@ -588,13 +707,9 @@ async function exportVideo(seconds) {
         draw();
         return;
       }
-      
-      // النص يظهر في أول 40% من الفيديو
       const progress = Math.min(1, frame / (totalFrames * 0.4));
-      // منحنى سلس
       const eased = 1 - Math.pow(1 - progress, 3);
       drawWithOpacity(eased);
-      
       frame++;
       requestAnimationFrame(animate);
     };
@@ -602,9 +717,39 @@ async function exportVideo(seconds) {
     animate();
     
   } catch (e) {
-    status.textContent = '❌ المتصفح لا يدعم تسجيل الفيديو (جرّب Chrome على الكمبيوتر)';
+    status.textContent = '❌ المتصفح لا يدعم (جرّب Chrome)';
   }
 }
+
+// ═══════════════════════════════════════
+// 🤖 نبراس
+// ═══════════════════════════════════════
+const NIBRAS_URL = "https://nibras-al.onrender.com/";
+let nibrasLoaded = false;
+
+function toggleNibras() {
+  const chat = document.getElementById('nibras-chat');
+  const iframe = document.getElementById('nibras-iframe');
+  const loader = document.getElementById('nibras-loader');
+
+  if (chat.classList.contains('active')) {
+    chat.classList.remove('active');
+  } else {
+    if (!nibrasLoaded) {
+      iframe.src = NIBRAS_URL;
+      iframe.onload = () => { loader.style.display = 'none'; };
+      setTimeout(() => { loader.style.display = 'none'; }, 8000);
+      nibrasLoaded = true;
+    }
+    chat.classList.add('active');
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.getElementById('nibras-chat').classList.remove('active');
+  }
+});
 
 // ═══════════════════════════════════════
 // التشغيل الأولي
