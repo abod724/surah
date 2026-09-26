@@ -346,7 +346,7 @@
 
     <div class="field">
       <label>✍️ النص</label>
-      <textarea id="textInput" rows="2" placeholder="اكتب نصك هنا...">اترك أثراً جميلاً أينما ذهبت</textarea>
+      <textarea id="textInput" rows="6" placeholder="اكتب نصك هنا...">اترك أثراً جميلاً أينما ذهبت</textarea>
     </div>
 
     <div class="field">
@@ -580,6 +580,41 @@ function scrollToPreview() {
   }
 }
 
+// ═══════════════════════════════════════
+// wrapText — يحترم الأسطر الفارغة
+// ═══════════════════════════════════════
+function wrapText(ctx, text, maxWidth) {
+  // اقسم النص حسب الأسطر (\n)
+  const paragraphs = text.split('\n');
+  const lines = [];
+  
+  paragraphs.forEach(paragraph => {
+    // إذا السطر فارغ — احفظه كما هو
+    if (paragraph.trim() === '') {
+      lines.push('');
+      return;
+    }
+    
+    // السطر العادي — اكسره لو طويل
+    const words = paragraph.split(/\s+/);
+    let current = '';
+    
+    words.forEach(word => {
+      const test = current ? current + ' ' + word : word;
+      if (ctx.measureText(test).width > maxWidth && current) {
+        lines.push(current);
+        current = word;
+      } else {
+        current = test;
+      }
+    });
+    
+    if (current) lines.push(current);
+  });
+  
+  return lines;
+}
+
 function draw() {
   const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
   canvas.width = w;
@@ -594,19 +629,21 @@ function draw() {
 
   drawBackground(w, h, bg, fg);
 
-  const fontSize = w / 14;
+  const fontSize = w / 16;
   ctx.fillStyle = fg;
   ctx.font = `bold ${fontSize}px "${font}", sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.direction = 'rtl';
 
-  const lines = wrapText(ctx, text, w * 0.8);
-  const lineHeight = fontSize * 1.4;
+  const lines = wrapText(ctx, text, w * 0.85);
+  const lineHeight = fontSize * 1.3;
   const totalHeight = lines.length * lineHeight;
   const startY = (h - totalHeight) / 2 + lineHeight / 2;
 
   lines.forEach((line, i) => {
+    // لا تطبع الأسطر الفارغة (تبقى فارغة)
+    if (line.trim() === '') return;
     ctx.fillText(line, w / 2, startY + i * lineHeight);
   });
 
@@ -712,14 +749,14 @@ function drawWithAnimation(anim) {
   ctx.globalAlpha = anim.opacity * anim.textVisible;
   ctx.fillStyle = fg;
   
-  const fontSize = w / 14;
+  const fontSize = w / 16;
   ctx.font = `bold ${fontSize}px "${font}", sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.direction = 'rtl';
 
-  const lines = wrapText(ctx, text, w * 0.8);
-  const lineHeight = fontSize * 1.4;
+  const lines = wrapText(ctx, text, w * 0.85);
+  const lineHeight = fontSize * 1.3;
   const totalHeight = lines.length * lineHeight;
   const startY = (h - totalHeight) / 2 + lineHeight / 2;
 
@@ -730,6 +767,7 @@ function drawWithAnimation(anim) {
   }
 
   lines.forEach((line, i) => {
+    if (line.trim() === '') return;
     ctx.fillText(line, w / 2, startY + i * lineHeight);
   });
 
@@ -747,23 +785,6 @@ function drawWithAnimation(anim) {
     ctx.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
   }
   ctx.restore();
-}
-
-function wrapText(ctx, text, maxWidth) {
-  const words = text.split(/\s+/);
-  const lines = [];
-  let current = '';
-  words.forEach(word => {
-    const test = current ? current + ' ' + word : word;
-    if (ctx.measureText(test).width > maxWidth && current) {
-      lines.push(current);
-      current = word;
-    } else {
-      current = test;
-    }
-  });
-  if (current) lines.push(current);
-  return lines;
 }
 
 function shadeColor(color, percent) {
