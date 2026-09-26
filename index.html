@@ -140,47 +140,59 @@
   }
 
   /* ═══════════════════════════════════════ */
-  /* 🤖 زر نبراس العائم (أسفل يمين)          */
+  /* ✨ زر "اسأل نبراس" العائم                */
   /* ═══════════════════════════════════════ */
   #nibras-bubble {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
+    bottom: 24px;
+    right: 24px;
+    height: 56px;
+    padding: 0 22px 0 18px;
+    border-radius: 30px;
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     border: none;
-    font-size: 32px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 8px 24px rgba(102,126,234,0.55);
+    box-shadow: 0 8px 24px rgba(102,126,234,0.5);
     z-index: 9999;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 10px;
     transition: all 0.3s;
-    animation: nibras-pulse 2s infinite;
+    animation: nibras-pulse 2.5s infinite;
+  }
+  #nibras-bubble .spark {
+    font-size: 20px;
+    animation: nibras-spark 2s infinite;
+    display: inline-block;
   }
   #nibras-bubble:hover {
-    transform: scale(1.1);
+    transform: translateY(-3px) scale(1.03);
     box-shadow: 0 12px 32px rgba(102,126,234,0.7);
   }
-  #nibras-bubble:active { transform: scale(0.95); }
+  #nibras-bubble:active { transform: scale(0.97); }
+
   @keyframes nibras-pulse {
-    0%, 100% { box-shadow: 0 8px 24px rgba(102,126,234,0.55); }
-    50% { box-shadow: 0 8px 32px rgba(102,126,234,0.9), 0 0 0 10px rgba(102,126,234,0.1); }
+    0%, 100% { box-shadow: 0 8px 24px rgba(102,126,234,0.5); }
+    50% { box-shadow: 0 8px 32px rgba(102,126,234,0.85), 0 0 0 12px rgba(102,126,234,0.12); }
+  }
+  @keyframes nibras-spark {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(15deg) scale(1.15); }
   }
 
   #nibras-chat {
     position: fixed;
     bottom: 95px;
-    right: 20px;
+    right: 24px;
     width: 380px;
-    height: 520px;
+    height: 540px;
     border: none;
-    border-radius: 16px;
-    box-shadow: 0 12px 48px rgba(0,0,0,0.25);
+    border-radius: 18px;
+    box-shadow: 0 16px 50px rgba(0,0,0,0.3);
     display: none;
     z-index: 9998;
     background: white;
@@ -188,21 +200,21 @@
   }
   #nibras-chat.active {
     display: block;
-    animation: nibras-slide 0.3s ease-out;
+    animation: nibras-slide 0.35s ease-out;
   }
   @keyframes nibras-slide {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
 
   #nibras-close {
     position: absolute;
-    top: 8px;
-    left: 8px;
+    top: 10px;
+    left: 10px;
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.55);
     color: #fff;
     border: none;
     font-size: 18px;
@@ -240,14 +252,19 @@
 
   @media (max-width: 480px) {
     #nibras-bubble {
-      width: 58px; height: 58px;
-      font-size: 28px;
-      bottom: 16px; right: 16px;
+      height: 50px;
+      padding: 0 16px 0 14px;
+      font-size: 14px;
+      bottom: 16px;
+      right: 16px;
+      gap: 8px;
     }
+    #nibras-bubble .spark { font-size: 18px; }
     #nibras-chat {
       width: calc(100vw - 32px);
       height: 75vh;
-      bottom: 82px; right: 16px;
+      bottom: 80px;
+      right: 16px;
       border-radius: 14px;
     }
   }
@@ -260,7 +277,7 @@
   <!-- العنوان -->
   <div class="header-title">
     <h1>🖌️ ريشة</h1>
-    <p>استوديو الصور العربية  </p>
+    <p>استوديو الصور العربية </p>
   </div>
 
   <!-- المعاينة -->
@@ -373,9 +390,12 @@
 </div>
 
 <!-- ═══════════════════════════════════════ -->
-<!-- 🤖 زر نبراس العائم                       -->
+<!-- ✨ زر "اسأل نبراس" العائم                -->
 <!-- ═══════════════════════════════════════ -->
-<button id="nibras-bubble" onclick="toggleNibras()" title="تحدث مع نبراس">🤖</button>
+<button id="nibras-bubble" onclick="toggleNibras()" title="اسأل نبراس">
+  <span class="spark">✨</span>
+  <span>اسأل نبراس</span>
+</button>
 
 <div id="nibras-chat">
   <button id="nibras-close" onclick="toggleNibras()">✕</button>
@@ -722,7 +742,7 @@ async function exportVideo(seconds) {
 }
 
 // ═══════════════════════════════════════
-// 🤖 نبراس
+// ✨ نبراس
 // ═══════════════════════════════════════
 const NIBRAS_URL = "https://nibras-al.onrender.com/";
 let nibrasLoaded = false;
