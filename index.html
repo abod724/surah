@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="نبراس GP">
 <meta name="copyright" content="جميع الحقوق محفوظة © نبراس GP 2026">
-<meta name="description" content="🖌️ ريشة — استوديو الصور العربية مجاني بدون مفتاح API">
+<meta name="description" content="🖌️ ريشة — استوديو الصور العربية مجاني">
 <title>🖌️ ريشة — استوديو الصور العربية | نبراس GP</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Amiri:wght@700&family=Tajawal:wght@700&family=Rubik:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -131,6 +131,32 @@
   .footer small {
     display: block; margin-top: 4px;
     opacity: 0.85; font-weight: 400;
+  }
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 0;
+  }
+  .checkbox-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #667eea;
+  }
+  .hint {
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: 400;
+    margin-top: 4px;
+    display: block;
   }
   @media (max-width: 480px) {
     .header-title h1 { font-size: 22px; }
@@ -291,7 +317,7 @@
     <!-- النص -->
     <div class="field">
       <label>✍️ النص</label>
-      <textarea id="textInput" rows="2" placeholder="اكتب نصك هنا...">العلم نور والجهل ظلام</textarea>
+      <textarea id="textInput" rows="2" placeholder="اكتب نصك هنا...">اترك أثراً جميلاً أينما ذهبت</textarea>
     </div>
 
     <!-- القوالب -->
@@ -315,7 +341,7 @@
     <div class="grid-2">
       <div class="field">
         <label>🎨 الخلفية</label>
-        <input type="color" id="bgColor" value="#1e40af">
+        <input type="color" id="bgColor" value="#1e1b4b">
       </div>
       <div class="field">
         <label>✏️ لون النص</label>
@@ -351,6 +377,14 @@
       <input type="text" id="signature" value="@username" placeholder="@حسابك">
     </div>
 
+    <!-- خيار الحقوق -->
+    <div class="field">
+      <label class="checkbox-label">
+        <input type="checkbox" id="showCopyright" checked onchange="draw()">
+        <span>إظهار حقوق نبراس GP في الصورة</span>
+      </label>
+    </div>
+
     <!-- صورة خلفية -->
     <div class="field">
       <label>🖼️ صورة خلفية (اختياري)</label>
@@ -371,7 +405,25 @@
     <!-- تصدير الفيديو -->
     <div class="field">
       <label>🎬 تصدير فيديو</label>
-      <div class="btn-row">
+      
+      <!-- الحركة -->
+      <label style="font-size:13px;color:#6b7280;margin-top:8px;">نوع الحركة</label>
+      <select id="animationType" style="margin-bottom:12px;">
+        <option value="fade">✨ تلاشي (Fade)</option>
+        <option value="pulse">💫 وميض (Pulse)</option>
+        <option value="typewriter">⌨️ كتابة حرف بحرف</option>
+        <option value="slide">➡️ انزلاق من اليمين</option>
+        <option value="zoom">🔍 تكبير تدريجي</option>
+      </select>
+
+      <!-- الصوت -->
+      <label style="font-size:13px;color:#6b7280;">الصوت (اختياري)</label>
+      <input type="file" id="audioUpload" accept="audio/*" class="file-input" style="margin-bottom:8px;">
+      <button class="btn-small" onclick="clearAudio()">🗑️ حذف الصوت</button>
+      <div id="audioInfo" class="hint" style="display:none;"></div>
+
+      <!-- أزرار المدة -->
+      <div class="btn-row" style="margin-top:12px;">
         <button class="btn btn-primary" onclick="exportVideo(3)">🎬 3 ثواني</button>
         <button class="btn btn-primary" onclick="exportVideo(5)">🎬 5 ثواني</button>
         <button class="btn btn-primary" onclick="exportVideo(10)">🎬 10 ثواني</button>
@@ -420,12 +472,19 @@ const ctx = canvas.getContext('2d');
 let currentTemplate = 'quote';
 let bgImage = null;
 
+// متغيرات الصوت
+let audioFile = null;
+let audioURL = null;
+let audioElement = null;
+
 // ═══════════════════════════════════════
 // المستمعون
 // ═══════════════════════════════════════
 ['textInput','bgColor','textColor','fontSelect','sizeSelect','signature'].forEach(id => {
   document.getElementById(id).addEventListener('input', draw);
 });
+
+document.getElementById('showCopyright').addEventListener('change', draw);
 
 document.querySelectorAll('.template-btn').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -485,7 +544,33 @@ function clearImage() {
 }
 
 // ═══════════════════════════════════════
-// 🎨 الرسم
+// 🎵 رفع الصوت
+// ═══════════════════════════════════════
+document.getElementById('audioUpload').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  audioFile = file;
+  if (audioURL) URL.revokeObjectURL(audioURL);
+  audioURL = URL.createObjectURL(file);
+  audioElement = new Audio(audioURL);
+  
+  const info = document.getElementById('audioInfo');
+  info.style.display = 'block';
+  info.textContent = '🎵 تم رفع: ' + file.name;
+});
+
+function clearAudio() {
+  audioFile = null;
+  if (audioURL) URL.revokeObjectURL(audioURL);
+  audioURL = null;
+  audioElement = null;
+  document.getElementById('audioUpload').value = '';
+  document.getElementById('audioInfo').style.display = 'none';
+}
+
+// ═══════════════════════════════════════
+// 🎨 الرسم الأساسي
 // ═══════════════════════════════════════
 function draw() {
   const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
@@ -497,25 +582,9 @@ function draw() {
   const fg = document.getElementById('textColor').value;
   const font = document.getElementById('fontSelect').value;
   const sig = document.getElementById('signature').value;
+  const showCopy = document.getElementById('showCopyright').checked;
 
-  if (bgImage) {
-    ctx.drawImage(bgImage, 0, 0, w, h);
-  } else if (currentTemplate === 'gradient') {
-    const grad = ctx.createLinearGradient(0, 0, w, h);
-    grad.addColorStop(0, bg);
-    grad.addColorStop(1, shadeColor(bg, 50));
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, w, h);
-  } else if (currentTemplate === 'frame') {
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, w, h);
-    ctx.strokeStyle = fg;
-    ctx.lineWidth = 10;
-    ctx.strokeRect(50, 50, w - 100, h - 100);
-  } else {
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, w, h);
-  }
+  drawBackground(w, h, bg, fg);
 
   const fontSize = w / 14;
   ctx.fillStyle = fg;
@@ -541,27 +610,19 @@ function draw() {
     ctx.globalAlpha = 1;
   }
 
-  const copySize = w / 55;
-  ctx.font = `600 ${copySize}px "Cairo", sans-serif`;
-  ctx.globalAlpha = 0.55;
-  ctx.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
-  ctx.globalAlpha = 1;
+  if (showCopy) {
+    const copySize = w / 55;
+    ctx.font = `600 ${copySize}px "Cairo", sans-serif`;
+    ctx.globalAlpha = 0.55;
+    ctx.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
+    ctx.globalAlpha = 1;
+  }
 }
 
 // ═══════════════════════════════════════
-// 🎬 رسم مع شفافية (للفيديو)
+// 🎨 رسم الخلفية
 // ═══════════════════════════════════════
-function drawWithOpacity(opacity) {
-  const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
-  canvas.width = w;
-  canvas.height = h;
-
-  const text = document.getElementById('textInput').value || ' ';
-  const bg = document.getElementById('bgColor').value;
-  const fg = document.getElementById('textColor').value;
-  const font = document.getElementById('fontSelect').value;
-  const sig = document.getElementById('signature').value;
-
+function drawBackground(w, h, bg, fg) {
   if (bgImage) {
     ctx.drawImage(bgImage, 0, 0, w, h);
   } else if (currentTemplate === 'gradient') {
@@ -580,10 +641,78 @@ function drawWithOpacity(opacity) {
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, w, h);
   }
+}
+
+// ═══════════════════════════════════════
+// 🎬 الحركات
+// ═══════════════════════════════════════
+function animFade(progress) {
+  const opacity = 1 - Math.pow(1 - progress, 3);
+  return { opacity: opacity, offsetX: 0, offsetY: 0, scale: 1, textVisible: 1 };
+}
+
+function animPulse(progress) {
+  const opacity = progress < 0.5 ? progress * 2 : 1;
+  const scale = 1 + Math.sin(progress * Math.PI * 2) * 0.08;
+  return { opacity: 1, offsetX: 0, offsetY: 0, scale: scale, textVisible: opacity };
+}
+
+function animTypewriter(progress, fullText) {
+  const chars = Math.floor(progress * fullText.length);
+  return { 
+    opacity: 1, offsetX: 0, offsetY: 0, scale: 1, 
+    textVisible: 1,
+    visibleText: fullText.substring(0, chars)
+  };
+}
+
+function animSlide(progress) {
+  const eased = 1 - Math.pow(1 - progress, 3);
+  return { 
+    opacity: eased, 
+    offsetX: (1 - eased) * 300,
+    offsetY: 0, 
+    scale: 1, 
+    textVisible: 1 
+  };
+}
+
+function animZoom(progress) {
+  const eased = 1 - Math.pow(1 - progress, 3);
+  return { 
+    opacity: eased, 
+    offsetX: 0, 
+    offsetY: 0, 
+    scale: 0.4 + eased * 0.6,
+    textVisible: 1 
+  };
+}
+
+// ═══════════════════════════════════════
+// 🎬 رسم مع حركة
+// ═══════════════════════════════════════
+function drawWithAnimation(anim) {
+  const w = canvas.width;
+  const h = canvas.height;
+
+  let text = document.getElementById('textInput').value || ' ';
+  if (anim.visibleText !== undefined) {
+    text = anim.visibleText || ' ';
+  }
+  
+  const bg = document.getElementById('bgColor').value;
+  const fg = document.getElementById('textColor').value;
+  const font = document.getElementById('fontSelect').value;
+  const sig = document.getElementById('signature').value;
+  const showCopy = document.getElementById('showCopyright').checked;
+
+  ctx.clearRect(0, 0, w, h);
+  drawBackground(w, h, bg, fg);
 
   ctx.save();
-  ctx.globalAlpha = opacity;
+  ctx.globalAlpha = anim.opacity * anim.textVisible;
   ctx.fillStyle = fg;
+  
   const fontSize = w / 14;
   ctx.font = `bold ${fontSize}px "${font}", sans-serif`;
   ctx.textAlign = 'center';
@@ -595,6 +724,13 @@ function drawWithOpacity(opacity) {
   const totalHeight = lines.length * lineHeight;
   const startY = (h - totalHeight) / 2 + lineHeight / 2;
 
+  // التحويل للتكبير والانزلاق
+  if (anim.scale !== 1 || anim.offsetX !== 0 || anim.offsetY !== 0) {
+    ctx.translate(w / 2 + anim.offsetX, h / 2 + anim.offsetY);
+    ctx.scale(anim.scale, anim.scale);
+    ctx.translate(-w / 2, -h / 2);
+  }
+
   lines.forEach((line, i) => {
     ctx.fillText(line, w / 2, startY + i * lineHeight);
   });
@@ -602,14 +738,16 @@ function drawWithOpacity(opacity) {
   if (sig.trim()) {
     const sigSize = w / 28;
     ctx.font = `600 ${sigSize}px "${font}", sans-serif`;
-    ctx.globalAlpha = opacity * 0.85;
+    ctx.globalAlpha = anim.opacity * 0.85;
     ctx.fillText(sig, w / 2, h - sigSize * 2.5);
   }
 
-  const copySize = w / 55;
-  ctx.font = `600 ${copySize}px "Cairo", sans-serif`;
-  ctx.globalAlpha = opacity * 0.55;
-  ctx.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
+  if (showCopy) {
+    const copySize = w / 55;
+    ctx.font = `600 ${copySize}px "Cairo", sans-serif`;
+    ctx.globalAlpha = anim.opacity * 0.55;
+    ctx.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
+  }
   ctx.restore();
 }
 
@@ -684,7 +822,7 @@ function randomize() {
 }
 
 // ═══════════════════════════════════════
-// 🎬 تصدير فيديو
+// 🎬 تصدير فيديو مع حركات + صوت
 // ═══════════════════════════════════════
 async function exportVideo(seconds) {
   const status = document.getElementById('videoStatus');
@@ -696,11 +834,68 @@ async function exportVideo(seconds) {
       throw new Error('غير مدعوم');
     }
     
-    const stream = canvas.captureStream(30);
-    const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+    const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
+    canvas.width = w;
+    canvas.height = h;
+    
+    const animationType = document.getElementById('animationType').value;
+    
+    draw();
+    await new Promise(r => setTimeout(r, 100));
+    
+    const videoStream = canvas.captureStream(60);
+    let combinedStream = videoStream;
+    
+    // دمج الصوت
+    let audioContext = null;
+    let audioSource = null;
+    
+    if (audioFile && audioElement) {
+      try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const arrayBuffer = await audioFile.arrayBuffer();
+        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        
+        const dest = audioContext.createMediaStreamDestination();
+        audioSource = audioContext.createBufferSource();
+        audioSource.buffer = audioBuffer;
+        audioSource.loop = true;
+        audioSource.connect(dest);
+        
+        combinedStream = new MediaStream([
+          ...videoStream.getVideoTracks(),
+          ...dest.stream.getAudioTracks()
+        ]);
+      } catch (e) {
+        console.warn('تعذر دمج الصوت:', e);
+        combinedStream = videoStream;
+      }
+    }
+    
+    // اختر الصيغة
+    let recorder;
+    const options = { 
+      mimeType: 'video/webm;codecs=vp9,opus',
+      videoBitsPerSecond: 8000000
+    };
+    
+    try {
+      recorder = new MediaRecorder(combinedStream, options);
+    } catch (e) {
+      try {
+        recorder = new MediaRecorder(combinedStream, { 
+          mimeType: 'video/webm;codecs=vp8,opus' 
+        });
+      } catch (e2) {
+        recorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm' });
+      }
+    }
+    
     const chunks = [];
     
-    recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+    recorder.ondataavailable = (e) => {
+      if (e.data.size > 0) chunks.push(e.data);
+    };
     
     recorder.onstop = () => {
       const blob = new Blob(chunks, { type: 'video/webm' });
@@ -710,16 +905,32 @@ async function exportVideo(seconds) {
       a.download = `resha-${Date.now()}.webm`;
       a.click();
       URL.revokeObjectURL(url);
+      
+      if (audioSource) {
+        try { audioSource.stop(); } catch(e) {}
+      }
+      if (audioContext) {
+        try { audioContext.close(); } catch(e) {}
+      }
+      
       status.textContent = '✅ تم تحميل الفيديو';
       setTimeout(() => { status.style.display = 'none'; }, 3000);
     };
     
     recorder.start();
+    
+    if (audioSource && audioContext) {
+      audioSource.start(0);
+    }
+    
     status.textContent = `🎬 جاري التسجيل (${seconds} ثواني)...`;
     
     const fps = 30;
     const totalFrames = seconds * fps;
+    const animFrames = Math.floor(totalFrames * 0.4);
     let frame = 0;
+    
+    const text = document.getElementById('textInput').value || ' ';
     
     const animate = () => {
       if (frame >= totalFrames) {
@@ -727,9 +938,20 @@ async function exportVideo(seconds) {
         draw();
         return;
       }
-      const progress = Math.min(1, frame / (totalFrames * 0.4));
-      const eased = 1 - Math.pow(1 - progress, 3);
-      drawWithOpacity(eased);
+      
+      const progress = frame < animFrames ? frame / animFrames : 1;
+      
+      let anim;
+      switch(animationType) {
+        case 'fade':       anim = animFade(progress); break;
+        case 'pulse':      anim = animPulse(progress); break;
+        case 'typewriter': anim = animTypewriter(progress, text); break;
+        case 'slide':      anim = animSlide(progress); break;
+        case 'zoom':       anim = animZoom(progress); break;
+        default:           anim = animFade(progress);
+      }
+      
+      drawWithAnimation(anim);
       frame++;
       requestAnimationFrame(animate);
     };
@@ -737,6 +959,7 @@ async function exportVideo(seconds) {
     animate();
     
   } catch (e) {
+    console.error(e);
     status.textContent = '❌ المتصفح لا يدعم (جرّب Chrome)';
   }
 }
