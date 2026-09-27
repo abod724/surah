@@ -1304,7 +1304,7 @@ async function updateVisitorCounter() {
     const visits = data.value.toLocaleString('ar-EG');
     counter.textContent = `👁️ ${visits} زيارة`;
   } catch(e) {
-    counter.textContent = '👁️ عداد';
+    counter.textContent = '👁️';
     console.warn('فشل العداد:', e);
   }
 }
