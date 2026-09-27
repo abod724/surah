@@ -213,52 +213,6 @@
     font-weight: 700;
   }
 
-  input[type="range"] {
-    width: 100%;
-    height: 8px;
-    border-radius: 4px;
-    background: #e5e7eb;
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-  input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: #8b5cf6;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(139,92,246,0.5);
-  }
-  input[type="range"]::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: #8b5cf6;
-    cursor: pointer;
-    border: none;
-    box-shadow: 0 2px 8px rgba(139,92,246,0.5);
-  }
-
-  .power-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 12px;
-  }
-  .power-value {
-    background: #8b5cf6;
-    color: #fff;
-    padding: 4px 12px;
-    border-radius: 8px;
-    font-weight: 800;
-    font-size: 13px;
-    min-width: 50px;
-    text-align: center;
-  }
-
   #slideshow-overlay {
     position: fixed;
     inset: 0;
@@ -406,11 +360,6 @@
           <button class="anim-btn" data-anim="slideUp" onclick="setSingleAnim('slideUp', this)">⬆️ فوق</button>
           <button class="anim-btn" data-anim="zoom" onclick="setSingleAnim('zoom', this)">🔍 تكبير</button>
           <button class="anim-btn" data-anim="shake" onclick="setSingleAnim('shake', this)">📳 اهتزاز</button>
-        </div>
-        <div class="power-row">
-          <label style="margin:0;">🎚️ القوة:</label>
-          <input type="range" id="singlePower" min="0" max="100" value="50" oninput="updateSinglePower()">
-          <div class="power-value" id="singlePowerVal">50%</div>
         </div>
       </div>
 
@@ -574,21 +523,27 @@ function switchTab(tab, btn) {
 }
 
 // ═══════════════════════════════════════
-// متغيرات التأثير الفردي
+// متغيرات التأثير
 // ═══════════════════════════════════════
 let singleAnim = 'none';
-let singlePower = 50;
+
+// القوى التلقائية لكل تأثير
+const ANIM_POWERS = {
+  none: 0,
+  fade: 0.7,
+  pulse: 0.5,
+  typewriter: 0.6,
+  slide: 0.7,
+  slideLeft: 0.7,
+  slideUp: 0.7,
+  zoom: 0.7,
+  shake: 0.5
+};
 
 function setSingleAnim(anim, btn) {
   singleAnim = anim;
   document.querySelectorAll('#singleAnims .anim-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  drawSingle();
-}
-
-function updateSinglePower() {
-  singlePower = parseInt(document.getElementById('singlePower').value);
-  document.getElementById('singlePowerVal').textContent = singlePower + '%';
   drawSingle();
 }
 
@@ -801,7 +756,7 @@ function drawSingle() {
 
   let animState = null;
   if (singleAnim !== 'none') {
-    const progress = singlePower / 100;
+    const progress = ANIM_POWERS[singleAnim] || 0.5;
     animState = getAnimState(singleAnim, progress, document.getElementById('textInput').value || '');
   }
 
@@ -1017,7 +972,7 @@ function drawSlideOnCanvas(c, slide, w, h, sig, showCopy, progress) {
 }
 
 // ═══════════════════════════════════════
-// تشغيل العرض (بـ setInterval — أكثر استقراراً)
+// تشغيل العرض
 // ═══════════════════════════════════════
 function playSlideshow() {
   if (slides.length === 0) {
@@ -1068,11 +1023,9 @@ function showSlide(index) {
   const duration = slide.duration * 1000;
   const startTime = Date.now();
   
-  // إلغاء أي مؤقت سابق
   if (slideshowInterval) clearInterval(slideshowInterval);
   if (slideshowTimeout) clearTimeout(slideshowTimeout);
   
-  // الرسم الفوري (حالة البداية)
   try {
     drawSlideOnCanvas(c, slide, w, h, sig, showCopy, 0);
   } catch(e) { console.error('خطأ:', e); }
@@ -1217,7 +1170,6 @@ async function exportSlidesVideo() {
     
     status.textContent = '🎬 جاري التسجيل...';
     
-    // استخدام setInterval بدل requestAnimationFrame
     for (let i = 0; i < slides.length; i++) {
       const slide = slides[i];
       const frameDuration = slide.duration * 1000;
