@@ -345,6 +345,7 @@
     <button class="tab" onclick="switchTab('slides', this)">🎬 فيديو</button>
   </div>
 
+  <!-- تبويب الصور -->
   <div id="view-single" class="view active">
 
     <div class="card">
@@ -427,6 +428,7 @@
 
   </div>
 
+  <!-- تبويب الفيديو -->
   <div id="view-slides" class="view">
 
     <div class="card">
@@ -591,15 +593,15 @@ function clearImage() {
 }
 
 const ANIMATIONS = {
-  none:       { label: '🚫' },
-  fade:       { label: '✨' },
-  pulse:      { label: '💫' },
-  typewriter: { label: '⌨️' },
-  slide:      { label: '➡️' },
-  slideLeft:  { label: '⬅️' },
-  slideUp:    { label: '⬆️' },
-  zoom:       { label: '🔍' },
-  shake:      { label: '📳' }
+  none:       { label: 'بدون' },
+  fade:       { label: 'تلاشي' },
+  pulse:      { label: 'وميض' },
+  typewriter: { label: 'كتابة' },
+  slide:      { label: 'انزلاق يمين' },
+  slideLeft:  { label: 'انزلاق يسار' },
+  slideUp:    { label: 'انزلاق فوق' },
+  zoom:       { label: 'تكبير' },
+  shake:      { label: 'اهتزاز' }
 };
 
 function getAnimState(type, progress, fullText) {
@@ -875,7 +877,7 @@ function renderSlides() {
         <label>🎬 الحركة</label>
         <div class="animations">
           ${ANIMATION_LIST.map(a => `
-            <button class="anim-btn ${slide.animation === a ? 'active' : ''}" onclick="setSlideAnimation(${slide.id}, '${a}', this)" title="${a}">
+            <button class="anim-btn ${slide.animation === a ? 'active' : ''}" onclick="setSlideAnimation(${slide.id}, '${a}', this)">
               ${ANIMATIONS[a].label}
             </button>
           `).join('')}
