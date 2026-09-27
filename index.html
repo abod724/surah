@@ -102,6 +102,43 @@
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .templates { display: flex; flex-wrap: wrap; gap: 6px; }
 
+  .palette-dropdown {
+    background: #f8fafc;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .palette-dropdown summary {
+    padding: 14px;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 14px;
+    color: #374151;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .palette-dropdown summary::-webkit-details-marker { display: none; }
+  .palette-dropdown summary::after {
+    content: '▼';
+    font-size: 12px;
+    color: #6b7280;
+    transition: transform 0.2s;
+  }
+  .palette-dropdown[open] summary::after {
+    transform: rotate(180deg);
+  }
+  .palette-dropdown[open] {
+    border-color: #667eea;
+  }
+  .palette-dropdown .palette {
+    padding: 12px;
+    border-top: 2px solid #e5e7eb;
+    background: #fff;
+  }
+
   .palette {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -387,7 +424,10 @@
 
       <div class="field">
         <label>🌈 ألوان جاهزة</label>
-        <div class="palette" id="palette"></div>
+        <details class="palette-dropdown">
+          <summary>اختر لوناً</summary>
+          <div class="palette" id="palette"></div>
+        </details>
       </div>
 
       <div class="grid-2">
@@ -582,18 +622,13 @@ const ctx = canvas.getContext('2d');
 let currentTemplate = 'quote';
 let bgImage = null;
 
-// 32 لون جاهز
 const PALETTE = [
-  // صف 1 — أساسية
   '#dc2626', '#ea580c', '#f59e0b', '#facc15',
   '#84cc16', '#16a34a', '#10b981', '#14b8a6',
-  // صف 2 — أزرق وبنفسجي
   '#0891b2', '#0ea5e9', '#3b82f6', '#6366f1',
   '#8b5cf6', '#a855f7', '#d946ef', '#ec4899',
-  // صف 3 — رمادية
   '#0f172a', '#1e293b', '#334155', '#475569',
   '#64748b', '#94a3b8', '#cbd5e1', '#f1f5f9',
-  // صف 4 — ترابية ودفئة
   '#7c2d12', '#9a3412', '#78350f', '#854d0e',
   '#365314', '#14532d', '#0c4a6e', '#3b0764'
 ];
@@ -611,6 +646,8 @@ function buildPalette() {
       document.querySelectorAll('.palette-color').forEach(p => p.classList.remove('active'));
       div.classList.add('active');
       drawSingle();
+      // إغلاق المنسدلة تلقائياً
+      document.querySelector('.palette-dropdown').removeAttribute('open');
     };
     wrap.appendChild(div);
   });
@@ -803,11 +840,10 @@ function downloadSingle() {
 }
 
 function randomize() {
-  const colors = PALETTE;
   const fonts = ['Cairo','Amiri','Tajawal','Rubik'];
   const templates = ['quote','gradient','solid','frame'];
   
-  document.getElementById('bgColor').value = colors[Math.floor(Math.random() * colors.length)];
+  document.getElementById('bgColor').value = PALETTE[Math.floor(Math.random() * PALETTE.length)];
   document.getElementById('fontSelect').value = fonts[Math.floor(Math.random() * fonts.length)];
   
   const tplBtn = document.querySelector(`#templates [data-tpl="${templates[Math.floor(Math.random() * templates.length)]}"]`);
