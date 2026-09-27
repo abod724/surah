@@ -347,30 +347,57 @@
     display: block; margin-top: 4px;
     opacity: 0.85; font-weight: 400;
   }
+
+  /* عداد الزوار الاحترافي */
   .visitor-counter {
-    display: inline-block;
-    background: rgba(255,255,255,0.22);
-    padding: 8px 20px;
-    border-radius: 24px;
-    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.22);
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 14px;
     font-weight: 800;
     color: #fff;
-    margin-bottom: 10px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.3);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: all 0.3s;
-    animation: counterFadeIn 0.8s ease-out;
+    margin-bottom: 12px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    animation: counterFadeIn 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .visitor-counter .counter-icon {
+    font-size: 18px;
+    animation: eyePulse 3s ease-in-out infinite;
+  }
+  .visitor-counter .counter-number {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  .visitor-counter .counter-label {
+    font-size: 12px;
+    opacity: 0.9;
+    font-weight: 600;
   }
   .visitor-counter:hover {
-    background: rgba(255,255,255,0.3);
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
   @keyframes counterFadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(15px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
+  @keyframes eyePulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.85; }
+  }
+
   .checkbox-label {
     display: flex; align-items: center; gap: 10px;
     cursor: pointer; padding: 12px;
@@ -386,6 +413,9 @@
     .grid-2 { grid-template-columns: 1fr; }
     .card { padding: 16px; }
     .palette { grid-template-columns: repeat(6, 1fr); }
+    .visitor-counter { padding: 8px 18px; font-size: 13px; }
+    .visitor-counter .counter-number { font-size: 14px; }
+    .visitor-counter .counter-icon { font-size: 16px; }
   }
 
   #nibras-bubble {
@@ -586,7 +616,11 @@
   </div>
 
   <div class="footer">
-    <div class="visitor-counter" id="visitorCounter">👁️ جاري التحميل...</div>
+    <div class="visitor-counter" id="visitorCounter">
+      <span class="counter-icon">👁️</span>
+      <span class="counter-number" id="counterNumber">—</span>
+      <span class="counter-label">زيارة</span>
+    </div>
     جميع الحقوق محفوظة © نبراس GP 2026
     <small>🖌️ ريشة — استوديو الصور والفيديوهات</small>
   </div>
@@ -606,6 +640,9 @@
 </div>
 
 <button id="nibras-bubble" onclick="window.open('https://nibras-al.onrender.com/','_blank')">✨ اسأل نبراس</button>
+
+<!-- GoatCounter -->
+<script data-goatcounter="https://resha.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
 <script>
 function switchTab(tab, btn) {
@@ -1292,20 +1329,21 @@ async function exportAllImages() {
   alert('✅ تم التحميل');
 }
 
+// عداد الزوار باستخدام GoatCounter
 async function updateVisitorCounter() {
-  const counter = document.getElementById('visitorCounter');
-  if (!counter) return;
+  const numberEl = document.getElementById('counterNumber');
+  if (!numberEl) return;
   
   try {
-    const siteKey = 'resha_nibras_gp_2026';
-    const response = await fetch(`https://api.countapi.xyz/hit/${siteKey}/visits`);
+    const response = await fetch('https://resha.goatcounter.com/counter/TOTAL.json');
     const data = await response.json();
     
-    const visits = data.value.toLocaleString('ar-EG');
-    counter.textContent = `👁️ ${visits} زيارة`;
+    // data.count يعرض بالشكل: "1,247"
+    const visits = data.count || '0';
+    numberEl.textContent = visits;
   } catch(e) {
-    counter.textContent = '👁️';
-    console.warn('فشل العداد:', e);
+    console.warn('فشل جلب العداد:', e);
+    numberEl.textContent = '—';
   }
 }
 
