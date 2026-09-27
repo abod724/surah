@@ -196,7 +196,6 @@
   }
   .add-slide-btn:hover { border-color: #667eea; color: #4338ca; }
 
-  /* قسم الصوت */
   .audio-box {
     background: #f0f9ff;
     border: 2px solid #bae6fd;
@@ -212,6 +211,52 @@
     border-radius: 8px;
     text-align: center;
     font-weight: 700;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: #e5e7eb;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #8b5cf6;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(139,92,246,0.5);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #8b5cf6;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(139,92,246,0.5);
+  }
+
+  .power-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .power-value {
+    background: #8b5cf6;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 13px;
+    min-width: 50px;
+    text-align: center;
   }
 
   #slideshow-overlay {
@@ -326,7 +371,9 @@
     <button class="tab" onclick="switchTab('slides', this)">🎬 فيديو</button>
   </div>
 
-  <!-- تبويب الصور -->
+  <!-- ═══════════════════════════════════════ -->
+  <!-- تبويب الصور                             -->
+  <!-- ═══════════════════════════════════════ -->
   <div id="view-single" class="view active">
 
     <div class="card">
@@ -346,6 +393,26 @@
           <button class="template-btn" data-tpl="gradient">تدرج</button>
           <button class="template-btn" data-tpl="solid">لون صلب</button>
           <button class="template-btn" data-tpl="frame">إطار</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>🎬 تأثير الصورة</label>
+        <div class="animations" id="singleAnims">
+          <button class="anim-btn active" data-anim="none" onclick="setSingleAnim('none', this)">🚫 بدون</button>
+          <button class="anim-btn" data-anim="fade" onclick="setSingleAnim('fade', this)">✨ تلاشي</button>
+          <button class="anim-btn" data-anim="pulse" onclick="setSingleAnim('pulse', this)">💫 وميض</button>
+          <button class="anim-btn" data-anim="typewriter" onclick="setSingleAnim('typewriter', this)">⌨️ كتابة</button>
+          <button class="anim-btn" data-anim="slide" onclick="setSingleAnim('slide', this)">➡️ يمين</button>
+          <button class="anim-btn" data-anim="slideLeft" onclick="setSingleAnim('slideLeft', this)">⬅️ يسار</button>
+          <button class="anim-btn" data-anim="slideUp" onclick="setSingleAnim('slideUp', this)">⬆️ فوق</button>
+          <button class="anim-btn" data-anim="zoom" onclick="setSingleAnim('zoom', this)">🔍 تكبير</button>
+          <button class="anim-btn" data-anim="shake" onclick="setSingleAnim('shake', this)">📳 اهتزاز</button>
+        </div>
+        <div class="power-row">
+          <label style="margin:0;">🎚️ القوة:</label>
+          <input type="range" id="singlePower" min="0" max="100" value="50" oninput="updateSinglePower()">
+          <div class="power-value" id="singlePowerVal">50%</div>
         </div>
       </div>
 
@@ -409,7 +476,9 @@
 
   </div>
 
-  <!-- تبويب الفيديو -->
+  <!-- ═══════════════════════════════════════ -->
+  <!-- تبويب الفيديو                            -->
+  <!-- ═══════════════════════════════════════ -->
   <div id="view-slides" class="view">
 
     <div class="card">
@@ -436,7 +505,6 @@
       </div>
     </div>
 
-    <!-- قسم الصوت -->
     <div class="card">
       <div class="audio-box">
         <div class="field">
@@ -510,23 +578,38 @@ function switchTab(tab, btn) {
 }
 
 // ═══════════════════════════════════════
+// متغيرات التأثير الفردي
+// ═══════════════════════════════════════
+let singleAnim = 'none';
+let singlePower = 50;
+
+function setSingleAnim(anim, btn) {
+  singleAnim = anim;
+  document.querySelectorAll('#singleAnims .anim-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  drawSingle();
+}
+
+function updateSinglePower() {
+  singlePower = parseInt(document.getElementById('singlePower').value);
+  document.getElementById('singlePowerVal').textContent = singlePower + '%';
+  drawSingle();
+}
+
+// ═══════════════════════════════════════
 // متغيرات الصوت
 // ═══════════════════════════════════════
 let audioFile = null;
 let audioURL = null;
 let audioElement = null;
-let audioContext = null;
-let audioSource = null;
 
 document.getElementById('audioUpload').addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
-  
   audioFile = file;
   if (audioURL) URL.revokeObjectURL(audioURL);
   audioURL = URL.createObjectURL(file);
   audioElement = new Audio(audioURL);
-  
   const info = document.getElementById('audioInfo');
   info.style.display = 'block';
   info.textContent = '🎵 ' + file.name;
@@ -554,9 +637,9 @@ let bgImage = null;
 });
 document.getElementById('showCopyright').addEventListener('change', drawSingle);
 
-document.querySelectorAll('.template-btn').forEach(btn => {
+document.querySelectorAll('#templates .template-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#templates .template-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentTemplate = btn.dataset.tpl;
     drawSingle();
@@ -581,25 +664,6 @@ function clearImage() {
   drawSingle();
 }
 
-function drawSingle() {
-  const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
-  canvas.width = w;
-  canvas.height = h;
-
-  drawOnCanvas(
-    ctx, w, h,
-    document.getElementById('textInput').value || ' ',
-    document.getElementById('bgColor').value,
-    document.getElementById('textColor').value,
-    document.getElementById('fontSelect').value,
-    document.getElementById('signature').value,
-    document.getElementById('showCopyright').checked,
-    currentTemplate,
-    bgImage,
-    null
-  );
-}
-
 // ═══════════════════════════════════════
 // الحركات
 // ═══════════════════════════════════════
@@ -618,10 +682,7 @@ const ANIMATIONS = {
 function getAnimState(type, progress, fullText) {
   const p = Math.min(1, Math.max(0, progress));
   const eased = 1 - Math.pow(1 - p, 3);
-  const state = {
-    opacity: 1, offsetX: 0, offsetY: 0,
-    scale: 1, visibleText: null
-  };
+  const state = { opacity: 1, offsetX: 0, offsetY: 0, scale: 1, visibleText: null };
 
   switch(type) {
     case 'fade':
@@ -658,6 +719,9 @@ function getAnimState(type, progress, fullText) {
   return state;
 }
 
+// ═══════════════════════════════════════
+// الرسم
+// ═══════════════════════════════════════
 function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img, animState) {
   c.clearRect(0, 0, w, h);
 
@@ -755,6 +819,32 @@ function shadeColor(color, percent) {
   return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
 }
 
+function drawSingle() {
+  const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
+  canvas.width = w;
+  canvas.height = h;
+
+  // حساب حالة الحركة
+  let animState = null;
+  if (singleAnim !== 'none') {
+    const progress = singlePower / 100;
+    animState = getAnimState(singleAnim, progress, document.getElementById('textInput').value || '');
+  }
+
+  drawOnCanvas(
+    ctx, w, h,
+    document.getElementById('textInput').value || ' ',
+    document.getElementById('bgColor').value,
+    document.getElementById('textColor').value,
+    document.getElementById('fontSelect').value,
+    document.getElementById('signature').value,
+    document.getElementById('showCopyright').checked,
+    currentTemplate,
+    bgImage,
+    animState
+  );
+}
+
 function downloadSingle() {
   const link = document.createElement('a');
   link.download = `resha-${Date.now()}.png`;
@@ -770,8 +860,8 @@ function randomize() {
   document.getElementById('bgColor').value = colors[Math.floor(Math.random() * colors.length)];
   document.getElementById('fontSelect').value = fonts[Math.floor(Math.random() * fonts.length)];
   
-  const tplBtn = document.querySelector(`[data-tpl="${templates[Math.floor(Math.random() * templates.length)]}"]`);
-  document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+  const tplBtn = document.querySelector(`#templates [data-tpl="${templates[Math.floor(Math.random() * templates.length)]}"]`);
+  document.querySelectorAll('#templates .template-btn').forEach(b => b.classList.remove('active'));
   tplBtn.classList.add('active');
   currentTemplate = tplBtn.dataset.tpl;
   
@@ -779,7 +869,7 @@ function randomize() {
 }
 
 // ═══════════════════════════════════════
-// المقاطع
+// المقاطع (الفيديو)
 // ═══════════════════════════════════════
 let slides = [];
 let currentSlideIndex = 0;
@@ -953,7 +1043,7 @@ function drawSlideOnCanvas(c, slide, w, h, sig, showCopy, progress) {
 }
 
 // ═══════════════════════════════════════
-// تشغيل العرض (مع الصوت)
+// تشغيل العرض
 // ═══════════════════════════════════════
 function playSlideshow() {
   if (slides.length === 0) {
@@ -967,7 +1057,6 @@ function playSlideshow() {
   const dots = document.getElementById('slideDots');
   dots.innerHTML = slides.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}"></div>`).join('');
   
-  // تشغيل الصوت
   if (audioFile && audioElement) {
     audioElement.currentTime = 0;
     audioElement.loop = document.getElementById('audioLoop').checked;
@@ -1034,8 +1123,6 @@ function nextSlide() {
 function stopSlideshow() {
   cancelAnimationFrame(slideshowTimer);
   document.getElementById('slideshow-overlay').classList.remove('active');
-  
-  // إيقاف الصوت
   if (audioElement) {
     audioElement.pause();
     audioElement.currentTime = 0;
@@ -1043,7 +1130,7 @@ function stopSlideshow() {
 }
 
 // ═══════════════════════════════════════
-// تصدير فيديو (مع الصوت)
+// تصدير فيديو
 // ═══════════════════════════════════════
 async function exportSlidesVideo() {
   if (slides.length === 0) {
@@ -1071,7 +1158,6 @@ async function exportSlidesVideo() {
     const videoStream = tempCanvas.captureStream(30);
     let combinedStream = videoStream;
     
-    // دمج الصوت
     let localAudioCtx = null;
     let localAudioSource = null;
     
