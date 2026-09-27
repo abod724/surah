@@ -348,15 +348,15 @@
     opacity: 0.85; font-weight: 400;
   }
 
-  /* عداد الزوار الاحترافي */
+  /* عداد الزوار — رقم فقط */
   .visitor-counter {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
     background: rgba(255, 255, 255, 0.22);
-    padding: 10px 22px;
+    padding: 10px 24px;
     border-radius: 30px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 800;
     color: #fff;
     margin-bottom: 12px;
@@ -367,21 +367,13 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
     transition: all 0.3s ease;
     animation: counterFadeIn 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .visitor-counter .counter-icon {
-    font-size: 18px;
-    animation: eyePulse 3s ease-in-out infinite;
+    min-width: 100px;
   }
   .visitor-counter .counter-number {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 800;
     letter-spacing: 0.5px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-  .visitor-counter .counter-label {
-    font-size: 12px;
-    opacity: 0.9;
-    font-weight: 600;
   }
   .visitor-counter:hover {
     background: rgba(255, 255, 255, 0.3);
@@ -392,10 +384,6 @@
   @keyframes counterFadeIn {
     from { opacity: 0; transform: translateY(15px) scale(0.9); }
     to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  @keyframes eyePulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.15); opacity: 0.85; }
   }
 
   .checkbox-label {
@@ -413,9 +401,8 @@
     .grid-2 { grid-template-columns: 1fr; }
     .card { padding: 16px; }
     .palette { grid-template-columns: repeat(6, 1fr); }
-    .visitor-counter { padding: 8px 18px; font-size: 13px; }
-    .visitor-counter .counter-number { font-size: 14px; }
-    .visitor-counter .counter-icon { font-size: 16px; }
+    .visitor-counter { padding: 8px 20px; }
+    .visitor-counter .counter-number { font-size: 15px; }
   }
 
   #nibras-bubble {
@@ -617,9 +604,7 @@
 
   <div class="footer">
     <div class="visitor-counter" id="visitorCounter">
-      <span class="counter-icon">👁️</span>
       <span class="counter-number" id="counterNumber">—</span>
-      <span class="counter-label">زيارة</span>
     </div>
     جميع الحقوق محفوظة © نبراس GP 2026
     <small>🖌️ ريشة — استوديو الصور والفيديوهات</small>
@@ -1329,7 +1314,6 @@ async function exportAllImages() {
   alert('✅ تم التحميل');
 }
 
-// عداد الزوار باستخدام GoatCounter
 async function updateVisitorCounter() {
   const numberEl = document.getElementById('counterNumber');
   if (!numberEl) return;
@@ -1337,13 +1321,11 @@ async function updateVisitorCounter() {
   try {
     const response = await fetch('https://resha.goatcounter.com/counter/TOTAL.json');
     const data = await response.json();
-    
-    // data.count يعرض بالشكل: "1,247"
     const visits = data.count || '0';
     numberEl.textContent = visits;
   } catch(e) {
     console.warn('فشل جلب العداد:', e);
-    numberEl.textContent = '—';
+    numberEl.textContent = '0';
   }
 }
 
