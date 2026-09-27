@@ -371,9 +371,7 @@
     <button class="tab" onclick="switchTab('slides', this)">🎬 فيديو</button>
   </div>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- تبويب الصور                             -->
-  <!-- ═══════════════════════════════════════ -->
+  <!-- تبويب الصور -->
   <div id="view-single" class="view active">
 
     <div class="card">
@@ -476,9 +474,7 @@
 
   </div>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- تبويب الفيديو                            -->
-  <!-- ═══════════════════════════════════════ -->
+  <!-- تبويب الفيديو -->
   <div id="view-slides" class="view">
 
     <div class="card">
@@ -597,7 +593,7 @@ function updateSinglePower() {
 }
 
 // ═══════════════════════════════════════
-// متغيرات الصوت
+// الصوت
 // ═══════════════════════════════════════
 let audioFile = null;
 let audioURL = null;
@@ -685,36 +681,15 @@ function getAnimState(type, progress, fullText) {
   const state = { opacity: 1, offsetX: 0, offsetY: 0, scale: 1, visibleText: null };
 
   switch(type) {
-    case 'fade':
-      state.opacity = eased;
-      break;
-    case 'pulse':
-      state.opacity = p < 0.5 ? p * 2 : 1;
-      state.scale = 1 + Math.sin(p * Math.PI * 2) * 0.08;
-      break;
-    case 'typewriter':
-      state.visibleText = fullText.substring(0, Math.floor(p * fullText.length));
-      break;
-    case 'slide':
-      state.opacity = eased;
-      state.offsetX = (1 - eased) * 400;
-      break;
-    case 'slideLeft':
-      state.opacity = eased;
-      state.offsetX = (1 - eased) * -400;
-      break;
-    case 'slideUp':
-      state.opacity = eased;
-      state.offsetY = (1 - eased) * 400;
-      break;
-    case 'zoom':
-      state.opacity = eased;
-      state.scale = 0.4 + eased * 0.6;
-      break;
-    case 'shake':
-      state.opacity = eased;
-      state.offsetX = Math.sin(p * Math.PI * 12) * 20 * (1 - eased);
-      break;
+    case 'fade':       state.opacity = eased; break;
+    case 'pulse':      state.opacity = p < 0.5 ? p * 2 : 1;
+                       state.scale = 1 + Math.sin(p * Math.PI * 2) * 0.08; break;
+    case 'typewriter': state.visibleText = fullText.substring(0, Math.floor(p * fullText.length)); break;
+    case 'slide':      state.opacity = eased; state.offsetX = (1 - eased) * 400; break;
+    case 'slideLeft':  state.opacity = eased; state.offsetX = (1 - eased) * -400; break;
+    case 'slideUp':    state.opacity = eased; state.offsetY = (1 - eased) * 400; break;
+    case 'zoom':       state.opacity = eased; state.scale = 0.4 + eased * 0.6; break;
+    case 'shake':      state.opacity = eased; state.offsetX = Math.sin(p * Math.PI * 12) * 20 * (1 - eased); break;
   }
   return state;
 }
@@ -824,7 +799,6 @@ function drawSingle() {
   canvas.width = w;
   canvas.height = h;
 
-  // حساب حالة الحركة
   let animState = null;
   if (singleAnim !== 'none') {
     const progress = singlePower / 100;
@@ -869,12 +843,12 @@ function randomize() {
 }
 
 // ═══════════════════════════════════════
-// المقاطع (الفيديو)
+// المقاطع
 // ═══════════════════════════════════════
 let slides = [];
 let currentSlideIndex = 0;
-let slideshowTimer = null;
-let slideshowStartTime = 0;
+let slideshowInterval = null;
+let slideshowTimeout = null;
 
 const DURATIONS = [5, 10, 15, 20, 30];
 const ANIMATION_LIST = ['none','fade','pulse','typewriter','slide','slideLeft','slideUp','zoom','shake'];
@@ -1043,7 +1017,7 @@ function drawSlideOnCanvas(c, slide, w, h, sig, showCopy, progress) {
 }
 
 // ═══════════════════════════════════════
-// تشغيل العرض
+// تشغيل العرض (بـ setInterval — أكثر استقراراً)
 // ═══════════════════════════════════════
 function playSlideshow() {
   if (slides.length === 0) {
@@ -1092,27 +1066,40 @@ function showSlide(index) {
   fill.style.width = '0%';
   
   const duration = slide.duration * 1000;
-  slideshowStartTime = Date.now();
+  const startTime = Date.now();
   
-  const tick = () => {
-    const elapsed = Date.now() - slideshowStartTime;
+  // إلغاء أي مؤقت سابق
+  if (slideshowInterval) clearInterval(slideshowInterval);
+  if (slideshowTimeout) clearTimeout(slideshowTimeout);
+  
+  // الرسم الفوري (حالة البداية)
+  try {
+    drawSlideOnCanvas(c, slide, w, h, sig, showCopy, 0);
+  } catch(e) { console.error('خطأ:', e); }
+  
+  slideshowInterval = setInterval(() => {
+    const elapsed = Date.now() - startTime;
     const progress = Math.min(1, elapsed / duration);
     fill.style.width = (progress * 100) + '%';
     
-    drawSlideOnCanvas(c, slide, w, h, sig, showCopy, progress);
+    try {
+      drawSlideOnCanvas(c, slide, w, h, sig, showCopy, progress);
+    } catch(e) { console.error('خطأ:', e); }
     
     if (elapsed >= duration) {
-      showSlide(index + 1);
-    } else {
-      slideshowTimer = requestAnimationFrame(tick);
+      clearInterval(slideshowInterval);
+      slideshowInterval = null;
+      slideshowTimeout = setTimeout(() => showSlide(index + 1), 100);
     }
-  };
-  
-  slideshowTimer = requestAnimationFrame(tick);
+  }, 1000 / 30);
 }
 
 function nextSlide() {
-  cancelAnimationFrame(slideshowTimer);
+  if (slideshowInterval) clearInterval(slideshowInterval);
+  if (slideshowTimeout) clearTimeout(slideshowTimeout);
+  slideshowInterval = null;
+  slideshowTimeout = null;
+  
   if (currentSlideIndex + 1 < slides.length) {
     showSlide(currentSlideIndex + 1);
   } else {
@@ -1121,7 +1108,11 @@ function nextSlide() {
 }
 
 function stopSlideshow() {
-  cancelAnimationFrame(slideshowTimer);
+  if (slideshowInterval) clearInterval(slideshowInterval);
+  if (slideshowTimeout) clearTimeout(slideshowTimeout);
+  slideshowInterval = null;
+  slideshowTimeout = null;
+  
   document.getElementById('slideshow-overlay').classList.remove('active');
   if (audioElement) {
     audioElement.pause();
@@ -1211,12 +1202,8 @@ async function exportSlidesVideo() {
       a.click();
       URL.revokeObjectURL(url);
       
-      if (localAudioSource) {
-        try { localAudioSource.stop(); } catch(e) {}
-      }
-      if (localAudioCtx) {
-        try { localAudioCtx.close(); } catch(e) {}
-      }
+      if (localAudioSource) { try { localAudioSource.stop(); } catch(e) {} }
+      if (localAudioCtx) { try { localAudioCtx.close(); } catch(e) {} }
       
       status.textContent = '✅ تم تحميل الفيديو';
       setTimeout(() => status.style.display = 'none', 3000);
@@ -1230,22 +1217,26 @@ async function exportSlidesVideo() {
     
     status.textContent = '🎬 جاري التسجيل...';
     
+    // استخدام setInterval بدل requestAnimationFrame
     for (let i = 0; i < slides.length; i++) {
       const slide = slides[i];
       const frameDuration = slide.duration * 1000;
       const startTime = Date.now();
       
       await new Promise(resolve => {
-        const loop = () => {
+        const interval = setInterval(() => {
           const elapsed = Date.now() - startTime;
           const progress = Math.min(1, elapsed / frameDuration);
           
-          drawSlideOnCanvas(tempCtx, slide, w, h, sig, showCopy, progress);
+          try {
+            drawSlideOnCanvas(tempCtx, slide, w, h, sig, showCopy, progress);
+          } catch(e) { console.error('خطأ:', e); }
           
-          if (elapsed >= frameDuration) resolve();
-          else requestAnimationFrame(loop);
-        };
-        loop();
+          if (elapsed >= frameDuration) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 1000 / 30);
       });
     }
     
