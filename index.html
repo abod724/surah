@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="نبراس GP">
-<meta name="copyright" content="جميع الحقوق محفوظة © نبراس GP 2026">
 <title>🖌️ ريشة — استوديو الصور والفيديوهات | نبراس GP</title>
 
 <link rel="manifest" href="manifest.json">
@@ -39,7 +38,6 @@
   }
   .header-title p { font-size: 13px; opacity: 0.9; margin: 0; }
 
-  /* التبويبات */
   .tabs {
     display: flex;
     gap: 8px;
@@ -131,14 +129,12 @@
   }
   .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
 
-  /* السلايدات */
   .slide-item {
     background: #f8fafc;
     border: 2px solid #e5e7eb;
     border-radius: 16px;
     padding: 16px;
     margin-bottom: 16px;
-    position: relative;
   }
   .slide-item .slide-header {
     display: flex;
@@ -184,7 +180,6 @@
   }
   .add-slide-btn:hover { border-color: #667eea; color: #4338ca; }
 
-  /* شاشة العرض */
   #slideshow-overlay {
     position: fixed;
     inset: 0;
@@ -203,7 +198,6 @@
     height: 100%;
     background: #fff;
     width: 0%;
-    transition: width 0.1s linear;
   }
   .slide-canvas-wrap {
     flex: 1;
@@ -263,7 +257,6 @@
     .card { padding: 16px; }
   }
 
-  /* زر نبراس */
   #nibras-bubble {
     position: fixed; bottom: 24px; right: 24px;
     height: 56px; padding: 0 22px 0 18px;
@@ -294,15 +287,12 @@
     <p>استوديو الصور والفيديوهات</p>
   </div>
 
-  <!-- التبويبات -->
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('single')">🖼️ صورة واحدة</button>
-    <button class="tab" onclick="switchTab('slides')">🎬 سلايدات</button>
+    <button class="tab active" onclick="switchTab('single', this)">🖼️ صور</button>
+    <button class="tab" onclick="switchTab('slides', this)">🎬 فيديو</button>
   </div>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- تبويب الصورة الواحدة                    -->
-  <!-- ═══════════════════════════════════════ -->
+  <!-- تبويب الصور -->
   <div id="view-single" class="view active">
 
     <div class="card">
@@ -339,20 +329,20 @@
       <div class="field">
         <label>📝 الخط</label>
         <select id="fontSelect">
-          <option value="Cairo">Cairo</option>
-          <option value="Amiri">Amiri</option>
-          <option value="Tajawal">Tajawal</option>
-          <option value="Rubik">Rubik</option>
+          <option value="Cairo">Cairo — حديث</option>
+          <option value="Amiri">Amiri — كلاسيكي</option>
+          <option value="Tajawal">Tajawal — أنيق</option>
+          <option value="Rubik">Rubik — عصري</option>
         </select>
       </div>
 
       <div class="field">
         <label>📐 القياس</label>
         <select id="sizeSelect">
-          <option value="1080x1080">مربع</option>
-          <option value="1080x1920">طويل</option>
-          <option value="1200x675">عريض</option>
-          <option value="1080x1350">عمودي</option>
+          <option value="1080x1080">مربع (Post)</option>
+          <option value="1080x1920">طويل (Story)</option>
+          <option value="1200x675">عريض (Twitter)</option>
+          <option value="1080x1350">عمودي (Instagram)</option>
         </select>
       </div>
 
@@ -385,14 +375,12 @@
 
   </div>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- تبويب السلايدات                         -->
-  <!-- ═══════════════════════════════════════ -->
+  <!-- تبويب الفيديو -->
   <div id="view-slides" class="view">
 
     <div class="card">
       <div class="field">
-        <label>📐 قياس السلايدات (موحد)</label>
+        <label>📐 القياس</label>
         <select id="slidesSize">
           <option value="1080x1920">طويل (Story) — مستحسن</option>
           <option value="1080x1080">مربع (Post)</option>
@@ -402,7 +390,7 @@
       </div>
 
       <div class="field">
-        <label>🏷️ التوقيع (يظهر على كل السلايدات)</label>
+        <label>🏷️ التوقيع</label>
         <input type="text" id="slidesSig" value="@username">
       </div>
 
@@ -416,7 +404,7 @@
 
     <div class="card">
       <div id="slidesList"></div>
-      <button class="add-slide-btn" onclick="addSlide()">➕ إضافة سلايد جديد</button>
+      <button class="add-slide-btn" onclick="addSlide()">➕ إضافة مقطع جديد</button>
     </div>
 
     <div class="card">
@@ -425,7 +413,7 @@
         <button class="btn btn-green" onclick="exportSlidesVideo()">🎬 تصدير فيديو</button>
       </div>
       <div class="btn-row" style="margin-top:10px;">
-        <button class="btn btn-purple" onclick="exportAllImages()">🖼️ تصدير كل سلايد صورة</button>
+        <button class="btn btn-purple" onclick="exportAllImages()">🖼️ تصدير كل مقطع صورة</button>
         <button class="btn btn-red" onclick="clearAllSlides()">🗑️ حذف الكل</button>
       </div>
       <div id="slideStatus" style="margin-top:12px;padding:10px;background:#f1f5f9;border-radius:10px;text-align:center;font-weight:700;color:#475569;display:none;"></div>
@@ -453,25 +441,19 @@
   </div>
 </div>
 
-<!-- زر نبراس -->
 <button id="nibras-bubble" onclick="window.open('https://nibras-al.onrender.com/','_blank')">✨ اسأل نبراس</button>
 
 <script>
-// ═══════════════════════════════════════
-// التبويبات
-// ═══════════════════════════════════════
-function switchTab(tab) {
+function switchTab(tab, btn) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  event.target.classList.add('active');
+  btn.classList.add('active');
   document.getElementById('view-' + tab).classList.add('active');
   if (tab === 'single') drawSingle();
   else renderSlides();
 }
 
-// ═══════════════════════════════════════
 // الوضع الفردي
-// ═══════════════════════════════════════
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let currentTemplate = 'quote';
@@ -514,14 +496,17 @@ function drawSingle() {
   canvas.width = w;
   canvas.height = h;
 
-  const text = document.getElementById('textInput').value || ' ';
-  const bg = document.getElementById('bgColor').value;
-  const fg = document.getElementById('textColor').value;
-  const font = document.getElementById('fontSelect').value;
-  const sig = document.getElementById('signature').value;
-  const showCopy = document.getElementById('showCopyright').checked;
-
-  drawOnCanvas(ctx, w, h, text, bg, fg, font, sig, showCopy, currentTemplate, bgImage);
+  drawOnCanvas(
+    ctx, w, h,
+    document.getElementById('textInput').value || ' ',
+    document.getElementById('bgColor').value,
+    document.getElementById('textColor').value,
+    document.getElementById('fontSelect').value,
+    document.getElementById('signature').value,
+    document.getElementById('showCopyright').checked,
+    currentTemplate,
+    bgImage
+  );
 }
 
 function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img) {
@@ -632,9 +617,7 @@ function randomize() {
   drawSingle();
 }
 
-// ═══════════════════════════════════════
-// السلايدات
-// ═══════════════════════════════════════
+// المقاطع (الفيديو)
 let slides = [];
 let currentSlideIndex = 0;
 let slideshowTimer = null;
@@ -642,7 +625,6 @@ let slideshowStartTime = 0;
 
 const DURATIONS = [5, 10, 15, 20, 30];
 
-// تحميل من localStorage
 function loadSlides() {
   try {
     const saved = localStorage.getItem('resha_slides');
@@ -679,7 +661,7 @@ function addSlide() {
 
 function deleteSlide(id) {
   if (slides.length <= 1) {
-    alert('يجب أن يبقى سلايد واحد على الأقل');
+    alert('يجب أن يبقى مقطع واحد على الأقل');
     return;
   }
   slides = slides.filter(s => s.id !== id);
@@ -704,7 +686,7 @@ function renderSlides() {
     div.className = 'slide-item';
     div.innerHTML = `
       <div class="slide-header">
-        <span class="slide-num">📄 سلايد ${i + 1}</span>
+        <span class="slide-num">🎬 مقطع ${i + 1}</span>
         <button class="btn-small" onclick="deleteSlide(${slide.id})">🗑️</button>
       </div>
       
@@ -738,9 +720,10 @@ function renderSlides() {
       <div class="field">
         <label>📝 الخط</label>
         <select onchange="updateSlide(${slide.id}, 'font', this.value)">
-          ${['Cairo','Amiri','Tajawal','Rubik'].map(f => `
-            <option value="${f}" ${slide.font === f ? 'selected' : ''}>${f}</option>
-          `).join('')}
+          <option value="Cairo" ${slide.font === 'Cairo' ? 'selected' : ''}>Cairo — حديث</option>
+          <option value="Amiri" ${slide.font === 'Amiri' ? 'selected' : ''}>Amiri — كلاسيكي</option>
+          <option value="Tajawal" ${slide.font === 'Tajawal' ? 'selected' : ''}>Tajawal — أنيق</option>
+          <option value="Rubik" ${slide.font === 'Rubik' ? 'selected' : ''}>Rubik — عصري</option>
         </select>
       </div>
       
@@ -749,7 +732,7 @@ function renderSlides() {
         <div class="duration-row">
           ${DURATIONS.map(d => `
             <button class="dur-btn ${slide.duration === d ? 'active' : ''}" onclick="setSlideDuration(${slide.id}, ${d}, this)">
-              ${d}ث
+              ${d} ث
             </button>
           `).join('')}
         </div>
@@ -776,32 +759,25 @@ function escapeHtml(text) {
 }
 
 function clearAllSlides() {
-  if (!confirm('حذف كل السلايدات؟')) return;
+  if (!confirm('حذف كل المقاطع؟')) return;
   slides = [createSlide(), createSlide()];
   saveSlides();
   renderSlides();
 }
 
-// ═══════════════════════════════════════
-// رسم سلايد على Canvas معين
-// ═══════════════════════════════════════
 function drawSlideOnCanvas(c, slide, w, h, sig, showCopy) {
   drawOnCanvas(c, w, h, slide.text, slide.bg, slide.fg, slide.font, sig, showCopy, slide.template, null);
 }
 
-// ═══════════════════════════════════════
-// تشغيل العرض
-// ═══════════════════════════════════════
 function playSlideshow() {
   if (slides.length === 0) {
-    alert('أضف سلايدات أولاً');
+    alert('أضف مقاطع أولاً');
     return;
   }
   
   const overlay = document.getElementById('slideshow-overlay');
   overlay.classList.add('active');
   
-  // نقاط المؤشر
   const dots = document.getElementById('slideDots');
   dots.innerHTML = slides.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}"></div>`).join('');
   
@@ -828,12 +804,10 @@ function showSlide(index) {
   
   drawSlideOnCanvas(c, slide, w, h, sig, showCopy);
   
-  // تحديث النقاط
   document.querySelectorAll('.dot').forEach((d, i) => {
     d.classList.toggle('active', i === index);
   });
   
-  // شريط التقدم
   const fill = document.getElementById('progressFill');
   fill.style.width = '0%';
   
@@ -869,12 +843,9 @@ function stopSlideshow() {
   document.getElementById('slideshow-overlay').classList.remove('active');
 }
 
-// ═══════════════════════════════════════
-// تصدير فيديو
-// ═══════════════════════════════════════
 async function exportSlidesVideo() {
   if (slides.length === 0) {
-    alert('أضف سلايدات أولاً');
+    alert('أضف مقاطع أولاً');
     return;
   }
   
@@ -911,7 +882,7 @@ async function exportSlidesVideo() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `resha-slides-${Date.now()}.webm`;
+      a.download = `resha-video-${Date.now()}.webm`;
       a.click();
       URL.revokeObjectURL(url);
       status.textContent = '✅ تم تحميل الفيديو';
@@ -930,11 +901,8 @@ async function exportSlidesVideo() {
       
       await new Promise(resolve => {
         const loop = () => {
-          if (Date.now() - startTime >= frameDuration) {
-            resolve();
-          } else {
-            requestAnimationFrame(loop);
-          }
+          if (Date.now() - startTime >= frameDuration) resolve();
+          else requestAnimationFrame(loop);
         };
         loop();
       });
@@ -948,12 +916,9 @@ async function exportSlidesVideo() {
   }
 }
 
-// ═══════════════════════════════════════
-// تصدير كل سلايد كصورة
-// ═══════════════════════════════════════
 async function exportAllImages() {
   if (slides.length === 0) {
-    alert('أضف سلايدات أولاً');
+    alert('أضف مقاطع أولاً');
     return;
   }
   
@@ -970,7 +935,7 @@ async function exportAllImages() {
     drawSlideOnCanvas(c, slides[i], w, h, sig, showCopy);
     
     const link = document.createElement('a');
-    link.download = `resha-slide-${i + 1}.png`;
+    link.download = `resha-mqta-${i + 1}.png`;
     link.href = tempCanvas.toDataURL('image/png');
     link.click();
     
@@ -980,9 +945,6 @@ async function exportAllImages() {
   alert(`✅ تم تحميل ${slides.length} صورة`);
 }
 
-// ═══════════════════════════════════════
-// التشغيل الأولي
-// ═══════════════════════════════════════
 window.addEventListener('load', () => {
   loadSlides();
   renderSlides();
