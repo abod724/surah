@@ -82,7 +82,7 @@
     border-radius: 10px; cursor: pointer;
     border: 2px solid #e5e7eb; padding: 2px;
   }
-  input[type="text"], textarea, select {
+  input[type="text"], textarea, select, input[type="file"] {
     width: 100%; padding: 12px;
     border: 2px solid #e5e7eb;
     border-radius: 12px;
@@ -196,6 +196,43 @@
   }
   .add-slide-btn:hover { border-color: #667eea; color: #4338ca; }
 
+  .audio-box {
+    background: #f0f9ff;
+    border: 2px solid #bae6fd;
+    border-radius: 14px;
+    padding: 16px;
+  }
+  .audio-info {
+    font-size: 13px;
+    color: #0369a1;
+    margin-top: 8px;
+    padding: 8px;
+    background: #e0f2fe;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .convert-box {
+    margin-top: 12px;
+  }
+  .convert-box a {
+    display: block;
+    padding: 14px;
+    background: #ea580c;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 15px;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .convert-box a:hover {
+    background: #c2410c;
+    transform: scale(1.02);
+  }
+
   #slideshow-overlay {
     position: fixed;
     inset: 0;
@@ -308,7 +345,6 @@
     <button class="tab" onclick="switchTab('slides', this)">🎬 فيديو</button>
   </div>
 
-  <!-- تبويب الصور -->
   <div id="view-single" class="view active">
 
     <div class="card">
@@ -370,7 +406,7 @@
       <div class="field">
         <label class="checkbox-label">
           <input type="checkbox" id="showCopyright" checked onchange="drawSingle()">
-          <span>إظهار حقوق نبراس GP</span>
+          <span>حقوق نبراس GP</span>
         </label>
       </div>
 
@@ -381,7 +417,7 @@
       </div>
 
       <div class="field">
-        <label>💾 تصدير</label>
+        <label>💾 التصدير</label>
         <div class="btn-row">
           <button class="btn btn-primary" onclick="downloadSingle()">💾 تحميل PNG</button>
           <button class="btn btn-purple" onclick="randomize()">🎲</button>
@@ -391,14 +427,13 @@
 
   </div>
 
-  <!-- تبويب الفيديو -->
   <div id="view-slides" class="view">
 
     <div class="card">
       <div class="field">
         <label>📐 القياس</label>
         <select id="slidesSize">
-          <option value="1080x1920">طويل (Story) — مستحسن</option>
+          <option value="1080x1920">طويل (Story)</option>
           <option value="1080x1080">مربع (Post)</option>
           <option value="1200x675">عريض (Twitter)</option>
           <option value="1080x1350">عمودي (Instagram)</option>
@@ -413,25 +448,50 @@
       <div class="field">
         <label class="checkbox-label">
           <input type="checkbox" id="slidesCopy" checked>
-          <span>إظهار حقوق نبراس GP</span>
+          <span>حقوق نبراس GP</span>
         </label>
       </div>
     </div>
 
     <div class="card">
+      <div class="audio-box">
+        <div class="field">
+          <label>🎵 الصوت</label>
+          <input type="file" id="audioUpload" accept="audio/*">
+          <div id="audioInfo" class="audio-info" style="display:none;"></div>
+          <button class="btn-small" style="margin-top:8px;" onclick="clearAudio()">🗑️ حذف الصوت</button>
+        </div>
+
+        <div class="field">
+          <label class="checkbox-label">
+            <input type="checkbox" id="audioLoop" checked>
+            <span>🔁 تكرار الصوت</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
       <div id="slidesList"></div>
-      <button class="add-slide-btn" onclick="addSlide()">➕ إضافة مقطع جديد</button>
+      <button class="add-slide-btn" onclick="addSlide()">➕ إضافة مقطع</button>
     </div>
 
     <div class="card">
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="playSlideshow()">▶️ تشغيل العرض</button>
+        <button class="btn btn-primary" onclick="playSlideshow()">▶️ تشغيل</button>
         <button class="btn btn-green" onclick="exportSlidesVideo()">🎬 تصدير فيديو</button>
       </div>
       <div class="btn-row" style="margin-top:10px;">
-        <button class="btn btn-purple" onclick="exportAllImages()">🖼️ تصدير كل مقطع صورة</button>
+        <button class="btn btn-purple" onclick="exportAllImages()">🖼️ تصدير صور</button>
         <button class="btn btn-red" onclick="clearAllSlides()">🗑️ حذف الكل</button>
       </div>
+      
+      <div class="convert-box">
+        <a href="https://cloudconvert.com/webm-to-mp4" target="_blank">
+          🔄 تحويل إلى MP4
+        </a>
+      </div>
+      
       <div id="slideStatus" style="margin-top:12px;padding:10px;background:#f1f5f9;border-radius:10px;text-align:center;font-weight:700;color:#475569;display:none;"></div>
     </div>
 
@@ -444,7 +504,6 @@
 
 </div>
 
-<!-- شاشة العرض -->
 <div id="slideshow-overlay">
   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
   <div class="slide-canvas-wrap">
@@ -452,7 +511,7 @@
   </div>
   <div class="slide-dots" id="slideDots"></div>
   <div class="slide-controls">
-    <button class="btn btn-red" onclick="stopSlideshow()">✕ إيقاف</button>
+    <button class="btn btn-red" onclick="stopSlideshow()">✕</button>
     <button class="btn btn-primary" onclick="nextSlide()">التالي ➡️</button>
   </div>
 </div>
@@ -469,9 +528,31 @@ function switchTab(tab, btn) {
   else renderSlides();
 }
 
-// ═══════════════════════════════════════
-// الوضع الفردي
-// ═══════════════════════════════════════
+let audioFile = null;
+let audioURL = null;
+let audioElement = null;
+
+document.getElementById('audioUpload').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  audioFile = file;
+  if (audioURL) URL.revokeObjectURL(audioURL);
+  audioURL = URL.createObjectURL(file);
+  audioElement = new Audio(audioURL);
+  const info = document.getElementById('audioInfo');
+  info.style.display = 'block';
+  info.textContent = '🎵 ' + file.name;
+});
+
+function clearAudio() {
+  audioFile = null;
+  if (audioURL) URL.revokeObjectURL(audioURL);
+  audioURL = null;
+  audioElement = null;
+  document.getElementById('audioUpload').value = '';
+  document.getElementById('audioInfo').style.display = 'none';
+}
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let currentTemplate = 'quote';
@@ -482,9 +563,9 @@ let bgImage = null;
 });
 document.getElementById('showCopyright').addEventListener('change', drawSingle);
 
-document.querySelectorAll('.template-btn').forEach(btn => {
+document.querySelectorAll('#templates .template-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#templates .template-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentTemplate = btn.dataset.tpl;
     drawSingle();
@@ -509,99 +590,40 @@ function clearImage() {
   drawSingle();
 }
 
-function drawSingle() {
-  const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
-  canvas.width = w;
-  canvas.height = h;
-
-  drawOnCanvas(
-    ctx, w, h,
-    document.getElementById('textInput').value || ' ',
-    document.getElementById('bgColor').value,
-    document.getElementById('textColor').value,
-    document.getElementById('fontSelect').value,
-    document.getElementById('signature').value,
-    document.getElementById('showCopyright').checked,
-    currentTemplate,
-    bgImage,
-    null, 0
-  );
-}
-
-// ═══════════════════════════════════════
-// الحركات (9 حركات)
-// ═══════════════════════════════════════
 const ANIMATIONS = {
-  none:       { label: '🚫 بدون',        ease: false },
-  fade:       { label: '✨ تلاشي',       ease: true  },
-  pulse:      { label: '💫 وميض',         ease: true  },
-  typewriter: { label: '⌨️ كتابة حرف',   ease: false },
-  slide:      { label: '➡️ انزلاق يمين', ease: true  },
-  slideLeft:  { label: '⬅️ انزلاق يسار', ease: true  },
-  slideUp:    { label: '⬆️ انزلاق فوق',  ease: true  },
-  zoom:       { label: '🔍 تكبير',        ease: true  },
-  shake:      { label: '📳 اهتزاز',       ease: true  }
+  none:       { label: '🚫' },
+  fade:       { label: '✨' },
+  pulse:      { label: '💫' },
+  typewriter: { label: '⌨️' },
+  slide:      { label: '➡️' },
+  slideLeft:  { label: '⬅️' },
+  slideUp:    { label: '⬆️' },
+  zoom:       { label: '🔍' },
+  shake:      { label: '📳' }
 };
 
 function getAnimState(type, progress, fullText) {
   const p = Math.min(1, Math.max(0, progress));
   const eased = 1 - Math.pow(1 - p, 3);
-  const state = {
-    opacity: 1,
-    offsetX: 0,
-    offsetY: 0,
-    scale: 1,
-    visibleText: null,
-    rotation: 0
-  };
+  const state = { opacity: 1, offsetX: 0, offsetY: 0, scale: 1, visibleText: null };
 
   switch(type) {
-    case 'fade':
-      state.opacity = eased;
-      break;
-    case 'pulse':
-      state.opacity = p < 0.5 ? p * 2 : 1;
-      state.scale = 1 + Math.sin(p * Math.PI * 2) * 0.08;
-      break;
-    case 'typewriter':
-      const chars = Math.floor(p * fullText.length);
-      state.visibleText = fullText.substring(0, chars);
-      break;
-    case 'slide':
-      state.opacity = eased;
-      state.offsetX = (1 - eased) * 400;
-      break;
-    case 'slideLeft':
-      state.opacity = eased;
-      state.offsetX = (1 - eased) * -400;
-      break;
-    case 'slideUp':
-      state.opacity = eased;
-      state.offsetY = (1 - eased) * 400;
-      break;
-    case 'zoom':
-      state.opacity = eased;
-      state.scale = 0.4 + eased * 0.6;
-      break;
-    case 'shake':
-      state.opacity = eased;
-      state.offsetX = Math.sin(p * Math.PI * 12) * 20 * (1 - eased);
-      break;
-    case 'none':
-    default:
-      break;
+    case 'fade':       state.opacity = eased; break;
+    case 'pulse':      state.opacity = p < 0.5 ? p * 2 : 1;
+                       state.scale = 1 + Math.sin(p * Math.PI * 2) * 0.08; break;
+    case 'typewriter': state.visibleText = fullText.substring(0, Math.floor(p * fullText.length)); break;
+    case 'slide':      state.opacity = eased; state.offsetX = (1 - eased) * 400; break;
+    case 'slideLeft':  state.opacity = eased; state.offsetX = (1 - eased) * -400; break;
+    case 'slideUp':    state.opacity = eased; state.offsetY = (1 - eased) * 400; break;
+    case 'zoom':       state.opacity = eased; state.scale = 0.4 + eased * 0.6; break;
+    case 'shake':      state.opacity = eased; state.offsetX = Math.sin(p * Math.PI * 12) * 20 * (1 - eased); break;
   }
-
   return state;
 }
 
-// ═══════════════════════════════════════
-// رسم Canvas (مع حركة اختيارية)
-// ═══════════════════════════════════════
-function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img, animState, progress) {
+function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img, animState) {
   c.clearRect(0, 0, w, h);
 
-  // الخلفية (دائماً كاملة — الحركة على النص فقط)
   if (img) {
     c.drawImage(img, 0, 0, w, h);
   } else if (template === 'gradient') {
@@ -621,11 +643,9 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
     c.fillRect(0, 0, w, h);
   }
 
-  // الحركة
   let anim = { opacity: 1, offsetX: 0, offsetY: 0, scale: 1, visibleText: null };
   if (animState) anim = animState;
 
-  // النص
   const visibleText = anim.visibleText !== null ? anim.visibleText : text;
   const fontSize = w / 16;
 
@@ -642,7 +662,6 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
   const totalHeight = lines.length * lineHeight;
   const startY = (h - totalHeight) / 2 + lineHeight / 2;
 
-  // التحويلات (للانزلاق والتكبير والاهتزاز)
   if (anim.scale !== 1 || anim.offsetX !== 0 || anim.offsetY !== 0) {
     c.translate(w / 2 + anim.offsetX, h / 2 + anim.offsetY);
     c.scale(anim.scale, anim.scale);
@@ -654,7 +673,6 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
     c.fillText(line, w / 2, startY + i * lineHeight);
   });
 
-  // التوقيع
   if (sig.trim()) {
     const sigSize = w / 28;
     c.font = `600 ${sigSize}px "${font}", sans-serif`;
@@ -662,14 +680,12 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
     c.fillText(sig, w / 2, h - sigSize * 2.5);
   }
 
-  // الحقوق
   if (showCopy) {
     const copySize = w / 55;
     c.font = `600 ${copySize}px "Cairo", sans-serif`;
     c.globalAlpha = anim.opacity * 0.55;
     c.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
   }
-
   c.restore();
 }
 
@@ -702,6 +718,25 @@ function shadeColor(color, percent) {
   return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
 }
 
+function drawSingle() {
+  const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
+  canvas.width = w;
+  canvas.height = h;
+
+  drawOnCanvas(
+    ctx, w, h,
+    document.getElementById('textInput').value || ' ',
+    document.getElementById('bgColor').value,
+    document.getElementById('textColor').value,
+    document.getElementById('fontSelect').value,
+    document.getElementById('signature').value,
+    document.getElementById('showCopyright').checked,
+    currentTemplate,
+    bgImage,
+    null
+  );
+}
+
 function downloadSingle() {
   const link = document.createElement('a');
   link.download = `resha-${Date.now()}.png`;
@@ -717,22 +752,18 @@ function randomize() {
   document.getElementById('bgColor').value = colors[Math.floor(Math.random() * colors.length)];
   document.getElementById('fontSelect').value = fonts[Math.floor(Math.random() * fonts.length)];
   
-  const tplBtn = document.querySelector(`[data-tpl="${templates[Math.floor(Math.random() * templates.length)]}"]`);
-  document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+  const tplBtn = document.querySelector(`#templates [data-tpl="${templates[Math.floor(Math.random() * templates.length)]}"]`);
+  document.querySelectorAll('#templates .template-btn').forEach(b => b.classList.remove('active'));
   tplBtn.classList.add('active');
   currentTemplate = tplBtn.dataset.tpl;
   
   drawSingle();
 }
 
-// ═══════════════════════════════════════
-// المقاطع (الفيديو)
-// ═══════════════════════════════════════
 let slides = [];
 let currentSlideIndex = 0;
-let slideshowTimer = null;
-let slideshowStartTime = 0;
-let slideshowFrame = 0;
+let slideshowInterval = null;
+let slideshowTimeout = null;
 
 const DURATIONS = [5, 10, 15, 20, 30];
 const ANIMATION_LIST = ['none','fade','pulse','typewriter','slide','slideLeft','slideUp','zoom','shake'];
@@ -750,7 +781,7 @@ function loadSlides() {
 function createSlide() {
   return {
     id: Date.now() + Math.random(),
-    text: 'اكتب النص هنا...',
+    text: 'النص',
     template: 'quote',
     bg: '#ffffff',
     fg: '#000000',
@@ -774,7 +805,7 @@ function addSlide() {
 
 function deleteSlide(id) {
   if (slides.length <= 1) {
-    alert('يجب أن يبقى مقطع واحد على الأقل');
+    alert('لا يمكن حذف هذا المقطع');
     return;
   }
   slides = slides.filter(s => s.id !== id);
@@ -799,7 +830,7 @@ function renderSlides() {
     div.className = 'slide-item';
     div.innerHTML = `
       <div class="slide-header">
-        <span class="slide-num">🎬 مقطع ${i + 1}</span>
+        <span class="slide-num">🎬 ${i + 1}</span>
         <button class="btn-small" onclick="deleteSlide(${slide.id})">🗑️</button>
       </div>
       
@@ -813,7 +844,7 @@ function renderSlides() {
         <div class="templates">
           ${['quote','gradient','solid','frame'].map(t => `
             <button class="template-btn ${slide.template === t ? 'active' : ''}" onclick="setSlideTemplate(${slide.id}, '${t}', this)">
-              ${t === 'quote' ? 'اقتباس' : t === 'gradient' ? 'تدرج' : t === 'solid' ? 'لون صلب' : 'إطار'}
+              ${t === 'quote' ? 'اقتباس' : t === 'gradient' ? 'تدرج' : t === 'solid' ? 'صلب' : 'إطار'}
             </button>
           `).join('')}
         </div>
@@ -833,10 +864,10 @@ function renderSlides() {
       <div class="field">
         <label>📝 الخط</label>
         <select onchange="updateSlide(${slide.id}, 'font', this.value)">
-          <option value="Cairo" ${slide.font === 'Cairo' ? 'selected' : ''}>Cairo — حديث</option>
-          <option value="Amiri" ${slide.font === 'Amiri' ? 'selected' : ''}>Amiri — كلاسيكي</option>
-          <option value="Tajawal" ${slide.font === 'Tajawal' ? 'selected' : ''}>Tajawal — أنيق</option>
-          <option value="Rubik" ${slide.font === 'Rubik' ? 'selected' : ''}>Rubik — عصري</option>
+          <option value="Cairo" ${slide.font === 'Cairo' ? 'selected' : ''}>Cairo</option>
+          <option value="Amiri" ${slide.font === 'Amiri' ? 'selected' : ''}>Amiri</option>
+          <option value="Tajawal" ${slide.font === 'Tajawal' ? 'selected' : ''}>Tajawal</option>
+          <option value="Rubik" ${slide.font === 'Rubik' ? 'selected' : ''}>Rubik</option>
         </select>
       </div>
       
@@ -844,7 +875,7 @@ function renderSlides() {
         <label>🎬 الحركة</label>
         <div class="animations">
           ${ANIMATION_LIST.map(a => `
-            <button class="anim-btn ${slide.animation === a ? 'active' : ''}" onclick="setSlideAnimation(${slide.id}, '${a}', this)">
+            <button class="anim-btn ${slide.animation === a ? 'active' : ''}" onclick="setSlideAnimation(${slide.id}, '${a}', this)" title="${a}">
               ${ANIMATIONS[a].label}
             </button>
           `).join('')}
@@ -889,7 +920,7 @@ function escapeHtml(text) {
 }
 
 function clearAllSlides() {
-  if (!confirm('حذف كل المقاطع؟')) return;
+  if (!confirm('تأكيد الحذف')) return;
   slides = [createSlide(), createSlide()];
   saveSlides();
   renderSlides();
@@ -897,23 +928,23 @@ function clearAllSlides() {
 
 function drawSlideOnCanvas(c, slide, w, h, sig, showCopy, progress) {
   const animState = getAnimState(slide.animation, progress, slide.text);
-  drawOnCanvas(c, w, h, slide.text, slide.bg, slide.fg, slide.font, sig, showCopy, slide.template, null, animState, progress);
+  drawOnCanvas(c, w, h, slide.text, slide.bg, slide.fg, slide.font, sig, showCopy, slide.template, null, animState);
 }
 
-// ═══════════════════════════════════════
-// تشغيل العرض
-// ═══════════════════════════════════════
 function playSlideshow() {
-  if (slides.length === 0) {
-    alert('أضف مقاطع أولاً');
-    return;
-  }
+  if (slides.length === 0) return;
   
   const overlay = document.getElementById('slideshow-overlay');
   overlay.classList.add('active');
   
   const dots = document.getElementById('slideDots');
   dots.innerHTML = slides.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}"></div>`).join('');
+  
+  if (audioFile && audioElement) {
+    audioElement.currentTime = 0;
+    audioElement.loop = document.getElementById('audioLoop').checked;
+    audioElement.play().catch(e => console.warn('صوت:', e));
+  }
   
   currentSlideIndex = 0;
   showSlide(0);
@@ -944,29 +975,38 @@ function showSlide(index) {
   fill.style.width = '0%';
   
   const duration = slide.duration * 1000;
-  slideshowStartTime = Date.now();
+  const startTime = Date.now();
   
-  const tick = () => {
-    const elapsed = Date.now() - slideshowStartTime;
+  if (slideshowInterval) clearInterval(slideshowInterval);
+  if (slideshowTimeout) clearTimeout(slideshowTimeout);
+  
+  try {
+    drawSlideOnCanvas(c, slide, w, h, sig, showCopy, 0);
+  } catch(e) { console.error('خطأ:', e); }
+  
+  slideshowInterval = setInterval(() => {
+    const elapsed = Date.now() - startTime;
     const progress = Math.min(1, elapsed / duration);
-    const percent = progress * 100;
-    fill.style.width = percent + '%';
+    fill.style.width = (progress * 100) + '%';
     
-    // رسم مع الحركة
-    drawSlideOnCanvas(c, slide, w, h, sig, showCopy, progress);
+    try {
+      drawSlideOnCanvas(c, slide, w, h, sig, showCopy, progress);
+    } catch(e) { console.error('خطأ:', e); }
     
     if (elapsed >= duration) {
-      showSlide(index + 1);
-    } else {
-      slideshowTimer = requestAnimationFrame(tick);
+      clearInterval(slideshowInterval);
+      slideshowInterval = null;
+      slideshowTimeout = setTimeout(() => showSlide(index + 1), 100);
     }
-  };
-  
-  slideshowTimer = requestAnimationFrame(tick);
+  }, 1000 / 30);
 }
 
 function nextSlide() {
-  cancelAnimationFrame(slideshowTimer);
+  if (slideshowInterval) clearInterval(slideshowInterval);
+  if (slideshowTimeout) clearTimeout(slideshowTimeout);
+  slideshowInterval = null;
+  slideshowTimeout = null;
+  
   if (currentSlideIndex + 1 < slides.length) {
     showSlide(currentSlideIndex + 1);
   } else {
@@ -975,18 +1015,20 @@ function nextSlide() {
 }
 
 function stopSlideshow() {
-  cancelAnimationFrame(slideshowTimer);
+  if (slideshowInterval) clearInterval(slideshowInterval);
+  if (slideshowTimeout) clearTimeout(slideshowTimeout);
+  slideshowInterval = null;
+  slideshowTimeout = null;
+  
   document.getElementById('slideshow-overlay').classList.remove('active');
+  if (audioElement) {
+    audioElement.pause();
+    audioElement.currentTime = 0;
+  }
 }
 
-// ═══════════════════════════════════════
-// تصدير فيديو (مع الحركات)
-// ═══════════════════════════════════════
 async function exportSlidesVideo() {
-  if (slides.length === 0) {
-    alert('أضف مقاطع أولاً');
-    return;
-  }
+  if (slides.length === 0) return;
   
   const status = document.getElementById('slideStatus');
   status.style.display = 'block';
@@ -1002,19 +1044,51 @@ async function exportSlidesVideo() {
     tempCanvas.height = h;
     const tempCtx = tempCanvas.getContext('2d');
     
-    // رسم أول إطار قبل التسجيل
     drawSlideOnCanvas(tempCtx, slides[0], w, h, sig, showCopy, 0);
     await new Promise(r => setTimeout(r, 100));
     
-    const stream = tempCanvas.captureStream(30);
+    const videoStream = tempCanvas.captureStream(30);
+    let combinedStream = videoStream;
+    
+    let localAudioCtx = null;
+    let localAudioSource = null;
+    
+    if (audioFile) {
+      try {
+        localAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const arrayBuffer = await audioFile.arrayBuffer();
+        const audioBuffer = await localAudioCtx.decodeAudioData(arrayBuffer);
+        
+        const dest = localAudioCtx.createMediaStreamDestination();
+        localAudioSource = localAudioCtx.createBufferSource();
+        localAudioSource.buffer = audioBuffer;
+        localAudioSource.loop = document.getElementById('audioLoop').checked;
+        localAudioSource.connect(dest);
+        
+        combinedStream = new MediaStream([
+          ...videoStream.getVideoTracks(),
+          ...dest.stream.getAudioTracks()
+        ]);
+      } catch(e) {
+        console.warn('تعذر دمج الصوت:', e);
+        combinedStream = videoStream;
+      }
+    }
+    
     let recorder;
+    const options = { 
+      mimeType: 'video/webm;codecs=vp9,opus',
+      videoBitsPerSecond: 6000000
+    };
+    
     try {
-      recorder = new MediaRecorder(stream, { 
-        mimeType: 'video/webm;codecs=vp9',
-        videoBitsPerSecond: 6000000
-      });
+      recorder = new MediaRecorder(combinedStream, options);
     } catch(e) {
-      recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+      try {
+        recorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm;codecs=vp8,opus' });
+      } catch(e2) {
+        recorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm' });
+      }
     }
     
     const chunks = [];
@@ -1028,30 +1102,41 @@ async function exportSlidesVideo() {
       a.download = `resha-video-${Date.now()}.webm`;
       a.click();
       URL.revokeObjectURL(url);
-      status.textContent = '✅ تم تحميل الفيديو';
+      
+      if (localAudioSource) { try { localAudioSource.stop(); } catch(e) {} }
+      if (localAudioCtx) { try { localAudioCtx.close(); } catch(e) {} }
+      
+      status.textContent = '✅ تم التحميل';
       setTimeout(() => status.style.display = 'none', 3000);
     };
     
     recorder.start();
+    
+    if (localAudioSource && localAudioCtx) {
+      localAudioSource.start(0);
+    }
+    
     status.textContent = '🎬 جاري التسجيل...';
     
-    // تسجيل كل مقطع بحركته
     for (let i = 0; i < slides.length; i++) {
       const slide = slides[i];
       const frameDuration = slide.duration * 1000;
       const startTime = Date.now();
       
       await new Promise(resolve => {
-        const loop = () => {
+        const interval = setInterval(() => {
           const elapsed = Date.now() - startTime;
           const progress = Math.min(1, elapsed / frameDuration);
           
-          drawSlideOnCanvas(tempCtx, slide, w, h, sig, showCopy, progress);
+          try {
+            drawSlideOnCanvas(tempCtx, slide, w, h, sig, showCopy, progress);
+          } catch(e) { console.error('خطأ:', e); }
           
-          if (elapsed >= frameDuration) resolve();
-          else requestAnimationFrame(loop);
-        };
-        loop();
+          if (elapsed >= frameDuration) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 1000 / 30);
       });
     }
     
@@ -1059,15 +1144,12 @@ async function exportSlidesVideo() {
     
   } catch(e) {
     console.error(e);
-    status.textContent = '❌ خطأ: ' + e.message;
+    status.textContent = '❌ خطأ';
   }
 }
 
 async function exportAllImages() {
-  if (slides.length === 0) {
-    alert('أضف مقاطع أولاً');
-    return;
-  }
+  if (slides.length === 0) return;
   
   const sig = document.getElementById('slidesSig').value;
   const showCopy = document.getElementById('slidesCopy').checked;
@@ -1079,18 +1161,17 @@ async function exportAllImages() {
   const c = tempCanvas.getContext('2d');
   
   for (let i = 0; i < slides.length; i++) {
-    // الحالة النهائية (progress = 1)
     drawSlideOnCanvas(c, slides[i], w, h, sig, showCopy, 1);
     
     const link = document.createElement('a');
-    link.download = `resha-mqta-${i + 1}.png`;
+    link.download = `resha-${i + 1}.png`;
     link.href = tempCanvas.toDataURL('image/png');
     link.click();
     
     await new Promise(r => setTimeout(r, 300));
   }
   
-  alert(`✅ تم تحميل ${slides.length} صورة`);
+  alert('✅ تم التحميل');
 }
 
 window.addEventListener('load', () => {
