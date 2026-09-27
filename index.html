@@ -527,17 +527,17 @@ function switchTab(tab, btn) {
 // ═══════════════════════════════════════
 let singleAnim = 'none';
 
-// القوى التلقائية لكل تأثير
+// القوى الذكية لكل تأثير (الصورة)
 const ANIM_POWERS = {
   none: 0,
-  fade: 0.7,
-  pulse: 0.5,
-  typewriter: 0.6,
-  slide: 0.7,
-  slideLeft: 0.7,
-  slideUp: 0.7,
-  zoom: 0.7,
-  shake: 0.5
+  fade: 0.85,        // شفاف خفيف
+  pulse: 0.6,        // نبض متوسط
+  typewriter: 1.0,   // ← النص كامل!
+  slide: 0.85,       // مزاح قليلاً
+  slideLeft: 0.85,
+  slideUp: 0.85,
+  zoom: 0.85,        // مصغّر خفيف
+  shake: 0.4         // اهتزاز بسيط
 };
 
 function setSingleAnim(anim, btn) {
