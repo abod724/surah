@@ -5,32 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="نبراس GP">
 <meta name="copyright" content="جميع الحقوق محفوظة © نبراس GP 2026">
-<meta name="description" content="ريشة — استوديو الصور والفيديوهات العربية">
-<meta name="keywords" content="ريشة, استوديو الصور, تصميم عربي, نبراس">
 <title>🖌️ ريشة — استوديو الصور والفيديوهات | نبراس GP</title>
 
-<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="resha-192.png">
-<link rel="apple-touch-icon" href="resha-192.png">
 <meta name="theme-color" content="#667eea">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="ريشة">
-
-<!-- Open Graph -->
-<meta property="og:title" content="ريشة — استوديو الصور العربية">
-<meta property="og:description" content="أنشئ صوراً وفيديوهات أنيقة بالنصوص العربية">
-<meta property="og:image" content="https://abod724.github.io/surah/resha-512.png">
-<meta property="og:url" content="https://abod724.github.io/surah/">
-<meta property="og:type" content="website">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ريشة — استوديو الصور العربية">
-<meta name="twitter:image" content="https://abod724.github.io/surah/resha-512.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Amiri:wght@700&family=Tajawal:wght@700&family=Rubik:wght@700&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
 <style>
   * { box-sizing: border-box; }
   body { 
@@ -39,7 +20,6 @@
     min-height: 100vh;
     padding: 12px;
     margin: 0;
-    scroll-behavior: smooth;
   }
   .container { max-width: 900px; margin: 0 auto; }
   .card {
@@ -51,15 +31,46 @@
   }
   .header-title { color: #fff; text-align: center; margin-bottom: 14px; }
   .header-title .logo {
-    width: 45px;
-    height: 45px;
+    width: 45px; height: 45px;
     margin: 0 auto 6px;
     border-radius: 12px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.2);
     display: block;
   }
-  .header-title h1 { font-size: 24px; font-weight: 800; margin: 0 0 4px; }
   .header-title p { font-size: 13px; opacity: 0.9; margin: 0; }
+
+  /* التبويبات */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    background: #fff;
+    padding: 8px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  }
+  .tab {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    background: transparent;
+    color: #6b7280;
+    transition: all 0.3s;
+  }
+  .tab.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+  }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
   canvas { 
     max-width: 100%; 
     height: auto;
@@ -69,8 +80,8 @@
     margin: 0 auto;
   }
   input[type="color"] { 
-    height: 48px; width: 100%;
-    border-radius: 12px; cursor: pointer;
+    height: 44px; width: 100%;
+    border-radius: 10px; cursor: pointer;
     border: 2px solid #e5e7eb; padding: 2px;
   }
   input[type="text"], textarea, select {
@@ -79,79 +90,152 @@
     border-radius: 12px;
     font-family: 'Cairo', sans-serif;
     font-size: 15px;
-    transition: border 0.2s;
     background: #fafafa;
   }
-  input[type="text"]:focus, textarea:focus, select:focus {
+  input:focus, textarea:focus, select:focus {
     outline: none; border-color: #667eea; background: #fff;
   }
-  textarea { resize: vertical; min-height: 70px; }
+  textarea { resize: vertical; min-height: 60px; }
   label {
     display: block; font-weight: 700;
-    color: #374151; margin-bottom: 8px; font-size: 14px;
+    color: #374151; margin-bottom: 6px; font-size: 13px;
   }
-  .field { margin-bottom: 16px; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .templates { display: flex; flex-wrap: wrap; gap: 8px; }
+  .field { margin-bottom: 12px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .templates { display: flex; flex-wrap: wrap; gap: 6px; }
   .template-btn {
-    padding: 10px 16px; border-radius: 10px;
+    padding: 8px 12px; border-radius: 8px;
     border: 2px solid #e5e7eb; background: #fff;
     cursor: pointer; font-family: 'Cairo', sans-serif;
-    font-weight: 700; font-size: 13px; color: #6b7280;
-    transition: all 0.2s;
+    font-weight: 700; font-size: 12px; color: #6b7280;
   }
   .template-btn.active {
     border-color: #667eea; background: #eef2ff; color: #4338ca;
   }
-  .template-btn:active { transform: scale(0.95); }
-  .palette {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 6px;
-  }
-  .palette-color {
-    aspect-ratio: 1; border-radius: 8px;
-    cursor: pointer; border: 3px solid transparent;
-    transition: transform 0.2s;
-  }
-  .palette-color:hover { transform: scale(1.1); }
-  .palette-color.active { border-color: #111; }
-  .file-input {
-    width: 100%; padding: 10px;
-    border: 2px dashed #cbd5e1;
-    border-radius: 12px;
-    background: #f8fafc;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
-  }
   .btn {
-    padding: 14px 20px; border-radius: 12px; border: none;
+    padding: 12px 18px; border-radius: 12px; border: none;
     font-family: 'Cairo', sans-serif; font-weight: 800;
-    font-size: 15px; cursor: pointer; transition: all 0.2s;
-    color: white;
+    font-size: 14px; cursor: pointer; color: white;
+    transition: all 0.2s;
   }
   .btn:active { transform: scale(0.97); }
   .btn-primary { background: #667eea; flex: 1; }
-  .btn-primary:hover { background: #5568d3; }
   .btn-green { background: #10b981; flex: 1; }
-  .btn-green:hover { background: #059669; }
-  .btn-purple { background: #8b5cf6; padding: 14px 20px; }
-  .btn-purple:hover { background: #7c3aed; }
+  .btn-purple { background: #8b5cf6; }
+  .btn-red { background: #ef4444; }
   .btn-small {
-    margin-top: 8px; padding: 8px 14px;
-    border-radius: 8px; border: none;
+    padding: 8px 14px; border-radius: 8px; border: none;
     background: #ef4444; color: #fff;
     font-family: 'Cairo', sans-serif;
     font-weight: 700; font-size: 12px; cursor: pointer;
   }
   .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .status-box {
-    margin-top: 8px; padding: 10px;
-    border-radius: 10px;
-    background: #f1f5f9;
-    font-size: 13px; color: #475569;
-    text-align: center; font-weight: 700;
+
+  /* السلايدات */
+  .slide-item {
+    background: #f8fafc;
+    border: 2px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    position: relative;
   }
+  .slide-item .slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .slide-item .slide-num {
+    font-weight: 800;
+    color: #4338ca;
+    font-size: 14px;
+  }
+  .duration-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .dur-btn {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+    background: #fff;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    color: #6b7280;
+  }
+  .dur-btn.active {
+    border-color: #10b981; background: #ecfdf5; color: #047857;
+  }
+  .add-slide-btn {
+    width: 100%;
+    padding: 16px;
+    border: 2px dashed #cbd5e1;
+    background: #f8fafc;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 800;
+    color: #64748b;
+    font-size: 14px;
+  }
+  .add-slide-btn:hover { border-color: #667eea; color: #4338ca; }
+
+  /* شاشة العرض */
+  #slideshow-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 99999;
+    display: none;
+    flex-direction: column;
+  }
+  #slideshow-overlay.active { display: flex; }
+  .progress-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #fff;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+  .slide-canvas-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  #slideshow-canvas {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 12px;
+  }
+  .slide-controls {
+    padding: 16px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  .slide-dots {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    padding: 8px;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+  }
+  .dot.active { background: #fff; }
+
   .footer {
     text-align: center; color: #fff;
     font-size: 13px; padding: 16px;
@@ -164,163 +248,39 @@
     opacity: 0.85; font-weight: 400;
   }
   .checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    padding: 12px;
-    background: #f8fafc;
-    border-radius: 12px;
-    border: 2px solid #e5e7eb;
-    font-weight: 700;
+    display: flex; align-items: center; gap: 10px;
+    cursor: pointer; padding: 12px;
+    background: #f8fafc; border-radius: 12px;
+    border: 2px solid #e5e7eb; font-weight: 700;
     color: #374151;
-    margin-bottom: 0;
   }
   .checkbox-label input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
+    width: 20px; height: 20px;
     accent-color: #667eea;
   }
-  .hint {
-    font-size: 12px;
-    color: #94a3b8;
-    font-weight: 400;
-    margin-top: 4px;
-    display: block;
-  }
   @media (max-width: 480px) {
-    .header-title h1 { font-size: 20px; }
-    .header-title .logo { width: 40px; height: 40px; }
     .grid-2 { grid-template-columns: 1fr; }
     .card { padding: 16px; }
-    .palette { grid-template-columns: repeat(6, 1fr); }
   }
 
+  /* زر نبراس */
   #nibras-bubble {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    height: 56px;
-    padding: 0 22px 0 18px;
+    position: fixed; bottom: 24px; right: 24px;
+    height: 56px; padding: 0 22px 0 18px;
     border-radius: 30px;
     background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    border: none;
+    color: white; border: none;
     font-family: 'Cairo', sans-serif;
-    font-size: 16px;
-    font-weight: 800;
+    font-size: 16px; font-weight: 800;
     cursor: pointer;
     box-shadow: 0 8px 24px rgba(102,126,234,0.5);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s;
-    animation: nibras-pulse 2.5s infinite;
-  }
-  #nibras-bubble .spark {
-    font-size: 20px;
-    animation: nibras-spark 2s infinite;
-    display: inline-block;
-  }
-  #nibras-bubble:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 12px 32px rgba(102,126,234,0.7);
-  }
-  #nibras-bubble:active { transform: scale(0.97); }
-
-  @keyframes nibras-pulse {
-    0%, 100% { box-shadow: 0 8px 24px rgba(102,126,234,0.5); }
-    50% { box-shadow: 0 8px 32px rgba(102,126,234,0.85), 0 0 0 12px rgba(102,126,234,0.12); }
-  }
-  @keyframes nibras-spark {
-    0%, 100% { transform: rotate(0deg) scale(1); }
-    50% { transform: rotate(15deg) scale(1.15); }
-  }
-
-  #nibras-chat {
-    position: fixed;
-    bottom: 95px;
-    right: 24px;
-    width: 380px;
-    height: 540px;
-    border: none;
-    border-radius: 18px;
-    box-shadow: 0 16px 50px rgba(0,0,0,0.3);
-    display: none;
     z-index: 9998;
-    background: white;
-    overflow: hidden;
+    display: flex; align-items: center; gap: 10px;
   }
-  #nibras-chat.active {
-    display: block;
-    animation: nibras-slide 0.35s ease-out;
-  }
-  @keyframes nibras-slide {
-    from { opacity: 0; transform: translateY(30px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-
-  #nibras-close {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.55);
-    color: #fff;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
-  }
-  #nibras-close:hover { background: rgba(0,0,0,0.85); }
-
-  #nibras-loader {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f8fafc;
-    color: #64748b;
-    font-size: 14px;
-    font-weight: 700;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .nibras-spin {
-    width: 40px;
-    height: 40px;
-    border: 4px solid #e2e8f0;
-    border-top-color: #667eea;
-    border-radius: 50%;
-    animation: nibras-spin 0.8s linear infinite;
-  }
-  @keyframes nibras-spin { to { transform: rotate(360deg); } }
-
   @media (max-width: 480px) {
     #nibras-bubble {
-      height: 50px;
-      padding: 0 16px 0 14px;
-      font-size: 14px;
-      bottom: 16px;
-      right: 16px;
-      gap: 8px;
-    }
-    #nibras-bubble .spark { font-size: 18px; }
-    #nibras-chat {
-      width: calc(100vw - 32px);
-      height: 75vh;
-      bottom: 80px;
-      right: 16px;
-      border-radius: 14px;
+      height: 50px; padding: 0 16px 0 14px;
+      font-size: 14px; bottom: 16px; right: 16px;
     }
   }
 </style>
@@ -329,121 +289,146 @@
 
 <div class="container">
 
-  <!-- العنوان -->
   <div class="header-title">
     <img src="resha-512.png" alt="ريشة" class="logo">
     <p>استوديو الصور والفيديوهات</p>
   </div>
 
-  <!-- المعاينة -->
-  <div class="card">
-    <canvas id="canvas" width="1080" height="1080"></canvas>
+  <!-- التبويبات -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('single')">🖼️ صورة واحدة</button>
+    <button class="tab" onclick="switchTab('slides')">🎬 سلايدات</button>
   </div>
 
-  <!-- الأدوات -->
-  <div class="card">
+  <!-- ═══════════════════════════════════════ -->
+  <!-- تبويب الصورة الواحدة                    -->
+  <!-- ═══════════════════════════════════════ -->
+  <div id="view-single" class="view active">
 
-    <div class="field">
-      <label>✍️ النص</label>
-      <textarea id="textInput" rows="6" placeholder="اكتب نصك هنا...">اترك أثراً جميلاً أينما ذهبت</textarea>
+    <div class="card">
+      <canvas id="canvas" width="1080" height="1080"></canvas>
     </div>
 
-    <div class="field">
-      <label>🎭 القالب</label>
-      <div class="templates" id="templates">
-        <button class="template-btn active" data-tpl="quote">اقتباس</button>
-        <button class="template-btn" data-tpl="gradient">تدرج</button>
-        <button class="template-btn" data-tpl="solid">لون صلب</button>
-        <button class="template-btn" data-tpl="frame">إطار</button>
-      </div>
-    </div>
-
-    <div class="field">
-      <label>🌈 ألوان جاهزة</label>
-      <div class="palette" id="palette"></div>
-    </div>
-
-    <div class="grid-2">
+    <div class="card">
       <div class="field">
-        <label>🎨 الخلفية</label>
-        <input type="color" id="bgColor" value="#ffffff">
+        <label>✍️ النص</label>
+        <textarea id="textInput" rows="3">اترك أثراً جميلاً أينما ذهبت</textarea>
       </div>
+
       <div class="field">
-        <label>✏️ لون النص</label>
-        <input type="color" id="textColor" value="#000000">
+        <label>🎭 القالب</label>
+        <div class="templates" id="templates">
+          <button class="template-btn active" data-tpl="quote">اقتباس</button>
+          <button class="template-btn" data-tpl="gradient">تدرج</button>
+          <button class="template-btn" data-tpl="solid">لون صلب</button>
+          <button class="template-btn" data-tpl="frame">إطار</button>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>🎨 الخلفية</label>
+          <input type="color" id="bgColor" value="#ffffff">
+        </div>
+        <div class="field">
+          <label>✏️ لون النص</label>
+          <input type="color" id="textColor" value="#000000">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>📝 الخط</label>
+        <select id="fontSelect">
+          <option value="Cairo">Cairo</option>
+          <option value="Amiri">Amiri</option>
+          <option value="Tajawal">Tajawal</option>
+          <option value="Rubik">Rubik</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>📐 القياس</label>
+        <select id="sizeSelect">
+          <option value="1080x1080">مربع</option>
+          <option value="1080x1920">طويل</option>
+          <option value="1200x675">عريض</option>
+          <option value="1080x1350">عمودي</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>🏷️ التوقيع</label>
+        <input type="text" id="signature" value="@username">
+      </div>
+
+      <div class="field">
+        <label class="checkbox-label">
+          <input type="checkbox" id="showCopyright" checked onchange="drawSingle()">
+          <span>إظهار حقوق نبراس GP</span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label>🖼️ صورة خلفية</label>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button class="btn-small" style="margin-top:8px;" onclick="clearImage()">🗑️ حذف الصورة</button>
+      </div>
+
+      <div class="field">
+        <label>💾 تصدير</label>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="downloadSingle()">💾 تحميل PNG</button>
+          <button class="btn btn-purple" onclick="randomize()">🎲</button>
+        </div>
       </div>
     </div>
 
-    <div class="field">
-      <label>📝 الخط</label>
-      <select id="fontSelect">
-        <option value="Cairo">Cairo — حديث</option>
-        <option value="Amiri">Amiri — كلاسيكي</option>
-        <option value="Tajawal">Tajawal — أنيق</option>
-        <option value="Rubik">Rubik — عصري</option>
-      </select>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- تبويب السلايدات                         -->
+  <!-- ═══════════════════════════════════════ -->
+  <div id="view-slides" class="view">
+
+    <div class="card">
+      <div class="field">
+        <label>📐 قياس السلايدات (موحد)</label>
+        <select id="slidesSize">
+          <option value="1080x1920">طويل (Story) — مستحسن</option>
+          <option value="1080x1080">مربع (Post)</option>
+          <option value="1200x675">عريض (Twitter)</option>
+          <option value="1080x1350">عمودي (Instagram)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>🏷️ التوقيع (يظهر على كل السلايدات)</label>
+        <input type="text" id="slidesSig" value="@username">
+      </div>
+
+      <div class="field">
+        <label class="checkbox-label">
+          <input type="checkbox" id="slidesCopy" checked>
+          <span>إظهار حقوق نبراس GP</span>
+        </label>
+      </div>
     </div>
 
-    <div class="field">
-      <label>📐 القياس</label>
-      <select id="sizeSelect">
-        <option value="1080x1080">مربع (Post)</option>
-        <option value="1080x1920">طويل (Story)</option>
-        <option value="1200x675">عريض (Twitter)</option>
-        <option value="1080x1350">عمودي (Instagram)</option>
-      </select>
+    <div class="card">
+      <div id="slidesList"></div>
+      <button class="add-slide-btn" onclick="addSlide()">➕ إضافة سلايد جديد</button>
     </div>
 
-    <div class="field">
-      <label>🏷️ التوقيع (اختياري)</label>
-      <input type="text" id="signature" value="@username" placeholder="@حسابك">
-    </div>
-
-    <div class="field">
-      <label class="checkbox-label">
-        <input type="checkbox" id="showCopyright" checked onchange="draw()">
-        <span>إظهار حقوق نبراس GP في الصورة</span>
-      </label>
-    </div>
-
-    <div class="field">
-      <label>🖼️ صورة خلفية (اختياري)</label>
-      <input type="file" id="imageUpload" accept="image/*" class="file-input">
-      <button class="btn-small" onclick="clearImage()">🗑️ حذف الصورة</button>
-    </div>
-
-    <div class="field">
-      <label>💾 تصدير الصورة</label>
+    <div class="card">
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="downloadImage()">💾 تحميل PNG</button>
-        <button class="btn btn-green" onclick="copyToClipboard()">📋 نسخ</button>
-        <button class="btn btn-purple" onclick="randomize()">🎲</button>
+        <button class="btn btn-primary" onclick="playSlideshow()">▶️ تشغيل العرض</button>
+        <button class="btn btn-green" onclick="exportSlidesVideo()">🎬 تصدير فيديو</button>
       </div>
-    </div>
-
-    <div class="field">
-      <label>🎬 تصدير فيديو</label>
-      
-      <label style="font-size:13px;color:#6b7280;margin-top:8px;">نوع الحركة</label>
-      <select id="animationType" style="margin-bottom:12px;">
-        <option value="fade">✨ تلاشي (Fade)</option>
-        <option value="pulse">💫 وميض (Pulse)</option>
-        <option value="typewriter">⌨️ كتابة حرف بحرف</option>
-        <option value="slide">➡️ انزلاق من اليمين</option>
-        <option value="zoom">🔍 تكبير تدريجي</option>
-      </select>
-
-      <label style="font-size:13px;color:#6b7280;">الصوت (اختياري)</label>
-      <input type="file" id="audioUpload" accept="audio/*" class="file-input" style="margin-bottom:8px;">
-      <button class="btn-small" onclick="clearAudio()">🗑️ حذف الصوت</button>
-      <div id="audioInfo" class="hint" style="display:none;"></div>
-
-      <div class="btn-row" style="margin-top:12px;">
-        <button class="btn btn-primary" onclick="exportVideo(3)">🎬 3 ثواني</button>
-        <button class="btn btn-primary" onclick="exportVideo(5)">🎬 5 ثواني</button>
-        <button class="btn btn-primary" onclick="exportVideo(10)">🎬 10 ثواني</button>
+      <div class="btn-row" style="margin-top:10px;">
+        <button class="btn btn-purple" onclick="exportAllImages()">🖼️ تصدير كل سلايد صورة</button>
+        <button class="btn btn-red" onclick="clearAllSlides()">🗑️ حذف الكل</button>
       </div>
-      <div id="videoStatus" class="status-box" style="display:none;"></div>
+      <div id="slideStatus" style="margin-top:12px;padding:10px;background:#f1f5f9;border-radius:10px;text-align:center;font-weight:700;color:#475569;display:none;"></div>
     </div>
 
   </div>
@@ -455,73 +440,56 @@
 
 </div>
 
-<button id="nibras-bubble" onclick="toggleNibras()" title="اسأل نبراس">
-  <span class="spark">✨</span>
-  <span>اسأل نبراس</span>
-</button>
-
-<div id="nibras-chat">
-  <button id="nibras-close" onclick="toggleNibras()">✕</button>
-  <div id="nibras-loader">
-    <div class="nibras-spin"></div>
-    <span>جاري تحميل نبراس...</span>
+<!-- شاشة العرض -->
+<div id="slideshow-overlay">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="slide-canvas-wrap">
+    <canvas id="slideshow-canvas"></canvas>
   </div>
-  <iframe 
-    id="nibras-iframe"
-    src=""
-    style="width:100%;height:100%;border:none;position:relative;z-index:1;"
-    allow="microphone; clipboard-write;"
-  ></iframe>
+  <div class="slide-dots" id="slideDots"></div>
+  <div class="slide-controls">
+    <button class="btn btn-red" onclick="stopSlideshow()">✕ إيقاف</button>
+    <button class="btn btn-primary" onclick="nextSlide()">التالي ➡️</button>
+  </div>
 </div>
 
+<!-- زر نبراس -->
+<button id="nibras-bubble" onclick="window.open('https://nibras-al.onrender.com/','_blank')">✨ اسأل نبراس</button>
+
 <script>
+// ═══════════════════════════════════════
+// التبويبات
+// ═══════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('view-' + tab).classList.add('active');
+  if (tab === 'single') drawSingle();
+  else renderSlides();
+}
+
+// ═══════════════════════════════════════
+// الوضع الفردي
+// ═══════════════════════════════════════
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let currentTemplate = 'quote';
 let bgImage = null;
 
-let audioFile = null;
-let audioURL = null;
-let audioElement = null;
-
 ['textInput','bgColor','textColor','fontSelect','sizeSelect','signature'].forEach(id => {
-  document.getElementById(id).addEventListener('input', draw);
+  document.getElementById(id).addEventListener('input', drawSingle);
 });
-
-document.getElementById('showCopyright').addEventListener('change', draw);
+document.getElementById('showCopyright').addEventListener('change', drawSingle);
 
 document.querySelectorAll('.template-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentTemplate = btn.dataset.tpl;
-    draw();
+    drawSingle();
   });
 });
-
-const PALETTE = [
-  '#1e40af','#7c3aed','#db2777','#dc2626',
-  '#ea580c','#f59e0b','#16a34a','#0891b2',
-  '#0f172a','#334155','#78350f','#064e3b',
-  '#831843','#1e1b4b','#14532d','#7f1d1d'
-];
-
-function buildPalette() {
-  const wrap = document.getElementById('palette');
-  PALETTE.forEach(c => {
-    const div = document.createElement('div');
-    div.className = 'palette-color';
-    div.style.background = c;
-    div.onclick = () => {
-      document.getElementById('bgColor').value = c;
-      document.querySelectorAll('.palette-color').forEach(p => p.classList.remove('active'));
-      div.classList.add('active');
-      draw();
-    };
-    wrap.appendChild(div);
-  });
-}
-buildPalette();
 
 document.getElementById('imageUpload').addEventListener('change', (e) => {
   const file = e.target.files[0];
@@ -529,11 +497,7 @@ document.getElementById('imageUpload').addEventListener('change', (e) => {
   const reader = new FileReader();
   reader.onload = (ev) => {
     const img = new Image();
-    img.onload = () => { 
-      bgImage = img; 
-      draw();
-      scrollToPreview();
-    };
+    img.onload = () => { bgImage = img; drawSingle(); };
     img.src = ev.target.result;
   };
   reader.readAsDataURL(file);
@@ -542,79 +506,10 @@ document.getElementById('imageUpload').addEventListener('change', (e) => {
 function clearImage() {
   bgImage = null;
   document.getElementById('imageUpload').value = '';
-  draw();
+  drawSingle();
 }
 
-document.getElementById('audioUpload').addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  
-  audioFile = file;
-  if (audioURL) URL.revokeObjectURL(audioURL);
-  audioURL = URL.createObjectURL(file);
-  audioElement = new Audio(audioURL);
-  
-  const info = document.getElementById('audioInfo');
-  info.style.display = 'block';
-  info.textContent = '🎵 تم رفع: ' + file.name;
-});
-
-function clearAudio() {
-  audioFile = null;
-  if (audioURL) URL.revokeObjectURL(audioURL);
-  audioURL = null;
-  audioElement = null;
-  document.getElementById('audioUpload').value = '';
-  document.getElementById('audioInfo').style.display = 'none';
-}
-
-function scrollToPreview() {
-  const canvasEl = document.getElementById('canvas');
-  const rect = canvasEl.getBoundingClientRect();
-  if (rect.top < 0 || rect.bottom > window.innerHeight) {
-    canvasEl.scrollIntoView({ 
-      behavior: 'smooth', 
-      block: 'center' 
-    });
-  }
-}
-
-// ═══════════════════════════════════════
-// wrapText — يحترم الأسطر الفارغة
-// ═══════════════════════════════════════
-function wrapText(ctx, text, maxWidth) {
-  // اقسم النص حسب الأسطر (\n)
-  const paragraphs = text.split('\n');
-  const lines = [];
-  
-  paragraphs.forEach(paragraph => {
-    // إذا السطر فارغ — احفظه كما هو
-    if (paragraph.trim() === '') {
-      lines.push('');
-      return;
-    }
-    
-    // السطر العادي — اكسره لو طويل
-    const words = paragraph.split(/\s+/);
-    let current = '';
-    
-    words.forEach(word => {
-      const test = current ? current + ' ' + word : word;
-      if (ctx.measureText(test).width > maxWidth && current) {
-        lines.push(current);
-        current = word;
-      } else {
-        current = test;
-      }
-    });
-    
-    if (current) lines.push(current);
-  });
-  
-  return lines;
-}
-
-function draw() {
+function drawSingle() {
   const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
   canvas.width = w;
   canvas.height = h;
@@ -626,164 +521,84 @@ function draw() {
   const sig = document.getElementById('signature').value;
   const showCopy = document.getElementById('showCopyright').checked;
 
-  drawBackground(w, h, bg, fg);
-
-  const fontSize = w / 16;
-  ctx.fillStyle = fg;
-  ctx.font = `bold ${fontSize}px "${font}", sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.direction = 'rtl';
-
-  const lines = wrapText(ctx, text, w * 0.85);
-  const lineHeight = fontSize * 1.3;
-  const totalHeight = lines.length * lineHeight;
-  const startY = (h - totalHeight) / 2 + lineHeight / 2;
-
-  lines.forEach((line, i) => {
-    // لا تطبع الأسطر الفارغة (تبقى فارغة)
-    if (line.trim() === '') return;
-    ctx.fillText(line, w / 2, startY + i * lineHeight);
-  });
-
-  if (sig.trim()) {
-    const sigSize = w / 28;
-    ctx.font = `600 ${sigSize}px "${font}", sans-serif`;
-    ctx.globalAlpha = 0.85;
-    ctx.fillText(sig, w / 2, h - sigSize * 2.5);
-    ctx.globalAlpha = 1;
-  }
-
-  if (showCopy) {
-    const copySize = w / 55;
-    ctx.font = `600 ${copySize}px "Cairo", sans-serif`;
-    ctx.globalAlpha = 0.55;
-    ctx.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
-    ctx.globalAlpha = 1;
-  }
+  drawOnCanvas(ctx, w, h, text, bg, fg, font, sig, showCopy, currentTemplate, bgImage);
 }
 
-function drawBackground(w, h, bg, fg) {
-  if (bgImage) {
-    ctx.drawImage(bgImage, 0, 0, w, h);
-  } else if (currentTemplate === 'gradient') {
-    const grad = ctx.createLinearGradient(0, 0, w, h);
+function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img) {
+  c.clearRect(0, 0, w, h);
+
+  if (img) {
+    c.drawImage(img, 0, 0, w, h);
+  } else if (template === 'gradient') {
+    const grad = c.createLinearGradient(0, 0, w, h);
     grad.addColorStop(0, bg);
     grad.addColorStop(1, shadeColor(bg, 50));
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, w, h);
-  } else if (currentTemplate === 'frame') {
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, w, h);
-    ctx.strokeStyle = fg;
-    ctx.lineWidth = 10;
-    ctx.strokeRect(50, 50, w - 100, h - 100);
+    c.fillStyle = grad;
+    c.fillRect(0, 0, w, h);
+  } else if (template === 'frame') {
+    c.fillStyle = bg;
+    c.fillRect(0, 0, w, h);
+    c.strokeStyle = fg;
+    c.lineWidth = 10;
+    c.strokeRect(50, 50, w - 100, h - 100);
   } else {
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, w, h);
+    c.fillStyle = bg;
+    c.fillRect(0, 0, w, h);
   }
-}
 
-function animFade(progress) {
-  const opacity = 1 - Math.pow(1 - progress, 3);
-  return { opacity: opacity, offsetX: 0, offsetY: 0, scale: 1, textVisible: 1 };
-}
-
-function animPulse(progress) {
-  const opacity = progress < 0.5 ? progress * 2 : 1;
-  const scale = 1 + Math.sin(progress * Math.PI * 2) * 0.08;
-  return { opacity: 1, offsetX: 0, offsetY: 0, scale: scale, textVisible: opacity };
-}
-
-function animTypewriter(progress, fullText) {
-  const chars = Math.floor(progress * fullText.length);
-  return { 
-    opacity: 1, offsetX: 0, offsetY: 0, scale: 1, 
-    textVisible: 1,
-    visibleText: fullText.substring(0, chars)
-  };
-}
-
-function animSlide(progress) {
-  const eased = 1 - Math.pow(1 - progress, 3);
-  return { 
-    opacity: eased, 
-    offsetX: (1 - eased) * 300,
-    offsetY: 0, 
-    scale: 1, 
-    textVisible: 1 
-  };
-}
-
-function animZoom(progress) {
-  const eased = 1 - Math.pow(1 - progress, 3);
-  return { 
-    opacity: eased, 
-    offsetX: 0, 
-    offsetY: 0, 
-    scale: 0.4 + eased * 0.6,
-    textVisible: 1 
-  };
-}
-
-function drawWithAnimation(anim) {
-  const w = canvas.width;
-  const h = canvas.height;
-
-  let text = document.getElementById('textInput').value || ' ';
-  if (anim.visibleText !== undefined) {
-    text = anim.visibleText || ' ';
-  }
-  
-  const bg = document.getElementById('bgColor').value;
-  const fg = document.getElementById('textColor').value;
-  const font = document.getElementById('fontSelect').value;
-  const sig = document.getElementById('signature').value;
-  const showCopy = document.getElementById('showCopyright').checked;
-
-  ctx.clearRect(0, 0, w, h);
-  drawBackground(w, h, bg, fg);
-
-  ctx.save();
-  ctx.globalAlpha = anim.opacity * anim.textVisible;
-  ctx.fillStyle = fg;
-  
   const fontSize = w / 16;
-  ctx.font = `bold ${fontSize}px "${font}", sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.direction = 'rtl';
+  c.fillStyle = fg;
+  c.font = `bold ${fontSize}px "${font}", sans-serif`;
+  c.textAlign = 'center';
+  c.textBaseline = 'middle';
+  c.direction = 'rtl';
 
-  const lines = wrapText(ctx, text, w * 0.85);
+  const lines = wrapText(c, text, w * 0.85);
   const lineHeight = fontSize * 1.3;
   const totalHeight = lines.length * lineHeight;
   const startY = (h - totalHeight) / 2 + lineHeight / 2;
 
-  if (anim.scale !== 1 || anim.offsetX !== 0 || anim.offsetY !== 0) {
-    ctx.translate(w / 2 + anim.offsetX, h / 2 + anim.offsetY);
-    ctx.scale(anim.scale, anim.scale);
-    ctx.translate(-w / 2, -h / 2);
-  }
-
   lines.forEach((line, i) => {
     if (line.trim() === '') return;
-    ctx.fillText(line, w / 2, startY + i * lineHeight);
+    c.fillText(line, w / 2, startY + i * lineHeight);
   });
 
   if (sig.trim()) {
     const sigSize = w / 28;
-    ctx.font = `600 ${sigSize}px "${font}", sans-serif`;
-    ctx.globalAlpha = anim.opacity * 0.85;
-    ctx.fillText(sig, w / 2, h - sigSize * 2.5);
+    c.font = `600 ${sigSize}px "${font}", sans-serif`;
+    c.globalAlpha = 0.85;
+    c.fillText(sig, w / 2, h - sigSize * 2.5);
+    c.globalAlpha = 1;
   }
 
   if (showCopy) {
     const copySize = w / 55;
-    ctx.font = `600 ${copySize}px "Cairo", sans-serif`;
-    ctx.globalAlpha = anim.opacity * 0.55;
-    ctx.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
+    c.font = `600 ${copySize}px "Cairo", sans-serif`;
+    c.globalAlpha = 0.55;
+    c.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
+    c.globalAlpha = 1;
   }
-  ctx.restore();
+}
+
+function wrapText(c, text, maxWidth) {
+  const paragraphs = text.split('\n');
+  const lines = [];
+  paragraphs.forEach(paragraph => {
+    if (paragraph.trim() === '') { lines.push(''); return; }
+    const words = paragraph.split(/\s+/);
+    let current = '';
+    words.forEach(word => {
+      const test = current ? current + ' ' + word : word;
+      if (c.measureText(test).width > maxWidth && current) {
+        lines.push(current);
+        current = word;
+      } else {
+        current = test;
+      }
+    });
+    if (current) lines.push(current);
+  });
+  return lines;
 }
 
 function shadeColor(color, percent) {
@@ -794,23 +609,11 @@ function shadeColor(color, percent) {
   return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
 }
 
-function downloadImage() {
-  scrollToPreview();
+function downloadSingle() {
   const link = document.createElement('a');
   link.download = `resha-${Date.now()}.png`;
   link.href = canvas.toDataURL('image/png');
   link.click();
-}
-
-async function copyToClipboard() {
-  scrollToPreview();
-  try {
-    const blob = await new Promise(r => canvas.toBlob(r));
-    await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]);
-    alert('✅ تم نسخ الصورة!');
-  } catch (e) {
-    alert('⚠️ استخدم زر التحميل');
-  }
 }
 
 function randomize() {
@@ -826,188 +629,364 @@ function randomize() {
   tplBtn.classList.add('active');
   currentTemplate = tplBtn.dataset.tpl;
   
-  draw();
-  scrollToPreview();
+  drawSingle();
 }
 
-async function exportVideo(seconds) {
-  const status = document.getElementById('videoStatus');
+// ═══════════════════════════════════════
+// السلايدات
+// ═══════════════════════════════════════
+let slides = [];
+let currentSlideIndex = 0;
+let slideshowTimer = null;
+let slideshowStartTime = 0;
+
+const DURATIONS = [5, 10, 15, 20, 30];
+
+// تحميل من localStorage
+function loadSlides() {
+  try {
+    const saved = localStorage.getItem('resha_slides');
+    if (saved) slides = JSON.parse(saved);
+    else slides = [createSlide(), createSlide()];
+  } catch(e) {
+    slides = [createSlide(), createSlide()];
+  }
+}
+
+function createSlide() {
+  return {
+    id: Date.now() + Math.random(),
+    text: 'اكتب النص هنا...',
+    template: 'quote',
+    bg: '#ffffff',
+    fg: '#000000',
+    font: 'Cairo',
+    duration: 5
+  };
+}
+
+function saveSlides() {
+  try {
+    localStorage.setItem('resha_slides', JSON.stringify(slides));
+  } catch(e) {}
+}
+
+function addSlide() {
+  slides.push(createSlide());
+  saveSlides();
+  renderSlides();
+}
+
+function deleteSlide(id) {
+  if (slides.length <= 1) {
+    alert('يجب أن يبقى سلايد واحد على الأقل');
+    return;
+  }
+  slides = slides.filter(s => s.id !== id);
+  saveSlides();
+  renderSlides();
+}
+
+function updateSlide(id, field, value) {
+  const slide = slides.find(s => s.id === id);
+  if (slide) {
+    slide[field] = value;
+    saveSlides();
+  }
+}
+
+function renderSlides() {
+  const list = document.getElementById('slidesList');
+  list.innerHTML = '';
+  
+  slides.forEach((slide, i) => {
+    const div = document.createElement('div');
+    div.className = 'slide-item';
+    div.innerHTML = `
+      <div class="slide-header">
+        <span class="slide-num">📄 سلايد ${i + 1}</span>
+        <button class="btn-small" onclick="deleteSlide(${slide.id})">🗑️</button>
+      </div>
+      
+      <div class="field">
+        <label>✍️ النص</label>
+        <textarea rows="2" oninput="updateSlide(${slide.id}, 'text', this.value)">${escapeHtml(slide.text)}</textarea>
+      </div>
+      
+      <div class="field">
+        <label>🎭 القالب</label>
+        <div class="templates">
+          ${['quote','gradient','solid','frame'].map(t => `
+            <button class="template-btn ${slide.template === t ? 'active' : ''}" onclick="setSlideTemplate(${slide.id}, '${t}', this)">
+              ${t === 'quote' ? 'اقتباس' : t === 'gradient' ? 'تدرج' : t === 'solid' ? 'لون صلب' : 'إطار'}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+      
+      <div class="grid-2">
+        <div class="field">
+          <label>🎨 الخلفية</label>
+          <input type="color" value="${slide.bg}" oninput="updateSlide(${slide.id}, 'bg', this.value)">
+        </div>
+        <div class="field">
+          <label>✏️ لون النص</label>
+          <input type="color" value="${slide.fg}" oninput="updateSlide(${slide.id}, 'fg', this.value)">
+        </div>
+      </div>
+      
+      <div class="field">
+        <label>📝 الخط</label>
+        <select onchange="updateSlide(${slide.id}, 'font', this.value)">
+          ${['Cairo','Amiri','Tajawal','Rubik'].map(f => `
+            <option value="${f}" ${slide.font === f ? 'selected' : ''}>${f}</option>
+          `).join('')}
+        </select>
+      </div>
+      
+      <div class="field">
+        <label>⏱️ المدة</label>
+        <div class="duration-row">
+          ${DURATIONS.map(d => `
+            <button class="dur-btn ${slide.duration === d ? 'active' : ''}" onclick="setSlideDuration(${slide.id}, ${d}, this)">
+              ${d}ث
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function setSlideTemplate(id, tpl, btn) {
+  updateSlide(id, 'template', tpl);
+  btn.parentElement.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function setSlideDuration(id, dur, btn) {
+  updateSlide(id, 'duration', dur);
+  btn.parentElement.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function escapeHtml(text) {
+  return text.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function clearAllSlides() {
+  if (!confirm('حذف كل السلايدات؟')) return;
+  slides = [createSlide(), createSlide()];
+  saveSlides();
+  renderSlides();
+}
+
+// ═══════════════════════════════════════
+// رسم سلايد على Canvas معين
+// ═══════════════════════════════════════
+function drawSlideOnCanvas(c, slide, w, h, sig, showCopy) {
+  drawOnCanvas(c, w, h, slide.text, slide.bg, slide.fg, slide.font, sig, showCopy, slide.template, null);
+}
+
+// ═══════════════════════════════════════
+// تشغيل العرض
+// ═══════════════════════════════════════
+function playSlideshow() {
+  if (slides.length === 0) {
+    alert('أضف سلايدات أولاً');
+    return;
+  }
+  
+  const overlay = document.getElementById('slideshow-overlay');
+  overlay.classList.add('active');
+  
+  // نقاط المؤشر
+  const dots = document.getElementById('slideDots');
+  dots.innerHTML = slides.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}"></div>`).join('');
+  
+  currentSlideIndex = 0;
+  showSlide(0);
+}
+
+function showSlide(index) {
+  if (index >= slides.length) {
+    stopSlideshow();
+    return;
+  }
+  
+  currentSlideIndex = index;
+  const slide = slides[index];
+  const sig = document.getElementById('slidesSig').value;
+  const showCopy = document.getElementById('slidesCopy').checked;
+  const [w, h] = document.getElementById('slidesSize').value.split('x').map(Number);
+  
+  const canvas = document.getElementById('slideshow-canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const c = canvas.getContext('2d');
+  
+  drawSlideOnCanvas(c, slide, w, h, sig, showCopy);
+  
+  // تحديث النقاط
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.toggle('active', i === index);
+  });
+  
+  // شريط التقدم
+  const fill = document.getElementById('progressFill');
+  fill.style.width = '0%';
+  
+  const duration = slide.duration * 1000;
+  slideshowStartTime = Date.now();
+  
+  const tick = () => {
+    const elapsed = Date.now() - slideshowStartTime;
+    const percent = Math.min(100, (elapsed / duration) * 100);
+    fill.style.width = percent + '%';
+    
+    if (elapsed >= duration) {
+      showSlide(index + 1);
+    } else {
+      slideshowTimer = requestAnimationFrame(tick);
+    }
+  };
+  
+  slideshowTimer = requestAnimationFrame(tick);
+}
+
+function nextSlide() {
+  cancelAnimationFrame(slideshowTimer);
+  if (currentSlideIndex + 1 < slides.length) {
+    showSlide(currentSlideIndex + 1);
+  } else {
+    stopSlideshow();
+  }
+}
+
+function stopSlideshow() {
+  cancelAnimationFrame(slideshowTimer);
+  document.getElementById('slideshow-overlay').classList.remove('active');
+}
+
+// ═══════════════════════════════════════
+// تصدير فيديو
+// ═══════════════════════════════════════
+async function exportSlidesVideo() {
+  if (slides.length === 0) {
+    alert('أضف سلايدات أولاً');
+    return;
+  }
+  
+  const status = document.getElementById('slideStatus');
   status.style.display = 'block';
   status.textContent = '🎬 جاري التحضير...';
   
-  scrollToPreview();
-  
   try {
-    if (!canvas.captureStream || typeof MediaRecorder === 'undefined') {
-      throw new Error('غير مدعوم');
-    }
+    const sig = document.getElementById('slidesSig').value;
+    const showCopy = document.getElementById('slidesCopy').checked;
+    const [w, h] = document.getElementById('slidesSize').value.split('x').map(Number);
     
-    const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
-    canvas.width = w;
-    canvas.height = h;
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = w;
+    tempCanvas.height = h;
+    const tempCtx = tempCanvas.getContext('2d');
     
-    const animationType = document.getElementById('animationType').value;
-    
-    draw();
-    await new Promise(r => setTimeout(r, 100));
-    
-    const videoStream = canvas.captureStream(60);
-    let combinedStream = videoStream;
-    
-    let audioContext = null;
-    let audioSource = null;
-    
-    if (audioFile && audioElement) {
-      try {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const arrayBuffer = await audioFile.arrayBuffer();
-        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        
-        const dest = audioContext.createMediaStreamDestination();
-        audioSource = audioContext.createBufferSource();
-        audioSource.buffer = audioBuffer;
-        audioSource.loop = true;
-        audioSource.connect(dest);
-        
-        combinedStream = new MediaStream([
-          ...videoStream.getVideoTracks(),
-          ...dest.stream.getAudioTracks()
-        ]);
-      } catch (e) {
-        console.warn('تعذر دمج الصوت:', e);
-        combinedStream = videoStream;
-      }
-    }
-    
+    const stream = tempCanvas.captureStream(30);
     let recorder;
-    const options = { 
-      mimeType: 'video/webm;codecs=vp9,opus',
-      videoBitsPerSecond: 8000000
-    };
-    
     try {
-      recorder = new MediaRecorder(combinedStream, options);
-    } catch (e) {
-      try {
-        recorder = new MediaRecorder(combinedStream, { 
-          mimeType: 'video/webm;codecs=vp8,opus' 
-        });
-      } catch (e2) {
-        recorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm' });
-      }
+      recorder = new MediaRecorder(stream, { 
+        mimeType: 'video/webm;codecs=vp9',
+        videoBitsPerSecond: 6000000
+      });
+    } catch(e) {
+      recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
     }
     
     const chunks = [];
-    
-    recorder.ondataavailable = (e) => {
-      if (e.data.size > 0) chunks.push(e.data);
-    };
+    recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
     
     recorder.onstop = () => {
       const blob = new Blob(chunks, { type: 'video/webm' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `resha-${Date.now()}.webm`;
+      a.download = `resha-slides-${Date.now()}.webm`;
       a.click();
       URL.revokeObjectURL(url);
-      
-      if (audioSource) {
-        try { audioSource.stop(); } catch(e) {}
-      }
-      if (audioContext) {
-        try { audioContext.close(); } catch(e) {}
-      }
-      
       status.textContent = '✅ تم تحميل الفيديو';
-      setTimeout(() => { status.style.display = 'none'; }, 3000);
+      setTimeout(() => status.style.display = 'none', 3000);
     };
     
     recorder.start();
+    status.textContent = '🎬 جاري التسجيل...';
     
-    if (audioSource && audioContext) {
-      audioSource.start(0);
+    for (let i = 0; i < slides.length; i++) {
+      const slide = slides[i];
+      drawSlideOnCanvas(tempCtx, slide, w, h, sig, showCopy);
+      
+      const frameDuration = slide.duration * 1000;
+      const startTime = Date.now();
+      
+      await new Promise(resolve => {
+        const loop = () => {
+          if (Date.now() - startTime >= frameDuration) {
+            resolve();
+          } else {
+            requestAnimationFrame(loop);
+          }
+        };
+        loop();
+      });
     }
     
-    status.textContent = `🎬 جاري التسجيل (${seconds} ثواني)...`;
+    recorder.stop();
     
-    const fps = 30;
-    const totalFrames = seconds * fps;
-    const animFrames = Math.floor(totalFrames * 0.4);
-    let frame = 0;
-    
-    const text = document.getElementById('textInput').value || ' ';
-    
-    const animate = () => {
-      if (frame >= totalFrames) {
-        recorder.stop();
-        draw();
-        return;
-      }
-      
-      const progress = frame < animFrames ? frame / animFrames : 1;
-      
-      let anim;
-      switch(animationType) {
-        case 'fade':       anim = animFade(progress); break;
-        case 'pulse':      anim = animPulse(progress); break;
-        case 'typewriter': anim = animTypewriter(progress, text); break;
-        case 'slide':      anim = animSlide(progress); break;
-        case 'zoom':       anim = animZoom(progress); break;
-        default:           anim = animFade(progress);
-      }
-      
-      drawWithAnimation(anim);
-      frame++;
-      requestAnimationFrame(animate);
-    };
-    
-    animate();
-    
-  } catch (e) {
+  } catch(e) {
     console.error(e);
-    status.textContent = '❌ المتصفح لا يدعم (جرّب Chrome)';
+    status.textContent = '❌ خطأ: ' + e.message;
   }
 }
 
-const NIBRAS_URL = "https://nibras-al.onrender.com/";
-let nibrasLoaded = false;
-
-function toggleNibras() {
-  const chat = document.getElementById('nibras-chat');
-  const iframe = document.getElementById('nibras-iframe');
-  const loader = document.getElementById('nibras-loader');
-
-  if (chat.classList.contains('active')) {
-    chat.classList.remove('active');
-  } else {
-    if (!nibrasLoaded) {
-      iframe.src = NIBRAS_URL;
-      iframe.onload = () => { loader.style.display = 'none'; };
-      setTimeout(() => { loader.style.display = 'none'; }, 8000);
-      nibrasLoaded = true;
-    }
-    chat.classList.add('active');
+// ═══════════════════════════════════════
+// تصدير كل سلايد كصورة
+// ═══════════════════════════════════════
+async function exportAllImages() {
+  if (slides.length === 0) {
+    alert('أضف سلايدات أولاً');
+    return;
   }
+  
+  const sig = document.getElementById('slidesSig').value;
+  const showCopy = document.getElementById('slidesCopy').checked;
+  const [w, h] = document.getElementById('slidesSize').value.split('x').map(Number);
+  
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = w;
+  tempCanvas.height = h;
+  const c = tempCanvas.getContext('2d');
+  
+  for (let i = 0; i < slides.length; i++) {
+    drawSlideOnCanvas(c, slides[i], w, h, sig, showCopy);
+    
+    const link = document.createElement('a');
+    link.download = `resha-slide-${i + 1}.png`;
+    link.href = tempCanvas.toDataURL('image/png');
+    link.click();
+    
+    await new Promise(r => setTimeout(r, 300));
+  }
+  
+  alert(`✅ تم تحميل ${slides.length} صورة`);
 }
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    document.getElementById('nibras-chat').classList.remove('active');
-  }
-});
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js')
-      .then(reg => console.log('✅ SW مسجل:', reg.scope))
-      .catch(err => console.warn('⚠️ SW فشل:', err));
-  });
-}
-
+// ═══════════════════════════════════════
+// التشغيل الأولي
+// ═══════════════════════════════════════
 window.addEventListener('load', () => {
-  setTimeout(draw, 300);
-  draw();
+  loadSlides();
+  renderSlides();
+  drawSingle();
 });
 </script>
 
