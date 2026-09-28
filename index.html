@@ -516,3 +516,331 @@
   }
 </style>
 </head>
+
+<body>
+
+<div class="container">
+
+  <div class="header-title">
+    <img src="resha-512.png" alt="ريشة" class="logo">
+    <p>استوديو الصور والفيديوهات</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('single', this)">🖼️ صور</button>
+    <button class="tab" onclick="switchTab('slides', this)">🎬 فيديو</button>
+  </div>
+
+  <!-- تبويب الصور -->
+  <div id="view-single" class="view active">
+
+    <div class="card">
+      <canvas id="canvas" width="1080" height="1080"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <label>✍️ النص</label>
+        <textarea id="textInput" rows="3">اترك أثراً جميلاً أينما ذهبت</textarea>
+      </div>
+
+      <div class="field">
+        <label>🎭 القالب</label>
+        <details class="templates-dropdown">
+          <summary>اختر قالباً</summary>
+          <div class="dropdown-content">
+            <div class="dropdown-category">📄 الأساسية</div>
+            <div class="template-grid">
+              <div class="template-card active" data-tpl="quote" onclick="setTemplate('quote', this)">
+                <div class="template-preview" style="background:#fff;border:1px solid #e5e7eb;"></div>
+                اقتباس
+              </div>
+              <div class="template-card" data-tpl="gradient" onclick="setTemplate('gradient', this)">
+                <div class="template-preview" style="background:linear-gradient(135deg,#667eea,#764ba2);"></div>
+                تدرج
+              </div>
+              <div class="template-card" data-tpl="solid" onclick="setTemplate('solid', this)">
+                <div class="template-preview" style="background:#667eea;"></div>
+                لون صلب
+              </div>
+              <div class="template-card" data-tpl="frame" onclick="setTemplate('frame', this)">
+                <div class="template-preview" style="background:#fff;border:3px solid #667eea;"></div>
+                إطار
+              </div>
+            </div>
+
+            <div class="dropdown-category">🎨 الأشكال</div>
+            <div class="template-grid">
+              <div class="template-card" data-tpl="circles" onclick="setTemplate('circles', this)">
+                <div class="template-preview" style="background:radial-gradient(circle,#667eea 30%,#fff 30%);"></div>
+                دوائر
+              </div>
+              <div class="template-card" data-tpl="squares" onclick="setTemplate('squares', this)">
+                <div class="template-preview" style="background:repeating-linear-gradient(45deg,#667eea,#667eea 5px,#fff 5px,#fff 10px);"></div>
+                مربعات
+              </div>
+              <div class="template-card" data-tpl="triangles" onclick="setTemplate('triangles', this)">
+                <div class="template-preview" style="background:#fff;clip-path:polygon(50% 0,100% 100%,0 100%);"></div>
+                مثلثات
+              </div>
+              <div class="template-card" data-tpl="dots" onclick="setTemplate('dots', this)">
+                <div class="template-preview" style="background:radial-gradient(circle,#667eea 1px,transparent 1px);background-size:8px 8px;"></div>
+                نقاط
+              </div>
+              <div class="template-card" data-tpl="stripes" onclick="setTemplate('stripes', this)">
+                <div class="template-preview" style="background:repeating-linear-gradient(0deg,#667eea,#667eea 3px,#fff 3px,#fff 8px);"></div>
+                خطوط
+              </div>
+              <div class="template-card" data-tpl="wave" onclick="setTemplate('wave', this)">
+                <div class="template-preview" style="background:#fff;border-bottom:15px solid #667eea;border-radius:0 0 50% 50%;"></div>
+                موجة
+              </div>
+            </div>
+
+            <div class="dropdown-category">🌟 الزخارف</div>
+            <div class="template-grid">
+              <div class="template-card" data-tpl="islamic" onclick="setTemplate('islamic', this)">
+                <div class="template-preview" style="background:#fef3c7;border:2px solid #d97706;"></div>
+                زخرفة إسلامية
+              </div>
+              <div class="template-card" data-tpl="double-frame" onclick="setTemplate('double-frame', this)">
+                <div class="template-preview" style="background:#fff;border:3px double #667eea;"></div>
+                إطار مزدوج
+              </div>
+              <div class="template-card" data-tpl="side-bar" onclick="setTemplate('side-bar', this)">
+                <div class="template-preview" style="background:#fff;border-right:8px solid #667eea;"></div>
+                شريط جانبي
+              </div>
+              <div class="template-card" data-tpl="corner" onclick="setTemplate('corner', this)">
+                <div class="template-preview" style="background:#fff;border-top-left-radius:50px;border:2px solid #667eea;"></div>
+                زاوية مزخرفة
+              </div>
+              <div class="template-card" data-tpl="half-circle" onclick="setTemplate('half-circle', this)">
+                <div class="template-preview" style="background:#fff;border-radius:50% 50% 0 0;background:#667eea;"></div>
+                نصف دائرة
+              </div>
+              <div class="template-card" data-tpl="stars" onclick="setTemplate('stars', this)">
+                <div class="template-preview" style="background:#0f172a;color:#fbbf24;">★ ★</div>
+                نجوم
+              </div>
+            </div>
+
+            <div class="dropdown-category">📖 المناسبات</div>
+            <div class="template-grid">
+              <div class="template-card" data-tpl="ayah" onclick="setTemplate('ayah', this)">
+                <div class="template-preview" style="background:#064e3b;color:#fbbf24;">﷽</div>
+                آية قرآنية
+              </div>
+              <div class="template-card" data-tpl="hadith" onclick="setTemplate('hadith', this)">
+                <div class="template-preview" style="background:#fff;border:2px solid #10b981;"></div>
+                حديث شريف
+              </div>
+              <div class="template-card" data-tpl="poetry" onclick="setTemplate('poetry', this)">
+                <div class="template-preview" style="background:#fef3c7;border-top:3px solid #d97706;border-bottom:3px solid #d97706;"></div>
+                شعر
+              </div>
+              <div class="template-card" data-tpl="news" onclick="setTemplate('news', this)">
+                <div class="template-preview" style="background:#fff;border-top:15px solid #dc2626;"></div>
+                عنوان صحفي
+              </div>
+              <div class="template-card" data-tpl="marketing" onclick="setTemplate('marketing', this)">
+                <div class="template-preview" style="background:#fff7ed;border:2px solid #ea580c;"></div>
+                تسويقي
+              </div>
+              <div class="template-card" data-tpl="celebration" onclick="setTemplate('celebration', this)">
+                <div class="template-preview" style="background:#fdf4ff;border:2px dashed #d946ef;"></div>
+                تهنئة
+              </div>
+              <div class="template-card" data-tpl="classic-quote" onclick="setTemplate('classic-quote', this)">
+                <div class="template-preview" style="background:#f5f5f4;border:1px solid #78716c;"></div>
+                اقتباس كلاسيكي
+              </div>
+              <div class="template-card" data-tpl="ad" onclick="setTemplate('ad', this)">
+                <div class="template-preview" style="background:#1e40af;color:#fbbf24;">AD</div>
+                إعلان
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="field">
+        <label>🌈 ألوان جاهزة</label>
+        <details class="palette-dropdown">
+          <summary>اختر لوناً</summary>
+          <div class="dropdown-content">
+            <div class="palette" id="palette"></div>
+          </div>
+        </details>
+      </div>
+
+      <div class="field">
+        <label>🖼️ خلفيات جاهزة</label>
+        <details class="library-dropdown">
+          <summary>اختر خلفية</summary>
+          <div class="dropdown-content">
+            <div class="library-grid" id="libraryGrid"></div>
+          </div>
+        </details>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>🎨 الخلفية</label>
+          <input type="color" id="bgColor" value="#ffffff">
+        </div>
+        <div class="field">
+          <label>✏️ لون النص</label>
+          <input type="color" id="textColor" value="#000000">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>📝 الخط</label>
+        <details class="fonts-dropdown">
+          <summary>اختر خطاً</summary>
+          <div class="dropdown-content">
+            <div class="font-list" id="fontList"></div>
+          </div>
+        </details>
+      </div>
+
+      <div class="field">
+        <label>📐 القياس</label>
+        <select id="sizeSelect">
+          <option value="1080x1080">مربع (Post)</option>
+          <option value="1080x1920">طويل (Story)</option>
+          <option value="1200x675">عريض (Twitter)</option>
+          <option value="1080x1350">عمودي (Instagram)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>🏷️ التوقيع</label>
+        <input type="text" id="signature" value="@username">
+      </div>
+
+      <div class="field">
+        <label class="checkbox-label">
+          <input type="checkbox" id="showCopyright" checked onchange="drawSingle()">
+          <span>حقوق نبراس GP</span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label>🖼️ صورة خلفية</label>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button class="btn-small" style="margin-top:8px;" onclick="clearImage()">🗑️ حذف الصورة</button>
+      </div>
+
+      <div class="field">
+        <label>💾 التصدير</label>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="downloadSingle()">💾 تحميل PNG</button>
+          <button class="btn btn-purple" onclick="randomize()">🎲</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- تبويب الفيديو -->
+  <div id="view-slides" class="view">
+
+    <div class="card">
+      <div class="field">
+        <label>📐 القياس</label>
+        <select id="slidesSize">
+          <option value="1080x1920">طويل (Story)</option>
+          <option value="1080x1080">مربع (Post)</option>
+          <option value="1200x675">عريض (Twitter)</option>
+          <option value="1080x1350">عمودي (Instagram)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>🏷️ التوقيع</label>
+        <input type="text" id="slidesSig" value="@username">
+      </div>
+
+      <div class="field">
+        <label class="checkbox-label">
+          <input type="checkbox" id="slidesCopy" checked>
+          <span>حقوق نبراس GP</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="audio-box">
+        <div class="field">
+          <label>🎵 الصوت</label>
+          <input type="file" id="audioUpload" accept="audio/*">
+          <div id="audioInfo" class="audio-info" style="display:none;"></div>
+          <button class="btn-small" style="margin-top:8px;" onclick="clearAudio()">🗑️ حذف الصوت</button>
+        </div>
+
+        <div class="field">
+          <label class="checkbox-label">
+            <input type="checkbox" id="audioLoop" checked>
+            <span>🔁 تكرار الصوت</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div id="slidesList"></div>
+      <button class="add-slide-btn" onclick="addSlide()">➕ إضافة مقطع</button>
+    </div>
+
+    <div class="card">
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="playSlideshow()">▶️ تشغيل</button>
+        <button class="btn btn-green" onclick="exportSlidesVideo()">🎬 تصدير فيديو</button>
+      </div>
+      <div class="btn-row" style="margin-top:10px;">
+        <button class="btn btn-purple" onclick="exportAllImages()">🖼️ تصدير صور</button>
+        <button class="btn btn-red" onclick="clearAllSlides()">🗑️ حذف الكل</button>
+      </div>
+      
+      <div class="convert-box">
+        <a href="https://cloudconvert.com/webm-to-mp4" target="_blank">
+          🔄 تحويل إلى MP4
+        </a>
+      </div>
+      
+      <div id="slideStatus" style="margin-top:12px;padding:10px;background:#f1f5f9;border-radius:10px;text-align:center;font-weight:700;color:#475569;display:none;"></div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    جميع الحقوق محفوظة © نبراس GP 2026
+    <small>🖌️ ريشة — استوديو الصور والفيديوهات</small>
+    <div class="footer-links">
+      <a href="about.html">حول ريشة</a>
+      <a href="privacy.html">سياسة الخصوصية</a>
+    </div>
+  </div>
+
+</div>
+
+<div id="slideshow-overlay">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="slide-canvas-wrap">
+    <canvas id="slideshow-canvas"></canvas>
+  </div>
+  <div class="slide-dots" id="slideDots"></div>
+  <div class="slide-controls">
+    <button class="btn btn-red" onclick="stopSlideshow()">✕</button>
+    <button class="btn btn-primary" onclick="nextSlide()">التالي ➡️</button>
+  </div>
+</div>
+
+<button id="nibras-bubble" onclick="window.open('https://nibras-al.onrender.com/','_blank')">✨ اسأل</button>
+
+<!-- GoatCounter -->
+<script data-goatcounter="https://resha.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+<script> 
