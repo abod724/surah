@@ -843,9 +843,22 @@
 <!-- GoatCounter -->
 <script data-goatcounter="https://resha.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
-<script> 
+<script>
 
- // ═══════════════════════════════════════
+// ═══════════════════════════════════════
+// دالة تسجيل الأحداث في GoatCounter
+// ═══════════════════════════════════════
+function trackEvent(eventName) {
+  if (typeof goatcounter !== 'undefined' && goatcounter.count) {
+    goatcounter.count({
+      path: eventName,
+      title: eventName,
+      event: true
+    });
+  }
+}
+
+// ═══════════════════════════════════════
 // الخطوط (20 خط)
 // ═══════════════════════════════════════
 const FONTS = [
@@ -988,12 +1001,10 @@ function buildLibrary() {
     div.onclick = () => {
       document.querySelectorAll('.library-item').forEach(item => item.classList.remove('active'));
       div.classList.add('active');
-      // استخراج اللون الأول من التدرج
       const match = b.css.match(/#[0-9a-f]{6}/i);
       if (match) {
         document.getElementById('bgColor').value = match[0];
       }
-      // تغيير القالب إلى تدرج
       currentTemplate = 'gradient';
       document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
       const gradientCard = document.querySelector('[data-tpl="gradient"]');
@@ -1396,7 +1407,6 @@ function shadeColor(color, percent) {
 });
 document.getElementById('showCopyright').addEventListener('change', drawSingle);
 
-// قائمة الخطوط المخفية للتوافق
 document.body.insertAdjacentHTML('beforeend', '<select id="fontSelect" style="display:none;"><option value="Cairo">Cairo</option></select>');
 
 document.getElementById('imageUpload').addEventListener('change', (e) => {
@@ -1437,6 +1447,9 @@ function drawSingle() {
 }
 
 function downloadSingle() {
+  // ✅ تسجيل حدث التحميل
+  trackEvent('تحميل_صورة');
+
   const link = document.createElement('a');
   link.download = `resha-${Date.now()}.png`;
   link.href = canvas.toDataURL('image/png');
@@ -1452,7 +1465,6 @@ function randomize() {
   currentFont = randFont.name;
   currentTemplate = randTpl;
   
-  // تحديث الأزرار
   document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
   const tplCard = document.querySelector(`[data-tpl="${randTpl}"]`);
   if (tplCard) tplCard.classList.add('active');
@@ -1750,6 +1762,9 @@ function stopSlideshow() {
 async function exportSlidesVideo() {
   if (slides.length === 0) return;
   
+  // ✅ تسجيل حدث تصدير الفيديو
+  trackEvent('تصدير_فيديو');
+
   const status = document.getElementById('slideStatus');
   status.style.display = 'block';
   status.textContent = '🎬 جاري التحضير...';
@@ -1868,6 +1883,9 @@ async function exportSlidesVideo() {
 async function exportAllImages() {
   if (slides.length === 0) return;
   
+  // ✅ تسجيل حدث تصدير صور الفيديو
+  trackEvent('تصدير_صور_فيديو');
+
   const sig = document.getElementById('slidesSig').value;
   const showCopy = document.getElementById('slidesCopy').checked;
   const [w, h] = document.getElementById('slidesSize').value.split('x').map(Number);
