@@ -844,3 +844,1065 @@
 <script data-goatcounter="https://resha.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
 <script> 
+
+ // ═══════════════════════════════════════
+// الخطوط (20 خط)
+// ═══════════════════════════════════════
+const FONTS = [
+  { name: 'Cairo', label: 'Cairo — حديث' },
+  { name: 'Amiri', label: 'Amiri — كلاسيكي' },
+  { name: 'Tajawal', label: 'Tajawal — أنيق' },
+  { name: 'Rubik', label: 'Rubik — عصري' },
+  { name: 'Almarai', label: 'Almarai — نظيف' },
+  { name: 'El Messiri', label: 'El Messiri — أنيق' },
+  { name: 'Reem Kufi', label: 'Reem Kufi — كوفي' },
+  { name: 'Lateef', label: 'Lateef — قرآني' },
+  { name: 'Scheherazade New', label: 'Scheherazade — تقليدي' },
+  { name: 'Noto Naskh Arabic', label: 'Noto Naskh — نسخ' },
+  { name: 'Noto Kufi Arabic', label: 'Noto Kufi — كوفي' },
+  { name: 'Harmattan', label: 'Harmattan — بسيط' },
+  { name: 'Mada', label: 'Mada — حديث' },
+  { name: 'Changa', label: 'Changa — مبتكر' },
+  { name: 'Lemonada', label: 'Lemonada — رقيق' },
+  { name: 'Rakkas', label: 'Rakkas — ديكوري' },
+  { name: 'Lalezar', label: 'Lalezar — عريض' },
+  { name: 'Jomhuria', label: 'Jomhuria — عنوان' },
+  { name: 'Aref Ruqaa', label: 'Aref Ruqaa — رقعة' },
+  { name: 'Gulzar', label: 'Gulzar — نستعليق' }
+];
+
+// ═══════════════════════════════════════
+// الخلفيات الجاهزة
+// ═══════════════════════════════════════
+const BACKGROUNDS = [
+  { name: 'بنفسجي', css: 'linear-gradient(135deg,#667eea,#764ba2)' },
+  { name: 'غروب', css: 'linear-gradient(135deg,#f97316,#ec4899)' },
+  { name: 'سماء', css: 'linear-gradient(135deg,#0ea5e9,#6366f1)' },
+  { name: 'غابة', css: 'linear-gradient(135deg,#16a34a,#064e3b)' },
+  { name: 'ذهبي', css: 'linear-gradient(135deg,#f59e0b,#78350f)' },
+  { name: 'ليلي', css: 'linear-gradient(135deg,#0f172a,#1e293b)' },
+  { name: 'وردة', css: 'linear-gradient(135deg,#ec4899,#8b5cf6)' },
+  { name: 'نعناع', css: 'linear-gradient(135deg,#10b981,#0891b2)' },
+  { name: 'كريمي', css: 'linear-gradient(135deg,#fef3c7,#fed7aa)' },
+  { name: 'رمادي', css: 'linear-gradient(135deg,#475569,#1e293b)' }
+];
+
+// ═══════════════════════════════════════
+// التبويبات
+// ═══════════════════════════════════════
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('view-' + tab).classList.add('active');
+  if (tab === 'single') drawSingle();
+  else renderSlides();
+}
+
+// ═══════════════════════════════════════
+// متغيرات
+// ═══════════════════════════════════════
+let audioFile = null;
+let audioURL = null;
+let audioElement = null;
+let singleAnim = 'none';
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let currentTemplate = 'quote';
+let currentFont = 'Cairo';
+let bgImage = null;
+
+const PALETTE = [
+  '#dc2626', '#ea580c', '#f59e0b', '#facc15',
+  '#84cc16', '#16a34a', '#10b981', '#14b8a6',
+  '#0891b2', '#0ea5e9', '#3b82f6', '#6366f1',
+  '#8b5cf6', '#a855f7', '#d946ef', '#ec4899',
+  '#0f172a', '#1e293b', '#334155', '#475569',
+  '#64748b', '#94a3b8', '#cbd5e1', '#f1f5f9',
+  '#7c2d12', '#9a3412', '#78350f', '#854d0e',
+  '#365314', '#14532d', '#0c4a6e', '#3b0764'
+];
+
+// ═══════════════════════════════════════
+// بناء الألوان
+// ═══════════════════════════════════════
+function buildPalette() {
+  const wrap = document.getElementById('palette');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  PALETTE.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'palette-color';
+    div.style.background = c;
+    div.onclick = () => {
+      document.getElementById('bgColor').value = c;
+      document.querySelectorAll('.palette-color').forEach(p => p.classList.remove('active'));
+      div.classList.add('active');
+      drawSingle();
+      document.querySelector('.palette-dropdown').removeAttribute('open');
+    };
+    wrap.appendChild(div);
+  });
+}
+
+// ═══════════════════════════════════════
+// بناء الخطوط
+// ═══════════════════════════════════════
+function buildFonts() {
+  const wrap = document.getElementById('fontList');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  FONTS.forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'font-item' + (f.name === currentFont ? ' active' : '');
+    div.style.fontFamily = `"${f.name}", sans-serif`;
+    div.innerHTML = `
+      <span class="font-name">${f.label}</span>
+      <span class="font-desc">${f.name}</span>
+    `;
+    div.onclick = () => {
+      currentFont = f.name;
+      document.getElementById('fontSelect').value = f.name;
+      document.querySelectorAll('.font-item').forEach(i => i.classList.remove('active'));
+      div.classList.add('active');
+      drawSingle();
+      document.querySelector('.fonts-dropdown').removeAttribute('open');
+    };
+    wrap.appendChild(div);
+  });
+}
+
+// ═══════════════════════════════════════
+// بناء المكتبة
+// ═══════════════════════════════════════
+function buildLibrary() {
+  const wrap = document.getElementById('libraryGrid');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  BACKGROUNDS.forEach((b, i) => {
+    const div = document.createElement('div');
+    div.className = 'library-item';
+    div.style.background = b.css;
+    div.title = b.name;
+    div.onclick = () => {
+      document.querySelectorAll('.library-item').forEach(item => item.classList.remove('active'));
+      div.classList.add('active');
+      // استخراج اللون الأول من التدرج
+      const match = b.css.match(/#[0-9a-f]{6}/i);
+      if (match) {
+        document.getElementById('bgColor').value = match[0];
+      }
+      // تغيير القالب إلى تدرج
+      currentTemplate = 'gradient';
+      document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+      const gradientCard = document.querySelector('[data-tpl="gradient"]');
+      if (gradientCard) gradientCard.classList.add('active');
+      drawSingle();
+      document.querySelector('.library-dropdown').removeAttribute('open');
+    };
+    wrap.appendChild(div);
+  });
+}
+
+// ═══════════════════════════════════════
+// أحداث القوالب
+// ═══════════════════════════════════════
+function setTemplate(tpl, el) {
+  currentTemplate = tpl;
+  document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  drawSingle();
+  document.querySelector('.templates-dropdown').removeAttribute('open');
+}
+
+// ═══════════════════════════════════════
+// الحركات
+// ═══════════════════════════════════════
+const ANIMATIONS = {
+  none:       { label: 'بدون' },
+  fade:       { label: 'تلاشي' },
+  pulse:      { label: 'وميض' },
+  typewriter: { label: 'كتابة' },
+  slide:      { label: 'انزلاق يمين' },
+  slideLeft:  { label: 'انزلاق يسار' },
+  slideUp:    { label: 'انزلاق فوق' },
+  zoom:       { label: 'تكبير' },
+  shake:      { label: 'اهتزاز' }
+};
+
+function getAnimState(type, progress, fullText) {
+  const p = Math.min(1, Math.max(0, progress));
+  const eased = 1 - Math.pow(1 - p, 3);
+  const state = { opacity: 1, offsetX: 0, offsetY: 0, scale: 1, visibleText: null };
+
+  switch(type) {
+    case 'fade':       state.opacity = eased; break;
+    case 'pulse':      state.opacity = p < 0.5 ? p * 2 : 1;
+                       state.scale = 1 + Math.sin(p * Math.PI * 2) * 0.08; break;
+    case 'typewriter': state.visibleText = fullText.substring(0, Math.floor(p * fullText.length)); break;
+    case 'slide':      state.opacity = eased; state.offsetX = (1 - eased) * 400; break;
+    case 'slideLeft':  state.opacity = eased; state.offsetX = (1 - eased) * -400; break;
+    case 'slideUp':    state.opacity = eased; state.offsetY = (1 - eased) * 400; break;
+    case 'zoom':       state.opacity = eased; state.scale = 0.4 + eased * 0.6; break;
+    case 'shake':      state.opacity = eased; state.offsetX = Math.sin(p * Math.PI * 12) * 20 * (1 - eased); break;
+  }
+  return state;
+}
+
+// ═══════════════════════════════════════
+// رسم القوالب (24 قالب)
+// ═══════════════════════════════════════
+function drawTemplate(c, w, h, bg, fg, template) {
+  switch(template) {
+    case 'gradient':
+      const grad = c.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, bg);
+      grad.addColorStop(1, shadeColor(bg, 50));
+      c.fillStyle = grad;
+      c.fillRect(0, 0, w, h);
+      break;
+
+    case 'frame':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.strokeStyle = fg;
+      c.lineWidth = 10;
+      c.strokeRect(50, 50, w - 100, h - 100);
+      break;
+
+    case 'circles':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.globalAlpha = 0.15;
+      c.fillStyle = fg;
+      for (let i = 0; i < 8; i++) {
+        c.beginPath();
+        c.arc(Math.random() * w, Math.random() * h, 80 + Math.random() * 150, 0, Math.PI * 2);
+        c.fill();
+      }
+      c.globalAlpha = 1;
+      break;
+
+    case 'squares':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.globalAlpha = 0.1;
+      c.fillStyle = fg;
+      const size = w / 10;
+      for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+          if (Math.random() > 0.5) {
+            c.fillRect(i * size, j * size, size, size);
+          }
+        }
+      }
+      c.globalAlpha = 1;
+      break;
+
+    case 'triangles':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.globalAlpha = 0.1;
+      c.fillStyle = fg;
+      for (let i = 0; i < 15; i++) {
+        c.beginPath();
+        const x = Math.random() * w;
+        const y = Math.random() * h;
+        const s = 50 + Math.random() * 100;
+        c.moveTo(x, y);
+        c.lineTo(x + s, y + s);
+        c.lineTo(x - s, y + s);
+        c.closePath();
+        c.fill();
+      }
+      c.globalAlpha = 1;
+      break;
+
+    case 'dots':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.fillStyle = fg;
+      c.globalAlpha = 0.15;
+      const dotSize = w / 30;
+      for (let i = 0; i < 30; i++) {
+        for (let j = 0; j < 30; j++) {
+          c.beginPath();
+          c.arc(i * dotSize, j * dotSize, dotSize / 4, 0, Math.PI * 2);
+          c.fill();
+        }
+      }
+      c.globalAlpha = 1;
+      break;
+
+    case 'stripes':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.globalAlpha = 0.1;
+      c.fillStyle = fg;
+      const stripeHeight = h / 20;
+      for (let i = 0; i < 20; i += 2) {
+        c.fillRect(0, i * stripeHeight, w, stripeHeight);
+      }
+      c.globalAlpha = 1;
+      break;
+
+    case 'wave':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.fillStyle = fg;
+      c.globalAlpha = 0.15;
+      c.beginPath();
+      c.moveTo(0, h);
+      for (let x = 0; x <= w; x += 10) {
+        c.lineTo(x, h - 100 - Math.sin(x / 100) * 50);
+      }
+      c.lineTo(w, h);
+      c.closePath();
+      c.fill();
+      c.globalAlpha = 1;
+      break;
+
+    case 'islamic':
+      c.fillStyle = '#fef3c7';
+      c.fillRect(0, 0, w, h);
+      c.strokeStyle = '#d97706';
+      c.lineWidth = 6;
+      c.strokeRect(40, 40, w - 80, h - 80);
+      c.lineWidth = 2;
+      c.strokeRect(60, 60, w - 120, h - 120);
+      break;
+
+    case 'double-frame':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.strokeStyle = fg;
+      c.lineWidth = 4;
+      c.strokeRect(40, 40, w - 80, h - 80);
+      c.strokeRect(55, 55, w - 110, h - 110);
+      break;
+
+    case 'side-bar':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.fillStyle = fg;
+      c.fillRect(w - 30, 0, 30, h);
+      break;
+
+    case 'corner':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.fillStyle = fg;
+      c.globalAlpha = 0.2;
+      c.beginPath();
+      c.moveTo(0, 0);
+      c.lineTo(300, 0);
+      c.lineTo(0, 300);
+      c.closePath();
+      c.fill();
+      c.globalAlpha = 1;
+      break;
+
+    case 'half-circle':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.fillStyle = fg;
+      c.globalAlpha = 0.15;
+      c.beginPath();
+      c.arc(w / 2, h, w / 2, Math.PI, 0);
+      c.fill();
+      c.globalAlpha = 1;
+      break;
+
+    case 'stars':
+      c.fillStyle = '#0f172a';
+      c.fillRect(0, 0, w, h);
+      c.fillStyle = '#fbbf24';
+      for (let i = 0; i < 30; i++) {
+        c.globalAlpha = 0.3 + Math.random() * 0.7;
+        c.font = `${20 + Math.random() * 30}px Arial`;
+        c.fillText('★', Math.random() * w, Math.random() * h);
+      }
+      c.globalAlpha = 1;
+      break;
+
+    case 'ayah':
+      c.fillStyle = '#064e3b';
+      c.fillRect(0, 0, w, h);
+      c.strokeStyle = '#fbbf24';
+      c.lineWidth = 8;
+      c.strokeRect(40, 40, w - 80, h - 80);
+      c.lineWidth = 3;
+      c.strokeRect(60, 60, w - 120, h - 120);
+      break;
+
+    case 'hadith':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.strokeStyle = '#10b981';
+      c.lineWidth = 6;
+      c.strokeRect(50, 50, w - 100, h - 100);
+      break;
+
+    case 'poetry':
+      c.fillStyle = '#fef3c7';
+      c.fillRect(0, 0, w, h);
+      c.fillStyle = '#d97706';
+      c.fillRect(0, 60, w, 8);
+      c.fillRect(0, h - 68, w, 8);
+      break;
+
+    case 'news':
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      c.fillStyle = '#dc2626';
+      c.fillRect(0, 0, w, 120);
+      break;
+
+    case 'marketing':
+      c.fillStyle = '#fff7ed';
+      c.fillRect(0, 0, w, h);
+      c.strokeStyle = '#ea580c';
+      c.lineWidth = 10;
+      c.strokeRect(30, 30, w - 60, h - 60);
+      break;
+
+    case 'celebration':
+      c.fillStyle = '#fdf4ff';
+      c.fillRect(0, 0, w, h);
+      c.strokeStyle = '#d946ef';
+      c.lineWidth = 6;
+      c.setLineDash([20, 15]);
+      c.strokeRect(40, 40, w - 80, h - 80);
+      c.setLineDash([]);
+      break;
+
+    case 'classic-quote':
+      c.fillStyle = '#f5f5f4';
+      c.fillRect(0, 0, w, h);
+      c.strokeStyle = '#78716c';
+      c.lineWidth = 2;
+      c.strokeRect(50, 50, w - 100, h - 100);
+      break;
+
+    case 'ad':
+      c.fillStyle = '#1e40af';
+      c.fillRect(0, 0, w, h);
+      c.fillStyle = '#fbbf24';
+      c.fillRect(0, h - 200, w, 200);
+      break;
+
+    case 'quote':
+    case 'solid':
+    default:
+      c.fillStyle = bg;
+      c.fillRect(0, 0, w, h);
+      break;
+  }
+}
+
+// ═══════════════════════════════════════
+// الرسم
+// ═══════════════════════════════════════
+function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img, animState) {
+  c.clearRect(0, 0, w, h);
+
+  if (img) {
+    c.drawImage(img, 0, 0, w, h);
+  } else {
+    drawTemplate(c, w, h, bg, fg, template);
+  }
+
+  let anim = { opacity: 1, offsetX: 0, offsetY: 0, scale: 1, visibleText: null };
+  if (animState) anim = animState;
+
+  const visibleText = anim.visibleText !== null ? anim.visibleText : text;
+  const fontSize = w / 16;
+
+  c.save();
+  c.globalAlpha = anim.opacity;
+  c.fillStyle = fg;
+  c.font = `bold ${fontSize}px "${font}", sans-serif`;
+  c.textAlign = 'center';
+  c.textBaseline = 'middle';
+  c.direction = 'rtl';
+
+  const lines = wrapText(c, visibleText, w * 0.85);
+  const lineHeight = fontSize * 1.3;
+  const totalHeight = lines.length * lineHeight;
+  const startY = (h - totalHeight) / 2 + lineHeight / 2;
+
+  if (anim.scale !== 1 || anim.offsetX !== 0 || anim.offsetY !== 0) {
+    c.translate(w / 2 + anim.offsetX, h / 2 + anim.offsetY);
+    c.scale(anim.scale, anim.scale);
+    c.translate(-w / 2, -h / 2);
+  }
+
+  lines.forEach((line, i) => {
+    if (line.trim() === '') return;
+    c.fillText(line, w / 2, startY + i * lineHeight);
+  });
+
+  if (sig.trim()) {
+    const sigSize = w / 28;
+    c.font = `600 ${sigSize}px "${font}", sans-serif`;
+    c.globalAlpha = anim.opacity * 0.85;
+    c.fillText(sig, w / 2, h - sigSize * 2.5);
+  }
+
+  if (showCopy) {
+    const copySize = w / 55;
+    c.font = `600 ${copySize}px "Cairo", sans-serif`;
+    c.globalAlpha = anim.opacity * 0.55;
+    c.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
+  }
+  c.restore();
+}
+
+function wrapText(c, text, maxWidth) {
+  const paragraphs = text.split('\n');
+  const lines = [];
+  paragraphs.forEach(paragraph => {
+    if (paragraph.trim() === '') { lines.push(''); return; }
+    const words = paragraph.split(/\s+/);
+    let current = '';
+    words.forEach(word => {
+      const test = current ? current + ' ' + word : word;
+      if (c.measureText(test).width > maxWidth && current) {
+        lines.push(current);
+        current = word;
+      } else {
+        current = test;
+      }
+    });
+    if (current) lines.push(current);
+  });
+  return lines;
+}
+
+function shadeColor(color, percent) {
+  const num = parseInt(color.replace('#',''), 16);
+  const r = Math.min(255, Math.max(0, (num >> 16) + percent));
+  const g = Math.min(255, Math.max(0, ((num >> 8) & 0xff) + percent));
+  const b = Math.min(255, Math.max(0, (num & 0xff) + percent));
+  return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+}
+
+// ═══════════════════════════════════════
+// الوضع الفردي
+// ═══════════════════════════════════════
+['textInput','bgColor','textColor','signature'].forEach(id => {
+  document.getElementById(id).addEventListener('input', drawSingle);
+});
+document.getElementById('showCopyright').addEventListener('change', drawSingle);
+
+// قائمة الخطوط المخفية للتوافق
+document.body.insertAdjacentHTML('beforeend', '<select id="fontSelect" style="display:none;"><option value="Cairo">Cairo</option></select>');
+
+document.getElementById('imageUpload').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = new Image();
+    img.onload = () => { bgImage = img; drawSingle(); };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+function clearImage() {
+  bgImage = null;
+  document.getElementById('imageUpload').value = '';
+  drawSingle();
+}
+
+function drawSingle() {
+  const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
+  canvas.width = w;
+  canvas.height = h;
+
+  drawOnCanvas(
+    ctx, w, h,
+    document.getElementById('textInput').value || ' ',
+    document.getElementById('bgColor').value,
+    document.getElementById('textColor').value,
+    currentFont,
+    document.getElementById('signature').value,
+    document.getElementById('showCopyright').checked,
+    currentTemplate,
+    bgImage,
+    null
+  );
+}
+
+function downloadSingle() {
+  const link = document.createElement('a');
+  link.download = `resha-${Date.now()}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+function randomize() {
+  const templates = ['quote','gradient','solid','frame','circles','squares','triangles','dots','stripes','wave','islamic','double-frame','side-bar','corner','half-circle','stars','ayah','hadith','poetry','news','marketing','celebration','classic-quote','ad'];
+  const randTpl = templates[Math.floor(Math.random() * templates.length)];
+  const randFont = FONTS[Math.floor(Math.random() * FONTS.length)];
+  
+  document.getElementById('bgColor').value = PALETTE[Math.floor(Math.random() * PALETTE.length)];
+  currentFont = randFont.name;
+  currentTemplate = randTpl;
+  
+  // تحديث الأزرار
+  document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+  const tplCard = document.querySelector(`[data-tpl="${randTpl}"]`);
+  if (tplCard) tplCard.classList.add('active');
+  
+  document.querySelectorAll('.font-item').forEach(i => i.classList.remove('active'));
+  
+  drawSingle();
+}
+
+// ═══════════════════════════════════════
+// الصوت
+// ═══════════════════════════════════════
+document.getElementById('audioUpload').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  audioFile = file;
+  if (audioURL) URL.revokeObjectURL(audioURL);
+  audioURL = URL.createObjectURL(file);
+  audioElement = new Audio(audioURL);
+  const info = document.getElementById('audioInfo');
+  info.style.display = 'block';
+  info.textContent = '🎵 ' + file.name;
+});
+
+function clearAudio() {
+  audioFile = null;
+  if (audioURL) URL.revokeObjectURL(audioURL);
+  audioURL = null;
+  audioElement = null;
+  document.getElementById('audioUpload').value = '';
+  document.getElementById('audioInfo').style.display = 'none';
+}
+
+// ═══════════════════════════════════════
+// الفيديو
+// ═══════════════════════════════════════
+let slides = [];
+let currentSlideIndex = 0;
+let slideshowInterval = null;
+let slideshowTimeout = null;
+
+const DURATIONS = [5, 10, 15, 20, 30];
+const ANIMATION_LIST = ['none','fade','pulse','typewriter','slide','slideLeft','slideUp','zoom','shake'];
+
+function loadSlides() {
+  try {
+    const saved = localStorage.getItem('resha_slides');
+    if (saved) slides = JSON.parse(saved);
+    else slides = [createSlide(), createSlide()];
+  } catch(e) {
+    slides = [createSlide(), createSlide()];
+  }
+}
+
+function createSlide() {
+  return {
+    id: Date.now() + Math.random(),
+    text: 'النص',
+    template: 'quote',
+    bg: '#ffffff',
+    fg: '#000000',
+    font: 'Cairo',
+    duration: 5,
+    animation: 'fade'
+  };
+}
+
+function saveSlides() {
+  try {
+    localStorage.setItem('resha_slides', JSON.stringify(slides));
+  } catch(e) {}
+}
+
+function addSlide() {
+  slides.push(createSlide());
+  saveSlides();
+  renderSlides();
+}
+
+function deleteSlide(id) {
+  if (slides.length <= 1) {
+    alert('لا يمكن حذف هذا المقطع');
+    return;
+  }
+  slides = slides.filter(s => s.id !== id);
+  saveSlides();
+  renderSlides();
+}
+
+function updateSlide(id, field, value) {
+  const slide = slides.find(s => s.id === id);
+  if (slide) {
+    slide[field] = value;
+    saveSlides();
+  }
+}
+
+function renderSlides() {
+  const list = document.getElementById('slidesList');
+  list.innerHTML = '';
+  
+  slides.forEach((slide, i) => {
+    const div = document.createElement('div');
+    div.className = 'slide-item';
+    div.innerHTML = `
+      <div class="slide-header">
+        <span class="slide-num">🎬 ${i + 1}</span>
+        <button class="btn-small" onclick="deleteSlide(${slide.id})">🗑️</button>
+      </div>
+      
+      <div class="field">
+        <label>✍️ النص</label>
+        <textarea rows="2" oninput="updateSlide(${slide.id}, 'text', this.value)">${escapeHtml(slide.text)}</textarea>
+      </div>
+      
+      <div class="field">
+        <label>🎭 القالب</label>
+        <select onchange="updateSlide(${slide.id}, 'template', this.value)" style="width:100%;">
+          ${['quote','gradient','solid','frame','circles','squares','triangles','dots','stripes','wave','islamic','double-frame','side-bar','corner','half-circle','stars','ayah','hadith','poetry','news','marketing','celebration','classic-quote','ad'].map(t => `
+            <option value="${t}" ${slide.template === t ? 'selected' : ''}>${t === 'quote' ? 'اقتباس' : t === 'gradient' ? 'تدرج' : t === 'solid' ? 'صلب' : t === 'frame' ? 'إطار' : t === 'circles' ? 'دوائر' : t === 'squares' ? 'مربعات' : t === 'triangles' ? 'مثلثات' : t === 'dots' ? 'نقاط' : t === 'stripes' ? 'خطوط' : t === 'wave' ? 'موجة' : t === 'islamic' ? 'زخرفة إسلامية' : t === 'double-frame' ? 'إطار مزدوج' : t === 'side-bar' ? 'شريط جانبي' : t === 'corner' ? 'زاوية' : t === 'half-circle' ? 'نصف دائرة' : t === 'stars' ? 'نجوم' : t === 'ayah' ? 'آية' : t === 'hadith' ? 'حديث' : t === 'poetry' ? 'شعر' : t === 'news' ? 'عنوان صحفي' : t === 'marketing' ? 'تسويقي' : t === 'celebration' ? 'تهنئة' : t === 'classic-quote' ? 'اقتباس كلاسيكي' : 'إعلان'}</option>
+          `).join('')}
+        </select>
+      </div>
+      
+      <div class="grid-2">
+        <div class="field">
+          <label>🎨 الخلفية</label>
+          <input type="color" value="${slide.bg}" oninput="updateSlide(${slide.id}, 'bg', this.value)">
+        </div>
+        <div class="field">
+          <label>✏️ لون النص</label>
+          <input type="color" value="${slide.fg}" oninput="updateSlide(${slide.id}, 'fg', this.value)">
+        </div>
+      </div>
+      
+      <div class="field">
+        <label>📝 الخط</label>
+        <select onchange="updateSlide(${slide.id}, 'font', this.value)">
+          ${FONTS.map(f => `
+            <option value="${f.name}" ${slide.font === f.name ? 'selected' : ''}>${f.label}</option>
+          `).join('')}
+        </select>
+      </div>
+      
+      <div class="field">
+        <label>🎬 الحركة</label>
+        <div class="animations">
+          ${ANIMATION_LIST.map(a => `
+            <button class="anim-btn ${slide.animation === a ? 'active' : ''}" onclick="setSlideAnimation(${slide.id}, '${a}', this)">
+              ${ANIMATIONS[a].label}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+      
+      <div class="field">
+        <label>⏱️ المدة</label>
+        <div class="duration-row">
+          ${DURATIONS.map(d => `
+            <button class="dur-btn ${slide.duration === d ? 'active' : ''}" onclick="setSlideDuration(${slide.id}, ${d}, this)">
+              ${d} ث
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function setSlideDuration(id, dur, btn) {
+  updateSlide(id, 'duration', dur);
+  btn.parentElement.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function setSlideAnimation(id, anim, btn) {
+  updateSlide(id, 'animation', anim);
+  btn.parentElement.querySelectorAll('.anim-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function escapeHtml(text) {
+  return text.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function clearAllSlides() {
+  if (!confirm('تأكيد الحذف')) return;
+  slides = [createSlide(), createSlide()];
+  saveSlides();
+  renderSlides();
+}
+
+function drawSlideOnCanvas(c, slide, w, h, sig, showCopy, progress) {
+  const animState = getAnimState(slide.animation, progress, slide.text);
+  drawOnCanvas(c, w, h, slide.text, slide.bg, slide.fg, slide.font, sig, showCopy, slide.template, null, animState);
+}
+
+function playSlideshow() {
+  if (slides.length === 0) return;
+  
+  const overlay = document.getElementById('slideshow-overlay');
+  overlay.classList.add('active');
+  
+  const dots = document.getElementById('slideDots');
+  dots.innerHTML = slides.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}"></div>`).join('');
+  
+  if (audioFile && audioElement) {
+    audioElement.currentTime = 0;
+    audioElement.loop = document.getElementById('audioLoop').checked;
+    audioElement.play().catch(e => console.warn('صوت:', e));
+  }
+  
+  currentSlideIndex = 0;
+  showSlide(0);
+}
+
+function showSlide(index) {
+  if (index >= slides.length) {
+    stopSlideshow();
+    return;
+  }
+  
+  currentSlideIndex = index;
+  const slide = slides[index];
+  const sig = document.getElementById('slidesSig').value;
+  const showCopy = document.getElementById('slidesCopy').checked;
+  const [w, h] = document.getElementById('slidesSize').value.split('x').map(Number);
+  
+  const canvas = document.getElementById('slideshow-canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const c = canvas.getContext('2d');
+  
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.toggle('active', i === index);
+  });
+  
+  const fill = document.getElementById('progressFill');
+  fill.style.width = '0%';
+  
+  const duration = slide.duration * 1000;
+  const startTime = Date.now();
+  
+  if (slideshowInterval) clearInterval(slideshowInterval);
+  if (slideshowTimeout) clearTimeout(slideshowTimeout);
+  
+  try {
+    drawSlideOnCanvas(c, slide, w, h, sig, showCopy, 0);
+  } catch(e) { console.error('خطأ:', e); }
+  
+  slideshowInterval = setInterval(() => {
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min(1, elapsed / duration);
+    fill.style.width = (progress * 100) + '%';
+    
+    try {
+      drawSlideOnCanvas(c, slide, w, h, sig, showCopy, progress);
+    } catch(e) { console.error('خطأ:', e); }
+    
+    if (elapsed >= duration) {
+      clearInterval(slideshowInterval);
+      slideshowInterval = null;
+      slideshowTimeout = setTimeout(() => showSlide(index + 1), 100);
+    }
+  }, 1000 / 30);
+}
+
+function nextSlide() {
+  if (slideshowInterval) clearInterval(slideshowInterval);
+  if (slideshowTimeout) clearTimeout(slideshowTimeout);
+  slideshowInterval = null;
+  slideshowTimeout = null;
+  
+  if (currentSlideIndex + 1 < slides.length) {
+    showSlide(currentSlideIndex + 1);
+  } else {
+    stopSlideshow();
+  }
+}
+
+function stopSlideshow() {
+  if (slideshowInterval) clearInterval(slideshowInterval);
+  if (slideshowTimeout) clearTimeout(slideshowTimeout);
+  slideshowInterval = null;
+  slideshowTimeout = null;
+  
+  document.getElementById('slideshow-overlay').classList.remove('active');
+  if (audioElement) {
+    audioElement.pause();
+    audioElement.currentTime = 0;
+  }
+}
+
+async function exportSlidesVideo() {
+  if (slides.length === 0) return;
+  
+  const status = document.getElementById('slideStatus');
+  status.style.display = 'block';
+  status.textContent = '🎬 جاري التحضير...';
+  
+  try {
+    const sig = document.getElementById('slidesSig').value;
+    const showCopy = document.getElementById('slidesCopy').checked;
+    const [w, h] = document.getElementById('slidesSize').value.split('x').map(Number);
+    
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = w;
+    tempCanvas.height = h;
+    const tempCtx = tempCanvas.getContext('2d');
+    
+    drawSlideOnCanvas(tempCtx, slides[0], w, h, sig, showCopy, 0);
+    await new Promise(r => setTimeout(r, 100));
+    
+    const videoStream = tempCanvas.captureStream(30);
+    let combinedStream = videoStream;
+    
+    let localAudioCtx = null;
+    let localAudioSource = null;
+    
+    if (audioFile) {
+      try {
+        localAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const arrayBuffer = await audioFile.arrayBuffer();
+        const audioBuffer = await localAudioCtx.decodeAudioData(arrayBuffer);
+        
+        const dest = localAudioCtx.createMediaStreamDestination();
+        localAudioSource = localAudioCtx.createBufferSource();
+        localAudioSource.buffer = audioBuffer;
+        localAudioSource.loop = document.getElementById('audioLoop').checked;
+        localAudioSource.connect(dest);
+        
+        combinedStream = new MediaStream([
+          ...videoStream.getVideoTracks(),
+          ...dest.stream.getAudioTracks()
+        ]);
+      } catch(e) {
+        console.warn('تعذر دمج الصوت:', e);
+        combinedStream = videoStream;
+      }
+    }
+    
+    let recorder;
+    const options = { mimeType: 'video/webm;codecs=vp9,opus', videoBitsPerSecond: 6000000 };
+    
+    try {
+      recorder = new MediaRecorder(combinedStream, options);
+    } catch(e) {
+      try {
+        recorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm;codecs=vp8,opus' });
+      } catch(e2) {
+        recorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm' });
+      }
+    }
+    
+    const chunks = [];
+    recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+    
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: 'video/webm' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `resha-video-${Date.now()}.webm`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      if (localAudioSource) { try { localAudioSource.stop(); } catch(e) {} }
+      if (localAudioCtx) { try { localAudioCtx.close(); } catch(e) {} }
+      
+      status.textContent = '✅ تم التحميل';
+      setTimeout(() => status.style.display = 'none', 3000);
+    };
+    
+    recorder.start();
+    
+    if (localAudioSource && localAudioCtx) {
+      localAudioSource.start(0);
+    }
+    
+    status.textContent = '🎬 جاري التسجيل...';
+    
+    for (let i = 0; i < slides.length; i++) {
+      const slide = slides[i];
+      const frameDuration = slide.duration * 1000;
+      const startTime = Date.now();
+      
+      await new Promise(resolve => {
+        const interval = setInterval(() => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(1, elapsed / frameDuration);
+          
+          try {
+            drawSlideOnCanvas(tempCtx, slide, w, h, sig, showCopy, progress);
+          } catch(e) { console.error('خطأ:', e); }
+          
+          if (elapsed >= frameDuration) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 1000 / 30);
+      });
+    }
+    
+    recorder.stop();
+    
+  } catch(e) {
+    console.error(e);
+    status.textContent = '❌ خطأ';
+  }
+}
+
+async function exportAllImages() {
+  if (slides.length === 0) return;
+  
+  const sig = document.getElementById('slidesSig').value;
+  const showCopy = document.getElementById('slidesCopy').checked;
+  const [w, h] = document.getElementById('slidesSize').value.split('x').map(Number);
+  
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = w;
+  tempCanvas.height = h;
+  const c = tempCanvas.getContext('2d');
+  
+  for (let i = 0; i < slides.length; i++) {
+    drawSlideOnCanvas(c, slides[i], w, h, sig, showCopy, 1);
+    
+    const link = document.createElement('a');
+    link.download = `resha-${i + 1}.png`;
+    link.href = tempCanvas.toDataURL('image/png');
+    link.click();
+    
+    await new Promise(r => setTimeout(r, 300));
+  }
+  
+  alert('✅ تم التحميل');
+}
+
+// ═══════════════════════════════════════
+// التشغيل الأولي
+// ═══════════════════════════════════════
+window.addEventListener('load', () => {
+  buildPalette();
+  buildFonts();
+  buildLibrary();
+  loadSlides();
+  renderSlides();
+  drawSingle();
+});
+</script>
+
+</body>
+</html>
