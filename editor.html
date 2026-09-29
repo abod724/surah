@@ -10,49 +10,46 @@
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 12px; margin: 0; overflow-x: hidden; }
   .container { max-width: 1200px; margin: 0 auto; }
-  .header { text-align: center; color: #fff; margin-bottom: 16px; }
-  .header h1 { font-size: 22px; margin: 0 0 4px; }
-  .header p { font-size: 13px; opacity: 0.9; margin: 0; }
-  .editor-wrap { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .header { text-align: center; color: #fff; margin-bottom: 12px; }
+  .header h1 { font-size: 20px; margin: 0 0 4px; }
+  .header p { font-size: 12px; opacity: 0.9; margin: 0; }
+  .editor-wrap { display: grid; grid-template-columns: 1fr; gap: 12px; }
   @media (min-width: 1024px) { .editor-wrap { grid-template-columns: 1.6fr 1fr; } .canvas-area { position: sticky; top: 16px; } }
   .card { background: #fff; border-radius: 20px; padding: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
-  .canvas-area { display: flex; justify-content: center; align-items: center; background: #f1f5f9; border-radius: 16px; padding: 12px; overflow: hidden; min-height: 300px; }
+  .canvas-area { display: flex; justify-content: center; align-items: center; background: #f1f5f9; border-radius: 16px; padding: 12px; overflow: hidden; min-height: 280px; }
   #c { border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); max-width: 100%; touch-action: none; }
   .tools { display: flex; flex-direction: column; gap: 10px; }
 
-  details.dropdown {
-    background: #f8fafc;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.2s;
-  }
-  details.dropdown summary {
-    padding: 14px;
-    cursor: pointer;
-    font-weight: 800;
-    font-size: 14px;
-    color: #374151;
-    list-style: none;
+  .tabs-bar {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: none;
   }
-  details.dropdown summary::-webkit-details-marker { display: none; }
-  details.dropdown summary::after {
-    content: '▼';
-    font-size: 12px;
-    color: #6b7280;
-    transition: transform 0.2s;
-  }
-  details.dropdown[open] summary::after { transform: rotate(180deg); }
-  details.dropdown[open] { border-color: #667eea; }
-  details.dropdown[open] summary { color: #4338ca; }
-  details.dropdown .content {
-    padding: 12px;
-    border-top: 2px solid #e5e7eb;
+  .tabs-bar::-webkit-scrollbar { display: none; }
+  .tab-item {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 2px solid #e5e7eb;
     background: #fff;
+    color: #374151;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
   }
+  .tab-item.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    border-color: #667eea;
+  }
+
+  .tab-panel { display: none; padding: 12px; background: #f8fafc; border-radius: 12px; border: 2px solid #e5e7eb; }
+  .tab-panel.active { display: block; }
 
   .btn { padding: 12px 16px; border: none; border-radius: 12px; font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 14px; cursor: pointer; color: #fff; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
   .btn:active { transform: scale(0.97); }
@@ -63,12 +60,12 @@
   .btn-orange { background: #f59e0b; }
   .btn-gray { background: #64748b; }
   .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn-row .btn { flex: 1; min-width: 100px; }
+  .btn-row .btn { flex: 1; min-width: 90px; }
   .btn-filter { background: #fff; color: #374151; border: 2px solid #e5e7eb; padding: 8px 6px; font-size: 12px; flex: 1; min-width: 0; }
   .btn-filter:hover, .btn-filter.active { background: #eef2ff; border-color: #667eea; color: #4338ca; }
 
-  input[type="text"], input[type="color"], select { width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 14px; background: #fafafa; }
-  input:focus, select:focus { outline: none; border-color: #667eea; background: #fff; }
+  input[type="text"], input[type="color"], select { width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 14px; background: #fff; }
+  input:focus, select:focus { outline: none; border-color: #667eea; }
   input[type="range"] { width: 100%; -webkit-appearance: none; height: 8px; border-radius: 4px; background: #e5e7eb; outline: none; }
   input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #667eea; cursor: pointer; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .field { margin-bottom: 10px; }
@@ -76,7 +73,6 @@
 
   .footer { text-align: center; color: #fff; font-size: 12px; padding: 16px; margin-top: 16px; }
   .footer a { color: #fff; text-decoration: none; background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 8px; font-weight: 700; }
-  .hint { background: #eef2ff; border-right: 4px solid #667eea; padding: 10px; border-radius: 8px; font-size: 12px; color: #4338ca; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -93,114 +89,100 @@
     </div>
 
     <div class="card tools">
+      <div class="tabs-bar">
+        <button class="tab-item active" onclick="switchTab('text', this)">✍️ النص</button>
+        <button class="tab-item" onclick="switchTab('image', this)">🖼️ الصور</button>
+        <button class="tab-item" onclick="switchTab('shape', this)">⬛ الأشكال</button>
+        <button class="tab-item" onclick="switchTab('edit', this)">🎨 تعديل</button>
+        <button class="tab-item" onclick="switchTab('filter', this)">✨ فلاتر</button>
+        <button class="tab-item" onclick="switchTab('draw', this)">🧽 رسم</button>
+        <button class="tab-item" onclick="switchTab('export', this)">💾 تصدير</button>
+      </div>
 
-      <div class="hint">💡 لتسحب النص أو الصورة، المس حدود العنصر (الإطار الأزرق) أو مقابض التحكم (الدوائر).</div>
+      <div id="panel-text" class="tab-panel active">
+        <div class="field"><input type="text" id="textInput" placeholder="اكتب النص هنا..." value="اترك أثراً جميلاً"></div>
+        <div class="btn-row"><button class="btn btn-primary" onclick="addText()">➕ إضافة نص</button></div>
+      </div>
 
-      <details class="dropdown" open>
-        <summary>✍️ النص</summary>
-        <div class="content">
-          <div class="field"><input type="text" id="textInput" placeholder="اكتب النص هنا..." value="اترك أثراً جميلاً"></div>
-          <div class="btn-row"><button class="btn btn-primary" onclick="addText()">➕ إضافة نص</button></div>
+      <div id="panel-image" class="tab-panel">
+        <div class="btn-row">
+          <button class="btn btn-green" onclick="document.getElementById('imgLoader').click()">➕ إضافة صورة</button>
+          <input type="file" id="imgLoader" accept="image/*" style="display:none;" onchange="addImage(event)">
         </div>
-      </details>
+      </div>
 
-      <details class="dropdown">
-        <summary>🖼️ الصور (شعار أو خلفية)</summary>
-        <div class="content">
-          <div class="btn-row">
-            <button class="btn btn-green" onclick="document.getElementById('imgLoader').click()">➕ إضافة صورة</button>
-            <input type="file" id="imgLoader" accept="image/*" style="display:none;" onchange="addImage(event)">
-          </div>
+      <div id="panel-shape" class="tab-panel">
+        <div class="btn-row" style="margin-bottom:8px;">
+          <button class="btn btn-gray" onclick="addShape('rect')">▭ مستطيل</button>
+          <button class="btn btn-gray" onclick="addShape('circle')">◯ دائرة</button>
         </div>
-      </details>
+        <div class="btn-row" style="margin-bottom:8px;">
+          <button class="btn btn-gray" onclick="addShape('triangle')">△ مثلث</button>
+          <button class="btn btn-gray" onclick="addShape('line')">― خط</button>
+        </div>
+        <div class="field">
+          <label>لون الشكل</label>
+          <input type="color" id="shapeColor" value="#667eea">
+        </div>
+      </div>
 
-      <details class="dropdown">
-        <summary>⬛ الأشكال</summary>
-        <div class="content">
-          <div class="btn-row" style="margin-bottom:10px;">
-            <button class="btn btn-gray" onclick="addShape('rect')">▭ مستطيل</button>
-            <button class="btn btn-gray" onclick="addShape('circle')">◯ دائرة</button>
-          </div>
-          <div class="btn-row" style="margin-bottom:10px;">
-            <button class="btn btn-gray" onclick="addShape('triangle')">△ مثلث</button>
-            <button class="btn btn-gray" onclick="addShape('line')">― خط</button>
-          </div>
-          <div class="field">
-            <label>لون الشكل</label>
-            <input type="color" id="shapeColor" value="#667eea">
-          </div>
+      <div id="panel-edit" class="tab-panel">
+        <div class="btn-row" style="margin-bottom:8px;">
+          <button class="btn btn-orange" onclick="bringForward()">⬆️ للأمام</button>
+          <button class="btn btn-orange" onclick="sendBackward()">⬇️ للخلف</button>
         </div>
-      </details>
+        <div class="btn-row" style="margin-bottom:8px;">
+          <button class="btn btn-purple" onclick="duplicateSelected()">📋 تكرار</button>
+          <button class="btn btn-red" onclick="deleteSelected()">🗑️ حذف</button>
+        </div>
+        <div class="field">
+          <label>💧 شفافية العنصر المحدد</label>
+          <input type="range" id="opacitySlider" min="0" max="100" value="100" oninput="changeOpacity(this.value)">
+        </div>
+        <div class="field">
+          <label>🎨 لون النص المحدد</label>
+          <input type="color" id="textColorPicker" value="#000000" oninput="changeTextColor(this.value)">
+        </div>
+      </div>
 
-      <details class="dropdown">
-        <summary>🎨 تعديل العنصر المحدد</summary>
-        <div class="content">
-          <div class="btn-row" style="margin-bottom:8px;">
-            <button class="btn btn-orange" onclick="bringForward()">⬆️ للأمام</button>
-            <button class="btn btn-orange" onclick="sendBackward()">⬇️ للخلف</button>
-          </div>
-          <div class="btn-row" style="margin-bottom:8px;">
-            <button class="btn btn-purple" onclick="duplicateSelected()">📋 تكرار</button>
-            <button class="btn btn-red" onclick="deleteSelected()">🗑️ حذف</button>
-          </div>
-          <div class="field">
-            <label>💧 شفافية العنصر المحدد</label>
-            <input type="range" id="opacitySlider" min="0" max="100" value="100" oninput="changeOpacity(this.value)">
-          </div>
-          <div class="field">
-            <label>🎨 لون النص المحدد</label>
-            <input type="color" id="textColorPicker" value="#000000" oninput="changeTextColor(this.value)">
-          </div>
+      <div id="panel-filter" class="tab-panel">
+        <div class="btn-row" style="margin-bottom:6px;">
+          <button class="btn-filter" onclick="applyFilter('none')">❌ بدون</button>
+          <button class="btn-filter" onclick="applyFilter('bright')">🔆 إضاءة</button>
+          <button class="btn-filter" onclick="applyFilter('contrast')">🌗 تباين</button>
         </div>
-      </details>
+        <div class="btn-row" style="margin-bottom:6px;">
+          <button class="btn-filter" onclick="applyFilter('saturate')">🎨 تشبع</button>
+          <button class="btn-filter" onclick="applyFilter('grayscale')">⚫ رمادي</button>
+          <button class="btn-filter" onclick="applyFilter('sepia')">🟤 قديم</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn-filter" onclick="applyFilter('blur')">💧 ضبابي</button>
+          <button class="btn-filter" onclick="applyFilter('vintage')">📷 فينتاج</button>
+          <button class="btn-filter" onclick="applyFilter('warm')">🌅 دافئ</button>
+        </div>
+      </div>
 
-      <details class="dropdown">
-        <summary>✨ فلاتر الصورة</summary>
-        <div class="content">
-          <div class="btn-row" style="margin-bottom:6px;">
-            <button class="btn-filter" onclick="applyFilter('none')">❌ بدون</button>
-            <button class="btn-filter" onclick="applyFilter('bright')">🔆 إضاءة</button>
-            <button class="btn-filter" onclick="applyFilter('contrast')">🌗 تباين</button>
-          </div>
-          <div class="btn-row" style="margin-bottom:6px;">
-            <button class="btn-filter" onclick="applyFilter('saturate')">🎨 تشبع</button>
-            <button class="btn-filter" onclick="applyFilter('grayscale')">⚫ رمادي</button>
-            <button class="btn-filter" onclick="applyFilter('sepia')">🟤 قديم</button>
-          </div>
-          <div class="btn-row">
-            <button class="btn-filter" onclick="applyFilter('blur')">💧 ضبابي</button>
-            <button class="btn-filter" onclick="applyFilter('vintage')">📷 فينتاج</button>
-            <button class="btn-filter" onclick="applyFilter('warm')">🌅 دافئ</button>
-          </div>
+      <div id="panel-draw" class="tab-panel">
+        <div class="btn-row" style="margin-bottom:8px;">
+          <button class="btn btn-purple" onclick="toggleDraw()" id="drawBtn">✏️ تفعيل الرسم</button>
+          <button class="btn btn-gray" onclick="clearAll()">🧹 مسح الكل</button>
         </div>
-      </details>
+        <div class="field">
+          <label>لون القلم/الممحاة</label>
+          <input type="color" id="brushColor" value="#ffffff">
+        </div>
+        <div class="field">
+          <label>حجم الفرشاة</label>
+          <input type="range" id="brushSize" min="1" max="80" value="20">
+        </div>
+      </div>
 
-      <details class="dropdown">
-        <summary>🧽 الرسم والمسح</summary>
-        <div class="content">
-          <div class="btn-row" style="margin-bottom:8px;">
-            <button class="btn btn-purple" onclick="toggleDraw()" id="drawBtn">✏️ تفعيل الرسم</button>
-            <button class="btn btn-gray" onclick="clearAll()">🧹 مسح الكل</button>
-          </div>
-          <div class="field">
-            <label>لون القلم/الممحاة</label>
-            <input type="color" id="brushColor" value="#ffffff">
-          </div>
-          <div class="field">
-            <label>حجم الفرشاة</label>
-            <input type="range" id="brushSize" min="1" max="80" value="20">
-          </div>
+      <div id="panel-export" class="tab-panel">
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="exportPNG()">💾 تحميل PNG</button>
         </div>
-      </details>
-
-      <details class="dropdown" open>
-        <summary>💾 التصدير</summary>
-        <div class="content">
-          <div class="btn-row">
-            <button class="btn btn-primary" onclick="exportPNG()">💾 تحميل PNG</button>
-          </div>
-        </div>
-      </details>
+      </div>
 
     </div>
   </div>
@@ -242,6 +224,13 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 300));
 window.addEventListener('load', resizeCanvas);
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
 
 function addText() {
   const text = document.getElementById('textInput').value.trim();
@@ -293,15 +282,10 @@ function addShape(type) {
   let shape;
   const center = { left: canvas.getWidth() / 2, top: canvas.getHeight() / 2, originX: 'center', originY: 'center', fill: color, padding: 10 };
   
-  if (type === 'rect') {
-    shape = new fabric.Rect({ ...center, width: 200, height: 150 });
-  } else if (type === 'circle') {
-    shape = new fabric.Circle({ ...center, radius: 100 });
-  } else if (type === 'triangle') {
-    shape = new fabric.Triangle({ ...center, width: 200, height: 180 });
-  } else if (type === 'line') {
-    shape = new fabric.Line([100, 0, 500, 0], { left: canvas.getWidth() / 2, top: canvas.getHeight() / 2, stroke: color, strokeWidth: 8, originX: 'center', originY: 'center', padding: 10 });
-  }
+  if (type === 'rect') shape = new fabric.Rect({ ...center, width: 200, height: 150 });
+  else if (type === 'circle') shape = new fabric.Circle({ ...center, radius: 100 });
+  else if (type === 'triangle') shape = new fabric.Triangle({ ...center, width: 200, height: 180 });
+  else if (type === 'line') shape = new fabric.Line([100, 0, 500, 0], { left: canvas.getWidth() / 2, top: canvas.getHeight() / 2, stroke: color, strokeWidth: 8, originX: 'center', originY: 'center', padding: 10 });
   
   canvas.add(shape);
   canvas.setActiveObject(shape);
@@ -343,10 +327,7 @@ function deleteSelected() {
 
 function changeOpacity(val) {
   const obj = canvas.getActiveObject();
-  if (obj) {
-    obj.set('opacity', val / 100);
-    canvas.renderAll();
-  }
+  if (obj) { obj.set('opacity', val / 100); canvas.renderAll(); }
 }
 
 function changeTextColor(color) {
@@ -371,10 +352,7 @@ function updateControls() {
 
 function applyFilter(type) {
   const obj = canvas.getActiveObject();
-  if (!obj || obj.type !== 'image') {
-    alert('اختر صورة أولاً لتطبيق الفلتر');
-    return;
-  }
+  if (!obj || obj.type !== 'image') { alert('اختر صورة أولاً لتطبيق الفلتر'); return; }
   
   obj.filters = [];
   
