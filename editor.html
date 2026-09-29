@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title> ريشة — المحرر المتقدم</title>
+<title>✨ ريشة — المحرر المتقدم</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&family=Tajawal:wght@400;700&family=Almarai:wght@400;700&family=El+Messiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Mada:wght@400;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 10px; margin: 0; overflow-x: hidden; }
@@ -37,9 +37,10 @@
     touch-action: none; 
     display: block;
   }
+  /* ✅ إصلاح الرسم على الجوال */
+  .canvas-container .upper-canvas { touch-action: none !important; }
   
   .tools { display: flex; flex-direction: column; gap: 8px; }
-
   .tabs-bar { display: flex; flex-direction: column; gap: 6px; }
   
   .tab-item { 
@@ -88,8 +89,25 @@
   .btn-red { background: #ef4444; }
   .btn-orange { background: #f59e0b; }
   .btn-gray { background: #64748b; }
-  .btn-filter { background: #fff; color: #374151; border: 2px solid #e5e7eb; padding: 10px; font-size: 13px; width: 100%; }
+  .btn-filter { background: #fff; color: #374151; border: 2px solid #e5e7eb; padding: 10px; font-size: 13px; width: 100%; border-radius: 12px; font-family: 'Cairo', sans-serif; font-weight: 800; cursor: pointer; transition: all 0.2s; }
   .btn-filter:hover, .btn-filter.active { background: #eef2ff; border-color: #667eea; color: #4338ca; }
+
+  /* ✅ شبكة الألوان السريعة */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 5px;
+    margin-top: 6px;
+  }
+  .color-swatch {
+    aspect-ratio: 1;
+    border-radius: 7px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.15s;
+  }
+  .color-swatch:active { transform: scale(0.9); }
+  .color-swatch.active { border-color: #111; }
 
   textarea { 
     width: 100%; 
@@ -105,8 +123,9 @@
   }
   textarea:focus { outline: none; border-color: #667eea; }
   
-  input[type="color"], select { width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 14px; background: #fff; }
-  input:focus, select:focus { outline: none; border-color: #667eea; }
+  input[type="color"] { width: 100%; height: 42px; padding: 2px; border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; background: #fff; }
+  select { width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 14px; background: #fff; }
+  select:focus { outline: none; border-color: #667eea; }
   input[type="range"] { width: 100%; -webkit-appearance: none; height: 8px; border-radius: 4px; background: #e5e7eb; outline: none; }
   input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #667eea; cursor: pointer; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .field { margin-bottom: 10px; }
@@ -130,13 +149,47 @@
 
     <div class="card tools">
       <div class="tabs-bar">
-        <button class="tab-item active" onclick="toggleTab('text', this)"> النص</button>
+
+        <!-- ═══ النص ═══ -->
+        <button class="tab-item active" onclick="toggleTab('text', this)">📝 النص</button>
         <div id="panel-text" class="tab-panel active">
-          <div class="field"><textarea id="textInput" rows="2" placeholder="اكتب النص هنا...">اترك أثراً جميلاً</textarea></div>
-          <div class="btn-col"><button class="btn btn-primary" onclick="addText()">➕ إضافة نص</button></div>
+          <div class="field">
+            <textarea id="textInput" rows="2" placeholder="اكتب النص هنا...">اترك أثراً جميلاً</textarea>
+          </div>
+
+          <div class="field">
+            <label>الخط</label>
+            <select id="fontSelect">
+              <option value="Cairo">Cairo — حديث</option>
+              <option value="Amiri">Amiri — كلاسيكي</option>
+              <option value="Tajawal">Tajawal — أنيق</option>
+              <option value="Almarai">Almarai — نظيف</option>
+              <option value="El Messiri">El Messiri — أنيق</option>
+              <option value="Reem Kufi">Reem Kufi — كوفي</option>
+              <option value="Scheherazade New">Scheherazade — تقليدي</option>
+              <option value="Noto Naskh Arabic">Noto Naskh — نسخ</option>
+              <option value="Mada">Mada — حديث</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>لون النص</label>
+            <input type="color" id="newTextColor" value="#000000">
+            <div class="color-grid" id="quickColors"></div>
+          </div>
+
+          <div class="field">
+            <label>حجم الخط: <span id="fontSizeValue">80</span></label>
+            <input type="range" id="fontSizeSlider" min="20" max="200" value="80">
+          </div>
+
+          <div class="btn-col">
+            <button class="btn btn-primary" onclick="addText()">➕ إضافة نص</button>
+          </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('image', this)"> الصور</button>
+        <!-- ═══ الصور ═══ -->
+        <button class="tab-item" onclick="toggleTab('image', this)">🖼️ الصور</button>
         <div id="panel-image" class="tab-panel">
           <div class="btn-col">
             <button class="btn btn-green" onclick="document.getElementById('imgLoader').click()">➕ إضافة صورة</button>
@@ -144,7 +197,8 @@
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('shape', this)"> الأشكال</button>
+        <!-- ═══ الأشكال ═══ -->
+        <button class="tab-item" onclick="toggleTab('shape', this)">🔷 الأشكال</button>
         <div id="panel-shape" class="tab-panel">
           <div class="btn-col">
             <button class="btn btn-gray" onclick="addShape('rect')">▭ مستطيل</button>
@@ -158,61 +212,67 @@
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('edit', this)"> تعديل</button>
+        <!-- ═══ تعديل ═══ -->
+        <button class="tab-item" onclick="toggleTab('edit', this)">⚙️ تعديل</button>
         <div id="panel-edit" class="tab-panel">
           <div class="btn-col">
-            <button class="btn btn-orange" onclick="bringForward()"> للأمام</button>
-            <button class="btn btn-orange" onclick="sendBackward()"> للخلف</button>
-            <button class="btn btn-purple" onclick="duplicateSelected()"> تكرار</button>
-            <button class="btn btn-red" onclick="deleteSelected()"> حذف</button>
+            <button class="btn btn-orange" onclick="bringForward()">⬆️ للأمام</button>
+            <button class="btn btn-orange" onclick="sendBackward()">⬇️ للخلف</button>
+            <button class="btn btn-purple" onclick="duplicateSelected()">📋 تكرار</button>
+            <button class="btn btn-red" onclick="deleteSelected()">🗑️ حذف</button>
           </div>
           <div class="field" style="margin-top:10px;">
-            <label> شفافية العنصر المحدد</label>
+            <label>شفافية العنصر: <span id="opacityValue">100</span>%</label>
             <input type="range" id="opacitySlider" min="0" max="100" value="100" oninput="changeOpacity(this.value)">
           </div>
           <div class="field">
-            <label> لون النص المحدد</label>
+            <label>لون العنصر المحدد</label>
             <input type="color" id="textColorPicker" value="#000000" oninput="changeTextColor(this.value)">
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('filter', this)"> فلاتر</button>
+        <!-- ═══ فلاتر ═══ -->
+        <button class="tab-item" onclick="toggleTab('filter', this)">🎨 فلاتر</button>
         <div id="panel-filter" class="tab-panel">
           <div class="btn-col">
-            <button class="btn-filter" onclick="applyFilter('none')"> بدون</button>
-            <button class="btn-filter" onclick="applyFilter('bright')"> إضاءة</button>
-            <button class="btn-filter" onclick="applyFilter('contrast')"> تباين</button>
-            <button class="btn-filter" onclick="applyFilter('saturate')"> تشبع</button>
-            <button class="btn-filter" onclick="applyFilter('grayscale')"> رمادي</button>
-            <button class="btn-filter" onclick="applyFilter('sepia')"> قديم</button>
-            <button class="btn-filter" onclick="applyFilter('blur')"> ضبابي</button>
-            <button class="btn-filter" onclick="applyFilter('vintage')"> فينتاج</button>
-            <button class="btn-filter" onclick="applyFilter('warm')"> دافئ</button>
+            <button class="btn-filter" onclick="applyFilter('none')">بدون</button>
+            <button class="btn-filter" onclick="applyFilter('bright')">☀️ إضاءة</button>
+            <button class="btn-filter" onclick="applyFilter('contrast')">◐ تباين</button>
+            <button class="btn-filter" onclick="applyFilter('saturate')">🌈 تشبع</button>
+            <button class="btn-filter" onclick="applyFilter('grayscale')">⚫ رمادي</button>
+            <button class="btn-filter" onclick="applyFilter('sepia')">📜 قديم</button>
+            <button class="btn-filter" onclick="applyFilter('blur')">💨 ضبابي</button>
+            <button class="btn-filter" onclick="applyFilter('vintage')">🎞️ فينتاج</button>
+            <button class="btn-filter" onclick="applyFilter('warm')">🔥 دافئ</button>
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('draw', this)"> رسم</button>
+        <!-- ═══ رسم ═══ -->
+        <button class="tab-item" onclick="toggleTab('draw', this)">🖌️ رسم</button>
         <div id="panel-draw" class="tab-panel">
           <div class="btn-col">
-            <button class="btn btn-purple" onclick="toggleDraw()" id="drawBtn"> تفعيل الرسم</button>
-            <button class="btn btn-gray" onclick="clearAll()"> مسح الكل</button>
+            <button class="btn btn-purple" onclick="toggleDraw()" id="drawBtn">✏️ تفعيل الرسم</button>
+            <button class="btn btn-gray" onclick="clearAll()">🧹 مسح الكل</button>
           </div>
           <div class="field" style="margin-top:10px;">
-            <label>لون القلم/الممحاة</label>
-            <input type="color" id="brushColor" value="#ffffff">
+            <label>لون القلم</label>
+            <input type="color" id="brushColor" value="#000000">
+            <div class="color-grid" id="brushColors"></div>
           </div>
           <div class="field">
-            <label>حجم الفرشاة</label>
+            <label>حجم الفرشاة: <span id="brushSizeValue">20</span></label>
             <input type="range" id="brushSize" min="1" max="80" value="20">
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('export', this)"> تصدير</button>
+        <!-- ═══ تصدير ═══ -->
+        <button class="tab-item" onclick="toggleTab('export', this)">💾 تصدير</button>
         <div id="panel-export" class="tab-panel">
           <div class="btn-col">
-            <button class="btn btn-primary" onclick="exportPNG()"> تحميل PNG</button>
+            <button class="btn btn-primary" onclick="exportPNG()">📥 تحميل PNG</button>
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -234,7 +294,7 @@ window.addEventListener('load', function() {
     height: 1080
   });
 
-  // ✅ إعدادات مهمة: السماح بالتوسيع من الجوانب والزوايا
+  // إعدادات الكائنات
   fabric.Object.prototype.set({
     transparentCorners: false,
     cornerColor: '#667eea',
@@ -248,20 +308,24 @@ window.addEventListener('load', function() {
     hasControls: true,
     hasBorders: true,
     lockScalingFlip: true,
-    // ✅ السماح بالتوسيع من الجوانب
     lockUniScaling: false,
     centeredScaling: false
   });
 
-  // ✅ إعدادات خاصة للنص: السماح بالتوسيع من الجوانب
-  fabric.IText.prototype.set({
-    lockScalingX: false,
-    lockScalingY: false,
-    lockRotation: false,
-    hasRotatingPoint: true,
-    controlsAboveOverlay: true
+  // ✅ إخفاء مقابض الوسط (منع التدوير الخاطئ) — التدوير من الزوايا فقط
+  fabric.Object.prototype.setControlsVisibility({
+    mt: false,
+    mb: false,
+    ml: false,
+    mr: false,
+    tl: true,
+    tr: true,
+    bl: true,
+    br: true,
+    mtr: false
   });
 
+  // دالة تغيير الحجم
   function resizeCanvas() {
     var area = document.querySelector('.canvas-area');
     var maxWidth = area.clientWidth - 20;
@@ -279,6 +343,70 @@ window.addEventListener('load', function() {
   window.addEventListener('orientationchange', function() { setTimeout(resizeCanvas, 300); });
   setTimeout(resizeCanvas, 100);
 
+  // ═══════════════════════════════════════════════
+  // لوحة الألوان السريعة (للنص + للفرشاة)
+  // ═══════════════════════════════════════════════
+  var QUICK_COLORS = [
+    '#000000', '#ffffff', '#dc2626', '#ea580c', '#f59e0b', '#facc15', '#84cc16', '#16a34a',
+    '#10b981', '#14b8a6', '#0891b2', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7',
+    '#d946ef', '#ec4899', '#f43f5e', '#78350f', '#1e293b', '#334155', '#64748b', '#94a3b8'
+  ];
+
+  // ألوان النص
+  var quickColorsEl = document.getElementById('quickColors');
+  QUICK_COLORS.forEach(function(c) {
+    var sw = document.createElement('div');
+    sw.className = 'color-swatch';
+    sw.style.background = c;
+    sw.onclick = function() {
+      document.getElementById('newTextColor').value = c;
+      quickColorsEl.querySelectorAll('.color-swatch').forEach(function(s) { s.classList.remove('active'); });
+      sw.classList.add('active');
+      applyTextSettings();
+    };
+    quickColorsEl.appendChild(sw);
+  });
+
+  // ألوان الفرشاة
+  var brushColorsEl = document.getElementById('brushColors');
+  QUICK_COLORS.forEach(function(c) {
+    var sw = document.createElement('div');
+    sw.className = 'color-swatch';
+    sw.style.background = c;
+    sw.onclick = function() {
+      document.getElementById('brushColor').value = c;
+      brushColorsEl.querySelectorAll('.color-swatch').forEach(function(s) { s.classList.remove('active'); });
+      sw.classList.add('active');
+      if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.color = c;
+    };
+    brushColorsEl.appendChild(sw);
+  });
+
+  // ═══════════════════════════════════════════════
+  // تحديث إعدادات النص المحدد
+  // ═══════════════════════════════════════════════
+  function applyTextSettings() {
+    var obj = canvas.getActiveObject();
+    if (!obj || (obj.type !== 'i-text' && obj.type !== 'text')) return;
+    
+    var font = document.getElementById('fontSelect').value;
+    var color = document.getElementById('newTextColor').value;
+    var size = parseInt(document.getElementById('fontSizeSlider').value);
+    
+    obj.set({ fill: color, fontFamily: font, fontSize: size });
+    canvas.renderAll();
+  }
+
+  document.getElementById('fontSizeSlider').addEventListener('input', function(e) {
+    document.getElementById('fontSizeValue').textContent = e.target.value;
+    applyTextSettings();
+  });
+  document.getElementById('newTextColor').addEventListener('input', applyTextSettings);
+  document.getElementById('fontSelect').addEventListener('change', applyTextSettings);
+
+  // ═══════════════════════════════════════════════
+  // التبويبات
+  // ═══════════════════════════════════════════════
   window.toggleTab = function(name, btn) {
     var panel = document.getElementById('panel-' + name);
     var isActive = btn.classList.contains('active');
@@ -290,24 +418,27 @@ window.addEventListener('load', function() {
     }
   };
 
+  // ═══════════════════════════════════════════════
+  // إضافة نص
+  // ═══════════════════════════════════════════════
   window.addText = function() {
     var text = document.getElementById('textInput').value.trim();
     if (!text) { alert('اكتب نصاً أولاً'); return; }
+    
+    var color = document.getElementById('newTextColor').value;
+    var font = document.getElementById('fontSelect').value;
+    var size = parseInt(document.getElementById('fontSizeSlider').value);
+    
     var t = new fabric.IText(text, {
       left: 540, top: 540,
-      fontFamily: 'Cairo',
-      fontSize: 80,
-      fill: '#000000',
+      fontFamily: font,
+      fontSize: size,
+      fill: color,
       direction: 'rtl',
       textAlign: 'center',
       originX: 'center', originY: 'center',
       padding: 15,
       editable: true,
-      // ✅ السماح بالتوسيع من الجوانب
-      lockScalingX: false,
-      lockScalingY: false,
-      lockRotation: false,
-      hasRotatingPoint: true,
       hasControls: true,
       hasBorders: true,
       lockUniScaling: false
@@ -317,6 +448,9 @@ window.addEventListener('load', function() {
     canvas.renderAll();
   };
 
+  // ═══════════════════════════════════════════════
+  // إضافة صورة
+  // ═══════════════════════════════════════════════
   window.addImage = function(e) {
     var file = e.target.files[0];
     if (!file) return;
@@ -335,6 +469,9 @@ window.addEventListener('load', function() {
     reader.readAsDataURL(file);
   };
 
+  // ═══════════════════════════════════════════════
+  // إضافة أشكال
+  // ═══════════════════════════════════════════════
   window.addShape = function(type) {
     var color = document.getElementById('shapeColor').value;
     var shape;
@@ -348,6 +485,9 @@ window.addEventListener('load', function() {
     canvas.renderAll();
   };
 
+  // ═══════════════════════════════════════════════
+  // أدوات التعديل
+  // ═══════════════════════════════════════════════
   window.bringForward = function() {
     var obj = canvas.getActiveObject();
     if (!obj) { alert('اختر عنصراً أولاً'); return; }
@@ -373,27 +513,57 @@ window.addEventListener('load', function() {
     canvas.discardActiveObject(); canvas.renderAll();
   };
   window.changeOpacity = function(val) {
+    document.getElementById('opacityValue').textContent = val;
     var obj = canvas.getActiveObject();
     if (obj) { obj.set('opacity', val / 100); canvas.renderAll(); }
   };
   window.changeTextColor = function(color) {
     var obj = canvas.getActiveObject();
-    if (obj && (obj.type === 'i-text' || obj.type === 'text')) {
-      obj.set('fill', color); canvas.renderAll();
+    if (obj) { 
+      if (obj.type === 'i-text' || obj.type === 'text') {
+        obj.set('fill', color);
+      } else {
+        obj.set('fill', color);
+      }
+      canvas.renderAll(); 
     }
   };
 
+  // ═══════════════════════════════════════════════
+  // تحديث المتحكمات عند التحديد
+  // ═══════════════════════════════════════════════
   canvas.on('selection:created', updateControls);
   canvas.on('selection:updated', updateControls);
   function updateControls() {
     var obj = canvas.getActiveObject();
     if (!obj) return;
+    
     document.getElementById('opacitySlider').value = (obj.opacity || 1) * 100;
+    document.getElementById('opacityValue').textContent = Math.round((obj.opacity || 1) * 100);
+    
     if (obj.fill && typeof obj.fill === 'string' && obj.fill.startsWith('#')) {
       document.getElementById('textColorPicker').value = obj.fill;
     }
+    
+    if (obj.fontFamily) {
+      var sel = document.getElementById('fontSelect');
+      for (var i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === obj.fontFamily) {
+          sel.selectedIndex = i;
+          break;
+        }
+      }
+    }
+    
+    if (obj.fontSize) {
+      document.getElementById('fontSizeSlider').value = obj.fontSize;
+      document.getElementById('fontSizeValue').textContent = obj.fontSize;
+    }
   }
 
+  // ═══════════════════════════════════════════════
+  // الفلاتر
+  // ═══════════════════════════════════════════════
   window.applyFilter = function(type) {
     var obj = canvas.getActiveObject();
     if (!obj || obj.type !== 'image') { alert('اختر صورة أولاً لتطبيق الفلتر'); return; }
@@ -412,25 +582,40 @@ window.addEventListener('load', function() {
       obj.filters.push(new fabric.Image.filters.BlendColor({ color: '#ff9900', mode: 'tint', alpha: 0.2 }));
       obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.1 }));
     }
-    obj.applyFilters(); canvas.renderAll();
+    obj.applyFilters(); 
+    canvas.renderAll();
   };
 
+  // ═══════════════════════════════════════════════
+  // ✅ الرسم — النسخة المُصلَحة
+  // ═══════════════════════════════════════════════
   var isDrawing = false;
+  
   window.toggleDraw = function() {
     isDrawing = !isDrawing;
     var btn = document.getElementById('drawBtn');
+    
     if (isDrawing) {
-      canvas.isDrawingMode = true;
-      canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+      // 1. إنشاء الفرشاة أولاً
+      if (!canvas.freeDrawingBrush) {
+        canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+      }
       canvas.freeDrawingBrush.color = document.getElementById('brushColor').value;
       canvas.freeDrawingBrush.width = parseInt(document.getElementById('brushSize').value);
-      btn.innerHTML = ' إيقاف الرسم';
+      
+      // 2. إلغاء التحديد
+      canvas.discardActiveObject();
+      canvas.renderAll();
+      
+      // 3. تفعيل الرسم
+      canvas.isDrawingMode = true;
+      
+      btn.innerHTML = '⏹️ إيقاف الرسم';
       btn.classList.remove('btn-purple');
       btn.classList.add('btn-red');
-      canvas.discardActiveObject(); canvas.renderAll();
     } else {
       canvas.isDrawingMode = false;
-      btn.innerHTML = ' تفعيل الرسم';
+      btn.innerHTML = '✏️ تفعيل الرسم';
       btn.classList.remove('btn-red');
       btn.classList.add('btn-purple');
     }
@@ -440,21 +625,36 @@ window.addEventListener('load', function() {
     if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.color = e.target.value;
   });
   document.getElementById('brushSize').addEventListener('input', function(e) {
+    document.getElementById('brushSizeValue').textContent = e.target.value;
     if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.width = parseInt(e.target.value);
   });
 
+  // ═══════════════════════════════════════════════
+  // مسح الكل
+  // ═══════════════════════════════════════════════
   window.clearAll = function() {
     if (!confirm('هل تريد مسح كل شيء؟')) return;
-    canvas.clear(); canvas.backgroundColor = '#ffffff'; canvas.renderAll();
+    canvas.clear(); 
+    canvas.backgroundColor = '#ffffff'; 
+    canvas.renderAll();
   };
+
+  // ═══════════════════════════════════════════════
+  // تصدير PNG
+  // ═══════════════════════════════════════════════
   window.exportPNG = function() {
-    canvas.discardActiveObject(); canvas.renderAll();
+    canvas.discardActiveObject(); 
+    canvas.renderAll();
     var dataURL = canvas.toDataURL({ format: 'png', quality: 1, multiplier: 2 });
     var link = document.createElement('a');
     link.download = 'resha-editor-' + Date.now() + '.png';
-    link.href = dataURL; link.click();
+    link.href = dataURL; 
+    link.click();
   };
 
+  // ═══════════════════════════════════════════════
+  // اختصارات لوحة المفاتيح
+  // ═══════════════════════════════════════════════
   document.addEventListener('keydown', function(e) {
     if ((e.key === 'Delete' || e.key === 'Backspace') && canvas.getActiveObject()) {
       if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
