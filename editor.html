@@ -17,40 +17,14 @@
   @media (min-width: 1024px) { .editor-wrap { grid-template-columns: 1.6fr 1fr; } .canvas-area { position: sticky; top: 16px; } }
   .card { background: #fff; border-radius: 20px; padding: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
   .canvas-area { display: flex; justify-content: center; align-items: center; background: #f1f5f9; border-radius: 16px; padding: 12px; overflow: hidden; min-height: 280px; }
-  #c { border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); max-width: 100%; touch-action: none; }
+  #c { border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); max-width: 100%; touch-action: none; display: block; }
   .tools { display: flex; flex-direction: column; gap: 10px; }
-
-  .tabs-bar {
-    display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    padding-bottom: 6px;
-    scrollbar-width: none;
-  }
+  .tabs-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
   .tabs-bar::-webkit-scrollbar { display: none; }
-  .tab-item {
-    padding: 10px 16px;
-    border-radius: 10px;
-    border: 2px solid #e5e7eb;
-    background: #fff;
-    color: #374151;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 800;
-    font-size: 13px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-  .tab-item.active {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: #fff;
-    border-color: #667eea;
-  }
-
+  .tab-item { padding: 10px 16px; border-radius: 10px; border: 2px solid #e5e7eb; background: #fff; color: #374151; font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 13px; cursor: pointer; white-space: nowrap; transition: all 0.2s; flex-shrink: 0; }
+  .tab-item.active { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border-color: #667eea; }
   .tab-panel { display: none; padding: 12px; background: #f8fafc; border-radius: 12px; border: 2px solid #e5e7eb; }
   .tab-panel.active { display: block; }
-
   .btn { padding: 12px 16px; border: none; border-radius: 12px; font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 14px; cursor: pointer; color: #fff; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
   .btn:active { transform: scale(0.97); }
   .btn-primary { background: #667eea; }
@@ -63,14 +37,12 @@
   .btn-row .btn { flex: 1; min-width: 90px; }
   .btn-filter { background: #fff; color: #374151; border: 2px solid #e5e7eb; padding: 8px 6px; font-size: 12px; flex: 1; min-width: 0; }
   .btn-filter:hover, .btn-filter.active { background: #eef2ff; border-color: #667eea; color: #4338ca; }
-
   input[type="text"], input[type="color"], select { width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 14px; background: #fff; }
   input:focus, select:focus { outline: none; border-color: #667eea; }
   input[type="range"] { width: 100%; -webkit-appearance: none; height: 8px; border-radius: 4px; background: #e5e7eb; outline: none; }
   input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #667eea; cursor: pointer; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .field { margin-bottom: 10px; }
   label { display: block; font-weight: 700; font-size: 12px; color: #374151; margin-bottom: 4px; }
-
   .footer { text-align: center; color: #fff; font-size: 12px; padding: 16px; margin-top: 16px; }
   .footer a { color: #fff; text-decoration: none; background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 8px; font-weight: 700; }
 </style>
@@ -193,249 +165,244 @@
 </div>
 
 <script>
-const canvas = new fabric.Canvas('c', {
-  backgroundColor: '#ffffff',
-  preserveObjectStacking: true,
-  selection: true,
-  allowTouchScrolling: false,
-  enableRetinaScaling: true
-});
-
-fabric.Object.prototype.set({
-  transparentCorners: false,
-  cornerColor: '#667eea',
-  cornerStrokeColor: '#fff',
-  borderColor: '#667eea',
-  cornerSize: 24,
-  touchCornerSize: 30,
-  padding: 5,
-  cornerStyle: 'circle',
-  borderScaleFactor: 2
-});
-
-function resizeCanvas() {
-  const area = document.querySelector('.canvas-area');
-  const maxWidth = area.clientWidth - 24;
-  const scale = Math.min(1, maxWidth / 600);
-  canvas.setDimensions({ width: 600 * scale, height: 600 * scale });
-  canvas.setZoom(scale);
-  canvas.renderAll();
-}
-window.addEventListener('resize', resizeCanvas);
-window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 300));
-window.addEventListener('load', resizeCanvas);
-
-function switchTab(name, btn) {
-  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('panel-' + name).classList.add('active');
-}
-
-function addText() {
-  const text = document.getElementById('textInput').value.trim();
-  if (!text) { alert('اكتب نصاً أولاً'); return; }
-  const t = new fabric.IText(text, {
-    left: canvas.getWidth() / 2,
-    top: canvas.getHeight() / 2,
-    fontFamily: 'Cairo',
-    fontSize: 40,
-    fill: '#000000',
-    direction: 'rtl',
-    textAlign: 'center',
-    originX: 'center',
-    originY: 'center',
-    padding: 10
+window.addEventListener('load', function() {
+  var canvas = new fabric.Canvas('c', {
+    backgroundColor: '#ffffff',
+    preserveObjectStacking: true,
+    selection: true,
+    allowTouchScrolling: false,
+    enableRetinaScaling: true
   });
-  canvas.add(t);
-  canvas.setActiveObject(t);
-  canvas.renderAll();
-}
 
-function addImage(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(ev) {
-    fabric.Image.fromURL(ev.target.result, function(img) {
-      const maxW = canvas.getWidth() * 0.6;
-      if (img.width > maxW) img.scaleToWidth(maxW);
-      img.set({
-        left: canvas.getWidth() / 2,
-        top: canvas.getHeight() / 2,
-        originX: 'center',
-        originY: 'center',
-        padding: 10,
-        filters: []
+  fabric.Object.prototype.set({
+    transparentCorners: false,
+    cornerColor: '#667eea',
+    cornerStrokeColor: '#fff',
+    borderColor: '#667eea',
+    cornerSize: 24,
+    touchCornerSize: 30,
+    padding: 5,
+    cornerStyle: 'circle',
+    borderScaleFactor: 2
+  });
+
+  function resizeCanvas() {
+    var area = document.querySelector('.canvas-area');
+    var maxWidth = area.clientWidth - 24;
+    var scale = Math.min(1, maxWidth / 600);
+    canvas.setDimensions({ width: 600 * scale, height: 600 * scale });
+    canvas.setZoom(scale);
+    canvas.renderAll();
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('orientationchange', function() { setTimeout(resizeCanvas, 300); });
+  resizeCanvas();
+
+  window.switchTab = function(name, btn) {
+    document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('panel-' + name).classList.add('active');
+  };
+
+  window.addText = function() {
+    var text = document.getElementById('textInput').value.trim();
+    if (!text) { alert('اكتب نصاً أولاً'); return; }
+    var t = new fabric.IText(text, {
+      left: canvas.getWidth() / 2,
+      top: canvas.getHeight() / 2,
+      fontFamily: 'Cairo',
+      fontSize: 40,
+      fill: '#000000',
+      direction: 'rtl',
+      textAlign: 'center',
+      originX: 'center',
+      originY: 'center',
+      padding: 10
+    });
+    canvas.add(t);
+    canvas.setActiveObject(t);
+    canvas.renderAll();
+  };
+
+  window.addImage = function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      fabric.Image.fromURL(ev.target.result, function(img) {
+        var maxW = canvas.getWidth() * 0.6;
+        if (img.width > maxW) img.scaleToWidth(maxW);
+        img.set({
+          left: canvas.getWidth() / 2,
+          top: canvas.getHeight() / 2,
+          originX: 'center',
+          originY: 'center',
+          padding: 10,
+          filters: []
+        });
+        canvas.add(img);
+        canvas.setActiveObject(img);
+        canvas.renderAll();
       });
-      canvas.add(img);
-      canvas.setActiveObject(img);
+      e.target.value = '';
+    };
+    reader.readAsDataURL(file);
+  };
+
+  window.addShape = function(type) {
+    var color = document.getElementById('shapeColor').value;
+    var shape;
+    var center = { left: canvas.getWidth() / 2, top: canvas.getHeight() / 2, originX: 'center', originY: 'center', fill: color, padding: 10 };
+
+    if (type === 'rect') shape = new fabric.Rect({ ...center, width: 200, height: 150 });
+    else if (type === 'circle') shape = new fabric.Circle({ ...center, radius: 100 });
+    else if (type === 'triangle') shape = new fabric.Triangle({ ...center, width: 200, height: 180 });
+    else if (type === 'line') shape = new fabric.Line([100, 0, 500, 0], { left: canvas.getWidth() / 2, top: canvas.getHeight() / 2, stroke: color, strokeWidth: 8, originX: 'center', originY: 'center', padding: 10 });
+
+    canvas.add(shape);
+    canvas.setActiveObject(shape);
+    canvas.renderAll();
+  };
+
+  window.bringForward = function() {
+    var obj = canvas.getActiveObject();
+    if (!obj) { alert('اختر عنصراً أولاً'); return; }
+    canvas.bringForward(obj);
+    canvas.renderAll();
+  };
+
+  window.sendBackward = function() {
+    var obj = canvas.getActiveObject();
+    if (!obj) { alert('اختر عنصراً أولاً'); return; }
+    canvas.sendBackwards(obj);
+    canvas.renderAll();
+  };
+
+  window.duplicateSelected = function() {
+    var obj = canvas.getActiveObject();
+    if (!obj) { alert('اختر عنصراً أولاً'); return; }
+    obj.clone(function(cloned) {
+      cloned.set({ left: cloned.left + 20, top: cloned.top + 20 });
+      canvas.add(cloned);
+      canvas.setActiveObject(cloned);
       canvas.renderAll();
     });
-    e.target.value = '';
   };
-  reader.readAsDataURL(file);
-}
 
-function addShape(type) {
-  const color = document.getElementById('shapeColor').value;
-  let shape;
-  const center = { left: canvas.getWidth() / 2, top: canvas.getHeight() / 2, originX: 'center', originY: 'center', fill: color, padding: 10 };
-  
-  if (type === 'rect') shape = new fabric.Rect({ ...center, width: 200, height: 150 });
-  else if (type === 'circle') shape = new fabric.Circle({ ...center, radius: 100 });
-  else if (type === 'triangle') shape = new fabric.Triangle({ ...center, width: 200, height: 180 });
-  else if (type === 'line') shape = new fabric.Line([100, 0, 500, 0], { left: canvas.getWidth() / 2, top: canvas.getHeight() / 2, stroke: color, strokeWidth: 8, originX: 'center', originY: 'center', padding: 10 });
-  
-  canvas.add(shape);
-  canvas.setActiveObject(shape);
-  canvas.renderAll();
-}
-
-function bringForward() {
-  const obj = canvas.getActiveObject();
-  if (!obj) { alert('اختر عنصراً أولاً'); return; }
-  canvas.bringForward(obj);
-  canvas.renderAll();
-}
-
-function sendBackward() {
-  const obj = canvas.getActiveObject();
-  if (!obj) { alert('اختر عنصراً أولاً'); return; }
-  canvas.sendBackwards(obj);
-  canvas.renderAll();
-}
-
-function duplicateSelected() {
-  const obj = canvas.getActiveObject();
-  if (!obj) { alert('اختر عنصراً أولاً'); return; }
-  obj.clone(function(cloned) {
-    cloned.set({ left: cloned.left + 20, top: cloned.top + 20 });
-    canvas.add(cloned);
-    canvas.setActiveObject(cloned);
-    canvas.renderAll();
-  });
-}
-
-function deleteSelected() {
-  const objs = canvas.getActiveObjects();
-  if (objs.length === 0) { alert('اختر عنصراً أولاً'); return; }
-  objs.forEach(o => canvas.remove(o));
-  canvas.discardActiveObject();
-  canvas.renderAll();
-}
-
-function changeOpacity(val) {
-  const obj = canvas.getActiveObject();
-  if (obj) { obj.set('opacity', val / 100); canvas.renderAll(); }
-}
-
-function changeTextColor(color) {
-  const obj = canvas.getActiveObject();
-  if (obj && (obj.type === 'i-text' || obj.type === 'text')) {
-    obj.set('fill', color);
-    canvas.renderAll();
-  }
-}
-
-canvas.on('selection:created', updateControls);
-canvas.on('selection:updated', updateControls);
-
-function updateControls() {
-  const obj = canvas.getActiveObject();
-  if (!obj) return;
-  document.getElementById('opacitySlider').value = (obj.opacity || 1) * 100;
-  if (obj.fill && typeof obj.fill === 'string' && obj.fill.startsWith('#')) {
-    document.getElementById('textColorPicker').value = obj.fill;
-  }
-}
-
-function applyFilter(type) {
-  const obj = canvas.getActiveObject();
-  if (!obj || obj.type !== 'image') { alert('اختر صورة أولاً لتطبيق الفلتر'); return; }
-  
-  obj.filters = [];
-  
-  if (type === 'bright') obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.3 }));
-  else if (type === 'contrast') obj.filters.push(new fabric.Image.filters.Contrast({ contrast: 0.3 }));
-  else if (type === 'saturate') obj.filters.push(new fabric.Image.filters.Saturation({ saturation: 0.5 }));
-  else if (type === 'grayscale') obj.filters.push(new fabric.Image.filters.Grayscale());
-  else if (type === 'sepia') obj.filters.push(new fabric.Image.filters.Sepia());
-  else if (type === 'blur') obj.filters.push(new fabric.Image.filters.Blur({ blur: 0.3 }));
-  else if (type === 'vintage') {
-    obj.filters.push(new fabric.Image.filters.Sepia());
-    obj.filters.push(new fabric.Image.filters.Contrast({ contrast: 0.2 }));
-  }
-  else if (type === 'warm') {
-    obj.filters.push(new fabric.Image.filters.BlendColor({ color: '#ff9900', mode: 'tint', alpha: 0.2 }));
-    obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.1 }));
-  }
-  
-  obj.applyFilters();
-  canvas.renderAll();
-}
-
-let isDrawing = false;
-
-function toggleDraw() {
-  isDrawing = !isDrawing;
-  const btn = document.getElementById('drawBtn');
-  if (isDrawing) {
-    canvas.isDrawingMode = true;
-    canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
-    canvas.freeDrawingBrush.color = document.getElementById('brushColor').value;
-    canvas.freeDrawingBrush.width = parseInt(document.getElementById('brushSize').value);
-    btn.innerHTML = '🛑 إيقاف الرسم';
-    btn.classList.remove('btn-purple');
-    btn.classList.add('btn-red');
+  window.deleteSelected = function() {
+    var objs = canvas.getActiveObjects();
+    if (objs.length === 0) { alert('اختر عنصراً أولاً'); return; }
+    objs.forEach(function(o) { canvas.remove(o); });
     canvas.discardActiveObject();
     canvas.renderAll();
-  } else {
-    canvas.isDrawingMode = false;
-    btn.innerHTML = '✏️ تفعيل الرسم';
-    btn.classList.remove('btn-red');
-    btn.classList.add('btn-purple');
-  }
-}
+  };
 
-document.getElementById('brushColor').addEventListener('input', (e) => {
-  if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.color = e.target.value;
-});
-document.getElementById('brushSize').addEventListener('input', (e) => {
-  if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.width = parseInt(e.target.value);
-});
+  window.changeOpacity = function(val) {
+    var obj = canvas.getActiveObject();
+    if (obj) { obj.set('opacity', val / 100); canvas.renderAll(); }
+  };
 
-function clearAll() {
-  if (!confirm('هل تريد مسح كل شيء؟')) return;
-  canvas.clear();
-  canvas.backgroundColor = '#ffffff';
-  canvas.renderAll();
-}
+  window.changeTextColor = function(color) {
+    var obj = canvas.getActiveObject();
+    if (obj && (obj.type === 'i-text' || obj.type === 'text')) {
+      obj.set('fill', color);
+      canvas.renderAll();
+    }
+  };
 
-function exportPNG() {
-  canvas.discardActiveObject();
-  canvas.renderAll();
-  const dataURL = canvas.toDataURL({ format: 'png', quality: 1, multiplier: 2 });
-  const link = document.createElement('a');
-  link.download = `resha-editor-${Date.now()}.png`;
-  link.href = dataURL;
-  link.click();
-}
+  canvas.on('selection:created', updateControls);
+  canvas.on('selection:updated', updateControls);
 
-document.addEventListener('keydown', (e) => {
-  if ((e.key === 'Delete' || e.key === 'Backspace') && canvas.getActiveObject()) {
-    if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-      deleteSelected();
+  function updateControls() {
+    var obj = canvas.getActiveObject();
+    if (!obj) return;
+    document.getElementById('opacitySlider').value = (obj.opacity || 1) * 100;
+    if (obj.fill && typeof obj.fill === 'string' && obj.fill.startsWith('#')) {
+      document.getElementById('textColorPicker').value = obj.fill;
     }
   }
-});
 
-canvas.on('mouse:down', function(opt) {
-  if (opt.e.touches && opt.e.touches.length === 1) {
-    const touch = opt.e.touches[0];
-    opt.e.clientX = touch.clientX;
-    opt.e.clientY = touch.clientY;
-  }
+  window.applyFilter = function(type) {
+    var obj = canvas.getActiveObject();
+    if (!obj || obj.type !== 'image') { alert('اختر صورة أولاً لتطبيق الفلتر'); return; }
+
+    obj.filters = [];
+
+    if (type === 'bright') obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.3 }));
+    else if (type === 'contrast') obj.filters.push(new fabric.Image.filters.Contrast({ contrast: 0.3 }));
+    else if (type === 'saturate') obj.filters.push(new fabric.Image.filters.Saturation({ saturation: 0.5 }));
+    else if (type === 'grayscale') obj.filters.push(new fabric.Image.filters.Grayscale());
+    else if (type === 'sepia') obj.filters.push(new fabric.Image.filters.Sepia());
+    else if (type === 'blur') obj.filters.push(new fabric.Image.filters.Blur({ blur: 0.3 }));
+    else if (type === 'vintage') {
+      obj.filters.push(new fabric.Image.filters.Sepia());
+      obj.filters.push(new fabric.Image.filters.Contrast({ contrast: 0.2 }));
+    }
+    else if (type === 'warm') {
+      obj.filters.push(new fabric.Image.filters.BlendColor({ color: '#ff9900', mode: 'tint', alpha: 0.2 }));
+      obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.1 }));
+    }
+
+    obj.applyFilters();
+    canvas.renderAll();
+  };
+
+  var isDrawing = false;
+
+  window.toggleDraw = function() {
+    isDrawing = !isDrawing;
+    var btn = document.getElementById('drawBtn');
+    if (isDrawing) {
+      canvas.isDrawingMode = true;
+      canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+      canvas.freeDrawingBrush.color = document.getElementById('brushColor').value;
+      canvas.freeDrawingBrush.width = parseInt(document.getElementById('brushSize').value);
+      btn.innerHTML = '🛑 إيقاف الرسم';
+      btn.classList.remove('btn-purple');
+      btn.classList.add('btn-red');
+      canvas.discardActiveObject();
+      canvas.renderAll();
+    } else {
+      canvas.isDrawingMode = false;
+      btn.innerHTML = '✏️ تفعيل الرسم';
+      btn.classList.remove('btn-red');
+      btn.classList.add('btn-purple');
+    }
+  };
+
+  document.getElementById('brushColor').addEventListener('input', function(e) {
+    if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.color = e.target.value;
+  });
+  document.getElementById('brushSize').addEventListener('input', function(e) {
+    if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.width = parseInt(e.target.value);
+  });
+
+  window.clearAll = function() {
+    if (!confirm('هل تريد مسح كل شيء؟')) return;
+    canvas.clear();
+    canvas.backgroundColor = '#ffffff';
+    canvas.renderAll();
+  };
+
+  window.exportPNG = function() {
+    canvas.discardActiveObject();
+    canvas.renderAll();
+    var dataURL = canvas.toDataURL({ format: 'png', quality: 1, multiplier: 2 });
+    var link = document.createElement('a');
+    link.download = 'resha-editor-' + Date.now() + '.png';
+    link.href = dataURL;
+    link.click();
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if ((e.key === 'Delete' || e.key === 'Backspace') && canvas.getActiveObject()) {
+      if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        deleteSelected();
+      }
+    }
+  });
 });
 </script>
 
