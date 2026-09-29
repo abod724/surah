@@ -618,10 +618,31 @@
     display: flex; align-items: center; gap: 6px;
     transition: all 0.2s;
   }
+
+  #editor-btn {
+    position: fixed; bottom: 20px; left: 20px;
+    height: 44px; padding: 0 18px 0 14px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white; border: none;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px; font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(16,185,129,0.45);
+    z-index: 9998;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+  }
+
   @media (max-width: 480px) {
     #nibras-bubble {
       height: 40px; padding: 0 14px 0 10px;
       font-size: 12px; bottom: 14px; right: 14px;
+      gap: 5px;
+    }
+    #editor-btn {
+      height: 40px; padding: 0 14px 0 10px;
+      font-size: 12px; bottom: 14px; left: 14px;
       gap: 5px;
     }
   }
@@ -648,7 +669,6 @@
     <div class="card">
       <canvas id="canvas" width="1080" height="1080"></canvas>
 
-      <!-- أدوات التحكم في موضع النص وحجمه -->
       <div style="margin-top:16px; padding-top:16px; border-top:2px solid #f1f5f9;">
         <label style="text-align:center; display:block; margin-bottom:8px; color:#4338ca;">📍 موضع النص وحجمه</label>
         
@@ -979,8 +999,8 @@
 </div>
 
 <button id="nibras-bubble" onclick="window.open('https://nibras-al.onrender.com/','_blank')">✨ اسأل</button>
+<button id="editor-btn" onclick="window.open('editor.html','_blank')">✨ المحرر المتقدم</button>
 
-<!-- GoatCounter -->
 <script data-goatcounter="https://resha.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
 <script>
