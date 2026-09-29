@@ -73,11 +73,14 @@
 
   canvas { 
     max-width: 100%; 
+    max-height: 60vh;
+    width: auto;
     height: auto;
     border-radius: 14px; 
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     display: block;
     margin: 0 auto;
+    object-fit: contain;
   }
   input[type="color"] { 
     height: 44px; width: 100%;
@@ -493,13 +496,102 @@
     .library-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
-  /* ✅ جديد: دعم سطح المكتب (الشاشات الكبيرة) */
+  /* ═══════════════════════════════════════ */
+  /* ✅ تصميم سطح المكتب (الموقع الكامل) */
+  /* ═══════════════════════════════════════ */
   @media (min-width: 1024px) {
-    .container { max-width: 1200px; }
-    body { background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%); }
-    #view-single .card:first-child .btn-row { justify-content: center; gap: 15px; }
-    #view-single .card:first-child .btn-row .btn-small { flex: 0 1 auto; min-width: 100px; }
-    #canvas { max-width: 100%; height: auto; }
+    body {
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1400px;
+    }
+
+    /* تقسيم تبويب الصور إلى عمودين */
+    #view-single.active {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr; /* الكانفاس أكبر من الأدوات */
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* العمود الأيمن: الكانفاس + أدوات التحكم السريعة */
+    #view-single .card:first-child {
+      position: sticky;
+      top: 20px;
+      grid-column: 1;
+    }
+
+    /* العمود الأيسر: كل الأدوات */
+    #view-single .card:nth-child(2) {
+      grid-column: 2;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding-left: 10px;
+    }
+
+    /* شريط التمرير الأنيق */
+    #view-single .card:nth-child(2)::-webkit-scrollbar {
+      width: 6px;
+    }
+    #view-single .card:nth-child(2)::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    /* الكانفاس بحجم مناسب على الكمبيوتر */
+    canvas {
+      max-height: 55vh;
+      width: 100%;
+      object-fit: contain;
+    }
+
+    /* تحسين شكل الأزرار على الكمبيوتر */
+    .btn-row {
+      flex-wrap: nowrap;
+    }
+
+    .btn-small {
+      flex: 1;
+      white-space: nowrap;
+    }
+
+    /* تحسين شكل التبويبات */
+    .tabs {
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* تحسين شكل التذييل */
+    .footer {
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* تحسين تبويب الفيديو أيضاً */
+    #view-slides.active {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    
+    #view-slides .card {
+      grid-column: span 1;
+    }
+    
+    #view-slides .card:nth-child(3) {
+      grid-column: span 2;
+    }
+  }
+
+  /* ✅ شاشات كبيرة جداً */
+  @media (min-width: 1600px) {
+    .container { max-width: 1600px; }
+    canvas { max-height: 65vh; }
   }
 
   #nibras-bubble {
@@ -550,25 +642,22 @@
       <div style="margin-top:16px; padding-top:16px; border-top:2px solid #f1f5f9;">
         <label style="text-align:center; display:block; margin-bottom:8px; color:#4338ca;">📍 موضع النص وحجمه</label>
         
-        <!-- التحكم الأفقي (يمين، وسط، يسار) -->
         <div class="btn-row" style="justify-content:center; margin-bottom:8px;">
-          <button class="btn btn-small" onclick="setTextPos('right', 'v')" style="background:#6366f1; flex:1;">➡️ يمين</button>
-          <button class="btn btn-small" onclick="setTextPos('center', 'v')" style="background:#6366f1; flex:1;">↔️ وسط</button>
-          <button class="btn btn-small" onclick="setTextPos('left', 'v')" style="background:#6366f1; flex:1;">⬅️ يسار</button>
+          <button class="btn btn-small" onclick="setTextPos('right', 'v')" style="background:#6366f1;">➡️ يمين</button>
+          <button class="btn btn-small" onclick="setTextPos('center', 'v')" style="background:#6366f1;">↔️ وسط</button>
+          <button class="btn btn-small" onclick="setTextPos('left', 'v')" style="background:#6366f1;">⬅️ يسار</button>
         </div>
 
-        <!-- التحكم الرأسي (فوق، وسط، تحت) -->
         <div class="btn-row" style="justify-content:center; margin-bottom:8px;">
-          <button class="btn btn-small" onclick="setTextPos('top', 'h')" style="background:#8b5cf6; flex:1;">⬆️ فوق</button>
-          <button class="btn btn-small" onclick="setTextPos('middle', 'h')" style="background:#8b5cf6; flex:1;">↕️ وسط</button>
-          <button class="btn btn-small" onclick="setTextPos('bottom', 'h')" style="background:#8b5cf6; flex:1;">⬇️ تحت</button>
+          <button class="btn btn-small" onclick="setTextPos('top', 'h')" style="background:#8b5cf6;">⬆️ فوق</button>
+          <button class="btn btn-small" onclick="setTextPos('middle', 'h')" style="background:#8b5cf6;">↕️ وسط</button>
+          <button class="btn btn-small" onclick="setTextPos('bottom', 'h')" style="background:#8b5cf6;">⬇️ تحت</button>
         </div>
 
-        <!-- التحكم في الحجم -->
         <div class="btn-row" style="justify-content:center; margin-bottom:8px;">
-          <button class="btn btn-small" onclick="setTextSize('small')" style="background:#10b981; flex:1;">🔽 صغير</button>
-          <button class="btn btn-small" onclick="setTextSize('medium')" style="background:#10b981; flex:1;">◀️ متوسط</button>
-          <button class="btn btn-small" onclick="setTextSize('large')" style="background:#10b981; flex:1;">🔼 كبير</button>
+          <button class="btn btn-small" onclick="setTextSize('small')" style="background:#10b981;">🔽 صغير</button>
+          <button class="btn btn-small" onclick="setTextSize('medium')" style="background:#10b981;">◀️ متوسط</button>
+          <button class="btn btn-small" onclick="setTextSize('large')" style="background:#10b981;">🔼 كبير</button>
         </div>
 
         <button class="btn btn-small" style="width:100%; background:#64748b;" onclick="resetTextPos()">🎯 إرجاع النص للمنتصف والحجم الافتراضي</button>
