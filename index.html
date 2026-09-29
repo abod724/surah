@@ -536,6 +536,34 @@
 
     <div class="card">
       <canvas id="canvas" width="1080" height="1080"></canvas>
+
+      <!-- ✅ جديد: أدوات تحكم سريعة تحت الصورة مباشرة -->
+      <div style="margin-top:16px; padding-top:16px; border-top:2px solid #f1f5f9;">
+        <label style="text-align:center; display:block; margin-bottom:8px; color:#4338ca;">📍 موضع النص وحجمه</label>
+        
+        <!-- التحكم الأفقي (يمين، وسط، يسار) -->
+        <div class="btn-row" style="justify-content:center; margin-bottom:8px;">
+          <button class="btn btn-small" onclick="setTextPos('right', 'v')" style="background:#6366f1; flex:1;">➡️ يمين</button>
+          <button class="btn btn-small" onclick="setTextPos('center', 'v')" style="background:#6366f1; flex:1;">↔️ وسط</button>
+          <button class="btn btn-small" onclick="setTextPos('left', 'v')" style="background:#6366f1; flex:1;">⬅️ يسار</button>
+        </div>
+
+        <!-- التحكم الرأسي (فوق، وسط، تحت) -->
+        <div class="btn-row" style="justify-content:center; margin-bottom:8px;">
+          <button class="btn btn-small" onclick="setTextPos('top', 'h')" style="background:#8b5cf6; flex:1;">⬆️ فوق</button>
+          <button class="btn btn-small" onclick="setTextPos('middle', 'h')" style="background:#8b5cf6; flex:1;">↕️ وسط</button>
+          <button class="btn btn-small" onclick="setTextPos('bottom', 'h')" style="background:#8b5cf6; flex:1;">⬇️ تحت</button>
+        </div>
+
+        <!-- التحكم في الحجم -->
+        <div class="btn-row" style="justify-content:center; margin-bottom:8px;">
+          <button class="btn btn-small" onclick="setTextSize('small')" style="background:#10b981; flex:1;">🔽 صغير</button>
+          <button class="btn btn-small" onclick="setTextSize('medium')" style="background:#10b981; flex:1;">◀️ متوسط</button>
+          <button class="btn btn-small" onclick="setTextSize('large')" style="background:#10b981; flex:1;">🔼 كبير</button>
+        </div>
+
+        <button class="btn btn-small" style="width:100%; background:#64748b;" onclick="resetTextPos()">🎯 إرجاع النص للمنتصف والحجم الافتراضي</button>
+      </div>
     </div>
 
     <div class="card">
@@ -693,24 +721,6 @@
           <label>✏️ لون النص</label>
           <input type="color" id="textColor" value="#000000">
         </div>
-      </div>
-
-      <!-- ✅ جديد: أزرار التحكم في موضع النص -->
-      <div class="field">
-        <label>📍 موضع النص</label>
-        <div class="grid-2">
-          <div class="btn-row">
-            <button class="btn btn-small" onclick="setTextPos('right', 'v')" style="background:#6366f1;">➡️ يمين</button>
-            <button class="btn btn-small" onclick="setTextPos('center', 'v')" style="background:#6366f1;">↔️ وسط</button>
-            <button class="btn btn-small" onclick="setTextPos('left', 'v')" style="background:#6366f1;">⬅️ يسار</button>
-          </div>
-          <div class="btn-row">
-            <button class="btn btn-small" onclick="setTextPos('top', 'h')" style="background:#8b5cf6;">⬆️ فوق</button>
-            <button class="btn btn-small" onclick="setTextPos('middle', 'h')" style="background:#8b5cf6;">↕️ وسط</button>
-            <button class="btn btn-small" onclick="setTextPos('bottom', 'h')" style="background:#8b5cf6;">⬇️ تحت</button>
-          </div>
-        </div>
-        <button class="btn btn-small" style="width:100%; margin-top:6px; background:#64748b;" onclick="resetTextPos()">🎯 إرجاع النص للمنتصف</button>
       </div>
 
       <div class="field">
@@ -944,9 +954,10 @@ let currentTemplate = 'quote';
 let currentFont = 'Cairo';
 let bgImage = null;
 
-// ✅ جديد: متغيرات موضع النص
+// ✅ متغيرات موضع النص وحجمه
 let textAlignV = 'center'; // 'right' أو 'center' أو 'left'
 let textAlignH = 'middle'; // 'top' أو 'middle' أو 'bottom'
+let textSize = 'medium';   // 'small' أو 'medium' أو 'large'
 
 function setTextPos(pos, type) {
   if (type === 'v') textAlignV = pos;
@@ -954,9 +965,15 @@ function setTextPos(pos, type) {
   drawSingle();
 }
 
+function setTextSize(size) {
+  textSize = size;
+  drawSingle();
+}
+
 function resetTextPos() {
   textAlignV = 'center';
   textAlignH = 'middle';
+  textSize = 'medium';
   drawSingle();
 }
 
@@ -1362,14 +1379,18 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
   if (animState) anim = animState;
 
   const visibleText = anim.visibleText !== null ? anim.visibleText : text;
-  const fontSize = w / 16;
+  
+  // ✅ جديد: تحديد حجم الخط حسب اختيار المستخدم
+  let fontSize = w / 16; // الحجم الافتراضي (متوسط)
+  if (textSize === 'small') fontSize = w / 24; // صغير
+  if (textSize === 'large') fontSize = w / 10; // كبير
 
   c.save();
   c.globalAlpha = anim.opacity;
   c.fillStyle = fg;
   c.font = `bold ${fontSize}px "${font}", sans-serif`;
 
-  // ✅ جديد: تحديد اتجاه النص أفقياً
+  // ✅ تحديد اتجاه النص أفقياً
   if (textAlignV === 'right') {
     c.textAlign = 'right';
   } else if (textAlignV === 'left') {
@@ -1384,7 +1405,7 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
   const lineHeight = fontSize * 1.3;
   const totalHeight = lines.length * lineHeight;
 
-  // ✅ جديد: تحديد موضع النص رأسياً
+  // ✅ تحديد موضع النص رأسياً
   let startY;
   if (textAlignH === 'top') {
     startY = h * 0.15 + lineHeight / 2; // فوق
@@ -1394,7 +1415,7 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
     startY = (h - totalHeight) / 2 + lineHeight / 2; // وسط
   }
 
-  // ✅ جديد: تحديد موضع النص أفقياً (x)
+  // ✅ تحديد موضع النص أفقياً (x)
   let textX;
   if (textAlignV === 'right') {
     textX = w * 0.9; // يمين
