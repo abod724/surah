@@ -325,7 +325,7 @@ window.addEventListener('load', function() {
     height: 1080
   });
 
-  // ✅ إعدادات محسّنة: padding صغير، مقابض مناسبة
+  // ✅ إعدادات الكائنات: padding مناسب، مقابض في كل الاتجاهات
   fabric.Object.prototype.set({
     transparentCorners: false,
     cornerColor: '#667eea',
@@ -333,7 +333,7 @@ window.addEventListener('load', function() {
     borderColor: '#667eea',
     cornerSize: 22,
     touchCornerSize: 32,
-    padding: 2,
+    padding: 8,
     cornerStyle: 'circle',
     borderScaleFactor: 2,
     hasControls: true,
@@ -343,6 +343,36 @@ window.addEventListener('load', function() {
     centeredScaling: false,
     centeredRotation: true,
     rotatingPointOffset: 30
+  });
+
+  // ✅ إضافة مقبض تدوير في الأسفل
+  fabric.Object.prototype.controls.mtr = new fabric.Control({
+    x: 0,
+    y: 0.5,
+    offsetY: 30,
+    cursorStyle: 'crosshair',
+    actionHandler: fabric.controlsUtils.rotationWithSnapping,
+    actionName: 'rotate',
+    render: function(ctx, left, top, styleOverride, fabricObject) {
+      var size = this.cornerSize || 22;
+      ctx.save();
+      ctx.translate(left, top);
+      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+      ctx.beginPath();
+      ctx.arc(0, 0, size / 2, 0, 2 * Math.PI);
+      ctx.fillStyle = '#667eea';
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      // رسم سهم التدوير
+      ctx.beginPath();
+      ctx.arc(0, 0, size / 3, 0, 1.5 * Math.PI);
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
+    }
   });
 
   fabric.IText.prototype.set({
@@ -459,7 +489,7 @@ window.addEventListener('load', function() {
       direction: 'rtl',
       textAlign: 'center',
       originX: 'center', originY: 'center',
-      padding: 2,
+      padding: 8,
       editable: true,
       lockScalingX: false,
       lockScalingY: false,
@@ -490,7 +520,7 @@ window.addEventListener('load', function() {
           top: 540 + offsetY, 
           originX: 'center', 
           originY: 'center', 
-          padding: 2, 
+          padding: 8, 
           filters: [],
           centeredRotation: true
         });
@@ -516,14 +546,14 @@ window.addEventListener('load', function() {
       originX: 'center', 
       originY: 'center', 
       fill: color, 
-      padding: 2,
+      padding: 8,
       centeredRotation: true
     };
     
     if (type === 'rect') shape = new fabric.Rect({ ...center, width: 360, height: 270 });
     else if (type === 'circle') shape = new fabric.Circle({ ...center, radius: 180 });
     else if (type === 'triangle') shape = new fabric.Triangle({ ...center, width: 360, height: 320 });
-    else if (type === 'line') shape = new fabric.Line([200, 0, 880, 0], { left: 540, top: 540, stroke: color, strokeWidth: 12, originX: 'center', originY: 'center', padding: 2 });
+    else if (type === 'line') shape = new fabric.Line([200, 0, 880, 0], { left: 540, top: 540, stroke: color, strokeWidth: 12, originX: 'center', originY: 'center', padding: 8 });
     else if (type === 'ellipse') shape = new fabric.Ellipse({ ...center, rx: 200, ry: 130 });
     else if (type === 'polygon') shape = new fabric.Polygon([
       {x: 0, y: -180}, {x: 170, y: -55}, {x: 105, y: 145}, {x: -105, y: 145}, {x: -170, y: -55}
