@@ -296,15 +296,15 @@ window.addEventListener('load', function() {
   });
 
   // ═══════════════════════════════════════════════
-  // إعدادات الكائنات + مقبض التدوير
+  // إعدادات الكائنات + كل المقابض (9)
   // ═══════════════════════════════════════════════
   fabric.Object.prototype.set({
     transparentCorners: false,
     cornerColor: '#667eea',
     cornerStrokeColor: '#fff',
     borderColor: '#667eea',
-    cornerSize: 28,
-    touchCornerSize: 40,
+    cornerSize: 24,
+    touchCornerSize: 36,
     padding: 10,
     cornerStyle: 'circle',
     borderScaleFactor: 2,
@@ -313,17 +313,24 @@ window.addEventListener('load', function() {
     lockScalingFlip: true,
     lockUniScaling: false,
     centeredScaling: false,
-    // ✅ خصائص مقبض التدوير
+    // ✅ مقبض التدوير
     rotatingPointOffset: 40,
     mtrCornerColor: '#f59e0b',
-    mtrCornerStrokeColor: '#fff'
+    mtrCornerStrokeColor: '#fff',
+    borderOpacityWhenMoving: 0.8
   });
 
-  // ✅ إظهار مقبض التدوير + إخفاء مقابض الوسط
+  // ✅ إظهار كل المقابض: 4 زوايا + 4 جوانب + تدوير
   fabric.Object.prototype.setControlsVisibility({
-    mt: false, mb: false, ml: false, mr: false,
-    tl: true, tr: true, bl: true, br: true,
-    mtr: true  // ✅ التدوير (كما في Canva)
+    mt: true,   // ⬆️ فوق (توسيع عمودي)
+    mb: true,   // ⬇️ تحت (توسيع عمودي)
+    ml: true,   // ⬅️ يسار (توسيع أفقي)
+    mr: true,   // ➡️ يمين (توسيع أفقي)
+    tl: true,   // ↖️ زاوية عليا يسرى
+    tr: true,   // ↗️ زاوية عليا يمنى
+    bl: true,   // ↙️ زاوية سفلى يسرى
+    br: true,   // ↘️ زاوية سفلى يمنى
+    mtr: true   // 🟠 تدوير
   });
 
   // تغيير حجم الكانفس
