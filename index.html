@@ -493,6 +493,15 @@
     .library-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
+  /* ✅ جديد: دعم سطح المكتب (الشاشات الكبيرة) */
+  @media (min-width: 1024px) {
+    .container { max-width: 1200px; }
+    body { background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%); }
+    #view-single .card:first-child .btn-row { justify-content: center; gap: 15px; }
+    #view-single .card:first-child .btn-row .btn-small { flex: 0 1 auto; min-width: 100px; }
+    #canvas { max-width: 100%; height: auto; }
+  }
+
   #nibras-bubble {
     position: fixed; bottom: 20px; right: 20px;
     height: 44px; padding: 0 18px 0 14px;
@@ -537,7 +546,7 @@
     <div class="card">
       <canvas id="canvas" width="1080" height="1080"></canvas>
 
-      <!-- ✅ جديد: أدوات تحكم سريعة تحت الصورة مباشرة -->
+      <!-- ✅ أدوات تحكم سريعة تحت الصورة مباشرة -->
       <div style="margin-top:16px; padding-top:16px; border-top:2px solid #f1f5f9;">
         <label style="text-align:center; display:block; margin-bottom:8px; color:#4338ca;">📍 موضع النص وحجمه</label>
         
@@ -955,9 +964,9 @@ let currentFont = 'Cairo';
 let bgImage = null;
 
 // ✅ متغيرات موضع النص وحجمه
-let textAlignV = 'center'; // 'right' أو 'center' أو 'left'
-let textAlignH = 'middle'; // 'top' أو 'middle' أو 'bottom'
-let textSize = 'medium';   // 'small' أو 'medium' أو 'large'
+let textAlignV = 'center';
+let textAlignH = 'middle';
+let textSize = 'medium';
 
 function setTextPos(pos, type) {
   if (type === 'v') textAlignV = pos;
@@ -1380,10 +1389,10 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
 
   const visibleText = anim.visibleText !== null ? anim.visibleText : text;
   
-  // ✅ جديد: تحديد حجم الخط حسب اختيار المستخدم
-  let fontSize = w / 16; // الحجم الافتراضي (متوسط)
-  if (textSize === 'small') fontSize = w / 24; // صغير
-  if (textSize === 'large') fontSize = w / 10; // كبير
+  // ✅ تحديد حجم الخط حسب اختيار المستخدم
+  let fontSize = w / 16;
+  if (textSize === 'small') fontSize = w / 24;
+  if (textSize === 'large') fontSize = w / 10;
 
   c.save();
   c.globalAlpha = anim.opacity;
@@ -1408,37 +1417,34 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
   // ✅ تحديد موضع النص رأسياً
   let startY;
   if (textAlignH === 'top') {
-    startY = h * 0.15 + lineHeight / 2; // فوق
+    startY = h * 0.15 + lineHeight / 2;
   } else if (textAlignH === 'bottom') {
-    startY = h * 0.85 - totalHeight / 2; // تحت
+    startY = h * 0.85 - totalHeight / 2;
   } else {
-    startY = (h - totalHeight) / 2 + lineHeight / 2; // وسط
+    startY = (h - totalHeight) / 2 + lineHeight / 2;
   }
 
   // ✅ تحديد موضع النص أفقياً (x)
   let textX;
   if (textAlignV === 'right') {
-    textX = w * 0.9; // يمين
+    textX = w * 0.9;
   } else if (textAlignV === 'left') {
-    textX = w * 0.1; // يسار
+    textX = w * 0.1;
   } else {
-    textX = w / 2; // وسط
+    textX = w / 2;
   }
 
-  // تطبيق الإزاحة (للحركات)
   if (anim.scale !== 1 || anim.offsetX !== 0 || anim.offsetY !== 0) {
     c.translate(w / 2 + anim.offsetX, h / 2 + anim.offsetY);
     c.scale(anim.scale, anim.scale);
     c.translate(-w / 2, -h / 2);
   }
 
-  // رسم النص في الموضع المحدد
   lines.forEach((line, i) => {
     if (line.trim() === '') return;
     c.fillText(line, textX, startY + i * lineHeight);
   });
 
-  // التوقيع (يبقى في مكانه الأصلي)
   if (sig.trim()) {
     const sigSize = w / 28;
     c.font = `600 ${sigSize}px "${font}", sans-serif`;
@@ -1446,7 +1452,6 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
     c.fillText(sig, w / 2, h - sigSize * 2.5);
   }
 
-  // حقوق النشر (تبقى في مكانها الأصلي)
   if (showCopy) {
     const copySize = w / 55;
     c.font = `600 ${copySize}px "Cairo", sans-serif`;
