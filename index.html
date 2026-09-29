@@ -301,6 +301,31 @@
   }
   .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
 
+  /* ✅ أزرار التحكم في موضع النص وحجمه (أسهم فقط) */
+  .pos-btn {
+    padding: 10px 0;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+  }
+  .pos-btn:active { transform: scale(0.95); }
+  .size-btn {
+    padding: 10px 0;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+  }
+  .size-btn:active { transform: scale(0.95); }
+
   .slide-item {
     background: #f8fafc;
     border: 2px solid #e5e7eb;
@@ -508,7 +533,6 @@
       max-width: 1400px;
     }
 
-    /* تقسيم تبويب الصور إلى عمودين */
     #view-single.active {
       display: grid;
       grid-template-columns: 1.5fr 1fr;
@@ -632,29 +656,29 @@
     <div class="card">
       <canvas id="canvas" width="1080" height="1080"></canvas>
 
-      <!-- ✅ أدوات تحكم سريعة تحت الصورة مباشرة -->
+      <!-- ✅ أدوات تحكم سريعة تحت الصورة مباشرة (أسهم فقط) -->
       <div style="margin-top:16px; padding-top:16px; border-top:2px solid #f1f5f9;">
         <label style="text-align:center; display:block; margin-bottom:8px; color:#4338ca;">📍 موضع النص وحجمه</label>
         
         <div class="btn-row" style="justify-content:center; margin-bottom:8px;">
-          <button class="btn btn-small" onclick="setTextPos('right', 'v')" style="background:#6366f1;">➡️ يمين</button>
-          <button class="btn btn-small" onclick="setTextPos('center', 'v')" style="background:#6366f1;">↔️ وسط</button>
-          <button class="btn btn-small" onclick="setTextPos('left', 'v')" style="background:#6366f1;">⬅️ يسار</button>
+          <button class="pos-btn" onclick="setTextPos('right', 'v')" style="background:#6366f1;" title="يمين">➡️</button>
+          <button class="pos-btn" onclick="setTextPos('center', 'v')" style="background:#6366f1;" title="وسط">↔️</button>
+          <button class="pos-btn" onclick="setTextPos('left', 'v')" style="background:#6366f1;" title="يسار">⬅️</button>
         </div>
 
         <div class="btn-row" style="justify-content:center; margin-bottom:8px;">
-          <button class="btn btn-small" onclick="setTextPos('top', 'h')" style="background:#8b5cf6;">⬆️ فوق</button>
-          <button class="btn btn-small" onclick="setTextPos('middle', 'h')" style="background:#8b5cf6;">↕️ وسط</button>
-          <button class="btn btn-small" onclick="setTextPos('bottom', 'h')" style="background:#8b5cf6;">⬇️ تحت</button>
+          <button class="pos-btn" onclick="setTextPos('top', 'h')" style="background:#8b5cf6;" title="فوق">⬆️</button>
+          <button class="pos-btn" onclick="setTextPos('middle', 'h')" style="background:#8b5cf6;" title="وسط">↕️</button>
+          <button class="pos-btn" onclick="setTextPos('bottom', 'h')" style="background:#8b5cf6;" title="تحت">⬇️</button>
         </div>
 
         <div class="btn-row" style="justify-content:center; margin-bottom:8px;">
-          <button class="btn btn-small" onclick="setTextSize('small')" style="background:#10b981;">🔽 صغير</button>
-          <button class="btn btn-small" onclick="setTextSize('medium')" style="background:#10b981;">◀️ متوسط</button>
-          <button class="btn btn-small" onclick="setTextSize('large')" style="background:#10b981;">🔼 كبير</button>
+          <button class="size-btn" onclick="setTextSize('small')" style="background:#10b981;">صغير</button>
+          <button class="size-btn" onclick="setTextSize('medium')" style="background:#10b981;">متوسط</button>
+          <button class="size-btn" onclick="setTextSize('large')" style="background:#10b981;">كبير</button>
         </div>
 
-        <button class="btn btn-small" style="width:100%; background:#64748b;" onclick="resetTextPos()">🎯 إرجاع النص للمنتصف والحجم الافتراضي</button>
+        <button class="btn btn-small" style="width:100%; background:#64748b;" onclick="resetTextPos()">🎯 إرجاع النص للمنتصف</button>
       </div>
     </div>
 
@@ -853,7 +877,7 @@
         <button class="btn-small" style="margin-top:8px;" onclick="clearImage()">🗑️ حذف الصورة</button>
       </div>
 
-      <!-- ✅ قسم التصدير (مع أزرار التراجع وتصميم جديد) -->
+      <!-- ✅ قسم التصدير -->
       <div class="field">
         <label>💾 التصدير</label>
         <div class="btn-row">
