@@ -88,6 +88,8 @@
   .btn-red { background: #ef4444; }
   .btn-orange { background: #f59e0b; }
   .btn-gray { background: #64748b; }
+  .btn-pink { background: #ec4899; }
+  .btn-teal { background: #14b8a6; }
   .btn-filter { background: #fff; color: #374151; border: 2px solid #e5e7eb; padding: 10px; font-size: 13px; width: 100%; }
   .btn-filter:hover, .btn-filter.active { background: #eef2ff; border-color: #667eea; color: #4338ca; }
 
@@ -219,7 +221,9 @@
             <div style="text-align:center; font-size:12px; color:#6b7280; margin-top:2px;" id="fontSizeValue">80</div>
           </div>
 
-          <div class="btn-col"><button class="btn btn-primary" onclick="addText()">إضافة نص</button></div>
+          <div class="btn-col">
+            <button class="btn btn-primary" onclick="addText()">إضافة نص</button>
+          </div>
         </div>
 
         <button class="tab-item" onclick="toggleTab('shape', this)">الأشكال</button>
@@ -229,6 +233,10 @@
             <button class="btn btn-gray" onclick="addShape('circle')">دائرة</button>
             <button class="btn btn-gray" onclick="addShape('triangle')">مثلث</button>
             <button class="btn btn-gray" onclick="addShape('line')">خط</button>
+            <button class="btn btn-gray" onclick="addShape('ellipse')">بيضاوي</button>
+            <button class="btn btn-gray" onclick="addShape('polygon')">خماسي</button>
+            <button class="btn btn-gray" onclick="addShape('star')">نجمة</button>
+            <button class="btn btn-gray" onclick="addShape('heart')">قلب</button>
           </div>
           <div class="field" style="margin-top:10px;">
             <label>لون الشكل</label>
@@ -282,6 +290,7 @@
             <button class="btn-filter" onclick="applyFilter('blur')">ضبابي</button>
             <button class="btn-filter" onclick="applyFilter('vintage')">فينتاج</button>
             <button class="btn-filter" onclick="applyFilter('warm')">دافئ</button>
+            <button class="btn-filter" onclick="applyFilter('cool')">بارد</button>
           </div>
         </div>
 
@@ -289,6 +298,7 @@
         <div id="panel-export" class="tab-panel">
           <div class="btn-col">
             <button class="btn btn-primary" onclick="exportPNG()">تحميل PNG</button>
+            <button class="btn btn-teal" onclick="exportJPG()">تحميل JPG</button>
           </div>
         </div>
 
@@ -315,6 +325,7 @@ window.addEventListener('load', function() {
     height: 1080
   });
 
+  // ✅ إعدادات الكائنات
   fabric.Object.prototype.set({
     transparentCorners: false,
     cornerColor: '#667eea',
@@ -329,9 +340,13 @@ window.addEventListener('load', function() {
     hasBorders: true,
     lockScalingFlip: true,
     lockUniScaling: false,
-    centeredScaling: false
+    centeredScaling: false,
+    // ✅ التدوير من فوق وتحت
+    centeredRotation: true,
+    rotatingPointOffset: 40
   });
 
+  // ✅ إعدادات النص
   fabric.IText.prototype.set({
     lockScalingX: false,
     lockScalingY: false,
@@ -339,6 +354,10 @@ window.addEventListener('load', function() {
     hasRotatingPoint: true,
     controlsAboveOverlay: true
   });
+
+  // ✅ عدّاد لموضع النص الجديد
+  var textCounter = 0;
+  var shapeCounter = 0;
 
   function resizeCanvas() {
     var area = document.querySelector('.canvas-area');
@@ -357,7 +376,7 @@ window.addEventListener('load', function() {
   window.addEventListener('orientationchange', function() { setTimeout(resizeCanvas, 300); });
   setTimeout(resizeCanvas, 100);
 
-  // بناء الألوان السريعة
+  // ✅ الألوان السريعة
   var QUICK_COLORS = [
     '#000000', '#ffffff', '#dc2626', '#ea580c', '#f59e0b', '#facc15', '#84cc16', '#16a34a',
     '#10b981', '#14b8a6', '#0891b2', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7',
@@ -372,40 +391,60 @@ window.addEventListener('load', function() {
       document.getElementById('newTextColor').value = c;
       document.querySelectorAll('.color-swatch').forEach(function(s) { s.classList.remove('active'); });
       sw.classList.add('active');
-      // ✅ تطبيق فوري على النص المحدد
       applyTextSettings();
     };
     colorGrid.appendChild(sw);
   });
 
-  // ✅ تحديث حجم الخط
   document.getElementById('fontSizeSlider').addEventListener('input', function(e) {
     document.getElementById('fontSizeValue').textContent = e.target.value;
     applyTextSettings();
   });
 
-  // ✅ تغيير اللون
   document.getElementById('newTextColor').addEventListener('input', function() {
     applyTextSettings();
   });
 
-  // ✅ تغيير الخط
-  document.getElementById('fontSelect').addEventListener('change', function() {
-    applyTextSettings();
-  });
-
-  // ✅ دالة تطبيق الإعدادات على النص المحدد
+  // ✅ دالة تحميل الخط ثم التطبيق
   function applyTextSettings() {
     var obj = canvas.getActiveObject();
     if (obj && (obj.type === 'i-text' || obj.type === 'text')) {
-      obj.set({
-        fill: document.getElementById('newTextColor').value,
-        fontFamily: document.getElementById('fontSelect').value,
-        fontSize: parseInt(document.getElementById('fontSizeSlider').value)
-      });
-      canvas.renderAll();
+      var newFont = document.getElementById('fontSelect').value;
+      var newColor = document.getElementById('newTextColor').value;
+      var newSize = parseInt(document.getElementById('fontSizeSlider').value);
+      
+      // ✅ تحميل الخط قبل التطبيق
+      if (document.fonts) {
+        document.fonts.load('700 20px "' + newFont + '"').then(function() {
+          obj.set({
+            fill: newColor,
+            fontFamily: newFont,
+            fontSize: newSize
+          });
+          canvas.renderAll();
+        }).catch(function() {
+          obj.set({
+            fill: newColor,
+            fontFamily: newFont,
+            fontSize: newSize
+          });
+          canvas.renderAll();
+        });
+      } else {
+        obj.set({
+          fill: newColor,
+          fontFamily: newFont,
+          fontSize: newSize
+        });
+        canvas.renderAll();
+      }
     }
   }
+
+  // ✅ عند تغيير الخط، نطبق فوراً
+  document.getElementById('fontSelect').addEventListener('change', function() {
+    applyTextSettings();
+  });
 
   window.toggleTab = function(name, btn) {
     var panel = document.getElementById('panel-' + name);
@@ -418,6 +457,7 @@ window.addEventListener('load', function() {
     }
   };
 
+  // ✅ إضافة نص في موضع مختلف
   window.addText = function() {
     var text = document.getElementById('textInput').value.trim();
     if (!text) { alert('اكتب نصاً أولاً'); return; }
@@ -426,8 +466,14 @@ window.addEventListener('load', function() {
     var font = document.getElementById('fontSelect').value;
     var size = parseInt(document.getElementById('fontSizeSlider').value);
     
+    // ✅ حساب الموضع الجديد
+    var offsetY = (textCounter % 5) * 100 - 200;
+    var offsetX = (textCounter % 3) * 50 - 50;
+    textCounter++;
+    
     var t = new fabric.IText(text, {
-      left: 540, top: 540,
+      left: 540 + offsetX,
+      top: 540 + offsetY,
       fontFamily: font,
       fontSize: size,
       fill: color,
@@ -442,7 +488,8 @@ window.addEventListener('load', function() {
       hasRotatingPoint: true,
       hasControls: true,
       hasBorders: true,
-      lockUniScaling: false
+      lockUniScaling: false,
+      centeredRotation: true
     });
     canvas.add(t);
     canvas.setActiveObject(t);
@@ -457,7 +504,17 @@ window.addEventListener('load', function() {
       fabric.Image.fromURL(ev.target.result, function(img) {
         var maxW = 540;
         if (img.width > maxW) img.scaleToWidth(maxW);
-        img.set({ left: 540, top: 540, originX: 'center', originY: 'center', padding: 15, filters: [] });
+        var offsetY = (textCounter % 5) * 80 - 160;
+        textCounter++;
+        img.set({ 
+          left: 540, 
+          top: 540 + offsetY, 
+          originX: 'center', 
+          originY: 'center', 
+          padding: 15, 
+          filters: [],
+          centeredRotation: true
+        });
         canvas.add(img);
         canvas.setActiveObject(img);
         canvas.renderAll();
@@ -470,11 +527,35 @@ window.addEventListener('load', function() {
   window.addShape = function(type) {
     var color = document.getElementById('shapeColor').value;
     var shape;
-    var center = { left: 540, top: 540, originX: 'center', originY: 'center', fill: color, padding: 15 };
+    var offsetY = (shapeCounter % 5) * 80 - 160;
+    var offsetX = (shapeCounter % 3) * 40 - 40;
+    shapeCounter++;
+    
+    var center = { 
+      left: 540 + offsetX, 
+      top: 540 + offsetY, 
+      originX: 'center', 
+      originY: 'center', 
+      fill: color, 
+      padding: 15,
+      centeredRotation: true
+    };
+    
     if (type === 'rect') shape = new fabric.Rect({ ...center, width: 360, height: 270 });
     else if (type === 'circle') shape = new fabric.Circle({ ...center, radius: 180 });
     else if (type === 'triangle') shape = new fabric.Triangle({ ...center, width: 360, height: 320 });
     else if (type === 'line') shape = new fabric.Line([200, 0, 880, 0], { left: 540, top: 540, stroke: color, strokeWidth: 12, originX: 'center', originY: 'center', padding: 15 });
+    else if (type === 'ellipse') shape = new fabric.Ellipse({ ...center, rx: 200, ry: 130 });
+    else if (type === 'polygon') shape = new fabric.Polygon([
+      {x: 0, y: -180}, {x: 170, y: -55}, {x: 105, y: 145}, {x: -105, y: 145}, {x: -170, y: -55}
+    ], center);
+    else if (type === 'star') shape = new fabric.Polygon([
+      {x: 0, y: -180}, {x: 40, y: -60}, {x: 170, y: -60}, {x: 70, y: 20},
+      {x: 105, y: 145}, {x: 0, y: 70}, {x: -105, y: 145}, {x: -70, y: 20},
+      {x: -170, y: -60}, {x: -40, y: -60}
+    ], center);
+    else if (type === 'heart') shape = new fabric.Path('M 0 -80 C -40 -140, -160 -100, -160 0 C -160 80, -60 140, 0 200 C 60 140, 160 80, 160 0 C 160 -100, 40 -140, 0 -80 Z', center);
+    
     canvas.add(shape);
     canvas.setActiveObject(shape);
     canvas.renderAll();
@@ -515,7 +596,6 @@ window.addEventListener('load', function() {
     }
   };
 
-  // ✅ تحديث الإعدادات عند تحديد نص
   canvas.on('selection:created', updateControls);
   canvas.on('selection:updated', updateControls);
   function updateControls() {
@@ -553,6 +633,10 @@ window.addEventListener('load', function() {
       obj.filters.push(new fabric.Image.filters.BlendColor({ color: '#ff9900', mode: 'tint', alpha: 0.2 }));
       obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.1 }));
     }
+    else if (type === 'cool') {
+      obj.filters.push(new fabric.Image.filters.BlendColor({ color: '#0099ff', mode: 'tint', alpha: 0.2 }));
+      obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.1 }));
+    }
     obj.applyFilters(); canvas.renderAll();
   };
 
@@ -587,12 +671,23 @@ window.addEventListener('load', function() {
   window.clearAll = function() {
     if (!confirm('هل تريد مسح كل شيء؟')) return;
     canvas.clear(); canvas.backgroundColor = '#ffffff'; canvas.renderAll();
+    textCounter = 0;
+    shapeCounter = 0;
   };
+
   window.exportPNG = function() {
     canvas.discardActiveObject(); canvas.renderAll();
     var dataURL = canvas.toDataURL({ format: 'png', quality: 1, multiplier: 2 });
     var link = document.createElement('a');
     link.download = 'resha-editor-' + Date.now() + '.png';
+    link.href = dataURL; link.click();
+  };
+
+  window.exportJPG = function() {
+    canvas.discardActiveObject(); canvas.renderAll();
+    var dataURL = canvas.toDataURL({ format: 'jpeg', quality: 0.9, multiplier: 2 });
+    var link = document.createElement('a');
+    link.download = 'resha-editor-' + Date.now() + '.jpg';
     link.href = dataURL; link.click();
   };
 
