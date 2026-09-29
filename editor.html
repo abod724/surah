@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>✨ ريشة — المحرر المتقدم</title>
+<title> ريشة — المحرر المتقدم</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
 <style>
@@ -130,13 +130,13 @@
 
     <div class="card tools">
       <div class="tabs-bar">
-        <button class="tab-item active" onclick="toggleTab('text', this)">✍️ النص</button>
+        <button class="tab-item active" onclick="toggleTab('text', this)"> النص</button>
         <div id="panel-text" class="tab-panel active">
           <div class="field"><textarea id="textInput" rows="2" placeholder="اكتب النص هنا...">اترك أثراً جميلاً</textarea></div>
           <div class="btn-col"><button class="btn btn-primary" onclick="addText()">➕ إضافة نص</button></div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('image', this)">🖼️ الصور</button>
+        <button class="tab-item" onclick="toggleTab('image', this)"> الصور</button>
         <div id="panel-image" class="tab-panel">
           <div class="btn-col">
             <button class="btn btn-green" onclick="document.getElementById('imgLoader').click()">➕ إضافة صورة</button>
@@ -144,7 +144,7 @@
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('shape', this)">⬛ الأشكال</button>
+        <button class="tab-item" onclick="toggleTab('shape', this)"> الأشكال</button>
         <div id="panel-shape" class="tab-panel">
           <div class="btn-col">
             <button class="btn btn-gray" onclick="addShape('rect')">▭ مستطيل</button>
@@ -158,44 +158,44 @@
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('edit', this)">🎨 تعديل</button>
+        <button class="tab-item" onclick="toggleTab('edit', this)"> تعديل</button>
         <div id="panel-edit" class="tab-panel">
           <div class="btn-col">
-            <button class="btn btn-orange" onclick="bringForward()">⬆️ للأمام</button>
-            <button class="btn btn-orange" onclick="sendBackward()">⬇️ للخلف</button>
-            <button class="btn btn-purple" onclick="duplicateSelected()">📋 تكرار</button>
-            <button class="btn btn-red" onclick="deleteSelected()">🗑️ حذف</button>
+            <button class="btn btn-orange" onclick="bringForward()"> للأمام</button>
+            <button class="btn btn-orange" onclick="sendBackward()"> للخلف</button>
+            <button class="btn btn-purple" onclick="duplicateSelected()"> تكرار</button>
+            <button class="btn btn-red" onclick="deleteSelected()"> حذف</button>
           </div>
           <div class="field" style="margin-top:10px;">
-            <label>💧 شفافية العنصر المحدد</label>
+            <label> شفافية العنصر المحدد</label>
             <input type="range" id="opacitySlider" min="0" max="100" value="100" oninput="changeOpacity(this.value)">
           </div>
           <div class="field">
-            <label>🎨 لون النص المحدد</label>
+            <label> لون النص المحدد</label>
             <input type="color" id="textColorPicker" value="#000000" oninput="changeTextColor(this.value)">
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('filter', this)">✨ فلاتر</button>
+        <button class="tab-item" onclick="toggleTab('filter', this)"> فلاتر</button>
         <div id="panel-filter" class="tab-panel">
           <div class="btn-col">
-            <button class="btn-filter" onclick="applyFilter('none')">❌ بدون</button>
-            <button class="btn-filter" onclick="applyFilter('bright')">🔆 إضاءة</button>
-            <button class="btn-filter" onclick="applyFilter('contrast')">🌗 تباين</button>
-            <button class="btn-filter" onclick="applyFilter('saturate')">🎨 تشبع</button>
-            <button class="btn-filter" onclick="applyFilter('grayscale')">⚫ رمادي</button>
-            <button class="btn-filter" onclick="applyFilter('sepia')">🟤 قديم</button>
-            <button class="btn-filter" onclick="applyFilter('blur')">💧 ضبابي</button>
-            <button class="btn-filter" onclick="applyFilter('vintage')">📷 فينتاج</button>
-            <button class="btn-filter" onclick="applyFilter('warm')">🌅 دافئ</button>
+            <button class="btn-filter" onclick="applyFilter('none')"> بدون</button>
+            <button class="btn-filter" onclick="applyFilter('bright')"> إضاءة</button>
+            <button class="btn-filter" onclick="applyFilter('contrast')"> تباين</button>
+            <button class="btn-filter" onclick="applyFilter('saturate')"> تشبع</button>
+            <button class="btn-filter" onclick="applyFilter('grayscale')"> رمادي</button>
+            <button class="btn-filter" onclick="applyFilter('sepia')"> قديم</button>
+            <button class="btn-filter" onclick="applyFilter('blur')"> ضبابي</button>
+            <button class="btn-filter" onclick="applyFilter('vintage')"> فينتاج</button>
+            <button class="btn-filter" onclick="applyFilter('warm')"> دافئ</button>
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('draw', this)">🧽 رسم</button>
+        <button class="tab-item" onclick="toggleTab('draw', this)"> رسم</button>
         <div id="panel-draw" class="tab-panel">
           <div class="btn-col">
-            <button class="btn btn-purple" onclick="toggleDraw()" id="drawBtn">✏️ تفعيل الرسم</button>
-            <button class="btn btn-gray" onclick="clearAll()">🧹 مسح الكل</button>
+            <button class="btn btn-purple" onclick="toggleDraw()" id="drawBtn"> تفعيل الرسم</button>
+            <button class="btn btn-gray" onclick="clearAll()"> مسح الكل</button>
           </div>
           <div class="field" style="margin-top:10px;">
             <label>لون القلم/الممحاة</label>
@@ -207,10 +207,10 @@
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('export', this)">💾 تصدير</button>
+        <button class="tab-item" onclick="toggleTab('export', this)"> تصدير</button>
         <div id="panel-export" class="tab-panel">
           <div class="btn-col">
-            <button class="btn btn-primary" onclick="exportPNG()">💾 تحميل PNG</button>
+            <button class="btn btn-primary" onclick="exportPNG()"> تحميل PNG</button>
           </div>
         </div>
       </div>
@@ -424,13 +424,13 @@ window.addEventListener('load', function() {
       canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
       canvas.freeDrawingBrush.color = document.getElementById('brushColor').value;
       canvas.freeDrawingBrush.width = parseInt(document.getElementById('brushSize').value);
-      btn.innerHTML = '🛑 إيقاف الرسم';
+      btn.innerHTML = ' إيقاف الرسم';
       btn.classList.remove('btn-purple');
       btn.classList.add('btn-red');
       canvas.discardActiveObject(); canvas.renderAll();
     } else {
       canvas.isDrawingMode = false;
-      btn.innerHTML = '✏️ تفعيل الرسم';
+      btn.innerHTML = ' تفعيل الرسم';
       btn.classList.remove('btn-red');
       btn.classList.add('btn-purple');
     }
