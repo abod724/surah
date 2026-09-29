@@ -496,11 +496,19 @@
     .library-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
-  /* ✅ تصميم سطح المكتب */
+  /* ═══════════════════════════════════════ */
+  /* ✅ تصميم سطح المكتب (الموقع الكامل) */
+  /* ═══════════════════════════════════════ */
   @media (min-width: 1024px) {
-    body { padding: 20px; }
-    .container { max-width: 1400px; }
+    body {
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1400px;
+    }
 
+    /* تقسيم تبويب الصور إلى عمودين */
     #view-single.active {
       display: grid;
       grid-template-columns: 1.5fr 1fr;
@@ -521,7 +529,9 @@
       padding-left: 10px;
     }
 
-    #view-single .card:nth-child(2)::-webkit-scrollbar { width: 6px; }
+    #view-single .card:nth-child(2)::-webkit-scrollbar {
+      width: 6px;
+    }
     #view-single .card:nth-child(2)::-webkit-scrollbar-thumb {
       background: #cbd5e1;
       border-radius: 3px;
@@ -536,11 +546,26 @@
       border-radius: 12px;
     }
 
-    .btn-row { flex-wrap: nowrap; }
-    .btn-small { flex: 1; white-space: nowrap; }
+    .btn-row {
+      flex-wrap: nowrap;
+    }
 
-    .tabs { max-width: 600px; margin-left: auto; margin-right: auto; }
-    .footer { max-width: 1400px; margin-left: auto; margin-right: auto; }
+    .btn-small {
+      flex: 1;
+      white-space: nowrap;
+    }
+
+    .tabs {
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .footer {
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
     #view-slides.active {
       display: grid;
@@ -548,8 +573,14 @@
       gap: 20px;
       align-items: start;
     }
-    #view-slides .card { grid-column: span 1; }
-    #view-slides .card:nth-child(3) { grid-column: span 2; }
+    
+    #view-slides .card {
+      grid-column: span 1;
+    }
+    
+    #view-slides .card:nth-child(3) {
+      grid-column: span 2;
+    }
   }
 
   @media (min-width: 1600px) {
@@ -601,7 +632,7 @@
     <div class="card">
       <canvas id="canvas" width="1080" height="1080"></canvas>
 
-      <!-- أدوات تحكم سريعة -->
+      <!-- ✅ أدوات تحكم سريعة تحت الصورة مباشرة -->
       <div style="margin-top:16px; padding-top:16px; border-top:2px solid #f1f5f9;">
         <label style="text-align:center; display:block; margin-bottom:8px; color:#4338ca;">📍 موضع النص وحجمه</label>
         
@@ -822,74 +853,7 @@
         <button class="btn-small" style="margin-top:8px;" onclick="clearImage()">🗑️ حذف الصورة</button>
       </div>
 
-      <!-- ✅ جديد: فلاتر الصورة -->
-      <div class="field">
-        <label>✨ فلاتر الصورة (تعمل عند رفع صورة)</label>
-        <div class="btn-row">
-          <button class="btn btn-small" onclick="setImageFilter('none')" style="background:#64748b;">❌ بدون</button>
-          <button class="btn btn-small" onclick="setImageFilter('bright')" style="background:#10b981;">🔆 إضاءة</button>
-          <button class="btn btn-small" onclick="setImageFilter('contrast')" style="background:#10b981;">🌗 تباين</button>
-        </div>
-        <div class="btn-row" style="margin-top:6px;">
-          <button class="btn btn-small" onclick="setImageFilter('saturate')" style="background:#8b5cf6;">🎨 تشبع</button>
-          <button class="btn btn-small" onclick="setImageFilter('grayscale')" style="background:#8b5cf6;">⚫ رمادي</button>
-          <button class="btn btn-small" onclick="setImageFilter('sepia')" style="background:#8b5cf6;">🟤 قديم</button>
-          <button class="btn btn-small" onclick="setImageFilter('blur')" style="background:#8b5cf6;">💧 ضبابي</button>
-        </div>
-      </div>
-
-      <!-- ✅ جديد: إضافة شعار (Logo) -->
-      <div class="field">
-        <label>🏢 شعار (Logo)</label>
-        <input type="file" id="logoUpload" accept="image/*">
-        <button class="btn-small" style="margin-top:8px;" onclick="clearLogo()">🗑️ حذف الشعار</button>
-        
-        <div class="btn-row" style="margin-top:8px;">
-          <button class="btn btn-small" onclick="setLogoSize('small')" style="background:#6366f1; flex:1;">🔽 صغير</button>
-          <button class="btn btn-small" onclick="setLogoSize('medium')" style="background:#6366f1; flex:1;">◀️ متوسط</button>
-          <button class="btn btn-small" onclick="setLogoSize('large')" style="background:#6366f1; flex:1;">🔼 كبير</button>
-        </div>
-        
-        <div class="btn-row" style="margin-top:6px;">
-          <button class="btn btn-small" onclick="setLogoPos('top-right')" style="background:#8b5cf6; flex:1;">↗️ فوق يمين</button>
-          <button class="btn btn-small" onclick="setLogoPos('top-left')" style="background:#8b5cf6; flex:1;">↖️ فوق يسار</button>
-        </div>
-        <div class="btn-row" style="margin-top:6px;">
-          <button class="btn btn-small" onclick="setLogoPos('bottom-right')" style="background:#8b5cf6; flex:1;">↘️ تحت يمين</button>
-          <button class="btn btn-small" onclick="setLogoPos('bottom-left')" style="background:#8b5cf6; flex:1;">↙️ تحت يسار</button>
-        </div>
-      </div>
-
-      <!-- ✅ جديد: المساحة (Overlay) -->
-      <div class="field">
-        <label>🔲 مساحة (لوحة شفافة للنص أو الشعار)</label>
-        
-        <div class="btn-row">
-          <button class="btn btn-small" onclick="addOverlay('white')" style="background:#fff; color:#333; border:2px solid #ccc; flex:1;">⬜ أبيض</button>
-          <button class="btn btn-small" onclick="addOverlay('black')" style="background:#000; flex:1;">⬛ أسود</button>
-        </div>
-        
-        <div class="btn-row" style="margin-top:6px;">
-          <button class="btn btn-small" onclick="setOverlayPos('top')" style="background:#6366f1; flex:1;">⬆️ فوق</button>
-          <button class="btn btn-small" onclick="setOverlayPos('middle')" style="background:#6366f1; flex:1;">↕️ وسط</button>
-          <button class="btn btn-small" onclick="setOverlayPos('bottom')" style="background:#6366f1; flex:1;">⬇️ تحت</button>
-        </div>
-        
-        <div class="btn-row" style="margin-top:6px;">
-          <button class="btn btn-small" onclick="setOverlaySize('full')" style="background:#8b5cf6; flex:1;">↔️ كامل</button>
-          <button class="btn btn-small" onclick="setOverlaySize('half')" style="background:#8b5cf6; flex:1;">↔️ نصف</button>
-        </div>
-        
-        <div class="btn-row" style="margin-top:6px;">
-          <button class="btn btn-small" onclick="setOverlayOpacity(0.9)" style="background:#10b981; flex:1;">🟢 معتم</button>
-          <button class="btn btn-small" onclick="setOverlayOpacity(0.6)" style="background:#10b981; flex:1;">🟡 متوسط</button>
-          <button class="btn btn-small" onclick="setOverlayOpacity(0.3)" style="background:#10b981; flex:1;">🔵 شفاف</button>
-        </div>
-        
-        <button class="btn btn-small" style="width:100%; margin-top:8px; background:#ef4444;" onclick="removeOverlay()">🗑️ حذف المساحة</button>
-      </div>
-
-      <!-- قسم التصدير -->
+      <!-- ✅ قسم التصدير (مع أزرار التراجع وتصميم جديد) -->
       <div class="field">
         <label>💾 التصدير</label>
         <div class="btn-row">
@@ -1087,28 +1051,14 @@ let currentTemplate = 'quote';
 let currentFont = 'Cairo';
 let bgImage = null;
 
-// متغيرات موضع النص وحجمه
+// ✅ متغيرات موضع النص وحجمه
 let textAlignV = 'center';
 let textAlignH = 'middle';
 let textSize = 'medium';
 
-// متغيرات نظام التراجع
+// ✅ نظام التراجع (Undo History)
 let history = [];
 const MAX_HISTORY = 20;
-
-// ✅ متغيرات الشعار
-let logoImage = null;
-let logoSize = 'medium';
-let logoPos = 'top-right';
-
-// ✅ متغيرات فلاتر الصورة
-let imageFilter = 'none';
-
-// ✅ متغيرات المساحة
-let overlayColor = null;
-let overlayPos = 'bottom';
-let overlaySize = 'full';
-let overlayOpacity = 0.9;
 
 function saveState() {
   const state = {
@@ -1155,6 +1105,7 @@ function undo() {
   drawSingle();
 }
 
+// ✅ دالة تصميم جديد
 function newDesign() {
   if (!confirm('هل تريد بدء تصميم جديد؟ سيتم مسح التصميم الحالي.')) return;
   
@@ -1162,9 +1113,7 @@ function newDesign() {
   document.getElementById('bgColor').value = '#ffffff';
   document.getElementById('textColor').value = '#000000';
   bgImage = null;
-  logoImage = null;
   document.getElementById('imageUpload').value = '';
-  document.getElementById('logoUpload').value = '';
   document.getElementById('signature').value = '@username';
   
   currentTemplate = 'quote';
@@ -1179,10 +1128,6 @@ function newDesign() {
   textAlignV = 'center';
   textAlignH = 'middle';
   textSize = 'medium';
-  imageFilter = 'none';
-  overlayColor = null;
-  logoSize = 'medium';
-  logoPos = 'top-right';
   
   history = [];
   drawSingle();
@@ -1203,67 +1148,6 @@ function resetTextPos() {
   textAlignV = 'center';
   textAlignH = 'middle';
   textSize = 'medium';
-  drawSingle();
-}
-
-// ✅ دوال الشعار
-document.getElementById('logoUpload').addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    const img = new Image();
-    img.onload = () => { logoImage = img; drawSingle(); };
-    img.src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
-});
-
-function clearLogo() {
-  logoImage = null;
-  document.getElementById('logoUpload').value = '';
-  drawSingle();
-}
-
-function setLogoSize(size) {
-  logoSize = size;
-  drawSingle();
-}
-
-function setLogoPos(pos) {
-  logoPos = pos;
-  drawSingle();
-}
-
-// ✅ دوال فلاتر الصورة
-function setImageFilter(filter) {
-  imageFilter = filter;
-  drawSingle();
-}
-
-// ✅ دوال المساحة
-function addOverlay(color) {
-  overlayColor = color;
-  drawSingle();
-}
-
-function setOverlayPos(pos) {
-  overlayPos = pos;
-  drawSingle();
-}
-
-function setOverlaySize(size) {
-  overlaySize = size;
-  drawSingle();
-}
-
-function setOverlayOpacity(opacity) {
-  overlayOpacity = opacity;
-  drawSingle();
-}
-
-function removeOverlay() {
-  overlayColor = null;
   drawSingle();
 }
 
@@ -1659,17 +1543,8 @@ function drawTemplate(c, w, h, bg, fg, template) {
 function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img, animState) {
   c.clearRect(0, 0, w, h);
 
-  // ✅ رسم الخلفية مع فلاتر الصورة
   if (img) {
-    c.save();
-    if (imageFilter === 'bright') c.filter = 'brightness(1.3)';
-    else if (imageFilter === 'contrast') c.filter = 'contrast(1.3)';
-    else if (imageFilter === 'saturate') c.filter = 'saturate(1.5)';
-    else if (imageFilter === 'grayscale') c.filter = 'grayscale(1)';
-    else if (imageFilter === 'sepia') c.filter = 'sepia(0.8)';
-    else if (imageFilter === 'blur') c.filter = 'blur(2px)';
     c.drawImage(img, 0, 0, w, h);
-    c.restore();
   } else {
     drawTemplate(c, w, h, bg, fg, template);
   }
@@ -1683,34 +1558,18 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
   if (textSize === 'small') fontSize = w / 24;
   if (textSize === 'large') fontSize = w / 10;
 
-  // ✅ رسم المساحة (Overlay) قبل النص
-  if (overlayColor) {
-    c.save();
-    c.globalAlpha = overlayOpacity;
-    c.fillStyle = overlayColor === 'white' ? '#ffffff' : '#000000';
-    
-    const overlayHeight = h * 0.25;
-    let overlayY;
-    if (overlayPos === 'top') overlayY = 0;
-    else if (overlayPos === 'middle') overlayY = (h - overlayHeight) / 2;
-    else overlayY = h - overlayHeight;
-    
-    const overlayX = overlaySize === 'full' ? 0 : w * 0.25;
-    const overlayW = overlaySize === 'full' ? w : w * 0.5;
-    
-    c.fillRect(overlayX, overlayY, overlayW, overlayHeight);
-    c.restore();
-  }
-
   c.save();
   c.globalAlpha = anim.opacity;
   c.fillStyle = fg;
   c.font = `bold ${fontSize}px "${font}", sans-serif`;
 
-  if (textAlignV === 'right') c.textAlign = 'right';
-  else if (textAlignV === 'left') c.textAlign = 'left';
-  else c.textAlign = 'center';
-  
+  if (textAlignV === 'right') {
+    c.textAlign = 'right';
+  } else if (textAlignV === 'left') {
+    c.textAlign = 'left';
+  } else {
+    c.textAlign = 'center';
+  }
   c.textBaseline = 'middle';
   c.direction = 'rtl';
 
@@ -1718,16 +1577,8 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
   const lineHeight = fontSize * 1.3;
   const totalHeight = lines.length * lineHeight;
 
-  // ✅ تعديل موضع النص حسب المساحة
   let startY;
-  if (overlayColor) {
-    const overlayHeight = h * 0.25;
-    let overlayY;
-    if (overlayPos === 'top') overlayY = 0;
-    else if (overlayPos === 'middle') overlayY = (h - overlayHeight) / 2;
-    else overlayY = h - overlayHeight;
-    startY = overlayY + overlayHeight / 2;
-  } else if (textAlignH === 'top') {
+  if (textAlignH === 'top') {
     startY = h * 0.15 + lineHeight / 2;
   } else if (textAlignH === 'bottom') {
     startY = h * 0.85 - totalHeight / 2;
@@ -1736,9 +1587,13 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
   }
 
   let textX;
-  if (textAlignV === 'right') textX = w * 0.9;
-  else if (textAlignV === 'left') textX = w * 0.1;
-  else textX = w / 2;
+  if (textAlignV === 'right') {
+    textX = w * 0.9;
+  } else if (textAlignV === 'left') {
+    textX = w * 0.1;
+  } else {
+    textX = w / 2;
+  }
 
   if (anim.scale !== 1 || anim.offsetX !== 0 || anim.offsetY !== 0) {
     c.translate(w / 2 + anim.offsetX, h / 2 + anim.offsetY);
@@ -1765,30 +1620,6 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
     c.fillText('© نبراس GP', w / 2, h - copySize * 1.5);
   }
   c.restore();
-
-  // ✅ رسم الشعار (Logo) فوق كل شيء
-  if (logoImage) {
-    c.save();
-    c.globalAlpha = 1;
-    
-    let logoW;
-    if (logoSize === 'small') logoW = w * 0.15;
-    else if (logoSize === 'large') logoW = w * 0.35;
-    else logoW = w * 0.25;
-    
-    let logoH = logoW * (logoImage.height / logoImage.width);
-    
-    let logoX, logoY;
-    const padding = w * 0.04;
-    
-    if (logoPos === 'top-right') { logoX = w - logoW - padding; logoY = padding; }
-    else if (logoPos === 'top-left') { logoX = padding; logoY = padding; }
-    else if (logoPos === 'bottom-right') { logoX = w - logoW - padding; logoY = h - logoH - padding; }
-    else { logoX = padding; logoY = h - logoH - padding; }
-    
-    c.drawImage(logoImage, logoX, logoY, logoW, logoH);
-    c.restore();
-  }
 }
 
 function wrapText(c, text, maxWidth) {
@@ -1849,7 +1680,7 @@ function clearImage() {
 }
 
 function drawSingle() {
-  saveState();
+  saveState(); // ✅ حفظ الحالة قبل الرسم
   
   const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
   canvas.width = w;
