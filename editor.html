@@ -91,7 +91,6 @@
   .btn-filter { background: #fff; color: #374151; border: 2px solid #e5e7eb; padding: 10px; font-size: 13px; width: 100%; }
   .btn-filter:hover, .btn-filter.active { background: #eef2ff; border-color: #667eea; color: #4338ca; }
 
-  /* ✅ أزرار الألوان السريعة */
   .color-grid {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -358,7 +357,7 @@ window.addEventListener('load', function() {
   window.addEventListener('orientationchange', function() { setTimeout(resizeCanvas, 300); });
   setTimeout(resizeCanvas, 100);
 
-  // ✅ بناء الألوان السريعة
+  // بناء الألوان السريعة
   var QUICK_COLORS = [
     '#000000', '#ffffff', '#dc2626', '#ea580c', '#f59e0b', '#facc15', '#84cc16', '#16a34a',
     '#10b981', '#14b8a6', '#0891b2', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7',
@@ -373,14 +372,40 @@ window.addEventListener('load', function() {
       document.getElementById('newTextColor').value = c;
       document.querySelectorAll('.color-swatch').forEach(function(s) { s.classList.remove('active'); });
       sw.classList.add('active');
+      // ✅ تطبيق فوري على النص المحدد
+      applyTextSettings();
     };
     colorGrid.appendChild(sw);
   });
 
-  // ✅ تحديث قيمة حجم الخط
+  // ✅ تحديث حجم الخط
   document.getElementById('fontSizeSlider').addEventListener('input', function(e) {
     document.getElementById('fontSizeValue').textContent = e.target.value;
+    applyTextSettings();
   });
+
+  // ✅ تغيير اللون
+  document.getElementById('newTextColor').addEventListener('input', function() {
+    applyTextSettings();
+  });
+
+  // ✅ تغيير الخط
+  document.getElementById('fontSelect').addEventListener('change', function() {
+    applyTextSettings();
+  });
+
+  // ✅ دالة تطبيق الإعدادات على النص المحدد
+  function applyTextSettings() {
+    var obj = canvas.getActiveObject();
+    if (obj && (obj.type === 'i-text' || obj.type === 'text')) {
+      obj.set({
+        fill: document.getElementById('newTextColor').value,
+        fontFamily: document.getElementById('fontSelect').value,
+        fontSize: parseInt(document.getElementById('fontSizeSlider').value)
+      });
+      canvas.renderAll();
+    }
+  }
 
   window.toggleTab = function(name, btn) {
     var panel = document.getElementById('panel-' + name);
@@ -490,6 +515,7 @@ window.addEventListener('load', function() {
     }
   };
 
+  // ✅ تحديث الإعدادات عند تحديد نص
   canvas.on('selection:created', updateControls);
   canvas.on('selection:updated', updateControls);
   function updateControls() {
@@ -498,6 +524,14 @@ window.addEventListener('load', function() {
     document.getElementById('opacitySlider').value = (obj.opacity || 1) * 100;
     if (obj.fill && typeof obj.fill === 'string' && obj.fill.startsWith('#')) {
       document.getElementById('textColorPicker').value = obj.fill;
+      document.getElementById('newTextColor').value = obj.fill;
+    }
+    if (obj.fontFamily) {
+      document.getElementById('fontSelect').value = obj.fontFamily;
+    }
+    if (obj.fontSize) {
+      document.getElementById('fontSizeSlider').value = obj.fontSize;
+      document.getElementById('fontSizeValue').textContent = obj.fontSize;
     }
   }
 
