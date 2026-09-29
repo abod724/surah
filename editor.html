@@ -8,29 +8,29 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 8px; margin: 0; overflow-x: hidden; }
+  body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 6px; margin: 0; overflow-x: hidden; }
   .container { max-width: 1200px; margin: 0 auto; }
-  .header { text-align: center; color: #fff; margin-bottom: 8px; }
-  .header h1 { font-size: 16px; margin: 0 0 2px; }
+  .header { text-align: center; color: #fff; margin-bottom: 6px; }
+  .header h1 { font-size: 15px; margin: 0 0 2px; }
   .header p { font-size: 10px; opacity: 0.9; margin: 0; }
-  .editor-wrap { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .editor-wrap { display: grid; grid-template-columns: 1fr; gap: 6px; }
   @media (min-width: 1024px) { .editor-wrap { grid-template-columns: 1.6fr 1fr; } .canvas-area { position: sticky; top: 16px; } }
-  .card { background: #fff; border-radius: 18px; padding: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
+  .card { background: #fff; border-radius: 16px; padding: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
   
-  /* ✅ تحديد ارتفاع الكانفاس بشكل صارم */
+  /* ✅ الكانفاس صغير ومربع في الأعلى */
   .canvas-area { 
     display: flex; 
     justify-content: center; 
     align-items: center; 
     background: #f1f5f9; 
-    border-radius: 16px; 
+    border-radius: 14px; 
     padding: 8px; 
     overflow: hidden; 
-    height: 50vh; /* ✅ نصف الشاشة فقط */
-    max-height: 400px;
+    height: 38vh; /* ✅ أصغر بكثير */
+    max-height: 280px;
   }
   #c { 
-    border-radius: 12px; 
+    border-radius: 10px; 
     box-shadow: 0 4px 20px rgba(0,0,0,0.15); 
     max-width: 100%;
     max-height: 100%;
@@ -39,9 +39,9 @@
   }
   
   .tools { display: flex; flex-direction: column; gap: 6px; }
-  .tabs-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+  .tabs-bar { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
   .tabs-bar::-webkit-scrollbar { display: none; }
-  .tab-item { padding: 8px 12px; border-radius: 10px; border: 2px solid #e5e7eb; background: #fff; color: #374151; font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 12px; cursor: pointer; white-space: nowrap; transition: all 0.2s; flex-shrink: 0; }
+  .tab-item { padding: 8px 12px; border-radius: 10px; border: 2px solid #e5e7eb; background: #fff; color: #374151; font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 11px; cursor: pointer; white-space: nowrap; transition: all 0.2s; flex-shrink: 0; }
   .tab-item.active { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border-color: #667eea; }
   .tab-panel { display: none; padding: 10px; background: #f8fafc; border-radius: 12px; border: 2px solid #e5e7eb; }
   .tab-panel.active { display: block; }
@@ -63,7 +63,7 @@
   input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #667eea; cursor: pointer; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .field { margin-bottom: 8px; }
   label { display: block; font-weight: 700; font-size: 11px; color: #374151; margin-bottom: 4px; }
-  .footer { text-align: center; color: #fff; font-size: 11px; padding: 10px; margin-top: 8px; }
+  .footer { text-align: center; color: #fff; font-size: 11px; padding: 8px; margin-top: 6px; }
   .footer a { color: #fff; text-decoration: none; background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 8px; font-weight: 700; }
 </style>
 </head>
