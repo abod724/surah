@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>✨ ريشة — المحرر المتقدم</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Amiri:wght@700&family=Tajawal:wght@700&family=Rubik:wght@700&family=Almarai:wght@700&family=El+Messiri:wght@700&family=Reem+Kufi:wght@700&family=Lateef&family=Scheherazade+New:wght@700&family=Noto+Naskh+Arabic:wght@700&family=Noto+Kufi+Arabic:wght@700&family=Harmattan:wght@700&family=Mada:wght@700&family=Changa:wght@700&family=Lemonada:wght@700&family=Rakkas&family=Lalezar&family=Jomhuria&family=Aref+Ruqaa:wght@700&family=Gulzar&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 10px; margin: 0; overflow-x: hidden; }
@@ -91,6 +91,23 @@
   .btn-filter { background: #fff; color: #374151; border: 2px solid #e5e7eb; padding: 10px; font-size: 13px; width: 100%; }
   .btn-filter:hover, .btn-filter.active { background: #eef2ff; border-color: #667eea; color: #4338ca; }
 
+  /* ✅ أزرار الألوان السريعة */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .color-swatch {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: transform 0.2s;
+  }
+  .color-swatch:hover { transform: scale(1.1); }
+  .color-swatch.active { border-color: #111; }
+
   textarea { 
     width: 100%; 
     padding: 10px; 
@@ -105,8 +122,9 @@
   }
   textarea:focus { outline: none; border-color: #667eea; }
   
-  input[type="color"], select { width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 14px; background: #fff; }
-  input:focus, select:focus { outline: none; border-color: #667eea; }
+  input[type="color"] { width: 100%; height: 44px; padding: 2px; border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; }
+  select { width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 14px; background: #fff; }
+  select:focus { outline: none; border-color: #667eea; }
   input[type="range"] { width: 100%; -webkit-appearance: none; height: 8px; border-radius: 4px; background: #e5e7eb; outline: none; }
   input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #667eea; cursor: pointer; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .field { margin-bottom: 10px; }
@@ -163,6 +181,45 @@
         <button class="tab-item" onclick="toggleTab('text', this)">النص</button>
         <div id="panel-text" class="tab-panel">
           <div class="field"><textarea id="textInput" rows="2" placeholder="اكتب النص هنا...">اترك أثراً جميلاً</textarea></div>
+          
+          <div class="field">
+            <label>لون النص</label>
+            <input type="color" id="newTextColor" value="#000000">
+            <div class="color-grid" id="quickColors"></div>
+          </div>
+
+          <div class="field">
+            <label>الخط</label>
+            <select id="fontSelect">
+              <option value="Cairo">Cairo — حديث</option>
+              <option value="Amiri">Amiri — كلاسيكي</option>
+              <option value="Tajawal">Tajawal — أنيق</option>
+              <option value="Rubik">Rubik — عصري</option>
+              <option value="Almarai">Almarai — نظيف</option>
+              <option value="El Messiri">El Messiri — أنيق</option>
+              <option value="Reem Kufi">Reem Kufi — كوفي</option>
+              <option value="Lateef">Lateef — قرآني</option>
+              <option value="Scheherazade New">Scheherazade — تقليدي</option>
+              <option value="Noto Naskh Arabic">Noto Naskh — نسخ</option>
+              <option value="Noto Kufi Arabic">Noto Kufi — كوفي</option>
+              <option value="Harmattan">Harmattan — بسيط</option>
+              <option value="Mada">Mada — حديث</option>
+              <option value="Changa">Changa — مبتكر</option>
+              <option value="Lemonada">Lemonada — رقيق</option>
+              <option value="Rakkas">Rakkas — ديكوري</option>
+              <option value="Lalezar">Lalezar — عريض</option>
+              <option value="Jomhuria">Jomhuria — عنوان</option>
+              <option value="Aref Ruqaa">Aref Ruqaa — رقعة</option>
+              <option value="Gulzar">Gulzar — نستعليق</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>حجم الخط</label>
+            <input type="range" id="fontSizeSlider" min="20" max="200" value="80">
+            <div style="text-align:center; font-size:12px; color:#6b7280; margin-top:2px;" id="fontSizeValue">80</div>
+          </div>
+
           <div class="btn-col"><button class="btn btn-primary" onclick="addText()">إضافة نص</button></div>
         </div>
 
@@ -301,6 +358,30 @@ window.addEventListener('load', function() {
   window.addEventListener('orientationchange', function() { setTimeout(resizeCanvas, 300); });
   setTimeout(resizeCanvas, 100);
 
+  // ✅ بناء الألوان السريعة
+  var QUICK_COLORS = [
+    '#000000', '#ffffff', '#dc2626', '#ea580c', '#f59e0b', '#facc15', '#84cc16', '#16a34a',
+    '#10b981', '#14b8a6', '#0891b2', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7',
+    '#d946ef', '#ec4899', '#f43f5e', '#78350f', '#1e293b', '#334155', '#64748b', '#94a3b8'
+  ];
+  var colorGrid = document.getElementById('quickColors');
+  QUICK_COLORS.forEach(function(c) {
+    var sw = document.createElement('div');
+    sw.className = 'color-swatch';
+    sw.style.background = c;
+    sw.onclick = function() {
+      document.getElementById('newTextColor').value = c;
+      document.querySelectorAll('.color-swatch').forEach(function(s) { s.classList.remove('active'); });
+      sw.classList.add('active');
+    };
+    colorGrid.appendChild(sw);
+  });
+
+  // ✅ تحديث قيمة حجم الخط
+  document.getElementById('fontSizeSlider').addEventListener('input', function(e) {
+    document.getElementById('fontSizeValue').textContent = e.target.value;
+  });
+
   window.toggleTab = function(name, btn) {
     var panel = document.getElementById('panel-' + name);
     var isActive = btn.classList.contains('active');
@@ -315,11 +396,16 @@ window.addEventListener('load', function() {
   window.addText = function() {
     var text = document.getElementById('textInput').value.trim();
     if (!text) { alert('اكتب نصاً أولاً'); return; }
+    
+    var color = document.getElementById('newTextColor').value;
+    var font = document.getElementById('fontSelect').value;
+    var size = parseInt(document.getElementById('fontSizeSlider').value);
+    
     var t = new fabric.IText(text, {
       left: 540, top: 540,
-      fontFamily: 'Cairo',
-      fontSize: 80,
-      fill: '#000000',
+      fontFamily: font,
+      fontSize: size,
+      fill: color,
       direction: 'rtl',
       textAlign: 'center',
       originX: 'center', originY: 'center',
