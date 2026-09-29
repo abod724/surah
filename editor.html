@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>✨ ريشة — المحرر المتقدم</title>
+<title> ريشة — المحرر المتقدم</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&family=Tajawal:wght@400;700&family=Rubik:wght@400;700&family=Almarai:wght@400;700&family=El+Messiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Lateef&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=Harmattan&family=Mada:wght@400;700&family=Changa:wght@400;700&family=Lemonada:wght@400;700&family=Rakkas&family=Lalezar&family=Jomhuria&family=Aref+Ruqaa:wght@400;700&family=Gulzar&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 10px; margin: 0; overflow-x: hidden; }
@@ -26,28 +26,20 @@
     padding: 10px; 
     overflow: hidden; 
     min-height: 250px;
-    position: relative;
   }
-  .canvas-container { 
+  #c { 
     border-radius: 10px; 
     box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
     max-width: 100%; 
     max-height: 50vh;
+    width: auto;
+    height: auto;
+    touch-action: none; 
+    display: block;
   }
-  
-  /* ✅ إصلاح الرسم على الجوال */
-  .canvas-container,
-  .canvas-container .upper-canvas,
-  .canvas-container .lower-canvas {
-    touch-action: none !important;
-    -ms-touch-action: none !important;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-  
-  #c { display: block; }
   
   .tools { display: flex; flex-direction: column; gap: 8px; }
+
   .tabs-bar { display: flex; flex-direction: column; gap: 6px; }
   
   .tab-item { 
@@ -96,26 +88,8 @@
   .btn-red { background: #ef4444; }
   .btn-orange { background: #f59e0b; }
   .btn-gray { background: #64748b; }
-  .btn-pink { background: #ec4899; }
-  .btn-teal { background: #14b8a6; }
-  .btn-filter { background: #fff; color: #374151; border: 2px solid #e5e7eb; padding: 10px; font-size: 13px; width: 100%; border-radius: 12px; font-family: 'Cairo', sans-serif; font-weight: 800; cursor: pointer; transition: all 0.2s; }
+  .btn-filter { background: #fff; color: #374151; border: 2px solid #e5e7eb; padding: 10px; font-size: 13px; width: 100%; }
   .btn-filter:hover, .btn-filter.active { background: #eef2ff; border-color: #667eea; color: #4338ca; }
-
-  .color-grid {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 6px;
-    margin-top: 6px;
-  }
-  .color-swatch {
-    aspect-ratio: 1;
-    border-radius: 8px;
-    cursor: pointer;
-    border: 3px solid transparent;
-    transition: transform 0.2s;
-  }
-  .color-swatch:hover { transform: scale(1.1); }
-  .color-swatch.active { border-color: #111; }
 
   textarea { 
     width: 100%; 
@@ -131,123 +105,52 @@
   }
   textarea:focus { outline: none; border-color: #667eea; }
   
-  input[type="color"] { width: 100%; height: 44px; padding: 2px; border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; }
-  select { width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 14px; background: #fff; }
-  select:focus { outline: none; border-color: #667eea; }
+  input[type="color"], select { width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 14px; background: #fff; }
+  input:focus, select:focus { outline: none; border-color: #667eea; }
   input[type="range"] { width: 100%; -webkit-appearance: none; height: 8px; border-radius: 4px; background: #e5e7eb; outline: none; }
   input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #667eea; cursor: pointer; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .field { margin-bottom: 10px; }
   label { display: block; font-weight: 700; font-size: 12px; color: #374151; margin-bottom: 4px; }
   .footer { text-align: center; color: #fff; font-size: 11px; padding: 12px; margin-top: 10px; }
   .footer a { color: #fff; text-decoration: none; background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 8px; font-weight: 700; }
-
-  /* ✅ مؤشر الرسم النشط */
-  .draw-active .canvas-container .upper-canvas {
-    cursor: crosshair !important;
-  }
-
-  #nibras-btn {
-    position: fixed; bottom: 20px; right: 20px;
-    height: 44px; padding: 0 18px;
-    border-radius: 22px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white; border: none;
-    font-family: 'Cairo', sans-serif;
-    font-size: 13px; font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(102,126,234,0.45);
-    z-index: 9998;
-    display: flex; align-items: center; gap: 6px;
-    transition: all 0.2s;
-  }
-  @media (max-width: 480px) {
-    #nibras-btn { height: 40px; padding: 0 14px; font-size: 12px; bottom: 14px; right: 14px; }
-  }
 </style>
 </head>
 <body>
 
 <div class="container">
   <div class="header">
-    <h1>ريشة — المحرر المتقدم</h1>
+    <h1>✨ ريشة — المحرر المتقدم</h1>
     <p>اسحب، أفلت، كبّر، دوّر، وامسح كما تشاء</p>
   </div>
 
   <div class="editor-wrap">
-    <div class="card canvas-area" id="canvasArea">
+    <div class="card canvas-area">
       <canvas id="c" width="1080" height="1080"></canvas>
     </div>
 
     <div class="card tools">
       <div class="tabs-bar">
-
-        <button class="tab-item active" onclick="toggleTab('image', this)">الصور</button>
-        <div id="panel-image" class="tab-panel active">
-          <div class="btn-col">
-            <button class="btn btn-green" onclick="document.getElementById('imgLoader').click()">إضافة صورة</button>
-            <input type="file" id="imgLoader" accept="image/*" style="display:none;" onchange="addImage(event)">
-            <p style="font-size:11px; color:#64748b; text-align:center; margin:6px 0 0;">الحد الأقصى: 10 ميجابايت</p>
-          </div>
-        </div>
-
-        <button class="tab-item" onclick="toggleTab('text', this)">النص</button>
-        <div id="panel-text" class="tab-panel">
+        <button class="tab-item active" onclick="toggleTab('text', this)"> النص</button>
+        <div id="panel-text" class="tab-panel active">
           <div class="field"><textarea id="textInput" rows="2" placeholder="اكتب النص هنا...">اترك أثراً جميلاً</textarea></div>
-          
-          <div class="field">
-            <label>لون النص</label>
-            <input type="color" id="newTextColor" value="#000000">
-            <div class="color-grid" id="quickColors"></div>
-          </div>
+          <div class="btn-col"><button class="btn btn-primary" onclick="addText()">➕ إضافة نص</button></div>
+        </div>
 
-          <div class="field">
-            <label>الخط</label>
-            <select id="fontSelect">
-              <option value="Cairo">Cairo — حديث</option>
-              <option value="Amiri">Amiri — كلاسيكي</option>
-              <option value="Tajawal">Tajawal — أنيق</option>
-              <option value="Rubik">Rubik — عصري</option>
-              <option value="Almarai">Almarai — نظيف</option>
-              <option value="El Messiri">El Messiri — أنيق</option>
-              <option value="Reem Kufi">Reem Kufi — كوفي</option>
-              <option value="Lateef">Lateef — قرآني</option>
-              <option value="Scheherazade New">Scheherazade — تقليدي</option>
-              <option value="Noto Naskh Arabic">Noto Naskh — نسخ</option>
-              <option value="Noto Kufi Arabic">Noto Kufi — كوفي</option>
-              <option value="Harmattan">Harmattan — بسيط</option>
-              <option value="Mada">Mada — حديث</option>
-              <option value="Changa">Changa — مبتكر</option>
-              <option value="Lemonada">Lemonada — رقيق</option>
-              <option value="Rakkas">Rakkas — ديكوري</option>
-              <option value="Lalezar">Lalezar — عريض</option>
-              <option value="Jomhuria">Jomhuria — عنوان</option>
-              <option value="Aref Ruqaa">Aref Ruqaa — رقعة</option>
-              <option value="Gulzar">Gulzar — نستعليق</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label>حجم الخط</label>
-            <input type="range" id="fontSizeSlider" min="20" max="200" value="80">
-            <div style="text-align:center; font-size:12px; color:#6b7280; margin-top:2px;" id="fontSizeValue">80</div>
-          </div>
-
+        <button class="tab-item" onclick="toggleTab('image', this)"> الصور</button>
+        <div id="panel-image" class="tab-panel">
           <div class="btn-col">
-            <button class="btn btn-primary" onclick="addText()">إضافة نص</button>
+            <button class="btn btn-green" onclick="document.getElementById('imgLoader').click()">➕ إضافة صورة</button>
+            <input type="file" id="imgLoader" accept="image/*" style="display:none;" onchange="addImage(event)">
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('shape', this)">الأشكال</button>
+        <button class="tab-item" onclick="toggleTab('shape', this)"> الأشكال</button>
         <div id="panel-shape" class="tab-panel">
           <div class="btn-col">
-            <button class="btn btn-gray" onclick="addShape('rect')">مستطيل</button>
-            <button class="btn btn-gray" onclick="addShape('circle')">دائرة</button>
-            <button class="btn btn-gray" onclick="addShape('triangle')">مثلث</button>
-            <button class="btn btn-gray" onclick="addShape('line')">خط</button>
-            <button class="btn btn-gray" onclick="addShape('ellipse')">بيضاوي</button>
-            <button class="btn btn-gray" onclick="addShape('polygon')">خماسي</button>
-            <button class="btn btn-gray" onclick="addShape('star')">نجمة</button>
-            <button class="btn btn-gray" onclick="addShape('heart')">قلب</button>
+            <button class="btn btn-gray" onclick="addShape('rect')">▭ مستطيل</button>
+            <button class="btn btn-gray" onclick="addShape('circle')">◯ دائرة</button>
+            <button class="btn btn-gray" onclick="addShape('triangle')">△ مثلث</button>
+            <button class="btn btn-gray" onclick="addShape('line')">― خط</button>
           </div>
           <div class="field" style="margin-top:10px;">
             <label>لون الشكل</label>
@@ -255,72 +158,61 @@
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('edit', this)">تعديل</button>
+        <button class="tab-item" onclick="toggleTab('edit', this)"> تعديل</button>
         <div id="panel-edit" class="tab-panel">
           <div class="btn-col">
-            <button class="btn btn-orange" onclick="bringForward()">للأمام</button>
-            <button class="btn btn-orange" onclick="sendBackward()">للخلف</button>
-            <button class="btn btn-purple" onclick="duplicateSelected()">تكرار</button>
-            <button class="btn btn-red" onclick="deleteSelected()">حذف</button>
+            <button class="btn btn-orange" onclick="bringForward()"> للأمام</button>
+            <button class="btn btn-orange" onclick="sendBackward()"> للخلف</button>
+            <button class="btn btn-purple" onclick="duplicateSelected()"> تكرار</button>
+            <button class="btn btn-red" onclick="deleteSelected()"> حذف</button>
           </div>
           <div class="field" style="margin-top:10px;">
-            <label>شفافية العنصر المحدد</label>
+            <label> شفافية العنصر المحدد</label>
             <input type="range" id="opacitySlider" min="0" max="100" value="100" oninput="changeOpacity(this.value)">
           </div>
           <div class="field">
-            <label>لون النص المحدد</label>
+            <label> لون النص المحدد</label>
             <input type="color" id="textColorPicker" value="#000000" oninput="changeTextColor(this.value)">
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('draw', this)">رسم</button>
+        <button class="tab-item" onclick="toggleTab('filter', this)"> فلاتر</button>
+        <div id="panel-filter" class="tab-panel">
+          <div class="btn-col">
+            <button class="btn-filter" onclick="applyFilter('none')"> بدون</button>
+            <button class="btn-filter" onclick="applyFilter('bright')"> إضاءة</button>
+            <button class="btn-filter" onclick="applyFilter('contrast')"> تباين</button>
+            <button class="btn-filter" onclick="applyFilter('saturate')"> تشبع</button>
+            <button class="btn-filter" onclick="applyFilter('grayscale')"> رمادي</button>
+            <button class="btn-filter" onclick="applyFilter('sepia')"> قديم</button>
+            <button class="btn-filter" onclick="applyFilter('blur')"> ضبابي</button>
+            <button class="btn-filter" onclick="applyFilter('vintage')"> فينتاج</button>
+            <button class="btn-filter" onclick="applyFilter('warm')"> دافئ</button>
+          </div>
+        </div>
+
+        <button class="tab-item" onclick="toggleTab('draw', this)"> رسم</button>
         <div id="panel-draw" class="tab-panel">
           <div class="btn-col">
-            <button class="btn btn-purple" onclick="toggleDraw()" id="drawBtn">✏️ تفعيل الرسم</button>
-            <button class="btn btn-gray" onclick="clearAll()">مسح الكل</button>
+            <button class="btn btn-purple" onclick="toggleDraw()" id="drawBtn"> تفعيل الرسم</button>
+            <button class="btn btn-gray" onclick="clearAll()"> مسح الكل</button>
           </div>
           <div class="field" style="margin-top:10px;">
-            <label>لون القلم</label>
-            <input type="color" id="brushColor" value="#000000">
-            <div class="color-grid" id="brushQuickColors"></div>
+            <label>لون القلم/الممحاة</label>
+            <input type="color" id="brushColor" value="#ffffff">
           </div>
           <div class="field">
             <label>حجم الفرشاة</label>
             <input type="range" id="brushSize" min="1" max="80" value="20">
-            <div style="text-align:center; font-size:12px; color:#6b7280; margin-top:2px;" id="brushSizeValue">20</div>
-          </div>
-          <div class="field">
-            <label>شفافية الفرشاة</label>
-            <input type="range" id="brushOpacity" min="10" max="100" value="100">
-            <div style="text-align:center; font-size:12px; color:#6b7280; margin-top:2px;" id="brushOpacityValue">100%</div>
           </div>
         </div>
 
-        <button class="tab-item" onclick="toggleTab('filter', this)">فلاتر</button>
-        <div id="panel-filter" class="tab-panel">
-          <div class="btn-col">
-            <button class="btn-filter" onclick="applyFilter('none')">بدون</button>
-            <button class="btn-filter" onclick="applyFilter('bright')">إضاءة</button>
-            <button class="btn-filter" onclick="applyFilter('contrast')">تباين</button>
-            <button class="btn-filter" onclick="applyFilter('saturate')">تشبع</button>
-            <button class="btn-filter" onclick="applyFilter('grayscale')">رمادي</button>
-            <button class="btn-filter" onclick="applyFilter('sepia')">قديم</button>
-            <button class="btn-filter" onclick="applyFilter('blur')">ضبابي</button>
-            <button class="btn-filter" onclick="applyFilter('vintage')">فينتاج</button>
-            <button class="btn-filter" onclick="applyFilter('warm')">دافئ</button>
-            <button class="btn-filter" onclick="applyFilter('cool')">بارد</button>
-          </div>
-        </div>
-
-        <button class="tab-item" onclick="toggleTab('export', this)">تصدير</button>
+        <button class="tab-item" onclick="toggleTab('export', this)"> تصدير</button>
         <div id="panel-export" class="tab-panel">
           <div class="btn-col">
-            <button class="btn btn-primary" onclick="exportPNG()">تحميل PNG</button>
-            <button class="btn btn-teal" onclick="exportJPG()">تحميل JPG</button>
-            <button class="btn btn-gray" onclick="exportSVG()">تحميل SVG</button>
+            <button class="btn btn-primary" onclick="exportPNG()"> تحميل PNG</button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -330,14 +222,8 @@
   </div>
 </div>
 
-<button id="nibras-btn" onclick="window.open('https://nibras-al.onrender.com/','_blank')">اسأل</button>
-
 <script>
 window.addEventListener('load', function() {
-  
-  // ═══════════════════════════════════════════════════════════
-  // 1️⃣ إعداد الكانفس
-  // ═══════════════════════════════════════════════════════════
   var canvas = new fabric.Canvas('c', {
     backgroundColor: '#ffffff',
     preserveObjectStacking: true,
@@ -345,67 +231,47 @@ window.addEventListener('load', function() {
     allowTouchScrolling: false,
     enableRetinaScaling: true,
     width: 1080,
-    height: 1080,
-    isDrawingMode: false,
-    freeDrawingCursor: 'crosshair',
-    stopContextMenu: true,
-    fireRightClick: true
+    height: 1080
   });
 
-  // ═══════════════════════════════════════════════════════════
-  // 2️⃣ إعدادات الكائنات (مقابض واضحة + تدوير من الأعلى)
-  // ✅ حذفنا objectCaching: false من prototype لأنه كان يُبطئ الرسم
-  // ═══════════════════════════════════════════════════════════
+  // ✅ إعدادات مهمة: السماح بالتوسيع من الجوانب والزوايا
   fabric.Object.prototype.set({
     transparentCorners: false,
     cornerColor: '#667eea',
     cornerStrokeColor: '#fff',
     borderColor: '#667eea',
-    cornerSize: 24,
-    touchCornerSize: 34,
+    cornerSize: 28,
+    touchCornerSize: 40,
     padding: 10,
     cornerStyle: 'circle',
     borderScaleFactor: 2,
     hasControls: true,
     hasBorders: true,
     lockScalingFlip: true,
+    // ✅ السماح بالتوسيع من الجوانب
     lockUniScaling: false,
-    centeredScaling: false,
-    centeredRotation: true
+    centeredScaling: false
   });
 
-  fabric.Object.prototype.setControlsVisibility({
-    mt: false,
-    mb: false,
-    ml: true,
-    mr: true,
-    tl: true,
-    tr: true,
-    bl: true,
-    br: true,
-    mtr: true
+  // ✅ إعدادات خاصة للنص: السماح بالتوسيع من الجوانب
+  fabric.IText.prototype.set({
+    lockScalingX: false,
+    lockScalingY: false,
+    lockRotation: false,
+    hasRotatingPoint: true,
+    controlsAboveOverlay: true
   });
 
-  // ✅ تعطيل objectCaching للنصوص فقط (لجودة أعلى)
-  fabric.IText.prototype.objectCaching = false;
-
-  var textCounter = 0;
-  var shapeCounter = 0;
-
-  // ═══════════════════════════════════════════════════════════
-  // 3️⃣ resizeCanvas — بدون setZoom مزدوج
-  // ═══════════════════════════════════════════════════════════
   function resizeCanvas() {
     var area = document.querySelector('.canvas-area');
     var maxWidth = area.clientWidth - 20;
     var maxHeight = window.innerHeight * 0.5;
     var scale = Math.min(maxWidth / 1080, maxHeight / 1080);
-    
     canvas.setDimensions({ 
       width: 1080 * scale, 
       height: 1080 * scale 
     });
-    canvas.setZoom(1);
+    canvas.setZoom(scale);
     canvas.renderAll();
   }
 
@@ -413,98 +279,6 @@ window.addEventListener('load', function() {
   window.addEventListener('orientationchange', function() { setTimeout(resizeCanvas, 300); });
   setTimeout(resizeCanvas, 100);
 
-  // ═══════════════════════════════════════════════════════════
-  // 4️⃣ لوحة الألوان السريعة (نص + فرشاة)
-  // ═══════════════════════════════════════════════════════════
-  var QUICK_COLORS = [
-    '#000000', '#ffffff', '#dc2626', '#ea580c', '#f59e0b', '#facc15', '#84cc16', '#16a34a',
-    '#10b981', '#14b8a6', '#0891b2', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7',
-    '#d946ef', '#ec4899', '#f43f5e', '#78350f', '#1e293b', '#334155', '#64748b', '#94a3b8'
-  ];
-  
-  // ألوان النص
-  var colorGrid = document.getElementById('quickColors');
-  QUICK_COLORS.forEach(function(c) {
-    var sw = document.createElement('div');
-    sw.className = 'color-swatch';
-    sw.style.background = c;
-    sw.onclick = function() {
-      document.getElementById('newTextColor').value = c;
-      document.querySelectorAll('#quickColors .color-swatch').forEach(function(s) { 
-        s.classList.remove('active'); 
-      });
-      sw.classList.add('active');
-      applyTextSettings();
-    };
-    colorGrid.appendChild(sw);
-  });
-  
-  // ✅ ألوان الفرشاة
-  var brushColorGrid = document.getElementById('brushQuickColors');
-  QUICK_COLORS.forEach(function(c) {
-    var sw = document.createElement('div');
-    sw.className = 'color-swatch';
-    sw.style.background = c;
-    sw.onclick = function() {
-      document.getElementById('brushColor').value = c;
-      document.querySelectorAll('#brushQuickColors .color-swatch').forEach(function(s) { 
-        s.classList.remove('active'); 
-      });
-      sw.classList.add('active');
-      // ✅ تحديث الفرشاة فوراً إذا كانت نشطة
-      if (canvas.freeDrawingBrush) {
-        canvas.freeDrawingBrush.color = c;
-      }
-    };
-    brushColorGrid.appendChild(sw);
-  });
-
-  // ═══════════════════════════════════════════════════════════
-  // 5️⃣ إصلاح applyTextSettings (تحميل خطوط عربي)
-  // ═══════════════════════════════════════════════════════════
-  var FONTS_SINGLE_WEIGHT = ['Lateef', 'Harmattan', 'Rakkas', 'Lalezar', 
-                              'Jomhuria', 'Gulzar'];
-
-  function applyTextSettings() {
-    var obj = canvas.getActiveObject();
-    if (!obj || (obj.type !== 'i-text' && obj.type !== 'text')) return;
-    
-    var newFont = document.getElementById('fontSelect').value;
-    var newColor = document.getElementById('newTextColor').value;
-    var newSize = parseInt(document.getElementById('fontSizeSlider').value);
-    
-    var sampleText = 'نص عربي تجريبي';
-    var fontWeight = FONTS_SINGLE_WEIGHT.indexOf(newFont) !== -1 ? '400' : '700';
-    var loadSpec = fontWeight + ' 20px "' + newFont + '"';
-    
-    var apply = function() {
-      obj.set({ 
-        fill: newColor, 
-        fontFamily: newFont, 
-        fontSize: newSize,
-        fontWeight: fontWeight
-      });
-      canvas.renderAll();
-    };
-    
-    if (document.fonts && document.fonts.load) {
-      document.fonts.load(loadSpec, sampleText).then(apply).catch(apply);
-    } else {
-      apply();
-    }
-  }
-
-  document.getElementById('fontSizeSlider').addEventListener('input', function(e) {
-    document.getElementById('fontSizeValue').textContent = e.target.value;
-    applyTextSettings();
-  });
-
-  document.getElementById('newTextColor').addEventListener('input', applyTextSettings);
-  document.getElementById('fontSelect').addEventListener('change', applyTextSettings);
-
-  // ═══════════════════════════════════════════════════════════
-  // 6️⃣ التبويبات
-  // ═══════════════════════════════════════════════════════════
   window.toggleTab = function(name, btn) {
     var panel = document.getElementById('panel-' + name);
     var isActive = btn.classList.contains('active');
@@ -516,85 +290,42 @@ window.addEventListener('load', function() {
     }
   };
 
-  // ═══════════════════════════════════════════════════════════
-  // 7️⃣ إضافة نص
-  // ═══════════════════════════════════════════════════════════
   window.addText = function() {
     var text = document.getElementById('textInput').value.trim();
     if (!text) { alert('اكتب نصاً أولاً'); return; }
-    
-    var color = document.getElementById('newTextColor').value;
-    var font = document.getElementById('fontSelect').value;
-    var size = parseInt(document.getElementById('fontSizeSlider').value);
-    
-    var offsetY = (textCounter % 5) * 100 - 200;
-    var offsetX = (textCounter % 3) * 50 - 50;
-    textCounter++;
-    
-    var fontWeight = FONTS_SINGLE_WEIGHT.indexOf(font) !== -1 ? '400' : '700';
-    var sampleText = 'نص عربي تجريبي';
-    var loadSpec = fontWeight + ' 20px "' + font + '"';
-    
-    var createText = function() {
-      var t = new fabric.IText(text, {
-        left: 540 + offsetX,
-        top: 540 + offsetY,
-        fontFamily: font,
-        fontSize: size,
-        fontWeight: fontWeight,
-        fill: color,
-        direction: 'rtl',
-        textAlign: 'center',
-        originX: 'center', 
-        originY: 'center',
-        padding: 10,
-        editable: true,
-        hasControls: true,
-        hasBorders: true,
-        centeredRotation: true,
-        objectCaching: false
-      });
-      canvas.add(t);
-      canvas.setActiveObject(t);
-      canvas.renderAll();
-    };
-    
-    if (document.fonts && document.fonts.load) {
-      document.fonts.load(loadSpec, sampleText).then(createText).catch(createText);
-    } else {
-      createText();
-    }
+    var t = new fabric.IText(text, {
+      left: 540, top: 540,
+      fontFamily: 'Cairo',
+      fontSize: 80,
+      fill: '#000000',
+      direction: 'rtl',
+      textAlign: 'center',
+      originX: 'center', originY: 'center',
+      padding: 15,
+      editable: true,
+      // ✅ السماح بالتوسيع من الجوانب
+      lockScalingX: false,
+      lockScalingY: false,
+      lockRotation: false,
+      hasRotatingPoint: true,
+      hasControls: true,
+      hasBorders: true,
+      lockUniScaling: false
+    });
+    canvas.add(t);
+    canvas.setActiveObject(t);
+    canvas.renderAll();
   };
 
-  // ═══════════════════════════════════════════════════════════
-  // 8️⃣ إضافة صورة (مع حماية 10 ميجا)
-  // ═══════════════════════════════════════════════════════════
   window.addImage = function(e) {
     var file = e.target.files[0];
     if (!file) return;
-    
-    if (file.size > 10 * 1024 * 1024) {
-      alert('حجم الصورة كبير جداً (الحد الأقصى 10 ميجابايت)');
-      e.target.value = '';
-      return;
-    }
-    
     var reader = new FileReader();
     reader.onload = function(ev) {
       fabric.Image.fromURL(ev.target.result, function(img) {
         var maxW = 540;
         if (img.width > maxW) img.scaleToWidth(maxW);
-        var offsetY = (textCounter % 5) * 80 - 160;
-        textCounter++;
-        img.set({ 
-          left: 540, 
-          top: 540 + offsetY, 
-          originX: 'center', 
-          originY: 'center', 
-          padding: 10, 
-          filters: [],
-          centeredRotation: true
-        });
+        img.set({ left: 540, top: 540, originX: 'center', originY: 'center', padding: 15, filters: [] });
         canvas.add(img);
         canvas.setActiveObject(img);
         canvas.renderAll();
@@ -604,52 +335,19 @@ window.addEventListener('load', function() {
     reader.readAsDataURL(file);
   };
 
-  // ═══════════════════════════════════════════════════════════
-  // 9️⃣ إضافة أشكال
-  // ═══════════════════════════════════════════════════════════
   window.addShape = function(type) {
     var color = document.getElementById('shapeColor').value;
     var shape;
-    var offsetY = (shapeCounter % 5) * 80 - 160;
-    var offsetX = (shapeCounter % 3) * 40 - 40;
-    shapeCounter++;
-    
-    var center = { 
-      left: 540 + offsetX, 
-      top: 540 + offsetY, 
-      originX: 'center', 
-      originY: 'center', 
-      fill: color, 
-      padding: 10,
-      centeredRotation: true
-    };
-    
+    var center = { left: 540, top: 540, originX: 'center', originY: 'center', fill: color, padding: 15 };
     if (type === 'rect') shape = new fabric.Rect({ ...center, width: 360, height: 270 });
     else if (type === 'circle') shape = new fabric.Circle({ ...center, radius: 180 });
     else if (type === 'triangle') shape = new fabric.Triangle({ ...center, width: 360, height: 320 });
-    else if (type === 'line') shape = new fabric.Line([200, 0, 880, 0], { 
-      left: 540, top: 540, stroke: color, strokeWidth: 12, 
-      originX: 'center', originY: 'center', padding: 10 
-    });
-    else if (type === 'ellipse') shape = new fabric.Ellipse({ ...center, rx: 200, ry: 130 });
-    else if (type === 'polygon') shape = new fabric.Polygon([
-      {x: 0, y: -180}, {x: 170, y: -55}, {x: 105, y: 145}, {x: -105, y: 145}, {x: -170, y: -55}
-    ], center);
-    else if (type === 'star') shape = new fabric.Polygon([
-      {x: 0, y: -180}, {x: 40, y: -60}, {x: 170, y: -60}, {x: 70, y: 20},
-      {x: 105, y: 145}, {x: 0, y: 70}, {x: -105, y: 145}, {x: -70, y: 20},
-      {x: -170, y: -60}, {x: -40, y: -60}
-    ], center);
-    else if (type === 'heart') shape = new fabric.Path('M 0 -80 C -40 -140, -160 -100, -160 0 C -160 80, -60 140, 0 200 C 60 140, 160 80, 160 0 C 160 -100, 40 -140, 0 -80 Z', center);
-    
+    else if (type === 'line') shape = new fabric.Line([200, 0, 880, 0], { left: 540, top: 540, stroke: color, strokeWidth: 12, originX: 'center', originY: 'center', padding: 15 });
     canvas.add(shape);
     canvas.setActiveObject(shape);
     canvas.renderAll();
   };
 
-  // ═══════════════════════════════════════════════════════════
-  // 🔟 أدوات التعديل
-  // ═══════════════════════════════════════════════════════════
   window.bringForward = function() {
     var obj = canvas.getActiveObject();
     if (!obj) { alert('اختر عنصراً أولاً'); return; }
@@ -660,34 +358,24 @@ window.addEventListener('load', function() {
     if (!obj) { alert('اختر عنصراً أولاً'); return; }
     canvas.sendBackwards(obj); canvas.renderAll();
   };
-  
   window.duplicateSelected = function() {
     var obj = canvas.getActiveObject();
     if (!obj) { alert('اختر عنصراً أولاً'); return; }
     obj.clone(function(cloned) {
-      cloned.set({ 
-        left: cloned.left + 30, 
-        top: cloned.top + 30,
-        evented: true
-      });
-      canvas.add(cloned);
-      canvas.setActiveObject(cloned);
-      canvas.renderAll();
-    }, ['filters', 'styles', 'fontFamily', 'fontSize', 'fontWeight', 'fill', 'text']);
+      cloned.set({ left: cloned.left + 30, top: cloned.top + 30 });
+      canvas.add(cloned); canvas.setActiveObject(cloned); canvas.renderAll();
+    });
   };
-  
   window.deleteSelected = function() {
     var objs = canvas.getActiveObjects();
     if (objs.length === 0) { alert('اختر عنصراً أولاً'); return; }
     objs.forEach(function(o) { canvas.remove(o); });
     canvas.discardActiveObject(); canvas.renderAll();
   };
-  
   window.changeOpacity = function(val) {
     var obj = canvas.getActiveObject();
     if (obj) { obj.set('opacity', val / 100); canvas.renderAll(); }
   };
-  
   window.changeTextColor = function(color) {
     var obj = canvas.getActiveObject();
     if (obj && (obj.type === 'i-text' || obj.type === 'text')) {
@@ -695,41 +383,21 @@ window.addEventListener('load', function() {
     }
   };
 
-  // ═══════════════════════════════════════════════════════════
-  // 1️⃣1️⃣ تحديث المتحكمات عند التحديد
-  // ═══════════════════════════════════════════════════════════
   canvas.on('selection:created', updateControls);
   canvas.on('selection:updated', updateControls);
-  
   function updateControls() {
     var obj = canvas.getActiveObject();
     if (!obj) return;
     document.getElementById('opacitySlider').value = (obj.opacity || 1) * 100;
     if (obj.fill && typeof obj.fill === 'string' && obj.fill.startsWith('#')) {
       document.getElementById('textColorPicker').value = obj.fill;
-      document.getElementById('newTextColor').value = obj.fill;
-    }
-    if (obj.fontFamily) {
-      document.getElementById('fontSelect').value = obj.fontFamily;
-    }
-    if (obj.fontSize) {
-      document.getElementById('fontSizeSlider').value = obj.fontSize;
-      document.getElementById('fontSizeValue').textContent = obj.fontSize;
     }
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // 1️⃣2️⃣ الفلاتر
-  // ═══════════════════════════════════════════════════════════
   window.applyFilter = function(type) {
     var obj = canvas.getActiveObject();
-    if (!obj || obj.type !== 'image') { 
-      alert('اختر صورة أولاً لتطبيق الفلتر'); 
-      return; 
-    }
-    
+    if (!obj || obj.type !== 'image') { alert('اختر صورة أولاً لتطبيق الفلتر'); return; }
     obj.filters = [];
-    
     if (type === 'bright') obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.3 }));
     else if (type === 'contrast') obj.filters.push(new fabric.Image.filters.Contrast({ contrast: 0.3 }));
     else if (type === 'saturate') obj.filters.push(new fabric.Image.filters.Saturation({ saturation: 0.5 }));
@@ -744,250 +412,56 @@ window.addEventListener('load', function() {
       obj.filters.push(new fabric.Image.filters.BlendColor({ color: '#ff9900', mode: 'tint', alpha: 0.2 }));
       obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.1 }));
     }
-    else if (type === 'cool') {
-      obj.filters.push(new fabric.Image.filters.BlendColor({ color: '#0099ff', mode: 'tint', alpha: 0.2 }));
-      obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.1 }));
-    }
-    
-    obj.applyFilters();
-    canvas.renderAll();
+    obj.applyFilters(); canvas.renderAll();
   };
 
-  // ═══════════════════════════════════════════════════════════
-  // 1️⃣3️⃣ ✅ الرسم الحر — النسخة المُصلَحة بالكامل
-  // ═══════════════════════════════════════════════════════════
   var isDrawing = false;
-
-  // ✅ إنشاء الفرشاة مرة واحدة
-  function initBrush() {
-    if (!canvas.freeDrawingBrush) {
-      canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
-    }
-    var color = document.getElementById('brushColor').value;
-    var opacity = parseInt(document.getElementById('brushOpacity').value) / 100;
-    
-    // ✅ تطبيق الشفافية على اللون
-    var rgba = hexToRgba(color, opacity);
-    
-    canvas.freeDrawingBrush.color = rgba;
-    canvas.freeDrawingBrush.width = parseInt(document.getElementById('brushSize').value);
-    canvas.freeDrawingBrush.decimate = 0.4; // ✅ أداء أفضل
-  }
-
-  // ✅ تحويل hex إلى rgba
-  function hexToRgba(hex, alpha) {
-    hex = hex.replace('#', '');
-    if (hex.length === 3) {
-      hex = hex.split('').map(function(c) { return c + c; }).join('');
-    }
-    var r = parseInt(hex.substring(0, 2), 16);
-    var g = parseInt(hex.substring(2, 4), 16);
-    var b = parseInt(hex.substring(4, 6), 16);
-    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
-  }
-
   window.toggleDraw = function() {
+    isDrawing = !isDrawing;
     var btn = document.getElementById('drawBtn');
-    
-    if (!isDrawing) {
-      // ✅ 1. اخرج من أي تحديد أولاً
-      canvas.discardActiveObject();
-      canvas.renderAll();
-      
-      // ✅ 2. أنشئ الفرشاة قبل التفعيل
-      initBrush();
-      
-      // ✅ 3. فعّل وضع الرسم
+    if (isDrawing) {
       canvas.isDrawingMode = true;
-      
-      // ✅ 4. أضف كلاس للـ body لتغيير المؤشر
-      document.body.classList.add('draw-active');
-      
-      isDrawing = true;
-      btn.innerHTML = '⏹ إيقاف الرسم';
+      canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+      canvas.freeDrawingBrush.color = document.getElementById('brushColor').value;
+      canvas.freeDrawingBrush.width = parseInt(document.getElementById('brushSize').value);
+      btn.innerHTML = ' إيقاف الرسم';
       btn.classList.remove('btn-purple');
       btn.classList.add('btn-red');
-      
-      // ✅ تنبيه للمستخدم
-      console.log('✅ وضع الرسم مُفعّل — ارسم بإصبعك أو الفأرة');
+      canvas.discardActiveObject(); canvas.renderAll();
     } else {
       canvas.isDrawingMode = false;
-      document.body.classList.remove('draw-active');
-      isDrawing = false;
-      btn.innerHTML = '✏️ تفعيل الرسم';
+      btn.innerHTML = ' تفعيل الرسم';
       btn.classList.remove('btn-red');
       btn.classList.add('btn-purple');
     }
   };
 
-  // ✅ تحديث الفرشاة عند تغيير اللون/الحجم/الشفافية
   document.getElementById('brushColor').addEventListener('input', function(e) {
-    if (canvas.freeDrawingBrush) {
-      var opacity = parseInt(document.getElementById('brushOpacity').value) / 100;
-      canvas.freeDrawingBrush.color = hexToRgba(e.target.value, opacity);
-    }
+    if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.color = e.target.value;
   });
-
   document.getElementById('brushSize').addEventListener('input', function(e) {
-    document.getElementById('brushSizeValue').textContent = e.target.value;
-    if (canvas.freeDrawingBrush) {
-      canvas.freeDrawingBrush.width = parseInt(e.target.value);
-    }
+    if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.width = parseInt(e.target.value);
   });
 
-  document.getElementById('brushOpacity').addEventListener('input', function(e) {
-    document.getElementById('brushOpacityValue').textContent = e.target.value + '%';
-    if (canvas.freeDrawingBrush) {
-      var color = document.getElementById('brushColor').value;
-      canvas.freeDrawingBrush.color = hexToRgba(color, parseInt(e.target.value) / 100);
-    }
-  });
-
-  // ✅ عند إنشاء مسار جديد — تأكد من أن المؤشر لا يعود للتحديد
-  canvas.on('path:created', function(e) {
-    if (isDrawing) {
-      // إبقاء وضع الرسم نشطاً
-      canvas.isDrawingMode = true;
-    }
-  });
-
-  // ═══════════════════════════════════════════════════════════
-  // 1️⃣4️⃣ مسح الكل
-  // ═══════════════════════════════════════════════════════════
   window.clearAll = function() {
     if (!confirm('هل تريد مسح كل شيء؟')) return;
-    canvas.clear(); 
-    canvas.backgroundColor = '#ffffff'; 
-    canvas.renderAll();
-    textCounter = 0;
-    shapeCounter = 0;
+    canvas.clear(); canvas.backgroundColor = '#ffffff'; canvas.renderAll();
   };
-
-  // ═══════════════════════════════════════════════════════════
-  // 1️⃣5️⃣ التصدير (PNG / JPG / SVG)
-  // ═══════════════════════════════════════════════════════════
   window.exportPNG = function() {
-    // ✅ أوقف الرسم مؤقتاً قبل التصدير
-    var wasDrawing = isDrawing;
-    if (wasDrawing) {
-      canvas.isDrawingMode = false;
-    }
-    
-    canvas.discardActiveObject(); 
-    canvas.renderAll();
-    
-    setTimeout(function() {
-      var dataURL = canvas.toDataURL({ format: 'png', quality: 1, multiplier: 2 });
-      var link = document.createElement('a');
-      link.download = 'resha-editor-' + Date.now() + '.png';
-      link.href = dataURL; 
-      link.click();
-      
-      if (wasDrawing) {
-        canvas.isDrawingMode = true;
-      }
-    }, 100);
+    canvas.discardActiveObject(); canvas.renderAll();
+    var dataURL = canvas.toDataURL({ format: 'png', quality: 1, multiplier: 2 });
+    var link = document.createElement('a');
+    link.download = 'resha-editor-' + Date.now() + '.png';
+    link.href = dataURL; link.click();
   };
 
-  window.exportJPG = function() {
-    var wasDrawing = isDrawing;
-    if (wasDrawing) canvas.isDrawingMode = false;
-    
-    canvas.discardActiveObject(); 
-    canvas.renderAll();
-    
-    setTimeout(function() {
-      var dataURL = canvas.toDataURL({ format: 'jpeg', quality: 0.9, multiplier: 2 });
-      var link = document.createElement('a');
-      link.download = 'resha-editor-' + Date.now() + '.jpg';
-      link.href = dataURL; 
-      link.click();
-      
-      if (wasDrawing) canvas.isDrawingMode = true;
-    }, 100);
-  };
-
-  window.exportSVG = function() {
-    var wasDrawing = isDrawing;
-    if (wasDrawing) canvas.isDrawingMode = false;
-    
-    canvas.discardActiveObject(); 
-    canvas.renderAll();
-    
-    setTimeout(function() {
-      var svg = canvas.toSVG();
-      var blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
-      var url = URL.createObjectURL(blob);
-      var link = document.createElement('a');
-      link.download = 'resha-editor-' + Date.now() + '.svg';
-      link.href = url;
-      link.click();
-      setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
-      
-      if (wasDrawing) canvas.isDrawingMode = true;
-    }, 100);
-  };
-
-  // ═══════════════════════════════════════════════════════════
-  // 1️⃣6️⃣ اختصارات لوحة المفاتيح
-  // ═══════════════════════════════════════════════════════════
   document.addEventListener('keydown', function(e) {
-    var isInput = document.activeElement.tagName === 'INPUT' || 
-                  document.activeElement.tagName === 'TEXTAREA';
-    if (isInput) return;
-    
-    if (e.key === 'Delete' || e.key === 'Backspace') {
-      if (canvas.getActiveObject()) {
-        e.preventDefault();
+    if ((e.key === 'Delete' || e.key === 'Backspace') && canvas.getActiveObject()) {
+      if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
         deleteSelected();
       }
     }
-    
-    if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
-      e.preventDefault();
-      if (canvas.getActiveObject()) duplicateSelected();
-    }
-    
-    // ✅ Escape لإيقاف الرسم
-    if (e.key === 'Escape' && isDrawing) {
-      toggleDraw();
-    }
   });
-
-  // ═══════════════════════════════════════════════════════════
-  // 1️⃣7️⃣ منع خروج العناصر من الكانفس (مع تجاهل وضع الرسم)
-  // ═══════════════════════════════════════════════════════════
-  canvas.on('object:moving', function(e) {
-    if (canvas.isDrawingMode) return; // ✅ لا تتدخل أثناء الرسم
-    
-    var obj = e.target;
-    if (!obj) return;
-    var bound = obj.getBoundingRect(true, true);
-    
-    if (bound.left < -50) obj.left += -50 - bound.left;
-    if (bound.top < -50) obj.top += -50 - bound.top;
-    if (bound.left + bound.width > 1080 + 50) {
-      obj.left -= (bound.left + bound.width) - (1080 + 50);
-    }
-    if (bound.top + bound.height > 1080 + 50) {
-      obj.top -= (bound.top + bound.height) - (1080 + 50);
-    }
-  });
-
-  // ✅ عند إنشاء مسار جديد، اجعل المسار قابلاً للتحديد والتعديل
-  canvas.on('path:created', function(e) {
-    var path = e.path;
-    if (path) {
-      path.set({
-        selectable: true,
-        evented: true,
-        hasControls: true,
-        hasBorders: true
-      });
-    }
-  });
-
-  console.log('✅ ريشة جاهز — جميع الميزات تعمل');
 });
 </script>
 
