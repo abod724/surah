@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>✨ ريشة — المحرر المتقدم</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&family=Tajawal:wght@400;700&family=Almarai:wght@400;700&family=El+Messiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Mada:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Amiri:wght@400;700&family=Amiri+Quran&family=Tajawal:wght@400;700;900&family=Almarai:wght@400;700;800&family=El+Messiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=Mada:wght@400;700;900&family=Changa:wght@400;700;800&family=Lemonada:wght@400;700&family=Rakkas&family=Lalezar&family=Jomhuria&family=Aref+Ruqaa:wght@400;700&family=Gulzar&family=Lateef&family=Harmattan&family=Markazi+Text:wght@400;700&family=Kufam:wght@400;700;900&family=Alexandria:wght@400;700;900&family=IBM+Plex+Sans+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&family=Readex+Pro:wght@400;700&family=Rubik:wght@400;700&family=Marhey:wght@400;700&family=Qahiri&family=Mirza:wght@400;700&family=Katibeh&family=Alkalami&family=Baloo+Bhaijaan+2:wght@400;700&family=Saira:wght@400;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 10px; margin: 0; overflow-x: hidden; }
@@ -37,7 +37,6 @@
     touch-action: none; 
     display: block;
   }
-  /* ✅ إصلاح الرسم على الجوال */
   .canvas-container .upper-canvas { touch-action: none !important; }
   
   .tools { display: flex; flex-direction: column; gap: 8px; }
@@ -92,7 +91,6 @@
   .btn-filter { background: #fff; color: #374151; border: 2px solid #e5e7eb; padding: 10px; font-size: 13px; width: 100%; border-radius: 12px; font-family: 'Cairo', sans-serif; font-weight: 800; cursor: pointer; transition: all 0.2s; }
   .btn-filter:hover, .btn-filter.active { background: #eef2ff; border-color: #667eea; color: #4338ca; }
 
-  /* ✅ شبكة الألوان السريعة */
   .color-grid {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -124,8 +122,7 @@
   textarea:focus { outline: none; border-color: #667eea; }
   
   input[type="color"] { width: 100%; height: 42px; padding: 2px; border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; background: #fff; }
-  select { width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 14px; background: #fff; }
-  select:focus { outline: none; border-color: #667eea; }
+  input[type="text"] { font-family: 'Cairo', sans-serif; }
   input[type="range"] { width: 100%; -webkit-appearance: none; height: 8px; border-radius: 4px; background: #e5e7eb; outline: none; }
   input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #667eea; cursor: pointer; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .field { margin-bottom: 10px; }
@@ -153,23 +150,14 @@
         <!-- ═══ النص ═══ -->
         <button class="tab-item active" onclick="toggleTab('text', this)">📝 النص</button>
         <div id="panel-text" class="tab-panel active">
+          
           <div class="field">
             <textarea id="textInput" rows="2" placeholder="اكتب النص هنا...">اترك أثراً جميلاً</textarea>
           </div>
 
           <div class="field">
-            <label>الخط</label>
-            <select id="fontSelect">
-              <option value="Cairo">Cairo — حديث</option>
-              <option value="Amiri">Amiri — كلاسيكي</option>
-              <option value="Tajawal">Tajawal — أنيق</option>
-              <option value="Almarai">Almarai — نظيف</option>
-              <option value="El Messiri">El Messiri — أنيق</option>
-              <option value="Reem Kufi">Reem Kufi — كوفي</option>
-              <option value="Scheherazade New">Scheherazade — تقليدي</option>
-              <option value="Noto Naskh Arabic">Noto Naskh — نسخ</option>
-              <option value="Mada">Mada — حديث</option>
-            </select>
+            <label>حجم الخط: <span id="fontSizeValue">80</span></label>
+            <input type="range" id="fontSizeSlider" min="20" max="200" value="80">
           </div>
 
           <div class="field">
@@ -178,14 +166,27 @@
             <div class="color-grid" id="quickColors"></div>
           </div>
 
-          <div class="field">
-            <label>حجم الخط: <span id="fontSizeValue">80</span></label>
-            <input type="range" id="fontSizeSlider" min="20" max="200" value="80">
-          </div>
-
           <div class="btn-col">
             <button class="btn btn-primary" onclick="addText()">➕ إضافة نص</button>
           </div>
+
+          <div class="field" style="margin-top:12px;">
+            <label>🖋️ اختر الخط (اضغط لتطبيق فوري)</label>
+            <input type="text" id="fontSearch" placeholder="🔍 ابحث عن خط..." 
+              style="width:100%; padding:10px; border:2px solid #e5e7eb; border-radius:10px; margin-bottom:8px; font-size:14px;">
+            <div id="fontGrid" style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 8px;
+              max-height: 400px;
+              overflow-y: auto;
+              padding: 4px;
+              background: #fff;
+              border-radius: 10px;
+              border: 2px solid #e5e7eb;
+            "></div>
+          </div>
+
         </div>
 
         <!-- ═══ الصور ═══ -->
@@ -312,20 +313,14 @@ window.addEventListener('load', function() {
     centeredScaling: false
   });
 
-  // ✅ إخفاء مقابض الوسط (منع التدوير الخاطئ) — التدوير من الزوايا فقط
+  // إخفاء مقابض الوسط
   fabric.Object.prototype.setControlsVisibility({
-    mt: false,
-    mb: false,
-    ml: false,
-    mr: false,
-    tl: true,
-    tr: true,
-    bl: true,
-    br: true,
+    mt: false, mb: false, ml: false, mr: false,
+    tl: true, tr: true, bl: true, br: true,
     mtr: false
   });
 
-  // دالة تغيير الحجم
+  // تغيير حجم الكانفس
   function resizeCanvas() {
     var area = document.querySelector('.canvas-area');
     var maxWidth = area.clientWidth - 20;
@@ -344,7 +339,7 @@ window.addEventListener('load', function() {
   setTimeout(resizeCanvas, 100);
 
   // ═══════════════════════════════════════════════
-  // لوحة الألوان السريعة (للنص + للفرشاة)
+  // 🎨 لوحة الألوان السريعة
   // ═══════════════════════════════════════════════
   var QUICK_COLORS = [
     '#000000', '#ffffff', '#dc2626', '#ea580c', '#f59e0b', '#facc15', '#84cc16', '#16a34a',
@@ -352,7 +347,7 @@ window.addEventListener('load', function() {
     '#d946ef', '#ec4899', '#f43f5e', '#78350f', '#1e293b', '#334155', '#64748b', '#94a3b8'
   ];
 
-  // ألوان النص
+  // ✅ ألوان النص — تُطبّق فوراً على النص المحدد
   var quickColorsEl = document.getElementById('quickColors');
   QUICK_COLORS.forEach(function(c) {
     var sw = document.createElement('div');
@@ -362,12 +357,17 @@ window.addEventListener('load', function() {
       document.getElementById('newTextColor').value = c;
       quickColorsEl.querySelectorAll('.color-swatch').forEach(function(s) { s.classList.remove('active'); });
       sw.classList.add('active');
-      applyTextSettings();
+      
+      var obj = canvas.getActiveObject();
+      if (obj) {
+        obj.set('fill', c);
+        canvas.renderAll();
+      }
     };
     quickColorsEl.appendChild(sw);
   });
 
-  // ألوان الفرشاة
+  // ✅ ألوان الفرشاة
   var brushColorsEl = document.getElementById('brushColors');
   QUICK_COLORS.forEach(function(c) {
     var sw = document.createElement('div');
@@ -383,17 +383,106 @@ window.addEventListener('load', function() {
   });
 
   // ═══════════════════════════════════════════════
-  // تحديث إعدادات النص المحدد
+  // 🔤 قائمة الخطوط مع معاينة مباشرة
+  // ═══════════════════════════════════════════════
+  var FONT_LIST = [
+    'Cairo', 'Tajawal', 'Almarai', 'Mada', 'IBM Plex Sans Arabic',
+    'Noto Sans Arabic', 'Readex Pro', 'Alexandria', 'Rubik',
+    'Reem Kufi', 'Noto Kufi Arabic', 'Kufam',
+    'Amiri', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic',
+    'Lateef', 'Harmattan', 'Markazi Text', 'Mirza', 'Gulzar',
+    'Aref Ruqaa', 'Alkalami', 'Katibeh', 'Qahiri',
+    'Rakkas', 'Lalezar', 'Jomhuria', 'Marhey', 'Lemonada',
+    'El Messiri', 'Changa', 'Baloo Bhaijaan 2', 'Saira'
+  ];
+
+  var currentFont = 'Cairo';
+
+  // ✅ بناء شبكة الخطوط
+  function buildFontGrid(filter) {
+    var grid = document.getElementById('fontGrid');
+    grid.innerHTML = '';
+    
+    var filtered = FONT_LIST.filter(function(f) {
+      if (!filter) return true;
+      return f.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#64748b; padding:20px;">لا توجد نتائج</p>';
+      return;
+    }
+
+    filtered.forEach(function(fontName) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.dataset.font = fontName;
+      var isActive = fontName === currentFont;
+      btn.style.cssText = 
+        'padding: 12px 8px;' +
+        'border: 2px solid ' + (isActive ? '#667eea' : '#e5e7eb') + ';' +
+        'border-radius: 10px;' +
+        'background: ' + (isActive ? '#eef2ff' : '#fff') + ';' +
+        'cursor: pointer;' +
+        'font-family: "' + fontName + '", Cairo;' +
+        'font-size: 15px;' +
+        'color: #111;' +
+        'text-align: center;' +
+        'transition: all 0.15s;' +
+        'min-height: 55px;' +
+        'display: flex;' +
+        'flex-direction: column;' +
+        'align-items: center;' +
+        'justify-content: center;' +
+        'line-height: 1.2;';
+
+      btn.innerHTML = 
+        '<span style="font-size: 16px; font-family: \'' + fontName + '\', Cairo;">أبجد هوّز</span>' +
+        '<span style="font-size: 10px; opacity: 0.55; margin-top: 3px; font-family: Cairo; direction: ltr;">' + fontName + '</span>';
+
+      // ✅ الضغط = تطبيق فوري على النص المحدد
+      btn.onclick = function() {
+        currentFont = fontName;
+        
+        var applyNow = function() {
+          var obj = canvas.getActiveObject();
+          if (obj && (obj.type === 'i-text' || obj.type === 'text')) {
+            obj.set('fontFamily', fontName);
+            canvas.renderAll();
+          }
+          buildFontGrid(document.getElementById('fontSearch').value);
+        };
+
+        if (document.fonts && document.fonts.load) {
+          document.fonts.load('20px "' + fontName + '"', 'أبجد هوّز').then(applyNow).catch(applyNow);
+        } else {
+          applyNow();
+        }
+      };
+
+      grid.appendChild(btn);
+    });
+  }
+
+  // ✅ البحث في الخطوط
+  document.getElementById('fontSearch').addEventListener('input', function(e) {
+    buildFontGrid(e.target.value);
+  });
+
+  // ✅ بناء الشبكة أول مرة
+  buildFontGrid('');
+
+  // ═══════════════════════════════════════════════
+  // 🎨 تطبيق إعدادات النص
   // ═══════════════════════════════════════════════
   function applyTextSettings() {
     var obj = canvas.getActiveObject();
-    if (!obj || (obj.type !== 'i-text' && obj.type !== 'text')) return;
+    if (!obj) return;
     
-    var font = document.getElementById('fontSelect').value;
     var color = document.getElementById('newTextColor').value;
     var size = parseInt(document.getElementById('fontSizeSlider').value);
     
-    obj.set({ fill: color, fontFamily: font, fontSize: size });
+    obj.set({ fill: color, fontSize: size });
     canvas.renderAll();
   }
 
@@ -401,8 +490,14 @@ window.addEventListener('load', function() {
     document.getElementById('fontSizeValue').textContent = e.target.value;
     applyTextSettings();
   });
-  document.getElementById('newTextColor').addEventListener('input', applyTextSettings);
-  document.getElementById('fontSelect').addEventListener('change', applyTextSettings);
+
+  document.getElementById('newTextColor').addEventListener('input', function(e) {
+    var obj = canvas.getActiveObject();
+    if (obj) {
+      obj.set('fill', e.target.value);
+      canvas.renderAll();
+    }
+  });
 
   // ═══════════════════════════════════════════════
   // التبويبات
@@ -426,26 +521,34 @@ window.addEventListener('load', function() {
     if (!text) { alert('اكتب نصاً أولاً'); return; }
     
     var color = document.getElementById('newTextColor').value;
-    var font = document.getElementById('fontSelect').value;
     var size = parseInt(document.getElementById('fontSizeSlider').value);
+    var fontName = currentFont;
     
-    var t = new fabric.IText(text, {
-      left: 540, top: 540,
-      fontFamily: font,
-      fontSize: size,
-      fill: color,
-      direction: 'rtl',
-      textAlign: 'center',
-      originX: 'center', originY: 'center',
-      padding: 15,
-      editable: true,
-      hasControls: true,
-      hasBorders: true,
-      lockUniScaling: false
-    });
-    canvas.add(t);
-    canvas.setActiveObject(t);
-    canvas.renderAll();
+    var doAdd = function() {
+      var t = new fabric.IText(text, {
+        left: 540, top: 540,
+        fontFamily: fontName,
+        fontSize: size,
+        fill: color,
+        direction: 'rtl',
+        textAlign: 'center',
+        originX: 'center', originY: 'center',
+        padding: 15,
+        editable: true,
+        hasControls: true,
+        hasBorders: true,
+        lockUniScaling: false
+      });
+      canvas.add(t);
+      canvas.setActiveObject(t);
+      canvas.renderAll();
+    };
+    
+    if (document.fonts && document.fonts.load) {
+      document.fonts.load('20px "' + fontName + '"', text).then(doAdd).catch(doAdd);
+    } else {
+      doAdd();
+    }
   };
 
   // ═══════════════════════════════════════════════
@@ -520,11 +623,7 @@ window.addEventListener('load', function() {
   window.changeTextColor = function(color) {
     var obj = canvas.getActiveObject();
     if (obj) { 
-      if (obj.type === 'i-text' || obj.type === 'text') {
-        obj.set('fill', color);
-      } else {
-        obj.set('fill', color);
-      }
+      obj.set('fill', color);
       canvas.renderAll(); 
     }
   };
@@ -543,16 +642,13 @@ window.addEventListener('load', function() {
     
     if (obj.fill && typeof obj.fill === 'string' && obj.fill.startsWith('#')) {
       document.getElementById('textColorPicker').value = obj.fill;
+      document.getElementById('newTextColor').value = obj.fill;
     }
     
-    if (obj.fontFamily) {
-      var sel = document.getElementById('fontSelect');
-      for (var i = 0; i < sel.options.length; i++) {
-        if (sel.options[i].value === obj.fontFamily) {
-          sel.selectedIndex = i;
-          break;
-        }
-      }
+    // ✅ تحديث الخط الحالي إذا كان العنصر نصاً
+    if (obj.fontFamily && (obj.type === 'i-text' || obj.type === 'text')) {
+      currentFont = obj.fontFamily;
+      buildFontGrid(document.getElementById('fontSearch').value);
     }
     
     if (obj.fontSize) {
@@ -587,7 +683,7 @@ window.addEventListener('load', function() {
   };
 
   // ═══════════════════════════════════════════════
-  // ✅ الرسم — النسخة المُصلَحة
+  // الرسم
   // ═══════════════════════════════════════════════
   var isDrawing = false;
   
@@ -596,18 +692,14 @@ window.addEventListener('load', function() {
     var btn = document.getElementById('drawBtn');
     
     if (isDrawing) {
-      // 1. إنشاء الفرشاة أولاً
       if (!canvas.freeDrawingBrush) {
         canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
       }
       canvas.freeDrawingBrush.color = document.getElementById('brushColor').value;
       canvas.freeDrawingBrush.width = parseInt(document.getElementById('brushSize').value);
       
-      // 2. إلغاء التحديد
       canvas.discardActiveObject();
       canvas.renderAll();
-      
-      // 3. تفعيل الرسم
       canvas.isDrawingMode = true;
       
       btn.innerHTML = '⏹️ إيقاف الرسم';
