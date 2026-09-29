@@ -295,7 +295,9 @@ window.addEventListener('load', function() {
     height: 1080
   });
 
-  // إعدادات الكائنات
+  // ═══════════════════════════════════════════════
+  // إعدادات الكائنات + مقبض التدوير
+  // ═══════════════════════════════════════════════
   fabric.Object.prototype.set({
     transparentCorners: false,
     cornerColor: '#667eea',
@@ -310,14 +312,18 @@ window.addEventListener('load', function() {
     hasBorders: true,
     lockScalingFlip: true,
     lockUniScaling: false,
-    centeredScaling: false
+    centeredScaling: false,
+    // ✅ خصائص مقبض التدوير
+    rotatingPointOffset: 40,
+    mtrCornerColor: '#f59e0b',
+    mtrCornerStrokeColor: '#fff'
   });
 
-  // إخفاء مقابض الوسط
+  // ✅ إظهار مقبض التدوير + إخفاء مقابض الوسط
   fabric.Object.prototype.setControlsVisibility({
     mt: false, mb: false, ml: false, mr: false,
     tl: true, tr: true, bl: true, br: true,
-    mtr: false
+    mtr: true  // ✅ التدوير (كما في Canva)
   });
 
   // تغيير حجم الكانفس
@@ -347,7 +353,7 @@ window.addEventListener('load', function() {
     '#d946ef', '#ec4899', '#f43f5e', '#78350f', '#1e293b', '#334155', '#64748b', '#94a3b8'
   ];
 
-  // ✅ ألوان النص — تُطبّق فوراً على النص المحدد
+  // ✅ ألوان النص — تُطبّق فوراً
   var quickColorsEl = document.getElementById('quickColors');
   QUICK_COLORS.forEach(function(c) {
     var sw = document.createElement('div');
@@ -398,7 +404,6 @@ window.addEventListener('load', function() {
 
   var currentFont = 'Cairo';
 
-  // ✅ بناء شبكة الخطوط
   function buildFontGrid(filter) {
     var grid = document.getElementById('fontGrid');
     grid.innerHTML = '';
@@ -440,7 +445,6 @@ window.addEventListener('load', function() {
         '<span style="font-size: 16px; font-family: \'' + fontName + '\', Cairo;">أبجد هوّز</span>' +
         '<span style="font-size: 10px; opacity: 0.55; margin-top: 3px; font-family: Cairo; direction: ltr;">' + fontName + '</span>';
 
-      // ✅ الضغط = تطبيق فوري على النص المحدد
       btn.onclick = function() {
         currentFont = fontName;
         
@@ -464,12 +468,10 @@ window.addEventListener('load', function() {
     });
   }
 
-  // ✅ البحث في الخطوط
   document.getElementById('fontSearch').addEventListener('input', function(e) {
     buildFontGrid(e.target.value);
   });
 
-  // ✅ بناء الشبكة أول مرة
   buildFontGrid('');
 
   // ═══════════════════════════════════════════════
@@ -645,7 +647,6 @@ window.addEventListener('load', function() {
       document.getElementById('newTextColor').value = obj.fill;
     }
     
-    // ✅ تحديث الخط الحالي إذا كان العنصر نصاً
     if (obj.fontFamily && (obj.type === 'i-text' || obj.type === 'text')) {
       currentFont = obj.fontFamily;
       buildFontGrid(document.getElementById('fontSearch').value);
