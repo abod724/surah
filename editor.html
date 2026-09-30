@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ريشة — المحرر</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700&family=Almarai:wght@400;700;800&family=Mada:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&family=Readex+Pro:wght@400;700&family=Alexandria:wght@400;700;900&family=Rubik:wght@400;700&family=Changa:wght@400;700&family=Lemonada:wght@400;700&family=El+Messiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=Kufam:wght@400;700&family=Amiri:wght@400;700&family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Lateef&family=Harmattan&family=Markazi+Text:wght@400;700&family=Mirza:wght@400;700&family=Gulzar&family=Aref+Ruqaa:wght@400;700&family=Alkalami&family=Katibeh&family=Qahiri&family=Rakkas&family=Lalezar&family=Jomhuria&family=Marhey:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;700&family=Saira:wght@400;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
   
@@ -133,7 +133,7 @@
   }
   .canvas-container .upper-canvas { touch-action: none !important; }
   
-  /* ═══ Tabs Bar (أفقي) ═══ */
+  /* ═══ Tabs Bar ═══ */
   .tabs-bar {
     display: flex;
     gap: 6px;
@@ -367,7 +367,7 @@
   /* ═══ Font Grid ═══ */
   .font-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 8px;
     max-height: 400px;
     overflow-y: auto;
@@ -377,30 +377,28 @@
     border: 2px solid var(--border);
   }
   .font-btn {
-    padding: 12px 10px;
+    padding: 14px 16px;
     border: 2px solid var(--border);
     border-radius: 10px;
     background: #fff;
     cursor: pointer;
     transition: all 0.15s;
-    min-height: 60px;
+    text-align: right;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    line-height: 1.2;
-    text-align: center;
+    justify-content: space-between;
+    gap: 10px;
   }
-  .font-btn:active { transform: scale(0.97); }
+  .font-btn:active { transform: scale(0.98); }
   .font-btn.active {
     border-color: var(--primary);
     background: var(--primary-light);
     box-shadow: 0 2px 8px rgba(99,102,241,0.15);
   }
   .font-preview {
-    font-size: 17px;
+    font-size: 18px;
     color: var(--text);
-    margin-bottom: 3px;
+    flex: 1;
   }
   .font-name {
     font-size: 10px;
@@ -408,6 +406,14 @@
     font-weight: 700;
     direction: ltr;
     font-family: 'Cairo', sans-serif;
+    background: var(--bg);
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .font-btn.active .font-name {
+    background: #fff;
+    color: var(--primary);
   }
   
   /* ═══ Divider ═══ */
@@ -705,66 +711,97 @@ window.addEventListener('load', function() {
     brushColorsEl.appendChild(sw);
   });
 
-  // ═══ قائمة الخطوط ═══
+  // ═══════════════════════════════════════════════
+  // ✅ قائمة الخطوط — كل خط مع اسمه ووصفه
+  // ═══════════════════════════════════════════════
   var FONT_LIST = [
-  var FONT_LIST = [
-  { name: 'Cairo', label: 'حديث' },
-  { name: 'Tajawal', label: 'أنيق' },
-  { name: 'Almarai', label: 'نظيف' },
-  { name: 'Mada', label: 'بسيط' },
-  { name: 'IBM Plex Sans Arabic', label: 'احترافي' },
-  { name: 'Noto Sans Arabic', label: 'عام' },
-  { name: 'Readex Pro', label: 'عصري' },
-  { name: 'Alexandria', label: 'واضح' },
-  { name: 'Rubik', label: 'هندسي' },
-  { name: 'Changa', label: 'مبتكر' },
-  { name: 'Lemonada', label: 'رقيق' },
-  { name: 'El Messiri', label: 'راقي' },
-  { name: 'Reem Kufi', label: 'كوفي' },
-  { name: 'Noto Kufi Arabic', label: 'كوفي' },
-  { name: 'Kufam', label: 'كوفي حديث' },
-  { name: 'Amiri', label: 'كلاسيكي' },
-  { name: 'Amiri Quran', label: 'قرآني' },
-  { name: 'Scheherazade New', label: 'تقليدي' },
-  { name: 'Noto Naskh Arabic', label: 'نسخ' },
-  { name: 'Lateef', label: 'قرآني' },
-  { name: 'Harmattan', label: 'بسيط' },
-  { name: 'Markazi Text', label: 'مشرقي' },
-  { name: 'Mirza', label: 'فارسي' },
-  { name: 'Gulzar', label: 'نستعليق' },
-  { name: 'Aref Ruqaa', label: 'رقعة' },
-  { name: 'Alkalami', label: 'رقعة حديثة' },
-  { name: 'Katibeh', label: 'كاتب' },
-  { name: 'Qahiri', label: 'قاهري' },
-  { name: 'Rakkas', label: 'ديكوري' },
-  { name: 'Lalezar', label: 'عريض' },
-  { name: 'Jomhuria', label: 'عنوان' },
-  { name: 'Marhey', label: 'مرح' },
-  { name: 'Baloo Bhaijaan 2', label: 'طفولي' },
-  { name: 'Saira', label: 'تقني' }
-];
+    { name: 'Cairo', label: 'حديث' },
+    { name: 'Tajawal', label: 'أنيق' },
+    { name: 'Almarai', label: 'نظيف' },
+    { name: 'Mada', label: 'بسيط' },
+    { name: 'IBM Plex Sans Arabic', label: 'احترافي' },
+    { name: 'Noto Sans Arabic', label: 'عام' },
+    { name: 'Readex Pro', label: 'عصري' },
+    { name: 'Alexandria', label: 'واضح' },
+    { name: 'Rubik', label: 'هندسي' },
+    { name: 'Changa', label: 'مبتكر' },
+    { name: 'Lemonada', label: 'رقيق' },
+    { name: 'El Messiri', label: 'راقي' },
+    { name: 'Reem Kufi', label: 'كوفي' },
+    { name: 'Noto Kufi Arabic', label: 'كوفي' },
+    { name: 'Kufam', label: 'كوفي حديث' },
+    { name: 'Amiri', label: 'كلاسيكي' },
+    { name: 'Amiri Quran', label: 'قرآني' },
+    { name: 'Scheherazade New', label: 'تقليدي' },
+    { name: 'Noto Naskh Arabic', label: 'نسخ' },
+    { name: 'Lateef', label: 'قرآني' },
+    { name: 'Harmattan', label: 'بسيط' },
+    { name: 'Markazi Text', label: 'مشرقي' },
+    { name: 'Mirza', label: 'فارسي' },
+    { name: 'Gulzar', label: 'نستعليق' },
+    { name: 'Aref Ruqaa', label: 'رقعة' },
+    { name: 'Alkalami', label: 'رقعة حديثة' },
+    { name: 'Katibeh', label: 'كاتب' },
+    { name: 'Qahiri', label: 'قاهري' },
+    { name: 'Rakkas', label: 'ديكوري' },
+    { name: 'Lalezar', label: 'عريض' },
+    { name: 'Jomhuria', label: 'عنوان' },
+    { name: 'Marhey', label: 'مرح' },
+    { name: 'Baloo Bhaijaan 2', label: 'طفولي' },
+    { name: 'Saira', label: 'تقني' }
+  ];
 
-var currentFont = 'Cairo';
+  var currentFont = 'Cairo';
+
+  // ✅ بناء شبكة الخطوط — كل خط يعرض اسمه بخطه
+  function buildFontGrid(filter) {
+    var grid = document.getElementById('fontGrid');
+    grid.innerHTML = '';
+    
+    var filtered = FONT_LIST.filter(function(font) {
+      if (!filter) return true;
+      var term = filter.toLowerCase();
+      return font.name.toLowerCase().indexOf(term) !== -1 || 
+             font.label.indexOf(filter) !== -1;
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<p style="text-align:center; color:#64748b; padding:20px; font-weight:700;">لا توجد نتائج</p>';
+      return;
+    }
+
+    filtered.forEach(function(font) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'font-btn' + (font.name === currentFont ? ' active' : '');
+      
+      // ✅ كل خط يعرض: اسم الخط — الوصف
+      var sample = font.name + ' — ' + font.label;
+      
       btn.innerHTML = 
-        '<span class="font-preview" style="font-family: \'' + fontName + '\', Cairo;">' + sample + '</span>' +
-        '<span class="font-name">' + fontName + '</span>';
+        '<span class="font-preview" style="font-family: \'' + font.name + '\', Cairo; font-size: 18px;">' + sample + '</span>' +
+        '<span class="font-name">' + font.name + '</span>';
 
       btn.onclick = function() {
-        currentFont = fontName;
+        currentFont = font.name;
+        
         var applyNow = function() {
           var obj = canvas.getActiveObject();
           if (obj && (obj.type === 'i-text' || obj.type === 'text')) {
-            obj.set('fontFamily', fontName);
+            obj.set('fontFamily', font.name);
             canvas.renderAll();
           }
           buildFontGrid(document.getElementById('fontSearch').value);
         };
+        
+        // ✅ حمّل الخط أولاً ثم طبّقه
         if (document.fonts && document.fonts.load) {
-          document.fonts.load('20px "' + fontName + '"', sample).then(applyNow).catch(applyNow);
+          document.fonts.load('20px "' + font.name + '"', sample).then(applyNow).catch(applyNow);
         } else {
           applyNow();
         }
       };
+      
       grid.appendChild(btn);
     });
   }
