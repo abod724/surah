@@ -20,7 +20,6 @@
     --text-light: #64748b;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-    --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
     --radius: 16px;
     --radius-sm: 10px;
   }
@@ -562,10 +561,21 @@
             <button class="btn btn-purple" onclick="duplicateSelected()">تكرار</button>
             <button class="btn btn-red" onclick="deleteSelected()">حذف</button>
           </div>
+          
+          <div style="margin-top:8px;">
+            <button class="btn btn-primary" onclick="straightenSelected()" style="width:100%;">استقامة العنصر</button>
+          </div>
+
           <div class="field" style="margin-top:16px;">
+            <label>الدوران: <span class="field-value" id="rotationValue">0</span>°</label>
+            <input type="range" id="rotationSlider" min="-180" max="180" value="0" oninput="changeRotation(this.value)">
+          </div>
+
+          <div class="field">
             <label>شفافية: <span class="field-value" id="opacityValue">100</span>%</label>
             <input type="range" id="opacitySlider" min="0" max="100" value="100" oninput="changeOpacity(this.value)">
           </div>
+
           <div class="field">
             <label>لون العنصر المحدد</label>
             <input type="color" id="textColorPicker" value="#000000" oninput="changeTextColor(this.value)">
@@ -712,7 +722,7 @@ window.addEventListener('load', function() {
   });
 
   // ═══════════════════════════════════════════════
-  // ✅ قائمة الخطوط — كل خط مع اسمه ووصفه
+  // ✅ قائمة الخطوط — كل خط يعرض اسمه بخطه
   // ═══════════════════════════════════════════════
   var FONT_LIST = [
     { name: 'Cairo', label: 'حديث' },
@@ -753,7 +763,6 @@ window.addEventListener('load', function() {
 
   var currentFont = 'Cairo';
 
-  // ✅ بناء شبكة الخطوط — كل خط يعرض اسمه بخطه
   function buildFontGrid(filter) {
     var grid = document.getElementById('fontGrid');
     grid.innerHTML = '';
@@ -775,7 +784,6 @@ window.addEventListener('load', function() {
       btn.type = 'button';
       btn.className = 'font-btn' + (font.name === currentFont ? ' active' : '');
       
-      // ✅ كل خط يعرض: اسم الخط — الوصف
       var sample = font.name + ' — ' + font.label;
       
       btn.innerHTML = 
@@ -794,7 +802,6 @@ window.addEventListener('load', function() {
           buildFontGrid(document.getElementById('fontSearch').value);
         };
         
-        // ✅ حمّل الخط أولاً ثم طبّقه
         if (document.fonts && document.fonts.load) {
           document.fonts.load('20px "' + font.name + '"', sample).then(applyNow).catch(applyNow);
         } else {
@@ -933,6 +940,27 @@ window.addEventListener('load', function() {
     objs.forEach(function(o) { canvas.remove(o); });
     canvas.discardActiveObject(); canvas.renderAll();
   };
+
+  // ✅ استقامة العنصر (تصفير الدوران)
+  window.straightenSelected = function() {
+    var obj = canvas.getActiveObject();
+    if (!obj) { alert('اختر عنصراً أولاً'); return; }
+    obj.set('angle', 0);
+    canvas.renderAll();
+    document.getElementById('rotationSlider').value = 0;
+    document.getElementById('rotationValue').textContent = '0';
+  };
+
+  // ✅ تغيير الدوران يدوياً
+  window.changeRotation = function(val) {
+    document.getElementById('rotationValue').textContent = val;
+    var obj = canvas.getActiveObject();
+    if (obj) {
+      obj.set('angle', parseInt(val));
+      canvas.renderAll();
+    }
+  };
+
   window.changeOpacity = function(val) {
     document.getElementById('opacityValue').textContent = val;
     var obj = canvas.getActiveObject();
@@ -946,11 +974,20 @@ window.addEventListener('load', function() {
   // ═══ تحديث المتحكمات ═══
   canvas.on('selection:created', updateControls);
   canvas.on('selection:updated', updateControls);
+  canvas.on('object:modified', updateControls);
+
   function updateControls() {
     var obj = canvas.getActiveObject();
     if (!obj) return;
+    
     document.getElementById('opacitySlider').value = (obj.opacity || 1) * 100;
     document.getElementById('opacityValue').textContent = Math.round((obj.opacity || 1) * 100);
+    
+    // ✅ تحديث الدوران
+    var angle = Math.round(obj.angle || 0);
+    document.getElementById('rotationSlider').value = angle;
+    document.getElementById('rotationValue').textContent = angle;
+    
     if (obj.fill && typeof obj.fill === 'string' && obj.fill.startsWith('#')) {
       document.getElementById('textColorPicker').value = obj.fill;
       document.getElementById('newTextColor').value = obj.fill;
@@ -964,6 +1001,15 @@ window.addEventListener('load', function() {
       document.getElementById('fontSizeValue').textContent = obj.fontSize;
     }
   }
+
+  // ✅ عند تغيير الدوران بالمقبض البرتقالي — حدّث الشريط
+  canvas.on('object:rotating', function() {
+    var obj = canvas.getActiveObject();
+    if (!obj) return;
+    var angle = Math.round(obj.angle || 0);
+    document.getElementById('rotationSlider').value = angle;
+    document.getElementById('rotationValue').textContent = angle;
+  });
 
   // ═══ الفلاتر ═══
   window.applyFilter = function(type) {
