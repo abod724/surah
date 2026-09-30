@@ -707,47 +707,44 @@ window.addEventListener('load', function() {
 
   // ═══ قائمة الخطوط ═══
   var FONT_LIST = [
-    'Cairo', 'Tajawal', 'Almarai', 'Mada', 'IBM Plex Sans Arabic',
-    'Noto Sans Arabic', 'Readex Pro', 'Alexandria', 'Rubik',
-    'Reem Kufi', 'Noto Kufi Arabic', 'Kufam',
-    'Amiri', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic',
-    'Lateef', 'Harmattan', 'Markazi Text', 'Mirza', 'Gulzar',
-    'Aref Ruqaa', 'Alkalami', 'Katibeh', 'Qahiri',
-    'Rakkas', 'Lalezar', 'Jomhuria', 'Marhey', 'Lemonada',
-    'El Messiri', 'Changa', 'Baloo Bhaijaan 2', 'Saira'
-  ];
-  var currentFont = 'Cairo';
+  var FONT_LIST = [
+  { name: 'Cairo', label: 'حديث' },
+  { name: 'Tajawal', label: 'أنيق' },
+  { name: 'Almarai', label: 'نظيف' },
+  { name: 'Mada', label: 'بسيط' },
+  { name: 'IBM Plex Sans Arabic', label: 'احترافي' },
+  { name: 'Noto Sans Arabic', label: 'عام' },
+  { name: 'Readex Pro', label: 'عصري' },
+  { name: 'Alexandria', label: 'واضح' },
+  { name: 'Rubik', label: 'هندسي' },
+  { name: 'Changa', label: 'مبتكر' },
+  { name: 'Lemonada', label: 'رقيق' },
+  { name: 'El Messiri', label: 'راقي' },
+  { name: 'Reem Kufi', label: 'كوفي' },
+  { name: 'Noto Kufi Arabic', label: 'كوفي' },
+  { name: 'Kufam', label: 'كوفي حديث' },
+  { name: 'Amiri', label: 'كلاسيكي' },
+  { name: 'Amiri Quran', label: 'قرآني' },
+  { name: 'Scheherazade New', label: 'تقليدي' },
+  { name: 'Noto Naskh Arabic', label: 'نسخ' },
+  { name: 'Lateef', label: 'قرآني' },
+  { name: 'Harmattan', label: 'بسيط' },
+  { name: 'Markazi Text', label: 'مشرقي' },
+  { name: 'Mirza', label: 'فارسي' },
+  { name: 'Gulzar', label: 'نستعليق' },
+  { name: 'Aref Ruqaa', label: 'رقعة' },
+  { name: 'Alkalami', label: 'رقعة حديثة' },
+  { name: 'Katibeh', label: 'كاتب' },
+  { name: 'Qahiri', label: 'قاهري' },
+  { name: 'Rakkas', label: 'ديكوري' },
+  { name: 'Lalezar', label: 'عريض' },
+  { name: 'Jomhuria', label: 'عنوان' },
+  { name: 'Marhey', label: 'مرح' },
+  { name: 'Baloo Bhaijaan 2', label: 'طفولي' },
+  { name: 'Saira', label: 'تقني' }
+];
 
-  function buildFontGrid(filter) {
-    var grid = document.getElementById('fontGrid');
-    grid.innerHTML = '';
-    
-    var filtered = FONT_LIST.filter(function(f) {
-      if (!filter) return true;
-      return f.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-    });
-
-    if (filtered.length === 0) {
-      grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#64748b; padding:20px;">لا توجد نتائج</p>';
-      return;
-    }
-
-    filtered.forEach(function(fontName) {
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'font-btn' + (fontName === currentFont ? ' active' : '');
-      
-      var sample = 'بسم الله';
-      if (fontName === 'Amiri Quran' || fontName === 'Scheherazade New' || fontName === 'Lateef') {
-        sample = 'بِسْمِ اللَّهِ';
-      } else if (fontName === 'Rakkas' || fontName === 'Lalezar' || fontName === 'Jomhuria') {
-        sample = 'عنوان';
-      } else if (fontName === 'Aref Ruqaa' || fontName === 'Alkalami') {
-        sample = 'خط الرقعة';
-      } else if (fontName === 'Reem Kufi' || fontName === 'Noto Kufi Arabic' || fontName === 'Kufam') {
-        sample = 'الكوفي';
-      }
-      
+var currentFont = 'Cairo';
       btn.innerHTML = 
         '<span class="font-preview" style="font-family: \'' + fontName + '\', Cairo;">' + sample + '</span>' +
         '<span class="font-name">' + fontName + '</span>';
