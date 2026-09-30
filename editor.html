@@ -59,17 +59,9 @@
     align-items: center;
     justify-content: center;
     font-size: 20px;
-    backdrop-filter: blur(10px);
   }
-  .header-logo-text {
-    font-size: 18px;
-    font-weight: 900;
-  }
-  .header-logo-sub {
-    font-size: 10px;
-    opacity: 0.85;
-    font-weight: 600;
-  }
+  .header-logo-text { font-size: 18px; font-weight: 900; }
+  .header-logo-sub { font-size: 10px; opacity: 0.85; font-weight: 600; }
   .header-btn {
     width: 40px;
     height: 40px;
@@ -86,14 +78,9 @@
   }
   .header-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.25); }
   
-  /* ═══ Container ═══ */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 16px;
-  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
   
-  /* ═══ Canvas Area ═══ */
+  /* ═══ Canvas ═══ */
   .canvas-wrapper {
     background: var(--card);
     border-radius: var(--radius);
@@ -123,7 +110,7 @@
   }
   .canvas-container .upper-canvas { touch-action: none !important; }
   
-  /* ═══ Tabs Bar ═══ */
+  /* ═══ Tabs ═══ */
   .tabs-bar {
     display: flex;
     gap: 6px;
@@ -159,7 +146,6 @@
     box-shadow: 0 4px 12px rgba(99,102,241,0.35);
   }
   
-  /* ═══ Tab Panels ═══ */
   .tab-panels {
     background: var(--card);
     border-radius: var(--radius);
@@ -190,7 +176,6 @@
     border-radius: 2px;
   }
   
-  /* ═══ Inputs ═══ */
   textarea {
     width: 100%;
     padding: 14px;
@@ -205,11 +190,7 @@
     max-height: 200px;
     transition: all 0.2s;
   }
-  textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: #fff;
-  }
+  textarea:focus { outline: none; border-color: var(--primary); background: #fff; }
   
   input[type="color"] {
     width: 100%;
@@ -233,24 +214,6 @@
     color: var(--text);
   }
   input[type="text"]:focus, select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-light);
-  }
-  
-  input[type="number"] {
-    width: 100%;
-    padding: 12px 14px;
-    border: 2px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-family: 'Cairo', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    background: #fff;
-    color: var(--text);
-    text-align: center;
-  }
-  input[type="number"]:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
@@ -289,7 +252,6 @@
     font-size: 14px;
   }
   
-  /* ═══ Buttons ═══ */
   .btn-col { display: flex; flex-direction: column; gap: 8px; }
   .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   
@@ -320,9 +282,15 @@
     background: var(--card);
     color: var(--text);
     border: 2px solid var(--border);
+    font-size: 13px;
+    padding: 11px 12px;
+  }
+  .btn-light:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
   }
   
-  /* ═══ Color Grid ═══ */
   .color-grid {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -339,7 +307,6 @@
   .color-swatch:active { transform: scale(0.9); }
   .color-swatch.active { border-color: var(--text); transform: scale(1.05); }
   
-  /* ═══ Font Grid ═══ */
   .font-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -385,9 +352,17 @@
     white-space: nowrap;
   }
   
-  /* ═══════════════════════════════════════════ */
-  /* ✅ شبكة اختيار حجم الجدول (مثل Word) */
-  /* ═══════════════════════════════════════════ */
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+  
+  .footer {
+    text-align: center;
+    padding: 24px 16px;
+    color: var(--text-light);
+    font-size: 12px;
+  }
+  .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+  
+  /* ═══ Table Picker ═══ */
   .table-picker-btn {
     width: 100%;
     padding: 14px;
@@ -455,27 +430,6 @@
     border-radius: 8px;
   }
   
-  /* ═══ Footer ═══ */
-  .footer {
-    text-align: center;
-    padding: 24px 16px;
-    color: var(--text-light);
-    font-size: 12px;
-  }
-  .footer a {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 700;
-  }
-  
-  /* ═══ Divider ═══ */
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 16px 0;
-  }
-  
-  /* ═══ Responsive ═══ */
   @media (min-width: 900px) {
     .editor-layout {
       display: grid;
@@ -490,11 +444,6 @@
     .header { padding: 12px 14px; }
     .panel { padding: 14px; }
     .tab-btn { padding: 9px 14px; font-size: 12px; }
-    .table-picker-grid {
-      grid-template-columns: repeat(6, 28px);
-      grid-template-rows: repeat(6, 28px);
-    }
-    .table-picker-cell { width: 28px; height: 28px; }
   }
 </style>
 </head>
@@ -514,7 +463,7 @@
   </div>
 </div>
 
-<!-- ═══ Main Container ═══ -->
+<!-- ═══ Main ═══ -->
 <div class="container">
   <div class="editor-layout">
     
@@ -525,8 +474,6 @@
 
     <!-- ═══ Tools ═══ -->
     <div>
-      
-      <!-- Tabs Bar -->
       <div class="tabs-bar">
         <button class="tab-btn active" onclick="toggleTab('text', this)">📝 النص</button>
         <button class="tab-btn" onclick="toggleTab('image', this)">🖼️ الصور</button>
@@ -537,34 +484,27 @@
         <button class="tab-btn" onclick="toggleTab('filter', this)">🎨 فلاتر</button>
       </div>
       
-      <!-- Panels -->
       <div class="tab-panels">
 
         <!-- ═══ النص ═══ -->
         <div id="panel-text" class="panel active">
           <div class="panel-title">النص</div>
-          
           <div class="field">
             <textarea id="textInput" rows="3" placeholder="اكتب رسالتك هنا..."></textarea>
           </div>
-
           <div class="field">
             <label>حجم الخط: <span class="field-value" id="fontSizeValue">80</span></label>
             <input type="range" id="fontSizeSlider" min="20" max="200" value="80">
           </div>
-
           <div class="field">
             <label>لون النص</label>
             <input type="color" id="newTextColor" value="#000000">
             <div class="color-grid" id="quickColors"></div>
           </div>
-
           <div class="btn-col">
             <button class="btn btn-primary" onclick="addText()">إضافة نص</button>
           </div>
-
           <div class="divider"></div>
-
           <div class="field">
             <label>اختر الخط</label>
             <input type="text" id="fontSearch" placeholder="ابحث عن خط..." style="margin-bottom:8px;">
@@ -598,16 +538,41 @@
 
         <!-- ═══ الجداول ═══ -->
         <div id="panel-table" class="panel">
-          <div class="panel-title">إنشاء جدول</div>
+          <div class="panel-title">الجدول الذكي</div>
           
           <p style="font-size:13px; color:#64748b; margin-bottom:14px; line-height:1.6;">
-            اضغط على الزر أدناه، ثم اختر عدد الصفوف والأعمدة من الشبكة.
+            اضغط على الزر، ثم اختر حجم الجدول من الشبكة.
           </p>
           
           <button class="table-picker-btn" onclick="openTablePicker(event)" id="tablePickerBtn">
             <span>📊</span>
             <span>إدراج جدول</span>
           </button>
+
+          <div class="divider"></div>
+
+          <div id="tableTools" style="display:none;">
+            <div class="panel-title" style="margin-top:0;">أدوات الجدول</div>
+            
+            <div class="btn-row" style="margin-bottom:8px;">
+              <button class="btn btn-light" onclick="tableAddRow()">➕ إضافة صف</button>
+              <button class="btn btn-light" onclick="tableAddCol()">➕ إضافة عمود</button>
+            </div>
+            
+            <div class="btn-row" style="margin-bottom:8px;">
+              <button class="btn btn-light" onclick="tableDeleteRow()">➖ حذف صف</button>
+              <button class="btn btn-light" onclick="tableDeleteCol()">➖ حذف عمود</button>
+            </div>
+            
+            <div class="btn-row" style="margin-bottom:8px;">
+              <button class="btn btn-light" onclick="tableClearCell()">🗑️ فرّغ الخلية</button>
+              <button class="btn btn-light" onclick="tableFillColor()">🎨 لون الخلية</button>
+            </div>
+            
+            <div class="btn-row">
+              <button class="btn btn-red" onclick="tableDeleteAll()" style="grid-column: 1/-1;">🗑️ حذف الجدول كامل</button>
+            </div>
+          </div>
 
           <div class="divider"></div>
 
@@ -701,7 +666,7 @@
   </div>
 </div>
 
-<!-- ═══ Table Picker Popup ═══ -->
+<!-- ═══ Table Picker ═══ -->
 <div class="table-picker-popup" id="tablePickerPopup">
   <div class="table-picker-grid" id="tablePickerGrid"></div>
   <div class="table-picker-label" id="tablePickerLabel">اختر الحجم</div>
@@ -719,7 +684,6 @@ window.addEventListener('load', function() {
     height: 1080
   });
 
-  // إعدادات الكائنات
   fabric.Object.prototype.set({
     transparentCorners: false,
     cornerColor: '#6366f1',
@@ -760,7 +724,7 @@ window.addEventListener('load', function() {
   window.addEventListener('orientationchange', function() { setTimeout(resizeCanvas, 300); });
   setTimeout(resizeCanvas, 100);
 
-  // ═══ الألوان السريعة ═══
+  // ═══ الألوان ═══
   var QUICK_COLORS = [
     '#000000', '#ffffff', '#dc2626', '#ea580c', '#f59e0b', '#facc15', '#84cc16', '#16a34a',
     '#10b981', '#14b8a6', '#0891b2', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7',
@@ -899,14 +863,12 @@ window.addEventListener('load', function() {
     if (obj) { obj.set('fill', e.target.value); canvas.renderAll(); }
   });
 
-  // ═══ التبويبات ═══
+  // ═══ Tabs ═══
   window.toggleTab = function(name, btn) {
     document.querySelectorAll('.tab-btn').forEach(function(t) { t.classList.remove('active'); });
     document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
     btn.classList.add('active');
     document.getElementById('panel-' + name).classList.add('active');
-    
-    // ✅ إغلاق نافذة الجدول عند تغيير التبويب
     document.getElementById('tablePickerPopup').classList.remove('active');
   };
 
@@ -980,13 +942,26 @@ window.addEventListener('load', function() {
   };
 
   // ═══════════════════════════════════════════════════════
-  // ✅ إنشاء الجداول (مثل Word)
+  // 📊 الجدول الذكي الكامل
   // ═══════════════════════════════════════════════════════
   var pickerRows = 0;
   var pickerCols = 0;
   var PICKER_MAX = 8;
+  
+  var activeTable = {
+    rows: 0,
+    cols: 0,
+    cells: [],
+    selectedCell: null,
+    startX: 0,
+    startY: 0,
+    colWidths: [],
+    rowHeights: [],
+    borderColor: '#000000',
+    bgColor: '#ffffff',
+    borderWidth: 2
+  };
 
-  // ✅ بناء شبكة الاختيار
   function buildTablePicker() {
     var grid = document.getElementById('tablePickerGrid');
     grid.innerHTML = '';
@@ -1005,6 +980,7 @@ window.addEventListener('load', function() {
         });
         
         cell.addEventListener('touchstart', function(e) {
+          e.preventDefault();
           pickerRows = parseInt(this.dataset.row);
           pickerCols = parseInt(this.dataset.col);
           highlightPicker();
@@ -1013,7 +989,7 @@ window.addEventListener('load', function() {
         cell.addEventListener('click', function() {
           pickerRows = parseInt(this.dataset.row);
           pickerCols = parseInt(this.dataset.col);
-          insertTable(pickerRows, pickerCols);
+          insertSmartTable(pickerRows, pickerCols);
           closeTablePicker();
         });
         
@@ -1023,8 +999,7 @@ window.addEventListener('load', function() {
   }
 
   function highlightPicker() {
-    var cells = document.querySelectorAll('.table-picker-cell');
-    cells.forEach(function(cell) {
+    document.querySelectorAll('.table-picker-cell').forEach(function(cell) {
       var r = parseInt(cell.dataset.row);
       var c = parseInt(cell.dataset.col);
       if (r <= pickerRows && c <= pickerCols) {
@@ -1049,12 +1024,10 @@ window.addEventListener('load', function() {
     
     popup.classList.add('active');
     
-    // تحديد الموضع
     var popupWidth = 280;
     var left = rect.left + (rect.width / 2) - (popupWidth / 2);
     var top = rect.bottom + 10;
     
-    // تأكد من البقاء في الشاشة
     if (left < 10) left = 10;
     if (left + popupWidth > window.innerWidth - 10) {
       left = window.innerWidth - popupWidth - 10;
@@ -1072,57 +1045,90 @@ window.addEventListener('load', function() {
     document.getElementById('tablePickerPopup').classList.remove('active');
   }
 
-  // ✅ إغلاق النافذة عند الضغط خارجها
   document.addEventListener('click', function(e) {
     var popup = document.getElementById('tablePickerPopup');
-    if (popup.classList.contains('active') && !popup.contains(e.target)) {
+    if (popup && popup.classList.contains('active') && !popup.contains(e.target)) {
       closeTablePicker();
     }
   });
 
-  // ✅ إنشاء الجدول وإضافته للكانفس
-  window.insertTable = function(rows, cols) {
-    var borderColor = document.getElementById('tableBorderColor').value;
-    var bgColor = document.getElementById('tableBgColor').value;
-    var borderWidth = parseInt(document.getElementById('borderWidthSlider').value);
+  // ✅ إنشاء الجدول
+  window.insertSmartTable = function(rows, cols) {
+    if (activeTable.cells.length > 0) {
+      tableDeleteAll(true);
+    }
     
-    var cellWidth = 180;
-    var cellHeight = 90;
-    var totalWidth = cols * cellWidth;
-    var totalHeight = rows * cellHeight;
-    var startX = 540 - totalWidth / 2;
-    var startY = 540 - totalHeight / 2;
+    activeTable.rows = rows;
+    activeTable.cols = cols;
+    activeTable.cells = [];
+    activeTable.borderColor = document.getElementById('tableBorderColor').value;
+    activeTable.bgColor = document.getElementById('tableBgColor').value;
+    activeTable.borderWidth = parseInt(document.getElementById('borderWidthSlider').value);
     
-    var objects = [];
+    // ✅ أحجام متساوية
+    activeTable.colWidths = [];
+    activeTable.rowHeights = [];
+    for (var c = 0; c < cols; c++) activeTable.colWidths.push(150);
+    for (var r = 0; r < rows; r++) activeTable.rowHeights.push(80);
     
-    // ✅ إنشاء الخلايا (مستطيل + نص)
-    for (var r = 0; r < rows; r++) {
-      for (var c = 0; c < cols; c++) {
-        var x = startX + c * cellWidth;
-        var y = startY + r * cellHeight;
+    var totalW = activeTable.colWidths.reduce(function(a, b) { return a + b; }, 0);
+    var totalH = activeTable.rowHeights.reduce(function(a, b) { return a + b; }, 0);
+    
+    activeTable.startX = 540 - totalW / 2;
+    activeTable.startY = 540 - totalH / 2;
+    
+    renderTable();
+    document.getElementById('tableTools').style.display = 'block';
+    canvas.renderAll();
+  };
+
+  // ✅ رسم الجدول
+  function renderTable() {
+    // احذف القديم
+    activeTable.cells.forEach(function(row) {
+      row.forEach(function(cell) {
+        if (cell) {
+          if (cell.rect) canvas.remove(cell.rect);
+          if (cell.text) canvas.remove(cell.text);
+        }
+      });
+    });
+    
+    activeTable.cells = [];
+    
+    for (var r = 0; r < activeTable.rows; r++) {
+      activeTable.cells[r] = [];
+      for (var c = 0; c < activeTable.cols; c++) {
+        var x = activeTable.startX;
+        for (var cc = 0; cc < c; cc++) x += activeTable.colWidths[cc];
         
-        // الخلفية
+        var y = activeTable.startY;
+        for (var rr = 0; rr < r; rr++) y += activeTable.rowHeights[rr];
+        
+        var cw = activeTable.colWidths[c];
+        var ch = activeTable.rowHeights[r];
+        
+        // المستطيل
         var rect = new fabric.Rect({
           left: x,
           top: y,
-          width: cellWidth,
-          height: cellHeight,
-          fill: bgColor,
-          stroke: borderColor,
-          strokeWidth: borderWidth,
-          selectable: false,
-          evented: false,
+          width: cw,
+          height: ch,
+          fill: activeTable.bgColor,
+          stroke: activeTable.borderColor,
+          strokeWidth: activeTable.borderWidth,
           originX: 'left',
-          originY: 'top'
+          originY: 'top',
+          selectable: false,
+          evented: false
         });
-        objects.push(rect);
         
-        // النص داخل الخلية
-        var cellText = new fabric.IText('', {
-          left: x + cellWidth / 2,
-          top: y + cellHeight / 2,
+        // النص
+        var text = new fabric.IText('', {
+          left: x + cw / 2,
+          top: y + ch / 2,
           fontFamily: 'Cairo',
-          fontSize: 32,
+          fontSize: 26,
           fill: '#000000',
           direction: 'rtl',
           textAlign: 'center',
@@ -1134,33 +1140,127 @@ window.addEventListener('load', function() {
           hasBorders: false,
           lockUniScaling: true,
           selectable: true,
-          evented: true,
-          backgroundColor: 'transparent'
+          evented: true
         });
-        objects.push(cellText);
+        
+        text.cellInfo = { row: r, col: c };
+        
+        // ✅ عند اختيار الخلية
+        text.on('mousedown', function() {
+          activeTable.selectedCell = this.cellInfo;
+          highlightCell(this.cellInfo.row, this.cellInfo.col);
+        });
+        
+        text.on('mouseup', function() {
+          activeTable.selectedCell = this.cellInfo;
+        });
+        
+        text.on('editing:entered', function() {
+          activeTable.selectedCell = this.cellInfo;
+        });
+        
+        canvas.add(rect);
+        canvas.add(text);
+        
+        activeTable.cells[r][c] = { rect: rect, text: text };
       }
     }
     
-    // ✅ إنشاء المجموعة
-    var group = new fabric.Group(objects, {
-      left: 540,
-      top: 540,
-      originX: 'center',
-      originY: 'center',
-      padding: 10,
-      subTargetCheck: true,
-      interactive: true,
-      hasControls: true,
-      hasBorders: true,
-      lockUniScaling: false
+    canvas.renderAll();
+  }
+
+  // ✅ تمييز الخلية المختارة
+  function highlightCell(row, col) {
+    activeTable.cells.forEach(function(r, ri) {
+      r.forEach(function(cell, ci) {
+        if (!cell || !cell.rect) return;
+        if (ri === row && ci === col) {
+          cell.rect.set('stroke', '#6366f1');
+          cell.rect.set('strokeWidth', 4);
+        } else {
+          cell.rect.set('stroke', activeTable.borderColor);
+          cell.rect.set('strokeWidth', activeTable.borderWidth);
+        }
+      });
     });
-    
-    canvas.add(group);
-    canvas.setActiveObject(group);
+    canvas.renderAll();
+  }
+
+  // ✅ أدوات الجدول
+  window.tableAddRow = function() {
+    if (!activeTable.selectedCell) { alert('اختر خلية أولاً'); return; }
+    var row = activeTable.selectedCell.row;
+    activeTable.rowHeights.splice(row + 1, 0, 80);
+    activeTable.rows++;
+    renderTable();
+  };
+
+  window.tableAddCol = function() {
+    if (!activeTable.selectedCell) { alert('اختر خلية أولاً'); return; }
+    var col = activeTable.selectedCell.col;
+    activeTable.colWidths.splice(col + 1, 0, 150);
+    activeTable.cols++;
+    renderTable();
+  };
+
+  window.tableDeleteRow = function() {
+    if (!activeTable.selectedCell) { alert('اختر خلية أولاً'); return; }
+    if (activeTable.rows <= 1) { alert('لا يمكن حذف الصف الأخير'); return; }
+    var row = activeTable.selectedCell.row;
+    activeTable.rowHeights.splice(row, 1);
+    activeTable.rows--;
+    activeTable.selectedCell = null;
+    renderTable();
+  };
+
+  window.tableDeleteCol = function() {
+    if (!activeTable.selectedCell) { alert('اختر خلية أولاً'); return; }
+    if (activeTable.cols <= 1) { alert('لا يمكن حذف العمود الأخير'); return; }
+    var col = activeTable.selectedCell.col;
+    activeTable.colWidths.splice(col, 1);
+    activeTable.cols--;
+    activeTable.selectedCell = null;
+    renderTable();
+  };
+
+  window.tableClearCell = function() {
+    if (!activeTable.selectedCell) { alert('اختر خلية أولاً'); return; }
+    var cell = activeTable.cells[activeTable.selectedCell.row][activeTable.selectedCell.col];
+    if (cell && cell.text) {
+      cell.text.set('text', '');
+      canvas.renderAll();
+    }
+  };
+
+  window.tableFillColor = function() {
+    if (!activeTable.selectedCell) { alert('اختر خلية أولاً'); return; }
+    var color = prompt('أدخل لون الخلفية (مثال: #ff0000):', '#ffffff');
+    if (!color) return;
+    var cell = activeTable.cells[activeTable.selectedCell.row][activeTable.selectedCell.col];
+    if (cell && cell.rect) {
+      cell.rect.set('fill', color);
+      canvas.renderAll();
+    }
+  };
+
+  window.tableDeleteAll = function(skipConfirm) {
+    if (!skipConfirm && !confirm('حذف الجدول كامل؟')) return;
+    activeTable.cells.forEach(function(row) {
+      row.forEach(function(cell) {
+        if (cell) {
+          if (cell.rect) canvas.remove(cell.rect);
+          if (cell.text) canvas.remove(cell.text);
+        }
+      });
+    });
+    activeTable.cells = [];
+    activeTable.rows = 0;
+    activeTable.cols = 0;
+    activeTable.selectedCell = null;
+    document.getElementById('tableTools').style.display = 'none';
     canvas.renderAll();
   };
 
-  // ✅ تحديث قيمة سماكة الحدود
   document.getElementById('borderWidthSlider').addEventListener('input', function(e) {
     document.getElementById('borderWidthValue').textContent = e.target.value;
   });
@@ -1190,7 +1290,6 @@ window.addEventListener('load', function() {
     objs.forEach(function(o) { canvas.remove(o); });
     canvas.discardActiveObject(); canvas.renderAll();
   };
-
   window.straightenSelected = function() {
     var obj = canvas.getActiveObject();
     if (!obj) { alert('اختر عنصراً أولاً'); return; }
@@ -1199,7 +1298,6 @@ window.addEventListener('load', function() {
     document.getElementById('rotationSlider').value = 0;
     document.getElementById('rotationValue').textContent = '0';
   };
-
   window.changeRotation = function(val) {
     document.getElementById('rotationValue').textContent = val;
     var obj = canvas.getActiveObject();
@@ -1223,14 +1321,11 @@ window.addEventListener('load', function() {
   function updateControls() {
     var obj = canvas.getActiveObject();
     if (!obj) return;
-    
     document.getElementById('opacitySlider').value = (obj.opacity || 1) * 100;
     document.getElementById('opacityValue').textContent = Math.round((obj.opacity || 1) * 100);
-    
     var angle = Math.round(obj.angle || 0);
     document.getElementById('rotationSlider').value = angle;
     document.getElementById('rotationValue').textContent = angle;
-    
     if (obj.fill && typeof obj.fill === 'string' && obj.fill.startsWith('#')) {
       document.getElementById('textColorPicker').value = obj.fill;
       document.getElementById('newTextColor').value = obj.fill;
@@ -1307,15 +1402,16 @@ window.addEventListener('load', function() {
     if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.width = parseInt(e.target.value);
   });
 
-  // ═══ مسح الكل ═══
   window.clearAll = function() {
     if (!confirm('هل تريد مسح كل شيء؟')) return;
     canvas.clear();
     canvas.backgroundColor = '#ffffff';
+    activeTable.cells = [];
+    activeTable.selectedCell = null;
+    document.getElementById('tableTools').style.display = 'none';
     canvas.renderAll();
   };
 
-  // ═══ تصدير PNG ═══
   window.exportPNG = function() {
     canvas.discardActiveObject();
     canvas.renderAll();
@@ -1326,7 +1422,6 @@ window.addEventListener('load', function() {
     link.click();
   };
 
-  // ═══ اختصارات ═══
   document.addEventListener('keydown', function(e) {
     if ((e.key === 'Delete' || e.key === 'Backspace') && canvas.getActiveObject()) {
       if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
@@ -1335,7 +1430,7 @@ window.addEventListener('load', function() {
     }
   });
 
-  console.log('✅ ريشة جاهز — مع دعم الجداول');
+  console.log('✅ ريشة جاهز — مع الجدول الذكي');
 });
 </script>
 
