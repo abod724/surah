@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ريشة — المحرر</title>
+<script data-goatcounter="https://esha.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700&family=Almarai:wght@400;700;800&family=Mada:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&family=Readex+Pro:wght@400;700&family=Alexandria:wght@400;700;900&family=Rubik:wght@400;700&family=Changa:wght@400;700&family=Lemonada:wght@400;700&family=El+Messiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=Kufam:wght@400;700&family=Amiri:wght@400;700&family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Lateef&family=Harmattan&family=Markazi+Text:wght@400;700&family=Mirza:wght@400;700&family=Gulzar&family=Aref+Ruqaa:wght@400;700&family=Alkalami&family=Katibeh&family=Qahiri&family=Rakkas&family=Lalezar&family=Jomhuria&family=Marhey:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;700&family=Saira:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -1317,6 +1319,15 @@ window.addEventListener('load', function() {
 
   // ═══ تصدير PNG ═══
   window.exportPNG = function() {
+    // ✅ تتبع التحميلات
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({
+        path: 'editor-تحميل-تصميم',
+        title: 'تحميل تصميم من المحرر',
+        event: true
+      });
+    }
+    
     canvas.discardActiveObject();
     canvas.renderAll();
     var dataURL = canvas.toDataURL({ format: 'png', quality: 1, multiplier: 2 });
@@ -1335,7 +1346,7 @@ window.addEventListener('load', function() {
     }
   });
 
-  console.log('✅ ريشة جاهز — مع دعم الجداول');
+  console.log('✅ ريشة جاهز — مع دعم الجداول وكود التتبع');
 });
 </script>
 
