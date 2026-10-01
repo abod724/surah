@@ -7,12 +7,12 @@
 <script data-goatcounter="https://resha.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700&family=Almarai:wght@400;700;800&family=Mada:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&fa mily=Readex+Pro:wght@400;700&family=Alexandria:wght@400;700;900&family=Rubik:wght@400;700&family=Changa:wght@400;700&fa mily=Lemonada:wght@400;700&family=El+Messiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Kufi+Arabic:wght@400 ;700&family=Kufam:wght@400;700&family=Amiri:wght@400;700&family=Amiri+Quran&family=شهرزاد+جديد:wght@400;700&family =Noto+Naskh+Arabic:wght@400;700&family=Lateef&family=Harmattan&family=Markazi+Text:wght@400;700&family=ميرزا:wght@400;70 0&family=Gulzar&family=Aref+Ruqaa:wght@400;700&family=Alkalami&family=Katibeh&family=Qahiri&family=Rakkas&family=Lalezar&family=Jomhuria&family=Marhey:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;700&family=Saira:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700&family=Almarai:wght@400;700;800&family=Mada:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&family=Readex+Pro:wght@400;700&family=Alexandria:wght@400;700;900&family=Rubik:wght@400;700&family=Changa:wght@400;700&family=Lemonada:wght@400;700&family=El+Messiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=Kufam:wght@400;700&family=Amiri:wght@400;700&family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Lateef&family=Harmattan&family=Markazi+Text:wght@400;700&family=Mirza:wght@400;700&family=Gulzar&family=Aref+Ruqaa:wght@400;700&family=Alkalami&family=Katibeh&family=Qahiri&family=Rakkas&family=Lalezar&family=Jomhuria&family=Marhey:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;700&family=Saira:wght@400;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
   
-  :جذر {
-    --الأساسي: #6366f1؛
+  :root {
+    --primary: #6366f1;
     --primary-dark: #4f46e5;
     --primary-light: #eef2ff;
     --bg: #f8fafc;
@@ -26,144 +26,144 @@
     --radius-sm: 10px;
   }
   
-  جسم {
+  body {
     font-family: 'Cairo', sans-serif;
-    الخلفية: متغير(--bg)؛
-    اللون: متغير(--text)؛
-    الحد الأدنى للارتفاع: 100vh؛
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
     overflow-x: hidden;
   }
   
-  /* ═══ رأس الصفحة ═══ */
+  /* ═══ Header ═══ */
   .header {
-    الخلفية: تدرج خطي (135 درجة، #6366f1 0%، #8b5cf6 100%)؛
-    الحشو: 16 بكسل 20 بكسل؛
-    العرض: مرن؛
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    padding: 16px 20px;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 2px 10px rgba(99,102,241,0.2);
-    الموقع: لاصق؛
-    أعلى: 0؛
-    مؤشر z: 100؛
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
   .header-logo {
-    العرض: مرن؛
+    display: flex;
     align-items: center;
-    الفجوة: 10 بكسل؛
-    اللون: #fff;
+    gap: 10px;
+    color: #fff;
   }
   .header-logo-icon {
-    العرض: 40 بكسل؛
-    الارتفاع: 40 بكسل؛
-    الخلفية: rgba(255,255,255,0.2)؛
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
     border-radius: 12px;
-    العرض: مرن؛
+    display: flex;
     align-items: center;
     justify-content: center;
-    حجم الخط: 20 بكسل؛
-    خاصية التمويه الخلفية: تمويه (10 بكسل)؛
+    font-size: 20px;
+    backdrop-filter: blur(10px);
   }
   .header-logo-text {
-    حجم الخط: 18 بكسل؛
-    وزن الخط: 900؛
+    font-size: 18px;
+    font-weight: 900;
   }
   .header-logo-sub {
-    حجم الخط: 10 بكسل؛
-    الشفافية: 0.85؛
-    وزن الخط: 600؛
+    font-size: 10px;
+    opacity: 0.85;
+    font-weight: 600;
   }
   .header-btn {
-    العرض: 40 بكسل؛
-    الارتفاع: 40 بكسل؛
-    الحدود: لا شيء؛
-    الخلفية: rgba(255,255,255,0.15)؛
-    اللون: #fff;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
     border-radius: 12px;
-    المؤشر: مؤشر؛
-    حجم الخط: 18 بكسل؛
-    العرض: مرن؛
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    الانتقال: جميعها 0.2 ثانية؛
+    transition: all 0.2s;
   }
   .header-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.25); }
   
-  /* ═══ حاوية ═══ */
-  .حاوية {
-    أقصى عرض: 1200 بكسل؛
+  /* ═══ Container ═══ */
+  .container {
+    max-width: 1200px;
     margin: 0 auto;
-    الحشو: 16 بكسل؛
+    padding: 16px;
   }
   
-  /* ═══ مساحة الرسم ═══ */
+  /* ═══ Canvas Area ═══ */
   .canvas-wrapper {
-    الخلفية: متغير(--card)؛
+    background: var(--card);
     border-radius: var(--radius);
-    الحشو: 16 بكسل؛
+    padding: 16px;
     margin-bottom: 16px;
     box-shadow: var(--shadow-md);
-    العرض: مرن؛
+    display: flex;
     justify-content: center;
     align-items: center;
-    الحد الأدنى للارتفاع: 300 بكسل؛
-    صورة الخلفية:
+    min-height: 300px;
+    background-image: 
       linear-gradient(45deg, #f1f5f9 25%, transparent 25%),
       linear-gradient(-45deg, #f1f5f9 25%, transparent 25%),
       linear-gradient(45deg, transparent 75%, #f1f5f9 75%),
       linear-gradient(-45deg, transparent 75%, #f1f5f9 75%);
-    حجم الخلفية: 20 بكسل 20 بكسل؛
+    background-size: 20px 20px;
     background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
   }
-  cc {
-    نصف قطر الحدود: var(--radius-sm);
+  #c {
+    border-radius: var(--radius-sm);
     box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-    الحد الأقصى للعرض: 100%؛
-    أقصى ارتفاع: 55vh؛
+    max-width: 100%;
+    max-height: 55vh;
     touch-action: none;
-    العرض: كتلة؛
-    الخلفية: #fff;
+    display: block;
+    background: #fff;
   }
   .canvas-container .upper-canvas { touch-action: none !important; }
   
-  /* محو الأمية شريط علامات التبويب محو الأمية */
+  /* ═══ Tabs Bar ═══ */
   .tabs-bar {
-    العرض: مرن؛
-    الفجوة: 6 بكسل؛
+    display: flex;
+    gap: 6px;
     overflow-x: auto;
-    الحشو: 4 بكسل 0 12 بكسل؛
-    عرض شريط التمرير: لا شيء؛
+    padding: 4px 0 12px;
+    scrollbar-width: none;
   }
   .tabs-bar::-webkit-scrollbar { display: none; }
   
   .tab-btn {
     flex-shrink: 0;
-    الحشو: 10 بكسل 18 بكسل؛
-    الخلفية: متغير(--card)؛
-    الحدود: 2 بكسل صلب var(--border);
+    padding: 10px 18px;
+    background: var(--card);
+    border: 2px solid var(--border);
     border-radius: 12px;
-    اللون: متغير(--text-light)؛
+    color: var(--text-light);
     font-family: 'Cairo', sans-serif;
-    وزن الخط: 700؛
-    حجم الخط: 13 بكسل؛
-    المؤشر: مؤشر؛
-    الانتقال: جميعها 0.2 ثانية؛
-    العرض: مرن؛
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
     align-items: center;
-    الفجوة: 6 بكسل؛
+    gap: 6px;
     white-space: nowrap;
     box-shadow: var(--shadow-sm);
   }
   .tab-btn:active { transform: scale(0.96); }
   .tab-btn.active {
-    الخلفية: تدرج خطي (135 درجة، متغير (--الأساسي)، #8b5cf6)؛
-    اللون: #fff;
-    لون الحدود: شفاف؛
+    background: linear-gradient(135deg, var(--primary), #8b5cf6);
+    color: #fff;
+    border-color: transparent;
     box-shadow: 0 4px 12px rgba(99,102,241,0.35);
   }
   
-  /* ═══ لوحات التبويب ═══ */
+  /* ═══ Tab Panels ═══ */
   .tab-panels {
-    الخلفية: متغير(--card)؛
+    background: var(--card);
     border-radius: var(--radius);
     box-shadow: var(--shadow-md);
     overflow: hidden;
@@ -171,144 +171,144 @@
   .panel { display: none; padding: 20px; }
   .panel.active { display: block; animation: fadeIn 0.2s; }
   @keyframes fadeIn {
-    من { الشفافية: 0؛ التحويل: ترجمة Y(5 بكسل)؛ }
-    إلى { الشفافية: 1؛ التحويل: ترجمة Y(0)؛ }
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   
   .panel-title {
-    حجم الخط: 14 بكسل؛
-    وزن الخط: 900؛
-    اللون: متغير(--text)؛
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--text);
     margin-bottom: 14px;
-    العرض: مرن؛
+    display: flex;
     align-items: center;
-    الفجوة: 8 بكسل؛
+    gap: 8px;
   }
   .panel-title::before {
-    محتوى: ''؛
-    العرض: 4 بكسل؛
-    الارتفاع: 16 بكسل؛
-    الخلفية: تدرج خطي (135 درجة، متغير (--الأساسي)، #8b5cf6)؛
+    content: '';
+    width: 4px;
+    height: 16px;
+    background: linear-gradient(135deg, var(--primary), #8b5cf6);
     border-radius: 2px;
   }
   
-  /* ═══ المدخلات ═══ */
-  منطقة نصية {
-    العرض: 100%؛
-    الحشو: 14 بكسل؛
-    الحدود: 2 بكسل صلب var(--border);
-    نصف قطر الحدود: var(--radius-sm);
+  /* ═══ Inputs ═══ */
+  textarea {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
     font-family: 'Cairo', sans-serif;
-    حجم الخط: 14 بكسل؛
-    اللون: متغير(--text)؛
-    الخلفية: متغير(--bg)؛
-    تغيير الحجم: عمودي؛
-    الحد الأدنى للارتفاع: 70 بكسل؛
-    أقصى ارتفاع: 200 بكسل؛
-    الانتقال: جميعها 0.2 ثانية؛
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    resize: vertical;
+    min-height: 70px;
+    max-height: 200px;
+    transition: all 0.2s;
   }
   textarea:focus {
-    المخطط: لا يوجد؛
-    لون الحدود: متغير(--الأساسي)؛
-    الخلفية: #fff;
+    outline: none;
+    border-color: var(--primary);
+    background: #fff;
   }
   
   input[type="color"] {
-    العرض: 100%؛
-    الارتفاع: 44 بكسل؛
-    الحشو: 3 بكسل؛
-    الحدود: 2 بكسل صلب var(--border);
-    نصف قطر الحدود: var(--radius-sm);
-    المؤشر: مؤشر؛
-    الخلفية: #fff;
+    width: 100%;
+    height: 44px;
+    padding: 3px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    background: #fff;
   }
   
   input[type="text"], select {
-    العرض: 100%؛
-    الحشو: 12 بكسل 14 بكسل؛
-    الحدود: 2 بكسل صلب var(--border);
-    نصف قطر الحدود: var(--radius-sm);
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
     font-family: 'Cairo', sans-serif;
-    حجم الخط: 14 بكسل؛
-    وزن الخط: 600؛
-    الخلفية: #fff;
-    اللون: متغير(--text)؛
+    font-size: 14px;
+    font-weight: 600;
+    background: #fff;
+    color: var(--text);
   }
   input[type="text"]:focus, select:focus {
-    المخطط: لا يوجد؛
-    لون الحدود: متغير(--الأساسي)؛
+    outline: none;
+    border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
   }
   
   input[type="number"] {
-    العرض: 100%؛
-    الحشو: 12 بكسل 14 بكسل؛
-    الحدود: 2 بكسل صلب var(--border);
-    نصف قطر الحدود: var(--radius-sm);
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
     font-family: 'Cairo', sans-serif;
-    حجم الخط: 14 بكسل؛
-    وزن الخط: 700؛
-    الخلفية: #fff;
-    اللون: متغير(--text)؛
+    font-size: 14px;
+    font-weight: 700;
+    background: #fff;
+    color: var(--text);
     text-align: center;
   }
   input[type="number"]:focus {
-    المخطط: لا يوجد؛
-    لون الحدود: متغير(--الأساسي)؛
+    outline: none;
+    border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
   }
   
   input[type="range"] {
-    العرض: 100%؛
+    width: 100%;
     -webkit-appearance: none;
-    الارتفاع: 6 بكسل؛
+    height: 6px;
     border-radius: 3px;
-    الخلفية: متغير(--border)؛
-    المخطط: لا يوجد؛
+    background: var(--border);
+    outline: none;
   }
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    العرض: 24 بكسل؛
-    الارتفاع: 24 بكسل؛
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    الخلفية: تدرج خطي (135 درجة، متغير (--الأساسي)، #8b5cf6)؛
-    المؤشر: مؤشر؛
+    background: linear-gradient(135deg, var(--primary), #8b5cf6);
+    cursor: pointer;
     border: 3px solid #fff;
     box-shadow: 0 2px 8px rgba(99,102,241,0.4);
   }
   
   .field { margin-bottom: 16px; }
-  ملصق {
-    العرض: كتلة؛
-    وزن الخط: 700؛
-    حجم الخط: 12 بكسل؛
-    اللون: متغير(--text-light)؛
+  label {
+    display: block;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--text-light);
     margin-bottom: 8px;
   }
   .field-value {
-    وزن الخط: 900؛
-    اللون: متغير(--الأساسي)؛
-    حجم الخط: 14 بكسل؛
+    font-weight: 900;
+    color: var(--primary);
+    font-size: 14px;
   }
   
-  /* ═══ أزرار ═══ */
+  /* ═══ Buttons ═══ */
   .btn-col { display: flex; flex-direction: column; gap: 8px; }
   .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   
   .btn {
-    الحشو: 13 بكسل 18 بكسل؛
-    الحدود: لا شيء؛
-    نصف قطر الحدود: var(--radius-sm);
+    padding: 13px 18px;
+    border: none;
+    border-radius: var(--radius-sm);
     font-family: 'Cairo', sans-serif;
-    وزن الخط: 800؛
-    حجم الخط: 14 بكسل؛
-    المؤشر: مؤشر؛
-    الانتقال: جميعها 0.2 ثانية؛
-    العرض: مرن؛
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
     align-items: center;
     justify-content: center;
-    الفجوة: 8 بكسل؛
-    اللون: #fff;
+    gap: 8px;
+    color: #fff;
     box-shadow: var(--shadow-sm);
   }
   .btn:active { transform: scale(0.97); }
@@ -319,168 +319,168 @@
   .btn-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
   .btn-gray { background: linear-gradient(135deg, #64748b, #475569); }
   .btn-light {
-    الخلفية: متغير(--card)؛
-    اللون: متغير(--text)؛
-    الحدود: 2 بكسل صلب var(--border);
+    background: var(--card);
+    color: var(--text);
+    border: 2px solid var(--border);
   }
   
-  /* ═══ شبكة الألوان ═══ */
+  /* ═══ Color Grid ═══ */
   .color-grid {
-    العرض: شبكة؛
+    display: grid;
     grid-template-columns: repeat(8, 1fr);
-    الفجوة: 6 بكسل؛
+    gap: 6px;
     margin-top: 10px;
   }
   .color-swatch {
-    نسبة العرض إلى الارتفاع: 1؛
+    aspect-ratio: 1;
     border-radius: 8px;
-    المؤشر: مؤشر؛
+    cursor: pointer;
     border: 2px solid transparent;
-    الانتقال: جميعها 0.15 ثانية؛
+    transition: all 0.15s;
   }
   .color-swatch:active { transform: scale(0.9); }
   .color-swatch.active { border-color: var(--text); transform: scale(1.05); }
   
-  /* ═══ شبكة الخطوط ═══ */
+  /* ═══ Font Grid ═══ */
   .font-grid {
-    العرض: شبكة؛
+    display: grid;
     grid-template-columns: 1fr;
-    الفجوة: 8 بكسل؛
-    أقصى ارتفاع: 400 بكسل؛
+    gap: 8px;
+    max-height: 400px;
     overflow-y: auto;
-    الحشو: 4 بكسل؛
-    الخلفية: متغير(--bg)؛
-    نصف قطر الحدود: var(--radius-sm);
-    الحدود: 2 بكسل صلب var(--border);
+    padding: 4px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--border);
   }
   .font-btn {
-    الحشو: 14 بكسل 16 بكسل؛
-    الحدود: 2 بكسل صلب var(--border);
+    padding: 14px 16px;
+    border: 2px solid var(--border);
     border-radius: 10px;
-    الخلفية: #fff;
-    المؤشر: مؤشر؛
-    الانتقال: جميعها 0.15 ثانية؛
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.15s;
     text-align: right;
-    العرض: مرن؛
+    display: flex;
     align-items: center;
     justify-content: space-between;
-    الفجوة: 10 بكسل؛
+    gap: 10px;
   }
   .font-btn:active { transform: scale(0.98); }
   .font-btn.active {
-    لون الحدود: متغير(--الأساسي)؛
-    الخلفية: متغير(--primary-light)؛
+    border-color: var(--primary);
+    background: var(--primary-light);
   }
   .font-preview {
-    حجم الخط: 18 بكسل؛
-    اللون: متغير(--text)؛
-    المرونة: 1؛
+    font-size: 18px;
+    color: var(--text);
+    flex: 1;
   }
   .font-name {
-    حجم الخط: 10 بكسل؛
-    اللون: متغير(--text-light)؛
-    وزن الخط: 700؛
-    الاتجاه: من اليسار إلى اليمين؛
-    الخلفية: متغير(--bg)؛
-    الحشو: 3 بكسل 8 بكسل؛
+    font-size: 10px;
+    color: var(--text-light);
+    font-weight: 700;
+    direction: ltr;
+    background: var(--bg);
+    padding: 3px 8px;
     border-radius: 6px;
     white-space: nowrap;
   }
   
-  /* ═══ منتقي الجدول ═══ */
+  /* ═══ Table Picker ═══ */
   .table-picker-btn {
-    العرض: 100%؛
-    الحشو: 14 بكسل؛
-    الخلفية: متغير(--card)؛
-    الحدود: 2 بكسل صلب var(--border);
-    نصف قطر الحدود: var(--radius-sm);
-    اللون: متغير(--text)؛
+    width: 100%;
+    padding: 14px;
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
     font-family: 'Cairo', sans-serif;
-    وزن الخط: 800؛
-    حجم الخط: 14 بكسل؛
-    المؤشر: مؤشر؛
-    العرض: مرن؛
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
     align-items: center;
     justify-content: center;
-    الفجوة: 8 بكسل؛
-    الانتقال: جميعها 0.2 ثانية؛
+    gap: 8px;
+    transition: all 0.2s;
   }
   .table-picker-btn:active { transform: scale(0.98); }
   .table-picker-btn:hover {
-    لون الحدود: متغير(--الأساسي)؛
-    اللون: متغير(--الأساسي)؛
-    الخلفية: متغير(--primary-light)؛
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
   }
   
   .table-picker-popup {
-    الوضع: ثابت؛
-    الخلفية: #fff;
+    position: fixed;
+    background: #fff;
     border-radius: 12px;
-    الحشو: 12 بكسل؛
+    padding: 12px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.25);
-    مؤشر z: 1000؛
-    العرض: لا شيء؛
-    الحدود: 2 بكسل صلب var(--border);
+    z-index: 1000;
+    display: none;
+    border: 2px solid var(--border);
   }
   .table-picker-popup.active { display: block; }
   
   .table-picker-grid {
-    العرض: شبكة؛
+    display: grid;
     grid-template-columns: repeat(8, 26px);
     grid-template-rows: repeat(8, 26px);
-    الفجوة: 2 بكسل؛
+    gap: 2px;
   }
   .table-picker-cell {
-    العرض: 26 بكسل؛
-    الارتفاع: 26 بكسل؛
-    الخلفية: #f1f5f9؛
+    width: 26px;
+    height: 26px;
+    background: #f1f5f9;
     border: 1px solid #cbd5e1;
-    المؤشر: مؤشر؛
-    الانتقال: الخلفية 0.1 ثانية؛
+    cursor: pointer;
+    transition: background 0.1s;
     border-radius: 3px;
   }
   .table-picker-cell.active {
-    الخلفية: متغير(--الأساسي)؛
-    لون الحدود: متغير(--الأساسي)؛
+    background: var(--primary);
+    border-color: var(--primary);
   }
   
   .table-picker-label {
     text-align: center;
-    حجم الخط: 13 بكسل؛
-    وزن الخط: 900؛
-    اللون: متغير(--الأساسي)؛
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--primary);
     margin-top: 10px;
-    الحشو: 6 بكسل؛
-    الخلفية: متغير(--primary-light)؛
+    padding: 6px;
+    background: var(--primary-light);
     border-radius: 8px;
   }
   
-  /* ═══ تذييل الصفحة ═══ */
+  /* ═══ Footer ═══ */
   .footer {
     text-align: center;
-    الحشو: 24 بكسل 16 بكسل؛
-    اللون: متغير(--text-light)؛
-    حجم الخط: 12 بكسل؛
+    padding: 24px 16px;
+    color: var(--text-light);
+    font-size: 12px;
   }
   .footer a {
-    اللون: متغير(--الأساسي)؛
+    color: var(--primary);
     text-decoration: none;
-    وزن الخط: 700؛
+    font-weight: 700;
   }
   
-  /* ═══ فاصل ═══ */
+  /* ═══ Divider ═══ */
   .divider {
-    الارتفاع: 1 بكسل؛
-    الخلفية: متغير(--border)؛
+    height: 1px;
+    background: var(--border);
     margin: 16px 0;
   }
   
-  /* ═══ متجاوب ═══ */
+  /* ═══ Responsive ═══ */
   @media (min-width: 900px) {
     .editor-layout {
-      العرض: شبكة؛
+      display: grid;
       grid-template-columns: 1.4fr 1fr;
-      الفجوة: 16 بكسل؛
+      gap: 16px;
       align-items: start;
     }
     .canvas-wrapper { position: sticky; top: 90px; }
@@ -500,7 +500,7 @@
 </head>
 <body>
 
-<!-- ═══ رأس الصفحة ═══ -->
+<!-- ═══ Header ═══ -->
 <div class="header">
   <div class="header-logo">
     <div class="header-logo-icon">🖌️</div>
@@ -514,7 +514,7 @@
   </div>
 </div>
 
-<!-- ═══ الحاوية الرئيسية ═══ -->
+<!-- ═══ Main Container ═══ -->
 <div class="container">
   <div class="editor-layout">
     
@@ -523,29 +523,29 @@
       <canvas id="c" width="1080" height="1080"></canvas>
     </div>
 
-    <!-- ═══ أدوات ═══ -->
+    <!-- ═══ Tools ═══ -->
     <div>
       
-      <!-- شريط علامات التبويب -->
+      <!-- Tabs Bar -->
       <div class="tabs-bar">
-        <button class="tab-btn active" onclick="toggleTab('text', this)">📝 نص</button>
-        <button class="tab-btn" onclick="toggleTab('image', this)">🖼️ صور</button>
-        <button class="tab-btn" onclick="toggleTab('shape', this)">🔷 علامة تبويب</button>
-        <button class="tab-btn" onclick="toggleTab('table', this)">📊 جدول</button>
+        <button class="tab-btn active" onclick="toggleTab('text', this)">📝 النص</button>
+        <button class="tab-btn" onclick="toggleTab('image', this)">🖼️ الصور</button>
+        <button class="tab-btn" onclick="toggleTab('shape', this)">🔷 الأشكال</button>
+        <button class="tab-btn" onclick="toggleTab('table', this)">📊 الجداول</button>
         <button class="tab-btn" onclick="toggleTab('edit', this)">⚙️ تعديل</button>
         <button class="tab-btn" onclick="toggleTab('draw', this)">✏️ رسم</button>
         <button class="tab-btn" onclick="toggleTab('filter', this)">🎨 فلاتر</button>
       </div>
       
-      <!-- لوحات -->
+      <!-- Panels -->
       <div class="tab-panels">
 
-        <!-- مذكرات مستندات مذكرات مذكرات -->
+        <!-- ═══ النص ═══ -->
         <div id="panel-text" class="panel active">
           <div class="panel-title">النص</div>
           
           <div class="field">
-            <textarea id="textInput"rows="3" placeholder="اكتب رسالتك هنا..."></textarea>
+            <textarea id="textInput" rows="3" placeholder="اكتب رسالتك هنا..."></textarea>
           </div>
 
           <div class="field">
@@ -572,21 +572,21 @@
           </div>
         </div>
 
-        <!-- ؤائعة الصور محوشة -->
+        <!-- ═══ الصور ═══ -->
         <div id="panel-image" class="panel">
           <div class="panel-title">الصور</div>
           <div class="btn-col">
-            <button class="btn btn-green" onclick="document.getElementById('imgLoader').click()"> تحميل صورة</button>
+            <button class="btn btn-green" onclick="document.getElementById('imgLoader').click()">رفع صورة</button>
             <input type="file" id="imgLoader" accept="image/*" style="display:none;" onchange="addImage(event)">
           </div>
         </div>
 
-        <!-- فطري
+        <!-- ═══ الأشكال ═══ -->
         <div id="panel-shape" class="panel">
           <div class="panel-title">الأشكال</div>
           <div class="btn-row">
-            <button class="btn btn-light" onclick="addShape('rect')">مستبد</button>
-            <button class="btn btn-light" onclick="addShape('circle')"> دائرة</button>
+            <button class="btn btn-light" onclick="addShape('rect')">مستطيل</button>
+            <button class="btn btn-light" onclick="addShape('circle')">دائرة</button>
             <button class="btn btn-light" onclick="addShape('triangle')">مثلث</button>
             <button class="btn btn-light" onclick="addShape('line')">خط</button>
           </div>
@@ -596,17 +596,17 @@
           </div>
         </div>
 
-        <!-- ذكّرى تطبيقات الانترنت فطري -->
+        <!-- ═══ الجداول ═══ -->
         <div id="panel-table" class="panel">
-          <div class="panel-title"> إنشاء الجدول</div>
+          <div class="panel-title">إنشاء جدول</div>
           
           <p style="font-size:13px; color:#64748b; margin-bottom:14px; line-height:1.6;">
             اضغط على الزر أدناه، ثم اختر عدد الصفوف والأعمدة من الشبكة.
           </p>
           
           <button class="table-picker-btn" onclick="openTablePicker(event)" id="tablePickerBtn">
-            📊
-            <span>جدول إدراج</span>
+            <span>📊</span>
+            <span>إدراج جدول</span>
           </button>
 
           <div class="divider"></div>
@@ -627,18 +627,18 @@
           </div>
         </div>
 
-        <!-- فطري
+        <!-- ═══ تعديل ═══ -->
         <div id="panel-edit" class="panel">
           <div class="panel-title">تعديل</div>
           <div class="btn-row">
             <button class="btn btn-orange" onclick="bringForward()">للأمام</button>
             <button class="btn btn-orange" onclick="sendBackward()">للخلف</button>
-            <button class="btn btn-purple" onclick="duplicateSelected()"> </button>
-            <button class="btn btn-red" onclick="deleteSelecte()"> حذف</button>
+            <button class="btn btn-purple" onclick="duplicateSelected()">تكرار</button>
+            <button class="btn btn-red" onclick="deleteSelected()">حذف</button>
           </div>
           
           <div style="margin-top:8px;">
-            <button class="btn btn-primary" onclick="straightenSelected()" style="width:100%;">استقامة فرن</button>
+            <button class="btn btn-primary" onclick="straightenSelected()" style="width:100%;">استقامة العنصر</button>
           </div>
 
           <div class="field" style="margin-top:16px;">
@@ -652,17 +652,17 @@
           </div>
 
           <div class="field">
-            <label>لون كندا البحثية</label>
+            <label>لون العنصر المحدد</label>
             <input type="color" id="textColorPicker" value="#000000" oninput="changeTextColor(this.value)">
           </div>
         </div>
 
-        <!-- ذكّرى رسم فطري -->
+        <!-- ═══ رسم ═══ -->
         <div id="panel-draw" class="panel">
           <div class="panel-title">الرسم</div>
           <div class="btn-col">
             <button class="btn btn-purple" onclick="toggleDraw()" id="drawBtn">تفعيل الرسم</button>
-            <button class="btn btn-gray" onclick="clearAll()"> مسح الكل</button>
+            <button class="btn btn-gray" onclick="clearAll()">مسح الكل</button>
           </div>
           <div class="field" style="margin-top:16px;">
             <label>لون القلم</label>
@@ -675,18 +675,18 @@
           </div>
         </div>
 
-        <!-- محو الأمية محو الأمية محو الأمية محو الأمية -->
+        <!-- ═══ فلاتر ═══ -->
         <div id="panel-filter" class="panel">
           <div class="panel-title">الفلاتر</div>
           <div class="btn-col">
-            <button class="btn btn-light" onclick="applyFilter('none')"></button>
-            <button class="btn btn-light" onclick="applyFilter('bright')"> </button>
-            <button class="btn btn-light" onclick="applyFilter('contrast')">ال</button>
+            <button class="btn btn-light" onclick="applyFilter('none')">بدون</button>
+            <button class="btn btn-light" onclick="applyFilter('bright')">إضاءة</button>
+            <button class="btn btn-light" onclick="applyFilter('contrast')">تباين</button>
             <button class="btn btn-light" onclick="applyFilter('saturate')">تشبع</button>
-            <button class="btn btn-light" onclick="applyFilter('grayscale')"> </button>
+            <button class="btn btn-light" onclick="applyFilter('grayscale')">رمادي</button>
             <button class="btn btn-light" onclick="applyFilter('sepia')">قديم</button>
-            <button class="btn btn-light" onclick="applyFilter('blur')"> غموض</button>
-            <button class="btn btn-light" onclick="applyFilter('vintage')">في التغيير</button>
+            <button class="btn btn-light" onclick="applyFilter('blur')">ضبابي</button>
+            <button class="btn btn-light" onclick="applyFilter('vintage')">فينتاج</button>
             <button class="btn btn-light" onclick="applyFilter('warm')">دافئ</button>
           </div>
         </div>
@@ -697,37 +697,37 @@
   </div>
 
   <div class="footer">
-    <a href="index.html">العودة إلى الريشة</a>
+    <a href="index.html">العودة إلى ريشة</a>
   </div>
 </div>
 
-<!-- ═══ نافذة منبثقة لاختيار الجدول ═══ -->
+<!-- ═══ Table Picker Popup ═══ -->
 <div class="table-picker-popup" id="tablePickerPopup">
   <div class="table-picker-grid" id="tablePickerGrid"></div>
-  <div class="table-picker-label" id="tablePickerLabel">اخترحجم</div>
+  <div class="table-picker-label" id="tablePickerLabel">اختر الحجم</div>
 </div>
 
 <script>
 window.addEventListener('load', function() {
   var canvas = new fabric.Canvas('c', {
-    لون الخلفية: '#ffffff',
+    backgroundColor: '#ffffff',
     preserveObjectStacking: true,
-    الاختيار: صحيح،
+    selection: true,
     allowTouchScrolling: false,
     enableRetinaScaling: true,
-    العرض: 1080،
-    الارتفاع: 1080
+    width: 1080,
+    height: 1080
   });
 
-  // يفحص الكائنات
+  // إعدادات الكائنات
   fabric.Object.prototype.set({
-    الزوايا الشفافة: خطأ،
-    لون الزاوية: '#6366f1',
-    لون خط الزاوية: '#fff',
-    لون الحدود: '#6366f1',
-    حجم الزاوية: 24
-    حجم زاوية اللمس: 36،
-    الحشو: 10،
+    transparentCorners: false,
+    cornerColor: '#6366f1',
+    cornerStrokeColor: '#fff',
+    borderColor: '#6366f1',
+    cornerSize: 24,
+    touchCornerSize: 36,
+    padding: 10,
     cornerStyle: 'circle',
     borderScaleFactor: 2,
     hasControls: true,
@@ -735,21 +735,21 @@ window.addEventListener('load', function() {
     lockScalingFlip: true,
     lockUniScaling: false,
     centeredScaling: false,
-    إزاحة نقطة الدوران: 40،
+    rotatingPointOffset: 40,
     mtrCornerColor: '#f59e0b',
     mtrCornerStrokeColor: '#fff',
-    شفافية الحدود عند التحريك: 0.8،
-    التخزين المؤقت للكائنات: خطأ
+    borderOpacityWhenMoving: 0.8,
+    objectCaching: false
   });
 
   fabric.Object.prototype.setControlsVisibility({
-    mt: صحيح، mb: صحيح، ml: صحيح، mr: صحيح،
-    tl: صحيح، tr: صحيح، bl: صحيح، br: صحيح،
-    mtr: صحيح
+    mt: true, mb: true, ml: true, mr: true,
+    tl: true, tr: true, bl: true, br: true,
+    mtr: true
   });
 
-  // ✅ الإصلاح: تغيير حجم القماش بدون setZoom مزدوج
-  دالة تغيير حجم اللوحة () {
+  // ✅ الإصلاح: resizeCanvas بدون setZoom مزدوج
+  function resizeCanvas() {
     var wrapper = document.querySelector('.canvas-wrapper');
     var maxWidth = wrapper.clientWidth - 32;
     var maxHeight = window.innerHeight * 0.55;
@@ -757,11 +757,11 @@ window.addEventListener('load', function() {
     
     // ✅ استخدم setDimensions فقط — بدون setZoom
     canvas.setDimensions({
-      العرض: 1080 * المقياس،
-      الارتفاع: 1080 * المقياس
+      width: 1080 * scale,
+      height: 1080 * scale
     });
     
-    // ✅ تأكد أن الزوم = 1 (لا تصغير الاتفاق)
+    // ✅ تأكد أن الزوم = 1 (لا تصغير إضافي)
     canvas.setZoom(1);
     canvas.calcOffset();
     canvas.renderAll();
@@ -770,11 +770,11 @@ window.addEventListener('load', function() {
   window.addEventListener('orientationchange', function() { setTimeout(resizeCanvas, 300); });
   setTimeout(resizeCanvas, 100);
 
-  // فطري
+  // ═══ الألوان السريعة ═══
   var QUICK_COLORS = [
     '#000000', '#ffffff', '#dc2626', '#ea580c', '#f59e0b', '#facc15', '#84cc16', '#16a34a',
     '#10b981', '#14b8a6', '#0891b2', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7',
-    '#d946ef'، '#ec4899'، '#f43f5e'، '#78350f'، '#1e293b'، '#334155'، '#64748b'، '#94a3b8'
+    '#d946ef', '#ec4899', '#f43f5e', '#78350f', '#1e293b', '#334155', '#64748b', '#94a3b8'
   ];
 
   var quickColorsEl = document.getElementById('quickColors');
@@ -787,7 +787,7 @@ window.addEventListener('load', function() {
       quickColorsEl.querySelectorAll('.color-swatch').forEach(function(s) { s.classList.remove('active'); });
       sw.classList.add('active');
       var obj = canvas.getActiveObject();
-      إذا كان الكائن موجودًا، فسيتم تعيين لون التعبئة له، ثم يتم عرض جميع عناصر اللوحة.
+      if (obj) { obj.set('fill', c); canvas.renderAll(); }
     };
     quickColorsEl.appendChild(sw);
   });
@@ -801,72 +801,72 @@ window.addEventListener('load', function() {
       document.getElementById('brushColor').value = c;
       brushColorsEl.querySelectorAll('.color-swatch').forEach(function(s) { s.classList.remove('active'); });
       sw.classList.add('active');
-      إذا كان (canvas.freeDrawingBrush) canvas.freeDrawingBrush.color = c;
+      if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.color = c;
     };
     brushColorsEl.appendChild(sw);
   });
 
-  // للتواصل ماسنجر
+  // ═══ الخطوط ═══
   var FONT_LIST = [
-    { الاسم: 'القاهرة'، التسمية: 'حديث' }،
-    { الاسم: 'تجول'، التسمية: 'أنيق' }،
-    { الاسم: 'المراعي'، التسمية: 'نظيف' }،
-    { الاسم: 'مدى'، التسمية: 'بسيط' },
-    { الاسم: 'IBM Plex Sans Arab'، التسمية: 'احترافي' },
-    { الاسم: 'نوتو بلا عربي'، التسمية: 'عام' },
-    { الاسم: 'Readex Pro'، التسمية: 'عصري' },
-    { الاسم: 'الإسكندرية'، التسمية: 'واضح' },
-    { الاسم: 'روبيك'، التسمية: 'هندسي' }،
-    { الاسم: 'تشانغا'، التسمية: 'مبتكر' }،
-    { الاسم: 'ليمونادا'، التسمية: 'رقيق' },
-    { الاسم: 'المسيري'، التسمية: 'راقي' }،
-    { الاسم: 'ريم الكوفي'، التسمية: 'كوفي' }،
-    { الاسم: 'نوتو كوفي عربي'، التسمية: 'كوفي' },
-    { الاسم: 'كوفام'، التسمية: 'كوفي حديث' },
-    { الاسم: 'أميري'، التسمية: 'كلاسيكي' },
-    { الاسم: 'المصحف الأميري'، التسمية: 'قرآني' }،
-    { الاسم: 'شهرزاد جديد'، التسمية: 'تقليدي' }،
-    { الاسم: 'نوتو النسخ العربي'، التسمية: 'نسخة' }،
-    { الاسم: 'لطيف'، التسمية: 'قرآني' }،
-    { الاسم: 'هارماتان'، التسمية: 'بسيط' }،
-    { الاسم: 'نص مركزي'، التسمية: 'مشرقي' },
-    { الاسم: 'ميرزا'، التسمية: 'فارسي' },
-    { الاسم: 'جولزار'، التسمية: 'نستعليق' },
-    { الاسم: 'عارف رقاء'، التسمية: 'رقعة' },
-    { الاسم: 'الكلامي'، التسمية: 'عمل حديث' },
-    { الاسم: 'كاتبة'، التسمية: 'كاتب' }،
-    { الاسم: 'قاهري'، التسمية: 'قاهري' }،
-    { الاسم: 'ركاس'، التسمية: 'ديكوري' }،
-    { الاسم: 'لاليزار'، التسمية: 'عريض' }،
-    { الاسم: 'جمهورية'، التسمية: 'عنوان' }،
-    { الاسم: 'مرحي'، التسمية: 'مرح' }،
-    { الاسم: "بالو بهايجان 2"، التسمية: "طفولي" },
-    { الاسم: "صيرة"، التسمية: "تقني" }
+    { name: 'Cairo', label: 'حديث' },
+    { name: 'Tajawal', label: 'أنيق' },
+    { name: 'Almarai', label: 'نظيف' },
+    { name: 'Mada', label: 'بسيط' },
+    { name: 'IBM Plex Sans Arabic', label: 'احترافي' },
+    { name: 'Noto Sans Arabic', label: 'عام' },
+    { name: 'Readex Pro', label: 'عصري' },
+    { name: 'Alexandria', label: 'واضح' },
+    { name: 'Rubik', label: 'هندسي' },
+    { name: 'Changa', label: 'مبتكر' },
+    { name: 'Lemonada', label: 'رقيق' },
+    { name: 'El Messiri', label: 'راقي' },
+    { name: 'Reem Kufi', label: 'كوفي' },
+    { name: 'Noto Kufi Arabic', label: 'كوفي' },
+    { name: 'Kufam', label: 'كوفي حديث' },
+    { name: 'Amiri', label: 'كلاسيكي' },
+    { name: 'Amiri Quran', label: 'قرآني' },
+    { name: 'Scheherazade New', label: 'تقليدي' },
+    { name: 'Noto Naskh Arabic', label: 'نسخ' },
+    { name: 'Lateef', label: 'قرآني' },
+    { name: 'Harmattan', label: 'بسيط' },
+    { name: 'Markazi Text', label: 'مشرقي' },
+    { name: 'Mirza', label: 'فارسي' },
+    { name: 'Gulzar', label: 'نستعليق' },
+    { name: 'Aref Ruqaa', label: 'رقعة' },
+    { name: 'Alkalami', label: 'رقعة حديثة' },
+    { name: 'Katibeh', label: 'كاتب' },
+    { name: 'Qahiri', label: 'قاهري' },
+    { name: 'Rakkas', label: 'ديكوري' },
+    { name: 'Lalezar', label: 'عريض' },
+    { name: 'Jomhuria', label: 'عنوان' },
+    { name: 'Marhey', label: 'مرح' },
+    { name: 'Baloo Bhaijaan 2', label: 'طفولي' },
+    { name: 'Saira', label: 'تقني' }
   ];
   var currentFont = 'Cairo';
 
-  دالة بناء شبكة الخطوط (تصفية) {
+  function buildFontGrid(filter) {
     var grid = document.getElementById('fontGrid');
     grid.innerHTML = '';
     
     var filtered = FONT_LIST.filter(function(font) {
-      إذا لم يتم تطبيق التصفية، فسيتم إرجاع القيمة true.
-      مصطلح فار = filter.toLowerCase();
+      if (!filter) return true;
+      var term = filter.toLowerCase();
       return font.name.toLowerCase().indexOf(term) !== -1 || font.label.indexOf(filter) !== -1;
     });
 
-    إذا كان طول القائمة المُفلترة يساوي صفرًا {
-      Grid.innerHTML = '<p style="text-align:center; color:#64748b; padding:20px;font-weight:700;">لا توجد نتائج</p>';
-      يعود؛
+    if (filtered.length === 0) {
+      grid.innerHTML = '<p style="text-align:center; color:#64748b; padding:20px; font-weight:700;">لا توجد نتائج</p>';
+      return;
     }
 
     filtered.forEach(function(font) {
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'font-btn' + (font.name === currentFont ? ' active' : '');
-      عينة فار = Font.name + ' — ' + Font.label;
+      var sample = font.name + ' — ' + font.label;
       
-      btn.innerHTML =
+      btn.innerHTML = 
         '<span class="font-preview" style="font-family: \'' + font.name + '\', Cairo; font-size: 18px;">' + sample + '</span>' +
         '<span class="font-name">' + font.name + '</span>';
 
@@ -874,15 +874,15 @@ window.addEventListener('load', function() {
         currentFont = font.name;
         var applyNow = function() {
           var obj = canvas.getActiveObject();
-          إذا كان (obj && (obj.type === 'i-text' || obj.type === 'text')) {
+          if (obj && (obj.type === 'i-text' || obj.type === 'text')) {
             obj.set('fontFamily', font.name);
             canvas.renderAll();
           }
           buildFontGrid(document.getElementById('fontSearch').value);
         };
-        إذا كانت الخطوط موجودة في المستند وتم تحميلها،
+        if (document.fonts && document.fonts.load) {
           document.fonts.load('20px "' + font.name + '"', sample).then(applyNow).catch(applyNow);
-        } آخر {
+        } else {
           applyNow();
         }
       };
@@ -892,9 +892,9 @@ window.addEventListener('load', function() {
   document.getElementById('fontSearch').addEventListener('input', function(e) { buildFontGrid(e.target.value); });
   buildFontGrid('');
 
-  دالة تطبيق إعدادات النص() {
+  function applyTextSettings() {
     var obj = canvas.getActiveObject();
-    إذا لم يكن الكائن موجودًا، فقم بالخروج.
+    if (!obj) return;
     var color = document.getElementById('newTextColor').value;
     var size = parseInt(document.getElementById('fontSizeSlider').value);
     obj.set({ fill: color, fontSize: size });
@@ -902,14 +902,14 @@ window.addEventListener('load', function() {
   }
   document.getElementById('fontSizeSlider').addEventListener('input', function(e) {
     document.getElementById('fontSizeValue').textContent = e.target.value;
-    تطبيق إعدادات النص();
+    applyTextSettings();
   });
   document.getElementById('newTextColor').addEventListener('input', function(e) {
     var obj = canvas.getActiveObject();
-    إذا كان الكائن موجودًا، فسيتم تعيين قيمة التعبئة له باستخدام `obj.set('fill', e.target.value)`، ثم يتم عرض جميع عناصر اللوحة باستخدام `canvas.renderAll()`.
+    if (obj) { obj.set('fill', e.target.value); canvas.renderAll(); }
   });
 
-  // ñ ماسنجر
+  // ═══ التبويبات ═══
   window.toggleTab = function(name, btn) {
     document.querySelectorAll('.tab-btn').forEach(function(t) { t.classList.remove('active'); });
     document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
@@ -919,52 +919,52 @@ window.addEventListener('load', function() {
     document.getElementById('tablePickerPopup').classList.remove('active');
   };
 
-  // محو الأمية إضافة نص محو الأمية
+  // ═══ إضافة نص ═══
   window.addText = function() {
     var text = document.getElementById('textInput').value.trim();
-    if (!text) { تنبيه('اكتب نصاً الجمعة'); يعود؛ }
+    if (!text) { alert('اكتب نصاً أولاً'); return; }
     
     var color = document.getElementById('newTextColor').value;
     var size = parseInt(document.getElementById('fontSizeSlider').value);
     var fontName = currentFont;
     
-    دالة doAdd = function() {
+    var doAdd = function() {
       var t = new fabric.IText(text, {
-        اليسار: 540، الأعلى: 540،
+        left: 540, top: 540,
         fontFamily: fontName,
-        حجم الخط: الحجم،
-        التعبئة: اللون،
-        الاتجاه: 'rtl'،
+        fontSize: size,
+        fill: color,
+        direction: 'rtl',
         textAlign: 'center',
         originX: 'center', originY: 'center',
-        الحشو: 15،
-        قابل للتعديل: صحيح،
+        padding: 15,
+        editable: true,
         hasControls: true,
         hasBorders: true,
         lockUniScaling: false,
-        التخزين المؤقت للكائنات: خطأ
+        objectCaching: false
       });
       canvas.add(t);
       canvas.setActiveObject(t);
       canvas.renderAll();
     };
     
-    إذا كانت الخطوط موجودة في المستند وتم تحميلها،
+    if (document.fonts && document.fonts.load) {
       document.fonts.load('20px "' + fontName + '"', text).then(doAdd).catch(doAdd);
-    } آخر {
-      قم بالجمع();
+    } else {
+      doAdd();
     }
   };
 
-  // تذكير صورة إضافة تذكير
+  // ═══ إضافة صورة ═══
   window.addImage = function(e) {
     var file = e.target.files[0];
-    إذا لم يكن الملف موجودًا، فقم بالخروج.
-    var Reader = new FileReader();
+    if (!file) return;
+    var reader = new FileReader();
     reader.onload = function(ev) {
       fabric.Image.fromURL(ev.target.result, function(img) {
         var maxW = 540;
-        إذا كان (عرض الصورة > الحد الأقصى للعرض) قم بتغيير حجم الصورة إلى العرض (الحد الأقصى للعرض)؛
+        if (img.width > maxW) img.scaleToWidth(maxW);
         img.set({ left: 540, top: 540, originX: 'center', originY: 'center', padding: 15, filters: [], objectCaching: false });
         canvas.add(img);
         canvas.setActiveObject(img);
@@ -975,26 +975,26 @@ window.addEventListener('load', function() {
     reader.readAsDataURL(file);
   };
 
-  // محو الأمية إضافة أوب محو الأمية
+  // ═══ إضافة أشكال ═══
   window.addShape = function(type) {
     var color = document.getElementById('shapeColor').value;
-    شكل المتغير؛
+    var shape;
     var center = { left: 540, top: 540, originX: 'center', originY: 'center', fill: color, padding: 15, objectCaching: false };
-    إذا كان (النوع === 'مستطيل') الشكل = نسيج جديد.مستطيل({ ...مركز، عرض: 360، ارتفاع: 270 });
-    وإلا إذا كان (النوع === 'دائرة') الشكل = جديد fabric.Circle({ ...المركز، نصف القطر: 180 });
-    وإلا إذا كان (النوع === 'مثلث') الشكل = جديد fabric.Triangle({ ...المركز، العرض: 360، الارتفاع: 320 });
-    وإلا إذا كان (النوع === 'خط') الشكل = جديد fabric.Line([200, 0, 880, 0], { اليسار: 540، الأعلى: 540، الخط: اللون، عرض الخط: 12، الأصل س: 'المركز'، الأصل ص: 'المركز'، الحشو: 15 });
+    if (type === 'rect') shape = new fabric.Rect({ ...center, width: 360, height: 270 });
+    else if (type === 'circle') shape = new fabric.Circle({ ...center, radius: 180 });
+    else if (type === 'triangle') shape = new fabric.Triangle({ ...center, width: 360, height: 320 });
+    else if (type === 'line') shape = new fabric.Line([200, 0, 880, 0], { left: 540, top: 540, stroke: color, strokeWidth: 12, originX: 'center', originY: 'center', padding: 15 });
     canvas.add(shape);
     canvas.setActiveObject(shape);
     canvas.renderAll();
   };
 
-  // للتواصل facebook.twitter.com/
+  // ═══ الجداول ═══
   var pickerRows = 0;
   var pickerCols = 0;
   var PICKER_MAX = 8;
 
-  دالة بناء منتقي الجدول() {
+  function buildTablePicker() {
     var grid = document.getElementById('tablePickerGrid');
     grid.innerHTML = '';
     
@@ -1029,15 +1029,15 @@ window.addEventListener('load', function() {
     }
   }
 
-  دالة highlightPicker() {
+  function highlightPicker() {
     var cells = document.querySelectorAll('.table-picker-cell');
     cells.forEach(function(cell) {
       var r = parseInt(cell.dataset.row);
       var c = parseInt(cell.dataset.col);
-      إذا كان (r <= pickerRows && c <= pickerCols) {
+      if (r <= pickerRows && c <= pickerCols) {
         cell.classList.add('active');
-      } آخر {
-        cell.classList.remo('active');
+      } else {
+        cell.classList.remove('active');
       }
     });
     document.getElementById('tablePickerLabel').textContent = pickerRows + ' × ' + pickerCols;
@@ -1045,7 +1045,7 @@ window.addEventListener('load', function() {
 
   window.openTablePicker = function(e) {
     e.stopPropagation();
-    قم ببناء منتقي الجدول();
+    buildTablePicker();
     pickerRows = 0;
     pickerCols = 0;
     highlightPicker();
@@ -1060,11 +1060,11 @@ window.addEventListener('load', function() {
     var left = rect.left + (rect.width / 2) - (popupWidth / 2);
     var top = rect.bottom + 10;
     
-    إذا كان (اليسار < 10) اليسار = 10؛
-    إذا كان (العرض الأيسر + عرض النافذة المنبثقة > عرض النافذة الداخلية - 10) {
+    if (left < 10) left = 10;
+    if (left + popupWidth > window.innerWidth - 10) {
       left = window.innerWidth - popupWidth - 10;
     }
-    إذا كان (top + 320 > window.innerHeight) {
+    if (top + 320 > window.innerHeight) {
       top = rect.top - 330;
     }
     
@@ -1073,13 +1073,13 @@ window.addEventListener('load', function() {
     popup.style.width = popupWidth + 'px';
   };
 
-  دالة إغلاق منتقي الجدول() {
+  function closeTablePicker() {
     document.getElementById('tablePickerPopup').classList.remove('active');
   }
 
   document.addEventListener('click', function(e) {
     var popup = document.getElementById('tablePickerPopup');
-    إذا كانت قائمة فئات النافذة المنبثقة تحتوي على "نشط" ولم تكن تحتوي على "الهدف" {
+    if (popup.classList.contains('active') && !popup.contains(e.target)) {
       closeTablePicker();
     }
   });
@@ -1092,49 +1092,49 @@ window.addEventListener('load', function() {
     var cellWidth = 180;
     var cellHeight = 90;
     var totalWidth = cols * cellWidth;
-    var TotalHeight =rows * cellHeight;
-    فار ستارتكس = 540 - إجمالي العرض / 2؛
-    فار ستارتي = 540 - إجمالي الارتفاع / 2؛
+    var totalHeight = rows * cellHeight;
+    var startX = 540 - totalWidth / 2;
+    var startY = 540 - totalHeight / 2;
     
     var objects = [];
     
     for (var r = 0; r < rows; r++) {
-      لـ (var c = 0; c < cols; c++) {
+      for (var c = 0; c < cols; c++) {
         var x = startX + c * cellWidth;
         var y = startY + r * cellHeight;
         
         var rect = new fabric.Rect({
-          اليسار: س، الأعلى: ص،
-          العرض: عرض الخلية، الارتفاع: ارتفاع الخلية،
-          لون التعبئة: bgColor، لون الخط: borderColor، عرض الخط: borderWdth،
-          قابل للتحديد: خطأ، مرتبط بالحدث: خطأ
-          originX: 'يسار', originY: 'أعلى'
+          left: x, top: y,
+          width: cellWidth, height: cellHeight,
+          fill: bgColor, stroke: borderColor, strokeWidth: borderWidth,
+          selectable: false, evented: false,
+          originX: 'left', originY: 'top'
         });
         objects.push(rect);
         
         var cellText = new fabric.IText('', {
-          اليسار: س + عرض الخلية / 2،
-          أعلى: ص + ارتفاع الخلية / 2،
+          left: x + cellWidth / 2,
+          top: y + cellHeight / 2,
           fontFamily: 'Cairo', fontSize: 32, fill: '#000000',
-          الاتجاه: 'rtl'، محاذاة النص: 'وسط'،
+          direction: 'rtl', textAlign: 'center',
           originX: 'center', originY: 'center',
-          الحشو: 5، قابل للتعديل: صحيح،
+          padding: 5, editable: true,
           hasControls: false, hasBorders: false,
           lockUniScaling: true,
-          قابل للتحديد: صحيح، مرتبط بالأحداث: صحيح
-          لون الخلفية: شفاف
+          selectable: true, evented: true,
+          backgroundColor: 'transparent'
         });
         objects.push(cellText);
       }
     }
     
     var group = new fabric.Group(objects, {
-      اليسار: 540، الأعلى: 540،
+      left: 540, top: 540,
       originX: 'center', originY: 'center',
-      الحشو: 10،
+      padding: 10,
       subTargetCheck: true, interactive: true,
       hasControls: true, hasBorders: true,
-      قفل التوسيع الأحادي: خطأ
+      lockUniScaling: false
     });
     
     canvas.add(group);
@@ -1146,35 +1146,35 @@ window.addEventListener('load', function() {
     document.getElementById('borderWidthValue').textContent = e.target.value;
   });
 
-  // محو الأمية أدوات التطوير محو الأمية
+  // ═══ أدوات التعديل ═══
   window.bringForward = function() {
     var obj = canvas.getActiveObject();
-    if (!obj) { تنبيه('اختر هيكلياً'); يعود؛ }
+    if (!obj) { alert('اختر عنصراً أولاً'); return; }
     canvas.bringForward(obj); canvas.renderAll();
   };
   window.sendBackward = function() {
     var obj = canvas.getActiveObject();
-    if (!obj) { تنبيه('اختر هيكلياً'); يعود؛ }
+    if (!obj) { alert('اختر عنصراً أولاً'); return; }
     canvas.sendBackwards(obj); canvas.renderAll();
   };
   window.duplicateSelected = function() {
     var obj = canvas.getActiveObject();
-    if (!obj) { تنبيه('اختر هيكلياً'); يعود؛ }
+    if (!obj) { alert('اختر عنصراً أولاً'); return; }
     obj.clone(function(cloned) {
       cloned.set({ left: cloned.left + 30, top: cloned.top + 30 });
       canvas.add(cloned); canvas.setActiveObject(cloned); canvas.renderAll();
     });
   };
   window.deleteSelected = function() {
-    var objs = Canvas.getActiveObjects();
-    if (objs.length === 0) { تنبيه('اختر هيكلاً الجمعة'); يعود؛ }
+    var objs = canvas.getActiveObjects();
+    if (objs.length === 0) { alert('اختر عنصراً أولاً'); return; }
     objs.forEach(function(o) { canvas.remove(o); });
     canvas.discardActiveObject(); canvas.renderAll();
   };
 
   window.straightenSelected = function() {
     var obj = canvas.getActiveObject();
-    if (!obj) { تنبيه('اختر هيكلياً'); يعود؛ }
+    if (!obj) { alert('اختر عنصراً أولاً'); return; }
     obj.set('angle', 0);
     canvas.renderAll();
     document.getElementById('rotationSlider').value = 0;
@@ -1184,26 +1184,26 @@ window.addEventListener('load', function() {
   window.changeRotation = function(val) {
     document.getElementById('rotationValue').textContent = val;
     var obj = canvas.getActiveObject();
-    إذا كان الكائن موجودًا، فسيتم تعيين زاوية الكائن باستخدام الدالة `parseInt(val)`، ثم يتم عرض جميع عناصر اللوحة.
+    if (obj) { obj.set('angle', parseInt(val)); canvas.renderAll(); }
   };
   window.changeOpacity = function(val) {
     document.getElementById('opacityValue').textContent = val;
     var obj = canvas.getActiveObject();
-    إذا كان الكائن موجودًا، فقم بتعيين شفافيته إلى 100، ثم قم بعرض جميع عناصر اللوحة.
+    if (obj) { obj.set('opacity', val / 100); canvas.renderAll(); }
   };
   window.changeTextColor = function(color) {
     var obj = canvas.getActiveObject();
-    إذا كان الكائن موجودًا، فقم بتعيين لون التعبئة له، ثم قم بعرض جميع عناصر اللوحة.
+    if (obj) { obj.set('fill', color); canvas.renderAll(); }
   };
 
-  // سحّاب تحديث المتحكمات
+  // ═══ تحديث المتحكمات ═══
   canvas.on('selection:created', updateControls);
   canvas.on('selection:updated', updateControls);
   canvas.on('object:modified', updateControls);
 
-  دالة تحديث عناصر التحكم() {
+  function updateControls() {
     var obj = canvas.getActiveObject();
-    إذا لم يكن الكائن موجودًا، فقم بالخروج.
+    if (!obj) return;
     
     document.getElementById('opacitySlider').value = (obj.opacity || 1) * 100;
     document.getElementById('opacityValue').textContent = Math.round((obj.opacity || 1) * 100);
@@ -1212,15 +1212,15 @@ window.addEventListener('load', function() {
     document.getElementById('rotationSlider').value = angle;
     document.getElementById('rotationValue').textContent = angle;
     
-    إذا كان (obj.fill && typeof obj.fill === 'string' && obj.fill.startsWith('#')) {
+    if (obj.fill && typeof obj.fill === 'string' && obj.fill.startsWith('#')) {
       document.getElementById('textColorPicker').value = obj.fill;
       document.getElementById('newTextColor').value = obj.fill;
     }
-    إذا كان (obj.fontFamily && (obj.type === 'i-text' || obj.type === 'text')) {
+    if (obj.fontFamily && (obj.type === 'i-text' || obj.type === 'text')) {
       currentFont = obj.fontFamily;
       buildFontGrid(document.getElementById('fontSearch').value);
     }
-    إذا كان حجم الخط موجودًا (obj.fontSize) {
+    if (obj.fontSize) {
       document.getElementById('fontSizeSlider').value = obj.fontSize;
       document.getElementById('fontSizeValue').textContent = obj.fontSize;
     }
@@ -1228,28 +1228,28 @@ window.addEventListener('load', function() {
 
   canvas.on('object:rotating', function() {
     var obj = canvas.getActiveObject();
-    إذا لم يكن الكائن موجودًا، فقم بالخروج.
+    if (!obj) return;
     var angle = Math.round(obj.angle || 0);
     document.getElementById('rotationSlider').value = angle;
     document.getElementById('rotationValue').textContent = angle;
   });
 
-  // محو الأمية الفلاتر محو الأمية
+  // ═══ الفلاتر ═══
   window.applyFilter = function(type) {
     var obj = canvas.getActiveObject();
-    if (!obj || obj.type !== 'image') { تنبيه('اختر صورة الجمعة'); يعود؛ }
+    if (!obj || obj.type !== 'image') { alert('اختر صورة أولاً'); return; }
     obj.filters = [];
-    إذا كان (النوع === 'ساطِئ') obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.3 }));
-    وإلا إذا كان (النوع === 'التباين') obj.filters.push(new fabric.Image.filters.Contrast({ contrast: 0.3 }));
-    وإلا إذا كان (النوع === 'تشبع') obj.filters.push(new fabric.Image.filters.Saturation({ saturation: 0.5 }));
-    وإلا إذا كان (النوع === 'تدرج الرمادي') obj.filters.push(new fabric.Image.filters.Grayscale());
-    وإلا إذا كان (النوع === 'sepia') obj.filters.push(new fabric.Image.filters.Sepia());
-    وإلا إذا كان (النوع === 'blur') obj.filters.push(new fabric.Image.filters.Blur({ blur: 0.3 }));
-    وإلا إذا كان (النوع === 'عتيق') {
+    if (type === 'bright') obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.3 }));
+    else if (type === 'contrast') obj.filters.push(new fabric.Image.filters.Contrast({ contrast: 0.3 }));
+    else if (type === 'saturate') obj.filters.push(new fabric.Image.filters.Saturation({ saturation: 0.5 }));
+    else if (type === 'grayscale') obj.filters.push(new fabric.Image.filters.Grayscale());
+    else if (type === 'sepia') obj.filters.push(new fabric.Image.filters.Sepia());
+    else if (type === 'blur') obj.filters.push(new fabric.Image.filters.Blur({ blur: 0.3 }));
+    else if (type === 'vintage') {
       obj.filters.push(new fabric.Image.filters.Sepia());
       obj.filters.push(new fabric.Image.filters.Contrast({ contrast: 0.2 }));
     }
-    وإلا إذا كان (النوع === 'دافئ') {
+    else if (type === 'warm') {
       obj.filters.push(new fabric.Image.filters.BlendColor({ color: '#ff9900', mode: 'tint', alpha: 0.2 }));
       obj.filters.push(new fabric.Image.filters.Brightness({ brightness: 0.1 }));
     }
@@ -1257,13 +1257,13 @@ window.addEventListener('load', function() {
     canvas.renderAll();
   };
 
-  // للتواصل ماسنجر
+  // ═══ الرسم ═══
   var isDrawing = false;
   window.toggleDraw = function() {
     isDrawing = !isDrawing;
     var btn = document.getElementById('drawBtn');
-    إذا كان (رسمًا) {
-      إذا لم يكن (canvas.freeDrawingBrush) canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+    if (isDrawing) {
+      if (!canvas.freeDrawingBrush) canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
       canvas.freeDrawingBrush.color = document.getElementById('brushColor').value;
       canvas.freeDrawingBrush.width = parseInt(document.getElementById('brushSize').value);
       canvas.discardActiveObject();
@@ -1272,7 +1272,7 @@ window.addEventListener('load', function() {
       btn.innerHTML = 'إيقاف الرسم';
       btn.classList.remove('btn-purple');
       btn.classList.add('btn-red');
-    } آخر {
+    } else {
       canvas.isDrawingMode = false;
       btn.innerHTML = 'تفعيل الرسم';
       btn.classList.remove('btn-red');
@@ -1281,14 +1281,14 @@ window.addEventListener('load', function() {
   };
 
   document.getElementById('brushColor').addEventListener('input', function(e) {
-    إذا كان (canvas.freeDrawingBrush) canvas.freeDrawingBrush.color = e.target.value;
+    if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.color = e.target.value;
   });
   document.getElementById('brushSize').addEventListener('input', function(e) {
     document.getElementById('brushSizeValue').textContent = e.target.value;
-    إذا كان (canvas.freeDrawingBrush) canvas.freeDrawingBrush.width = parseInt(e.target.value);
+    if (canvas.freeDrawingBrush) canvas.freeDrawingBrush.width = parseInt(e.target.value);
   });
 
-  // محو الأميةالتنقيح الكل محو الأمية
+  // ═══ مسح الكل ═══
   window.clearAll = function() {
     if (!confirm('هل تريد مسح كل شيء؟')) return;
     canvas.clear();
@@ -1296,13 +1296,13 @@ window.addEventListener('load', function() {
     canvas.renderAll();
   };
 
-  // للتواصل: تصدير PNG
+  // ═══ تصدير PNG ═══
   window.exportPNG = function() {
-    إذا كان (window.goatcounter && window.goatcounter.count) {
+    if (window.goatcounter && window.goatcounter.count) {
       window.goatcounter.count({
-        المسار: 'editor-تحميل-تصميم'،
-        العنوان: 'تحميل تصميم من المحرر',
-        الحدث: صحيح
+        path: 'editor-تحميل-تصميم',
+        title: 'تحميل تصميم من المحرر',
+        event: true
       });
     }
     
@@ -1315,16 +1315,16 @@ window.addEventListener('load', function() {
     link.click();
   };
 
-  // محو الأمية اختصارات محو الأمية
+  // ═══ اختصارات ═══
   document.addEventListener('keydown', function(e) {
-    إذا كان (مفتاح الحذف هو 'Delete' أو مفتاح المسافة للخلف هو 'Backspace') وكان canvas.getActiveObject() {
-      إذا كان اسم العنصر النشط في المستند لا يساوي 'INPUT' ولا 'TEXTAREA'،
-        حذف العنصر المحدد();
+    if ((e.key === 'Delete' || e.key === 'Backspace') && canvas.getActiveObject()) {
+      if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        deleteSelected();
       }
     }
   });
 
-  console.log('✅ جاهزية جاهزة — مع إصلاح مشكلة التحريك');
+  console.log('✅ ريشة جاهز — مع إصلاح مشكلة التحريك');
 });
 </script>
 
