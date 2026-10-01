@@ -301,7 +301,6 @@
   }
   .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
 
-  /* ✅ أزرار التحكم في موضع النص (شفافة) */
   .pos-btn {
     padding: 12px 0;
     border-radius: 10px;
@@ -532,7 +531,6 @@
     .library-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
-  /* ✅ تصميم سطح المكتب */
   @media (min-width: 1024px) {
     body { padding: 20px; }
     .container { max-width: 1400px; }
@@ -634,6 +632,22 @@
     transition: all 0.2s;
   }
 
+  /* ✅ زر المونتاج الجديد */
+  #montage-btn {
+    position: fixed; bottom: 20px; left: 200px;
+    height: 44px; padding: 0 18px 0 14px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    color: white; border: none;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px; font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(236,72,153,0.45);
+    z-index: 9998;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+  }
+
   @media (max-width: 480px) {
     #nibras-bubble {
       height: 40px; padding: 0 14px 0 10px;
@@ -643,6 +657,11 @@
     #editor-btn {
       height: 40px; padding: 0 14px 0 10px;
       font-size: 12px; bottom: 14px; left: 14px;
+      gap: 5px;
+    }
+    #montage-btn {
+      height: 40px; padding: 0 14px 0 10px;
+      font-size: 12px; bottom: 60px; left: 14px;
       gap: 5px;
     }
   }
@@ -999,7 +1018,8 @@
 </div>
 
 <button id="nibras-bubble" onclick="window.open('https://nibras-al.onrender.com/','_blank')">✨ اسأل</button>
-<button id="editor-btn" onclick="window.open('editor.html','_blank')">✨ المحرر المتقدم</button>
+<button id="editor-btn" onclick="window.open('editor.html','_blank')">✨ المحرر</button>
+<button id="montage-btn" onclick="window.open('montage.html','_blank')">🎬 المونتاج</button>
 
 <script data-goatcounter="https://resha.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
@@ -1125,7 +1145,6 @@ function undo() {
   drawSingle();
 }
 
-// ✅ دالة تصميم جديد
 function newDesign() {
   if (!confirm('هل تريد بدء تصميم جديد؟ سيتم مسح التصميم الحالي.')) return;
   document.getElementById('textInput').value = 'اترك أثراً جميلاً أينما ذهبت';
