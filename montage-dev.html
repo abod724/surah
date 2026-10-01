@@ -601,3 +601,814 @@
 
 </body>
 </html>
+<script>
+// ═══════════════════════════════════════════════
+// المتغيرات العامة
+// ═══════════════════════════════════════════════
+var images = [];              // { img, file, animation, duration, rotation, flipH, flipV }
+var musicFile = null;
+var currentSize = '1080x1080';
+var currentTransition = 'fade';
+var selectedImageIndex = -1;
+var isExporting = false;
+var isPreviewing = false;
+var previewAnimationId = null;
+
+// ═══════════════════════════════════════════════
+// تتبع الأحداث
+// ═══════════════════════════════════════════════
+function trackEvent(eventName) {
+  if (typeof goatcounter !== 'undefined' && goatcounter.count) {
+    goatcounter.count({ path: eventName, title: eventName, event: true });
+  }
+}
+
+// ═══════════════════════════════════════════════
+// Toast
+// ═══════════════════════════════════════════════
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('active');
+  setTimeout(function() { t.classList.remove('active'); }, 2500);
+}
+
+// ═══════════════════════════════════════════════
+// رفع الصور
+// ═══════════════════════════════════════════════
+document.getElementById('imageInput').addEventListener('change', function(e) {
+  var files = Array.from(e.target.files);
+  if (files.length === 0) return;
+  
+  if (images.length + files.length > 30) {
+    showToast('الحد الأقصى 30 صورة');
+    return;
+  }
+  
+  var loaded = 0;
+  var total = files.length;
+  
+  files.forEach(function(file) {
+    if (!file.type.startsWith('image/')) return;
+    
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var img = new Image();
+      img.onload = function() {
+        images.push({
+          img: img,
+          file: file,
+          animation: 'none',
+          duration: 3,
+          rotation: 0,
+          flipH: false,
+          flipV: false,
+          src: ev.target.result
+        });
+        loaded++;
+        
+        if (loaded === total) {
+          renderImagesGrid();
+          updateButtons();
+          updateStats();
+          showToast('✅ تم إضافة ' + total + ' صورة');
+        }
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  e.target.value = '';
+});
+
+// ═══════════════════════════════════════════════
+// عرض شبكة الصور
+// ═══════════════════════════════════════════════
+function renderImagesGrid() {
+  var grid = document.getElementById('imagesGrid');
+  var emptyHint = document.getElementById('imagesEmpty');
+  
+  grid.innerHTML = '';
+  
+  if (images.length === 0) {
+    emptyHint.style.display = 'block';
+    document.getElementById('imageOptions').classList.remove('active');
+    document.getElementById('statsCard').style.display = 'none';
+    selectedImageIndex = -1;
+    return;
+  }
+  
+  emptyHint.style.display = 'none';
+  document.getElementById('statsCard').style.display = 'block';
+  
+  images.forEach(function(item, index) {
+    var el = document.createElement('div');
+    el.className = 'image-item' + (index === selectedImageIndex ? ' selected' : '');
+    el.draggable = true;
+    el.dataset.index = index;
+    
+    var imgEl = document.createElement('img');
+    imgEl.src = item.src;
+    // تطبيق الدوران
+    var transform = 'rotate(' + item.rotation + 'deg)';
+    if (item.flipH) transform += ' scaleX(-1)';
+    if (item.flipV) transform += ' scaleY(-1)';
+    imgEl.style.transform = transform;
+    
+    var removeBtn = document.createElement('button');
+    removeBtn.className = 'image-remove';
+    removeBtn.textContent = '×';
+    removeBtn.onclick = function(e) {
+      e.stopPropagation();
+      removeImage(index);
+    };
+    
+    var order = document.createElement('div');
+    order.className = 'image-order';
+    order.textContent = index + 1;
+    
+    // شارة الحركة
+    if (item.animation !== 'none') {
+      var badge = document.createElement('div');
+      badge.className = 'image-badge';
+      badge.textContent = getAnimationLabel(item.animation);
+      el.appendChild(badge);
+    }
+    
+    el.appendChild(imgEl);
+    el.appendChild(removeBtn);
+    el.appendChild(order);
+    
+    // النقر لاختيار الصورة
+    el.addEventListener('click', function() {
+      selectImage(index);
+    });
+    
+    // السحب والإفلات
+    el.addEventListener('dragstart', handleDragStart);
+    el.addEventListener('dragover', handleDragOver);
+    el.addEventListener('drop', handleDrop);
+    el.addEventListener('dragend', handleDragEnd);
+    el.addEventListener('dragleave', handleDragLeave);
+    
+    grid.appendChild(el);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// أسماء الحركات
+// ═══════════════════════════════════════════════
+function getAnimationLabel(anim) {
+  var labels = {
+    'none': 'ثابتة',
+    'zoomIn': 'زوم+',
+    'zoomOut': 'زوم-',
+    'panRight': '→',
+    'panLeft': '←',
+    'panUp': '↑',
+    'panDown': '↓',
+    'rotate': '↻',
+    'pulse': '◎'
+  };
+  return labels[anim] || '';
+}
+
+// ═══════════════════════════════════════════════
+// اختيار صورة
+// ═══════════════════════════════════════════════
+function selectImage(index) {
+  selectedImageIndex = index;
+  
+  document.querySelectorAll('.image-item').forEach(function(el, i) {
+    if (i === index) el.classList.add('selected');
+    else el.classList.remove('selected');
+  });
+  
+  document.getElementById('imageOptions').classList.add('active');
+  
+  var item = images[index];
+  
+  // تحديث الأزرار
+  document.querySelectorAll('#animationOptions .opt-btn').forEach(function(btn) {
+    if (btn.dataset.animation === item.animation) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+  
+  document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn) {
+    if (parseInt(btn.dataset.duration) === item.duration) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+  
+  document.getElementById('customDuration').value = item.duration;
+}
+
+// ═══════════════════════════════════════════════
+// السحب والإفلات
+// ═══════════════════════════════════════════════
+var dragIndex = null;
+
+function handleDragStart(e) {
+  dragIndex = parseInt(this.dataset.index);
+  this.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  this.classList.add('drag-over');
+}
+
+function handleDragLeave() { this.classList.remove('drag-over'); }
+
+function handleDrop(e) {
+  e.preventDefault();
+  this.classList.remove('drag-over');
+  
+  var dropIndex = parseInt(this.dataset.index);
+  if (dragIndex === null || dragIndex === dropIndex) return;
+  
+  var moved = images.splice(dragIndex, 1)[0];
+  images.splice(dropIndex, 0, moved);
+  
+  if (selectedImageIndex === dragIndex) selectedImageIndex = dropIndex;
+  else if (selectedImageIndex === dropIndex) selectedImageIndex = dragIndex;
+  
+  renderImagesGrid();
+}
+
+function handleDragEnd() {
+  this.classList.remove('dragging');
+  dragIndex = null;
+}
+
+// ═══════════════════════════════════════════════
+// حذف صورة
+// ═══════════════════════════════════════════════
+function removeImage(index) {
+  images.splice(index, 1);
+  if (selectedImageIndex === index) selectedImageIndex = -1;
+  else if (selectedImageIndex > index) selectedImageIndex--;
+  
+  renderImagesGrid();
+  updateButtons();
+  updateStats();
+}
+
+// ═══════════════════════════════════════════════
+// تدوير الصورة
+// ═══════════════════════════════════════════════
+function rotateImage(deg) {
+  if (selectedImageIndex < 0) return;
+  images[selectedImageIndex].rotation = (images[selectedImageIndex].rotation + deg) % 360;
+  renderImagesGrid();
+}
+
+// ═══════════════════════════════════════════════
+// عكس الصورة
+// ═══════════════════════════════════════════════
+function flipImage(dir) {
+  if (selectedImageIndex < 0) return;
+  if (dir === 'h') images[selectedImageIndex].flipH = !images[selectedImageIndex].flipH;
+  if (dir === 'v') images[selectedImageIndex].flipV = !images[selectedImageIndex].flipV;
+  renderImagesGrid();
+}
+
+// ═══════════════════════════════════════════════
+// إعادة تعديلات الصورة
+// ═══════════════════════════════════════════════
+function resetImageEdits() {
+  if (selectedImageIndex < 0) return;
+  images[selectedImageIndex].rotation = 0;
+  images[selectedImageIndex].flipH = false;
+  images[selectedImageIndex].flipV = false;
+  renderImagesGrid();
+  showToast('تم إعادة الصورة');
+}
+
+// ═══════════════════════════════════════════════
+// تطبيق مدة مخصصة
+// ═══════════════════════════════════════════════
+function applyCustomDuration() {
+  if (selectedImageIndex < 0) return;
+  var val = parseInt(document.getElementById('customDuration').value);
+  if (val < 1 || val > 30) {
+    showToast('المدة: 1-30 ثانية');
+    return;
+  }
+  images[selectedImageIndex].duration = val;
+  document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn) {
+    if (parseInt(btn.dataset.duration) === val) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+  updateStats();
+  showToast('✅ تم تحديث المدة');
+}
+
+// ═══════════════════════════════════════════════
+// أحداث الحركة
+// ═══════════════════════════════════════════════
+document.querySelectorAll('#animationOptions .opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    if (selectedImageIndex < 0) return;
+    images[selectedImageIndex].animation = this.dataset.animation;
+    document.querySelectorAll('#animationOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    renderImagesGrid();
+    if (selectedImageIndex >= 0) {
+      document.querySelectorAll('.image-item')[selectedImageIndex].classList.add('selected');
+    }
+  });
+});
+
+// ═══════════════════════════════════════════════
+// أحداث المدة
+// ═══════════════════════════════════════════════
+document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    if (selectedImageIndex < 0) return;
+    var dur = parseInt(this.dataset.duration);
+    images[selectedImageIndex].duration = dur;
+    document.getElementById('customDuration').value = dur;
+    document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    updateStats();
+  });
+});
+
+// ═══════════════════════════════════════════════
+// الموسيقى
+// ═══════════════════════════════════════════════
+document.getElementById('musicInput').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('audio/')) {
+    showToast('❌ الرجاء اختيار ملف صوتي');
+    return;
+  }
+  musicFile = file;
+  document.getElementById('musicName').textContent = '🎵 ' + file.name;
+  document.getElementById('musicInfo').style.display = 'flex';
+  showToast('✅ تم إضافة الموسيقى');
+  e.target.value = '';
+});
+
+function removeMusic() {
+  musicFile = null;
+  document.getElementById('musicInfo').style.display = 'none';
+  document.getElementById('musicInput').value = '';
+}
+
+// ═══════════════════════════════════════════════
+// خيارات الحجم والانتقال
+// ═══════════════════════════════════════════════
+document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    currentSize = this.dataset.size;
+  });
+});
+
+document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    currentTransition = this.dataset.transition;
+  });
+});
+
+// ═══════════════════════════════════════════════
+// تفعيل الأزرار
+// ═══════════════════════════════════════════════
+function updateButtons() {
+  var hasImages = images.length > 0;
+  document.getElementById('previewBtn').disabled = !hasImages;
+  document.getElementById('exportBtn').disabled = !hasImages;
+}
+
+// ═══════════════════════════════════════════════
+// إحصائيات
+// ═══════════════════════════════════════════════
+function updateStats() {
+  var totalDuration = 0;
+  images.forEach(function(item) { totalDuration += item.duration; });
+  
+  var size = currentSize.split('x');
+  var w = parseInt(size[0]);
+  var h = parseInt(size[1]);
+  // تقدير الحجم: 5 Mbps × المدة
+  var estimatedMB = (totalDuration * 5 / 8).toFixed(1);
+  
+  document.getElementById('statImages').textContent = images.length;
+  document.getElementById('statDuration').textContent = totalDuration;
+  document.getElementById('statSize').textContent = '~' + estimatedMB;
+}
+
+// ═══════════════════════════════════════════════
+// رسم الصورة مع التحويلات
+// ═══════════════════════════════════════════════
+function drawImageCover(ctx, item, canvasWidth, canvasHeight, opacity, animationProgress) {
+  if (opacity === undefined) opacity = 1;
+  if (animationProgress === undefined) animationProgress = 0;
+  
+  var img = item.img;
+  var p = Math.min(1, Math.max(0, animationProgress));
+  
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  
+  // نقطة المركز
+  var cx = canvasWidth / 2;
+  var cy = canvasHeight / 2;
+  
+  // تحويلات الصورة
+  ctx.translate(cx, cy);
+  
+  // الدوران والانعكاس
+  if (item.rotation) ctx.rotate(item.rotation * Math.PI / 180);
+  if (item.flipH) ctx.scale(-1, 1);
+  if (item.flipV) ctx.scale(1, -1);
+  
+  // حساب الأبعاد (cover)
+  var imgRatio = img.width / img.height;
+  var canvasRatio = canvasWidth / canvasHeight;
+  var drawWidth, drawHeight;
+  
+  if (imgRatio > canvasRatio) {
+    drawHeight = canvasHeight;
+    drawWidth = img.width * (canvasHeight / img.height);
+  } else {
+    drawWidth = canvasWidth;
+    drawHeight = img.height * (canvasWidth / img.width);
+  }
+  
+  // تطبيق الحركات
+  var scale = 1;
+  var offsetX = 0;
+  var offsetY = 0;
+  
+  switch(item.animation) {
+    case 'zoomIn':
+      scale = 1 + (p * 0.3);
+      break;
+    case 'zoomOut':
+      scale = 1.3 - (p * 0.3);
+      break;
+    case 'panRight':
+      scale = 1.2;
+      offsetX = (p - 0.5) * canvasWidth * 0.2;
+      break;
+    case 'panLeft':
+      scale = 1.2;
+      offsetX = -(p - 0.5) * canvasWidth * 0.2;
+      break;
+    case 'panUp':
+      scale = 1.2;
+      offsetY = -(p - 0.5) * canvasHeight * 0.2;
+      break;
+    case 'panDown':
+      scale = 1.2;
+      offsetY = (p - 0.5) * canvasHeight * 0.2;
+      break;
+    case 'rotate':
+      scale = 1.1;
+      ctx.rotate(p * Math.PI * 0.1);
+      break;
+    case 'pulse':
+      scale = 1 + Math.sin(p * Math.PI * 2) * 0.08;
+      break;
+  }
+  
+  ctx.scale(scale, scale);
+  ctx.translate(offsetX, offsetY);
+  
+  ctx.drawImage(img, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
+  ctx.restore();
+}
+
+// ═══════════════════════════════════════════════
+// المعاينة
+// ═══════════════════════════════════════════════
+function previewVideo() {
+  if (images.length === 0) return;
+  
+  if (isPreviewing) {
+    isPreviewing = false;
+    if (previewAnimationId) cancelAnimationFrame(previewAnimationId);
+    return;
+  }
+  
+  isPreviewing = true;
+  trackEvent('montage-معاينة');
+  
+  var canvas = document.getElementById('previewCanvas');
+  var placeholder = document.getElementById('previewEmpty');
+  var size = currentSize.split('x');
+  var w = parseInt(size[0]);
+  var h = parseInt(size[1]);
+  
+  var previewScale = Math.min(400 / w, 400 / h, 1);
+  canvas.width = w * previewScale;
+  canvas.height = h * previewScale;
+  canvas.style.display = 'block';
+  placeholder.style.display = 'none';
+  
+  var ctx = canvas.getContext('2d');
+  var currentIndex = 0;
+  var startTime = Date.now();
+  var phase = 'show'; // 'show' أو 'transition'
+  
+  function animate() {
+    if (!isPreviewing) return;
+    
+    var elapsed = (Date.now() - startTime) / 1000;
+    var progress = elapsed / images[currentIndex].duration;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    if (currentIndex < images.length) {
+      var item = images[currentIndex];
+      
+      // عند نهاية المدة → ابدأ الانتقال
+      if (progress > 0.75 && currentTransition !== 'none' && currentIndex < images.length - 1) {
+        var transProgress = (progress - 0.75) / 0.25;
+        
+        // رسم الصورة الحالية
+        drawImageCover(ctx, item, canvas.width, canvas.height, 1, Math.min(1, progress / 0.75));
+        
+        // رسم الانتقال
+        var nextItem = images[currentIndex + 1];
+        
+        ctx.save();
+        if (currentTransition === 'fade') {
+          drawImageCover(ctx, nextItem, canvas.width, canvas.height, transProgress, 0);
+        } else if (currentTransition === 'slideRight') {
+          var offsetX = canvas.width * (1 - transProgress);
+          ctx.translate(offsetX, 0);
+          drawImageCover(ctx, nextItem, canvas.width, canvas.height, 1, 0);
+        } else if (currentTransition === 'slideLeft') {
+          var offsetX = -canvas.width * (1 - transProgress);
+          ctx.translate(offsetX, 0);
+          drawImageCover(ctx, nextItem, canvas.width, canvas.height, 1, 0);
+        } else if (currentTransition === 'slideUp') {
+          var offsetY = canvas.height * (1 - transProgress);
+          ctx.translate(0, offsetY);
+          drawImageCover(ctx, nextItem, canvas.width, canvas.height, 1, 0);
+        } else if (currentTransition === 'zoom') {
+          var scale = 0.5 + transProgress * 0.5;
+          ctx.translate(canvas.width / 2, canvas.height / 2);
+          ctx.scale(scale, scale);
+          ctx.translate(-canvas.width / 2, -canvas.height / 2);
+          ctx.globalAlpha = transProgress;
+          drawImageCover(ctx, nextItem, canvas.width, canvas.height, 1, 0);
+        } else if (currentTransition === 'rotate') {
+          ctx.translate(canvas.width / 2, canvas.height / 2);
+          ctx.rotate((1 - transProgress) * Math.PI / 2);
+          ctx.globalAlpha = transProgress;
+          ctx.translate(-canvas.width / 2, -canvas.height / 2);
+          drawImageCover(ctx, nextItem, canvas.width, canvas.height, 1, 0);
+        }
+        ctx.restore();
+      } else {
+        // عرض عادي
+        drawImageCover(ctx, item, canvas.width, canvas.height, 1, progress);
+      }
+    }
+    
+    if (progress >= 1) {
+      currentIndex++;
+      startTime = Date.now();
+      
+      if (currentIndex >= images.length) {
+        currentIndex = 0;
+        startTime = Date.now();
+      }
+    }
+    
+    previewAnimationId = requestAnimationFrame(animate);
+  }
+  
+  animate();
+}
+
+// ═══════════════════════════════════════════════
+// تصدير الفيديو
+// ═══════════════════════════════════════════════
+async function exportVideo() {
+  if (images.length === 0 || isExporting) return;
+  
+  isExporting = true;
+  var progressContainer = document.getElementById('progressContainer');
+  var progressFill = document.getElementById('progressFill');
+  var progressText = document.getElementById('progressText');
+  var exportBtn = document.getElementById('exportBtn');
+  var previewBtn = document.getElementById('previewBtn');
+  
+  progressContainer.classList.add('active');
+  exportBtn.disabled = true;
+  previewBtn.disabled = true;
+  isPreviewing = false;
+  
+  try {
+    trackEvent('montage-تصدير');
+    
+    var size = currentSize.split('x');
+    var w = parseInt(size[0]);
+    var h = parseInt(size[1]);
+    
+    var exportCanvas = document.createElement('canvas');
+    exportCanvas.width = w;
+    exportCanvas.height = h;
+    var ctx = exportCanvas.getContext('2d');
+    
+    var stream = exportCanvas.captureStream(30);
+    
+    var audioContext = null;
+    if (musicFile) {
+      try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var arrayBuffer = await musicFile.arrayBuffer();
+        var audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        var audioSource = audioContext.createBufferSource();
+        audioSource.buffer = audioBuffer;
+        audioSource.loop = true;
+        var audioDest = audioContext.createMediaStreamDestination();
+        audioSource.connect(audioDest);
+        audioSource.start();
+        audioDest.stream.getAudioTracks().forEach(function(track) {
+          stream.addTrack(track);
+        });
+      } catch(e) { console.warn('تعذر دمج الصوت:', e); }
+    }
+    
+    var mimeType = 'video/webm;codecs=vp9';
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'video/webm;codecs=vp8';
+    }
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'video/webm';
+    }
+    
+    var recorder = new MediaRecorder(stream, {
+      mimeType: mimeType,
+      videoBitsPerSecond: 5000000
+    });
+    
+    var chunks = [];
+    recorder.ondataavailable = function(e) {
+      if (e.data.size > 0) chunks.push(e.data);
+    };
+    
+    var recordingDone = new Promise(function(resolve) {
+      recorder.onstop = function() {
+        var blob = new Blob(chunks, { type: 'video/webm' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'resha-montage-' + Date.now() + '.webm';
+        link.click();
+        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+        
+        if (audioContext) audioContext.close();
+        
+        progressContainer.classList.remove('active');
+        exportBtn.disabled = false;
+        previewBtn.disabled = false;
+        isExporting = false;
+        showToast('✅ تم تصدير الفيديو');
+        resolve();
+      };
+    });
+    
+    recorder.start();
+    
+    var currentIndex = 0;
+    var frameStartTime = performance.now();
+    
+    function renderFrame() {
+      var now = performance.now();
+      var elapsed = (now - frameStartTime) / 1000;
+      var progress = elapsed / images[currentIndex].duration;
+      
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, w, h);
+      
+      if (currentIndex < images.length) {
+        var item = images[currentIndex];
+        
+        if (progress > 0.75 && currentTransition !== 'none' && currentIndex < images.length - 1) {
+          var transProgress = (progress - 0.75) / 0.25;
+          
+          drawImageCover(ctx, item, w, h, 1, Math.min(1, progress / 0.75));
+          
+          var nextItem = images[currentIndex + 1];
+          ctx.save();
+          
+          if (currentTransition === 'fade') {
+            drawImageCover(ctx, nextItem, w, h, transProgress, 0);
+          } else if (currentTransition === 'slideRight') {
+            ctx.translate(w * (1 - transProgress), 0);
+            drawImageCover(ctx, nextItem, w, h, 1, 0);
+          } else if (currentTransition === 'slideLeft') {
+            ctx.translate(-w * (1 - transProgress), 0);
+            drawImageCover(ctx, nextItem, w, h, 1, 0);
+          } else if (currentTransition === 'slideUp') {
+            ctx.translate(0, h * (1 - transProgress));
+            drawImageCover(ctx, nextItem, w, h, 1, 0);
+          } else if (currentTransition === 'zoom') {
+            var scale = 0.5 + transProgress * 0.5;
+            ctx.translate(w / 2, h / 2);
+            ctx.scale(scale, scale);
+            ctx.translate(-w / 2, -h / 2);
+            ctx.globalAlpha = transProgress;
+            drawImageCover(ctx, nextItem, w, h, 1, 0);
+          } else if (currentTransition === 'rotate') {
+            ctx.translate(w / 2, h / 2);
+            ctx.rotate((1 - transProgress) * Math.PI / 2);
+            ctx.globalAlpha = transProgress;
+            ctx.translate(-w / 2, -h / 2);
+            drawImageCover(ctx, nextItem, w, h, 1, 0);
+          }
+          ctx.restore();
+        } else {
+          drawImageCover(ctx, item, w, h, 1, progress);
+        }
+      }
+      
+      if (progress >= 1) {
+        currentIndex++;
+        frameStartTime = now;
+        if (currentIndex >= images.length) {
+          recorder.stop();
+          return;
+        }
+      }
+      
+      var totalProgress = (currentIndex + progress) / images.length;
+      progressFill.style.width = (totalProgress * 100) + '%';
+      progressText.textContent = 'جاري التصدير... ' + Math.round(totalProgress * 100) + '%';
+      
+      requestAnimationFrame(renderFrame);
+    }
+    
+    renderFrame();
+    await recordingDone;
+    
+  } catch(err) {
+    console.error('خطأ:', err);
+    showToast('❌ حدث خطأ: ' + err.message);
+    progressContainer.classList.remove('active');
+    exportBtn.disabled = false;
+    previewBtn.disabled = false;
+    isExporting = false;
+  }
+}
+
+// ═══════════════════════════════════════════════
+// إعادة تعيين
+// ═══════════════════════════════════════════════
+function resetAll() {
+  if (!confirm('هل تريد حذف كل شيء؟')) return;
+  
+  images = [];
+  musicFile = null;
+  isPreviewing = false;
+  selectedImageIndex = -1;
+  
+  if (previewAnimationId) cancelAnimationFrame(previewAnimationId);
+  
+  renderImagesGrid();
+  updateButtons();
+  updateStats();
+  
+  document.getElementById('musicInfo').style.display = 'none';
+  document.getElementById('musicInput').value = '';
+  document.getElementById('imageInput').value = '';
+  document.getElementById('imageOptions').classList.remove('active');
+  
+  document.getElementById('previewCanvas').style.display = 'none';
+  document.getElementById('previewEmpty').style.display = 'block';
+  document.getElementById('progressContainer').classList.remove('active');
+  
+  showToast('تم إعادة التعيين');
+}
+
+// ═══════════════════════════════════════════════
+// التشغيل الأولي
+// ═══════════════════════════════════════════════
+window.addEventListener('load', function() {
+  if (!window.MediaRecorder) {
+    showToast('⚠️ متصفحك لا يدعم تصدير الفيديو');
+    document.getElementById('exportBtn').disabled = true;
+  }
+  
+  trackEvent('montage-زيارة');
+  updateStats();
+  
+  console.log('✅ المونتاج الاحترافي جاهز');
+});
+</script>
