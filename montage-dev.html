@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🎬 المونتاج الاحترافي — ريشة | نبراس GP</title>
+<title>🎬 المونتاج الاحترافي | ريشة</title>
 <script data-goatcounter="https://resha.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -18,6 +18,9 @@
     --border: #e2e8f0;
     --text: #0f172a;
     --text-light: #64748b;
+    --danger: #ef4444;
+    --success: #10b981;
+    --warning: #f59e0b;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
     --radius: 16px;
@@ -32,15 +35,12 @@
     padding: 12px;
   }
   
-  .container { max-width: 1000px; margin: 0 auto; }
+  .container { max-width: 1000px; margin: 0 auto; padding-bottom: 40px; }
   
   /* ═══ Header ═══ */
   .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 0 16px;
-    color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 0 16px; color: #fff;
   }
   .header-logo { display: flex; align-items: center; gap: 10px; }
   .header-icon {
@@ -60,10 +60,8 @@
     padding: 10px 16px;
     border-radius: 10px;
     font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    cursor: pointer;
-    text-decoration: none;
+    font-weight: 700; font-size: 13px;
+    cursor: pointer; text-decoration: none;
     display: flex; align-items: center; gap: 5px;
   }
   .header-back:active { transform: scale(0.96); }
@@ -77,13 +75,9 @@
     box-shadow: var(--shadow-md);
   }
   .card-title {
-    font-size: 14px;
-    font-weight: 900;
-    color: var(--text);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 14px; font-weight: 900; color: var(--text);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
   }
   .card-title::before {
     content: '';
@@ -94,9 +88,9 @@
   
   /* ═══ Preview ═══ */
   .preview-wrapper {
-    background: #000;
+    background: #0a0a0a;
     border-radius: var(--radius-sm);
-    min-height: 200px;
+    min-height: 220px;
     display: flex; align-items: center; justify-content: center;
     overflow: hidden;
     margin-bottom: 12px;
@@ -104,201 +98,248 @@
   }
   #previewCanvas { display: none; max-width: 100%; max-height: 400px; }
   .preview-empty {
-    color: #64748b;
-    font-size: 14px;
-    padding: 40px;
-    text-align: center;
+    color: #475569; font-size: 14px;
+    padding: 40px 20px; text-align: center;
+    line-height: 1.8;
   }
   
   /* ═══ Upload ═══ */
   .upload-area {
-    border: 3px dashed #cbd5e1;
+    border: 2px dashed #cbd5e1;
     border-radius: var(--radius-sm);
-    padding: 24px;
-    text-align: center;
-    cursor: pointer;
-    background: #f8fafc;
+    padding: 22px 16px; text-align: center;
+    cursor: pointer; background: #f8fafc;
     transition: all 0.2s;
-    margin-bottom: 12px;
   }
   .upload-area:active { border-color: var(--primary); background: var(--primary-light); }
-  .upload-icon { font-size: 40px; margin-bottom: 8px; }
+  .upload-icon { font-size: 36px; margin-bottom: 6px; }
   .upload-text { font-size: 14px; font-weight: 700; color: #475569; }
-  .upload-hint { font-size: 11px; color: #94a3b8; margin-top: 5px; }
+  .upload-hint { font-size: 11px; color: #94a3b8; margin-top: 4px; }
   
-  /* ═══ Stats Bar ═══ */
+  /* ═══ Stats ═══ */
   .stats-bar {
-    display: flex;
-    gap: 8px;
-    padding: 10px;
+    display: flex; gap: 8px; padding: 10px;
     background: var(--primary-light);
     border-radius: var(--radius-sm);
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
+    margin-bottom: 12px; flex-wrap: wrap; justify-content: center;
   }
-  .stat {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--primary-dark);
-  }
+  .stat { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: var(--primary-dark); }
   .stat-num { font-weight: 900; color: var(--primary); }
   
   /* ═══ Images Grid ═══ */
   .images-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 8px;
-    margin-top: 12px;
+    gap: 8px; margin-top: 12px;
   }
   .image-item {
-    position: relative;
-    aspect-ratio: 1;
-    border-radius: 10px;
-    overflow: hidden;
+    position: relative; aspect-ratio: 1;
+    border-radius: 10px; overflow: hidden;
     background: #f1f5f9;
     border: 3px solid var(--border);
-    cursor: grab;
-    transition: all 0.2s;
+    cursor: grab; transition: all 0.2s;
   }
   .image-item.selected {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
   }
-  .image-item:active { cursor: grabbing; }
-  .image-item.dragging { opacity: 0.5; }
+  .image-item.dragging { opacity: 0.4; }
   .image-item.drag-over { border-color: var(--primary); background: var(--primary-light); }
   .image-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    pointer-events: none;
+    width: 100%; height: 100%;
+    object-fit: cover; pointer-events: none;
+    transition: transform 0.2s;
   }
   .image-remove {
-    position: absolute;
-    top: 4px; left: 4px;
+    position: absolute; top: 4px; left: 4px;
     width: 24px; height: 24px;
-    background: #ef4444;
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 900;
+    background: var(--danger); color: #fff;
+    border: none; border-radius: 50%;
+    cursor: pointer; font-size: 14px; font-weight: 900;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   }
   .image-order {
-    position: absolute;
-    bottom: 4px; right: 4px;
-    background: var(--primary);
-    color: #fff;
-    width: 24px; height: 24px;
+    position: absolute; bottom: 4px; right: 4px;
+    background: var(--primary); color: #fff;
+    width: 22px; height: 22px;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 12px;
-    font-weight: 900;
+    font-size: 11px; font-weight: 900;
   }
   .image-badge {
-    position: absolute;
-    bottom: 4px; left: 4px;
-    background: rgba(15,23,42,0.85);
-    color: #fff;
-    padding: 2px 6px;
-    border-radius: 6px;
-    font-size: 9px;
-    font-weight: 700;
+    position: absolute; top: 4px; right: 4px;
+    background: rgba(15,23,42,0.85); color: #fff;
+    padding: 2px 7px; border-radius: 6px;
+    font-size: 9px; font-weight: 700;
   }
   
   /* ═══ Options ═══ */
   .option-group { margin-bottom: 14px; }
+  .option-group:last-child { margin-bottom: 0; }
   .option-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: #475569;
-    margin-bottom: 8px;
-    display: block;
+    font-size: 12px; font-weight: 700;
+    color: #475569; margin-bottom: 8px;
+    display: flex; align-items: center; justify-content: space-between;
   }
-  .option-buttons {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
+  .option-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
   .opt-btn {
     padding: 8px 14px;
     border: 2px solid var(--border);
-    background: #fff;
-    border-radius: 10px;
+    background: #fff; border-radius: 10px;
     font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
-    color: #475569;
-    cursor: pointer;
+    font-weight: 700; font-size: 12px;
+    color: #475569; cursor: pointer;
     transition: all 0.2s;
   }
   .opt-btn:active { transform: scale(0.95); }
   .opt-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
   .opt-btn.small { padding: 6px 10px; font-size: 11px; }
+  .opt-btn.danger { background: #fef2f2; color: var(--danger); border-color: #fecaca; }
   
-  /* ═══ Duration Custom ═══ */
+  /* ═══ Custom Duration ═══ */
   .duration-custom {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-    padding: 10px;
-    background: #f8fafc;
-    border-radius: var(--radius-sm);
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 8px; padding: 10px;
+    background: #f8fafc; border-radius: var(--radius-sm);
   }
   .duration-custom input[type="number"] {
-    width: 80px;
-    padding: 8px;
+    width: 70px; padding: 8px;
     border: 2px solid var(--border);
     border-radius: 8px;
     font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
+    font-weight: 700; font-size: 14px;
     text-align: center;
   }
   .duration-custom button {
-    padding: 8px 16px;
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
+    padding: 8px 14px;
+    background: var(--primary); color: #fff;
+    border: none; border-radius: 8px;
     font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
+    font-weight: 700; font-size: 12px;
     cursor: pointer;
   }
   
-  /* ═══ Music ═══ */
-  .music-info {
-    padding: 10px;
-    background: #f0fdf4;
-    border: 2px solid #10b981;
+  /* ═══ Audio Section ═══ */
+  .audio-tabs {
+    display: flex; gap: 6px; margin-bottom: 12px;
+    background: #f1f5f9; padding: 4px; border-radius: 12px;
+  }
+  .audio-tab {
+    flex: 1; padding: 10px;
+    border: none; background: transparent;
+    border-radius: 8px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700; font-size: 12px;
+    color: #64748b; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .audio-tab.active {
+    background: #fff; color: var(--primary);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+  
+  .recorder-box {
+    background: #f8fafc;
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    text-align: center;
+  }
+  .recorder-status {
+    font-size: 13px; font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px;
+  }
+  .recorder-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #cbd5e1;
+  }
+  .recorder-dot.recording {
+    background: var(--danger);
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.2); }
+  }
+  .recorder-timer {
+    font-size: 26px; font-weight: 900;
+    color: var(--text); margin-bottom: 12px;
+    font-family: 'Cairo', monospace;
+    letter-spacing: 1px;
+  }
+  .recorder-btn {
+    padding: 14px 28px;
+    border: none; border-radius: 50px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 800; font-size: 14px;
+    color: #fff; cursor: pointer;
+    display: inline-flex; align-items: center;
+    gap: 8px; transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .recorder-btn:active { transform: scale(0.96); }
+  .recorder-btn.record {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+  }
+  .recorder-btn.stop {
+    background: linear-gradient(135deg, #0f172a, #334155);
+  }
+  
+  .recorder-actions {
+    display: flex; gap: 8px; justify-content: center;
+    margin-top: 12px; flex-wrap: wrap;
+  }
+  .recorder-actions button {
+    padding: 10px 16px;
+    border: 2px solid var(--border);
+    background: #fff;
     border-radius: 10px;
-    font-size: 12px;
-    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700; font-size: 12px;
+    color: var(--text-light);
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .recorder-actions button.primary {
+    background: var(--success); color: #fff; border-color: var(--success);
+  }
+  .recorder-actions button.danger {
+    background: var(--danger); color: #fff; border-color: var(--danger);
+  }
+  
+  .audio-player {
+    width: 100%; margin-top: 12px;
+    display: none;
+  }
+  .audio-player.active { display: block; }
+  .audio-player audio {
+    width: 100%; height: 40px;
+  }
+  
+  .music-info {
+    padding: 12px;
+    background: #f0fdf4;
+    border: 2px solid var(--success);
+    border-radius: 10px;
+    font-size: 12px; font-weight: 700;
     color: #047857;
-    display: flex;
-    align-items: center;
+    display: flex; align-items: center;
     justify-content: space-between;
     margin-top: 8px;
+    gap: 8px;
   }
   .music-remove {
-    background: #ef4444;
-    color: #fff;
-    border: none;
-    padding: 4px 10px;
+    background: var(--danger); color: #fff;
+    border: none; padding: 4px 10px;
     border-radius: 6px;
     font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    font-size: 11px;
+    font-weight: 700; font-size: 11px;
     cursor: pointer;
+    flex-shrink: 0;
   }
   
   /* ═══ Actions ═══ */
@@ -306,19 +347,15 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
-    margin-top: 12px;
   }
   .btn {
     padding: 14px;
-    border: none;
-    border-radius: 12px;
+    border: none; border-radius: 12px;
     font-family: 'Cairo', sans-serif;
-    font-weight: 800;
-    font-size: 14px;
-    cursor: pointer;
-    color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    gap: 6px;
+    font-weight: 800; font-size: 14px;
+    cursor: pointer; color: #fff;
+    display: flex; align-items: center;
+    justify-content: center; gap: 6px;
     transition: all 0.2s;
   }
   .btn:active { transform: scale(0.97); }
@@ -334,92 +371,57 @@
   .progress { margin-top: 12px; display: none; }
   .progress.active { display: block; }
   .progress-bar {
-    height: 8px;
-    background: #e2e8f0;
-    border-radius: 4px;
-    overflow: hidden;
+    height: 8px; background: #e2e8f0;
+    border-radius: 4px; overflow: hidden;
   }
   .progress-fill {
     height: 100%;
     background: linear-gradient(90deg, #6366f1, #8b5cf6);
-    width: 0%;
-    transition: width 0.3s;
+    width: 0%; transition: width 0.3s;
   }
   .progress-text {
     text-align: center;
-    font-size: 12px;
-    color: var(--text-light);
-    margin-top: 6px;
-    font-weight: 700;
+    font-size: 12px; color: var(--text-light);
+    margin-top: 6px; font-weight: 700;
   }
   
   /* ═══ Footer ═══ */
   .footer {
-    text-align: center;
-    padding: 20px;
-    color: #fff;
-    font-size: 12px;
-    opacity: 0.85;
+    text-align: center; padding: 20px;
+    color: #fff; font-size: 12px; opacity: 0.85;
   }
   
   /* ═══ Empty ═══ */
   .empty-hint {
-    text-align: center;
-    color: #94a3b8;
-    font-size: 13px;
-    padding: 20px;
+    text-align: center; color: #94a3b8;
+    font-size: 13px; padding: 20px;
     font-weight: 600;
   }
   
   /* ═══ Toast ═══ */
   .toast {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
+    position: fixed; bottom: 20px; left: 50%;
     transform: translateX(-50%);
-    background: #0f172a;
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 700;
-    z-index: 9999;
-    opacity: 0;
+    background: #0f172a; color: #fff;
+    padding: 12px 24px; border-radius: 12px;
+    font-size: 13px; font-weight: 700;
+    z-index: 9999; opacity: 0;
     transition: opacity 0.3s;
     pointer-events: none;
+    max-width: 90%;
+    text-align: center;
   }
   .toast.active { opacity: 1; }
   
-  /* ═══ Hidden Section (يظهر عند اختيار صورة) ═══ */
-  .image-options {
-    display: none;
-    padding: 12px;
-    background: var(--primary-light);
-    border-radius: var(--radius-sm);
-    margin-top: 12px;
-    border: 2px solid var(--primary);
-  }
-  .image-options.active { display: block; }
-  
-  /* ═══ Info Row ═══ */
-  .info-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 12px;
-    background: #f8fafc;
-    border-radius: 8px;
-    margin-bottom: 6px;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-light);
-  }
+  /* ═══ Section Toggle ═══ */
+  .section-hidden { display: none !important; }
   
   @media (max-width: 480px) {
     .container { padding: 0; }
     .card { padding: 14px; }
     .actions { grid-template-columns: 1fr; }
     .images-grid { grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); }
+    .recorder-timer { font-size: 22px; }
   }
 </style>
 </head>
@@ -433,53 +435,53 @@
       <div class="header-icon">🎬</div>
       <div>
         <div class="header-text">المونتاج الاحترافي</div>
-        <div class="header-sub">صور → فيديو احترافي</div>
+        <div class="header-sub">صور → فيديو</div>
       </div>
     </div>
     <a href="index.html" class="header-back">← ريشة</a>
   </div>
 
-  <!-- Preview Card -->
+  <!-- Preview -->
   <div class="card">
     <div class="card-title">المعاينة</div>
     <div class="preview-wrapper">
       <canvas id="previewCanvas" width="1080" height="1080"></canvas>
       <div class="preview-empty" id="previewEmpty">
-        🎬 أضف صوراً واضغط "معاينة" لرؤية الفيديو
+        أضف صوراً واضغط معاينة
       </div>
     </div>
   </div>
 
-  <!-- Stats Card -->
-  <div class="card" id="statsCard" style="display:none;">
+  <!-- Stats -->
+  <div class="card section-hidden" id="statsCard">
     <div class="stats-bar">
-      <div class="stat">🖼️ <span class="stat-num" id="statImages">0</span> صورة</div>
-      <div class="stat">⏱️ <span class="stat-num" id="statDuration">0</span> ثانية</div>
-      <div class="stat">📦 <span class="stat-num" id="statSize">~0</span> MB</div>
+      <div class="stat"><span class="stat-num" id="statImages">0</span> صورة</div>
+      <div class="stat">·</div>
+      <div class="stat"><span class="stat-num" id="statDuration">0</span> ثانية</div>
+      <div class="stat">·</div>
+      <div class="stat"><span class="stat-num" id="statSize">0</span> MB</div>
     </div>
   </div>
 
-  <!-- Upload Card -->
+  <!-- Upload -->
   <div class="card">
     <div class="card-title">الصور</div>
-    
     <div class="upload-area" onclick="document.getElementById('imageInput').click()">
       <div class="upload-icon">🖼️</div>
       <div class="upload-text">اضغط لاختيار الصور</div>
-      <div class="upload-hint">يمكنك اختيار عدة صور مرة واحدة (حتى 30)</div>
+      <div class="upload-hint">حتى 30 صورة</div>
     </div>
     <input type="file" id="imageInput" accept="image/*" multiple style="display:none;">
-    
     <div class="images-grid" id="imagesGrid"></div>
-    <div class="empty-hint" id="imagesEmpty">لم تُضف صور بعد</div>
+    <div class="empty-hint" id="imagesEmpty">لا توجد صور</div>
   </div>
 
-  <!-- Image Options (تظهر عند تحديد صورة) -->
-  <div class="card image-options" id="imageOptions">
-    <div class="card-title">إعدادات الصورة المحددة</div>
+  <!-- Image Options -->
+  <div class="card section-hidden" id="imageOptions">
+    <div class="card-title">الصورة المحددة</div>
     
     <div class="option-group">
-      <label class="option-label">🎬 الحركة</label>
+      <label class="option-label">الحركة</label>
       <div class="option-buttons" id="animationOptions">
         <button class="opt-btn active" data-animation="none">بدون</button>
         <button class="opt-btn" data-animation="zoomIn">زوم داخل</button>
@@ -494,38 +496,38 @@
     </div>
 
     <div class="option-group">
-      <label class="option-label">⏱️ مدة هذه الصورة</label>
+      <label class="option-label">مدة هذه الصورة</label>
       <div class="option-buttons" id="imageDurationOptions">
-        <button class="opt-btn small" data-duration="2">2ث</button>
-        <button class="opt-btn small active" data-duration="3">3ث</button>
-        <button class="opt-btn small" data-duration="5">5ث</button>
-        <button class="opt-btn small" data-duration="10">10ث</button>
+        <button class="opt-btn small" data-duration="2">2 ثانية</button>
+        <button class="opt-btn small active" data-duration="3">3 ثواني</button>
+        <button class="opt-btn small" data-duration="5">5 ثواني</button>
+        <button class="opt-btn small" data-duration="10">10 ثواني</button>
       </div>
       <div class="duration-custom">
-        <input type="number" id="customDuration" min="1" max="30" value="3" placeholder="مخصص">
-        <span style="font-size:12px; font-weight:700; color:#475569;">ثانية</span>
+        <input type="number" id="customDuration" min="1" max="30" value="3">
+        <span style="font-size:12px;font-weight:700;color:#475569;">ثانية</span>
         <button onclick="applyCustomDuration()">تطبيق</button>
       </div>
     </div>
 
     <div class="option-group">
-      <label class="option-label">✂️ أدوات</label>
+      <label class="option-label">تعديل الصورة</label>
       <div class="option-buttons">
-        <button class="opt-btn" onclick="rotateImage(90)">🔄 تدوير 90°</button>
-        <button class="opt-btn" onclick="rotateImage(-90)">🔄 تدوير -90°</button>
-        <button class="opt-btn" onclick="flipImage('h')">↔️ عكس أفقي</button>
-        <button class="opt-btn" onclick="flipImage('v')">↕️ عكس رأسي</button>
-        <button class="opt-btn" onclick="resetImageEdits()">↺ إعادة</button>
+        <button class="opt-btn" onclick="rotateImage(90)">تدوير 90°</button>
+        <button class="opt-btn" onclick="rotateImage(-90)">تدوير -90°</button>
+        <button class="opt-btn" onclick="flipImage('h')">عكس أفقي</button>
+        <button class="opt-btn" onclick="flipImage('v')">عكس رأسي</button>
+        <button class="opt-btn danger" onclick="resetImageEdits()">إعادة</button>
       </div>
     </div>
   </div>
 
   <!-- Global Options -->
   <div class="card">
-    <div class="card-title">إعدادات عامة</div>
+    <div class="card-title">الإعدادات</div>
     
     <div class="option-group">
-      <label class="option-label">📐 حجم الفيديو</label>
+      <label class="option-label">حجم الفيديو</label>
       <div class="option-buttons" id="sizeOptions">
         <button class="opt-btn active" data-size="1080x1080">مربع 1:1</button>
         <button class="opt-btn" data-size="1080x1920">طولي 9:16</button>
@@ -535,7 +537,7 @@
     </div>
 
     <div class="option-group">
-      <label class="option-label">🎞️ نوع الانتقال العام</label>
+      <label class="option-label">نوع الانتقال</label>
       <div class="option-buttons" id="transitionOptions">
         <button class="opt-btn active" data-transition="fade">تلاشي</button>
         <button class="opt-btn" data-transition="slideRight">انزلاق يمين</button>
@@ -543,872 +545,98 @@
         <button class="opt-btn" data-transition="slideUp">انزلاق فوق</button>
         <button class="opt-btn" data-transition="zoom">تكبير</button>
         <button class="opt-btn" data-transition="rotate">دوّار</button>
+        <button class="opt-btn" data-transition="book">فتح كتاب</button>
+        <button class="opt-btn" data-transition="fold">طي</button>
         <button class="opt-btn" data-transition="none">بدون</button>
       </div>
     </div>
   </div>
 
-  <!-- Music Card -->
+  <!-- Audio -->
   <div class="card">
-    <div class="card-title">الموسيقى (اختياري)</div>
-    <div class="upload-area" onclick="document.getElementById('musicInput').click()" style="padding: 18px;">
-      <div class="upload-icon" style="font-size: 30px;">🎵</div>
-      <div class="upload-text" style="font-size: 13px;">اضغط لإضافة موسيقى</div>
-      <div class="upload-hint">MP3 / WAV / M4A</div>
+    <div class="card-title">الصوت</div>
+    
+    <div class="audio-tabs">
+      <button class="audio-tab active" onclick="switchAudioTab('record', this)">تسجيل صوتي</button>
+      <button class="audio-tab" onclick="switchAudioTab('upload', this)">رفع ملف</button>
+      <button class="audio-tab" onclick="switchAudioTab('music', this)">موسيقى</button>
     </div>
-    <input type="file" id="musicInput" accept="audio/*" style="display:none;">
-    <div id="musicInfo" class="music-info" style="display:none;">
-      <span id="musicName">🎵 موسيقى</span>
-      <button class="music-remove" onclick="removeMusic()">حذف</button>
+
+    <!-- Record Tab -->
+    <div id="audioTab-record">
+      <div class="recorder-box">
+        <div class="recorder-status">
+          <div class="recorder-dot" id="recorderDot"></div>
+          <span id="recorderStatus">جاهز للتسجيل</span>
+        </div>
+        <div class="recorder-timer" id="recorderTimer">00:00</div>
+        <button class="recorder-btn record" id="recordBtn" onclick="toggleRecording()">
+          بدء التسجيل
+        </button>
+        
+        <div class="audio-player" id="recordPlayer">
+          <audio id="recordAudio" controls></audio>
+        </div>
+        
+        <div class="recorder-actions section-hidden" id="recordActions">
+          <button class="primary" onclick="useRecording()">استخدام التسجيل</button>
+          <button class="danger" onclick="deleteRecording()">حذف</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Tab -->
+    <div id="audioTab-upload" class="section-hidden">
+      <div class="upload-area" onclick="document.getElementById('audioInput').click()">
+        <div class="upload-icon">🎵</div>
+        <div class="upload-text">رفع ملف صوتي</div>
+        <div class="upload-hint">MP3 / WAV / M4A</div>
+      </div>
+      <input type="file" id="audioInput" accept="audio/*" style="display:none;">
+      <div id="audioUploadInfo" class="music-info section-hidden">
+        <span id="audioUploadName">ملف صوتي</span>
+        <button class="music-remove" onclick="removeAudioUpload()">حذف</button>
+      </div>
+    </div>
+
+    <!-- Music Tab -->
+    <div id="audioTab-music" class="section-hidden">
+      <div class="upload-area" onclick="document.getElementById('musicInput').click()">
+        <div class="upload-icon">🎼</div>
+        <div class="upload-text">رفع موسيقى خلفية</div>
+        <div class="upload-hint">MP3 / WAV / M4A</div>
+      </div>
+      <input type="file" id="musicInput" accept="audio/*" style="display:none;">
+      <div id="musicInfo" class="music-info section-hidden">
+        <span id="musicName">موسيقى</span>
+        <button class="music-remove" onclick="removeMusic()">حذف</button>
+      </div>
     </div>
   </div>
 
   <!-- Actions -->
   <div class="card">
     <div class="actions">
-      <button class="btn btn-preview" id="previewBtn" onclick="previewVideo()" disabled>
-        ▶️ معاينة
-      </button>
-      <button class="btn btn-export" id="exportBtn" onclick="exportVideo()" disabled>
-        💾 تصدير الفيديو
-      </button>
-      <button class="btn btn-reset" onclick="resetAll()">
-        🔄 إعادة تعيين الكل
-      </button>
+      <button class="btn btn-preview" id="previewBtn" onclick="previewVideo()" disabled>معاينة</button>
+      <button class="btn btn-export" id="exportBtn" onclick="exportVideo()" disabled>تصدير الفيديو</button>
+      <button class="btn btn-reset" onclick="resetAll()">إعادة تعيين</button>
     </div>
     
     <div class="progress" id="progressContainer">
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-      <div class="progress-text" id="progressText">جاري التحضير...</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">جاري التحضير</div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <div class="footer">
-    جميع الحقوق محفوظة © نبراس GP 2026
-  </div>
+  <div class="footer">© نبراس GP 2026</div>
 
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- ═══ JavaScript سيأتي في الرد التالي ═══ -->
 <script>
-// JavaScript يُضاف في الرد التالي
+// JavaScript سيضاف في الجزء 2 و 3
 </script>
 
 </body>
 </html>
-<script>
-// ═══════════════════════════════════════════════
-// المتغيرات العامة
-// ═══════════════════════════════════════════════
-var images = [];              // { img, file, animation, duration, rotation, flipH, flipV }
-var musicFile = null;
-var currentSize = '1080x1080';
-var currentTransition = 'fade';
-var selectedImageIndex = -1;
-var isExporting = false;
-var isPreviewing = false;
-var previewAnimationId = null;
-
-// ═══════════════════════════════════════════════
-// تتبع الأحداث
-// ═══════════════════════════════════════════════
-function trackEvent(eventName) {
-  if (typeof goatcounter !== 'undefined' && goatcounter.count) {
-    goatcounter.count({ path: eventName, title: eventName, event: true });
-  }
-}
-
-// ═══════════════════════════════════════════════
-// Toast
-// ═══════════════════════════════════════════════
-function showToast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('active');
-  setTimeout(function() { t.classList.remove('active'); }, 2500);
-}
-
-// ═══════════════════════════════════════════════
-// رفع الصور
-// ═══════════════════════════════════════════════
-document.getElementById('imageInput').addEventListener('change', function(e) {
-  var files = Array.from(e.target.files);
-  if (files.length === 0) return;
-  
-  if (images.length + files.length > 30) {
-    showToast('الحد الأقصى 30 صورة');
-    return;
-  }
-  
-  var loaded = 0;
-  var total = files.length;
-  
-  files.forEach(function(file) {
-    if (!file.type.startsWith('image/')) return;
-    
-    var reader = new FileReader();
-    reader.onload = function(ev) {
-      var img = new Image();
-      img.onload = function() {
-        images.push({
-          img: img,
-          file: file,
-          animation: 'none',
-          duration: 3,
-          rotation: 0,
-          flipH: false,
-          flipV: false,
-          src: ev.target.result
-        });
-        loaded++;
-        
-        if (loaded === total) {
-          renderImagesGrid();
-          updateButtons();
-          updateStats();
-          showToast('✅ تم إضافة ' + total + ' صورة');
-        }
-      };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-  
-  e.target.value = '';
-});
-
-// ═══════════════════════════════════════════════
-// عرض شبكة الصور
-// ═══════════════════════════════════════════════
-function renderImagesGrid() {
-  var grid = document.getElementById('imagesGrid');
-  var emptyHint = document.getElementById('imagesEmpty');
-  
-  grid.innerHTML = '';
-  
-  if (images.length === 0) {
-    emptyHint.style.display = 'block';
-    document.getElementById('imageOptions').classList.remove('active');
-    document.getElementById('statsCard').style.display = 'none';
-    selectedImageIndex = -1;
-    return;
-  }
-  
-  emptyHint.style.display = 'none';
-  document.getElementById('statsCard').style.display = 'block';
-  
-  images.forEach(function(item, index) {
-    var el = document.createElement('div');
-    el.className = 'image-item' + (index === selectedImageIndex ? ' selected' : '');
-    el.draggable = true;
-    el.dataset.index = index;
-    
-    var imgEl = document.createElement('img');
-    imgEl.src = item.src;
-    // تطبيق الدوران
-    var transform = 'rotate(' + item.rotation + 'deg)';
-    if (item.flipH) transform += ' scaleX(-1)';
-    if (item.flipV) transform += ' scaleY(-1)';
-    imgEl.style.transform = transform;
-    
-    var removeBtn = document.createElement('button');
-    removeBtn.className = 'image-remove';
-    removeBtn.textContent = '×';
-    removeBtn.onclick = function(e) {
-      e.stopPropagation();
-      removeImage(index);
-    };
-    
-    var order = document.createElement('div');
-    order.className = 'image-order';
-    order.textContent = index + 1;
-    
-    // شارة الحركة
-    if (item.animation !== 'none') {
-      var badge = document.createElement('div');
-      badge.className = 'image-badge';
-      badge.textContent = getAnimationLabel(item.animation);
-      el.appendChild(badge);
-    }
-    
-    el.appendChild(imgEl);
-    el.appendChild(removeBtn);
-    el.appendChild(order);
-    
-    // النقر لاختيار الصورة
-    el.addEventListener('click', function() {
-      selectImage(index);
-    });
-    
-    // السحب والإفلات
-    el.addEventListener('dragstart', handleDragStart);
-    el.addEventListener('dragover', handleDragOver);
-    el.addEventListener('drop', handleDrop);
-    el.addEventListener('dragend', handleDragEnd);
-    el.addEventListener('dragleave', handleDragLeave);
-    
-    grid.appendChild(el);
-  });
-}
-
-// ═══════════════════════════════════════════════
-// أسماء الحركات
-// ═══════════════════════════════════════════════
-function getAnimationLabel(anim) {
-  var labels = {
-    'none': 'ثابتة',
-    'zoomIn': 'زوم+',
-    'zoomOut': 'زوم-',
-    'panRight': '→',
-    'panLeft': '←',
-    'panUp': '↑',
-    'panDown': '↓',
-    'rotate': '↻',
-    'pulse': '◎'
-  };
-  return labels[anim] || '';
-}
-
-// ═══════════════════════════════════════════════
-// اختيار صورة
-// ═══════════════════════════════════════════════
-function selectImage(index) {
-  selectedImageIndex = index;
-  
-  document.querySelectorAll('.image-item').forEach(function(el, i) {
-    if (i === index) el.classList.add('selected');
-    else el.classList.remove('selected');
-  });
-  
-  document.getElementById('imageOptions').classList.add('active');
-  
-  var item = images[index];
-  
-  // تحديث الأزرار
-  document.querySelectorAll('#animationOptions .opt-btn').forEach(function(btn) {
-    if (btn.dataset.animation === item.animation) btn.classList.add('active');
-    else btn.classList.remove('active');
-  });
-  
-  document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn) {
-    if (parseInt(btn.dataset.duration) === item.duration) btn.classList.add('active');
-    else btn.classList.remove('active');
-  });
-  
-  document.getElementById('customDuration').value = item.duration;
-}
-
-// ═══════════════════════════════════════════════
-// السحب والإفلات
-// ═══════════════════════════════════════════════
-var dragIndex = null;
-
-function handleDragStart(e) {
-  dragIndex = parseInt(this.dataset.index);
-  this.classList.add('dragging');
-  e.dataTransfer.effectAllowed = 'move';
-}
-
-function handleDragOver(e) {
-  e.preventDefault();
-  e.dataTransfer.dropEffect = 'move';
-  this.classList.add('drag-over');
-}
-
-function handleDragLeave() { this.classList.remove('drag-over'); }
-
-function handleDrop(e) {
-  e.preventDefault();
-  this.classList.remove('drag-over');
-  
-  var dropIndex = parseInt(this.dataset.index);
-  if (dragIndex === null || dragIndex === dropIndex) return;
-  
-  var moved = images.splice(dragIndex, 1)[0];
-  images.splice(dropIndex, 0, moved);
-  
-  if (selectedImageIndex === dragIndex) selectedImageIndex = dropIndex;
-  else if (selectedImageIndex === dropIndex) selectedImageIndex = dragIndex;
-  
-  renderImagesGrid();
-}
-
-function handleDragEnd() {
-  this.classList.remove('dragging');
-  dragIndex = null;
-}
-
-// ═══════════════════════════════════════════════
-// حذف صورة
-// ═══════════════════════════════════════════════
-function removeImage(index) {
-  images.splice(index, 1);
-  if (selectedImageIndex === index) selectedImageIndex = -1;
-  else if (selectedImageIndex > index) selectedImageIndex--;
-  
-  renderImagesGrid();
-  updateButtons();
-  updateStats();
-}
-
-// ═══════════════════════════════════════════════
-// تدوير الصورة
-// ═══════════════════════════════════════════════
-function rotateImage(deg) {
-  if (selectedImageIndex < 0) return;
-  images[selectedImageIndex].rotation = (images[selectedImageIndex].rotation + deg) % 360;
-  renderImagesGrid();
-}
-
-// ═══════════════════════════════════════════════
-// عكس الصورة
-// ═══════════════════════════════════════════════
-function flipImage(dir) {
-  if (selectedImageIndex < 0) return;
-  if (dir === 'h') images[selectedImageIndex].flipH = !images[selectedImageIndex].flipH;
-  if (dir === 'v') images[selectedImageIndex].flipV = !images[selectedImageIndex].flipV;
-  renderImagesGrid();
-}
-
-// ═══════════════════════════════════════════════
-// إعادة تعديلات الصورة
-// ═══════════════════════════════════════════════
-function resetImageEdits() {
-  if (selectedImageIndex < 0) return;
-  images[selectedImageIndex].rotation = 0;
-  images[selectedImageIndex].flipH = false;
-  images[selectedImageIndex].flipV = false;
-  renderImagesGrid();
-  showToast('تم إعادة الصورة');
-}
-
-// ═══════════════════════════════════════════════
-// تطبيق مدة مخصصة
-// ═══════════════════════════════════════════════
-function applyCustomDuration() {
-  if (selectedImageIndex < 0) return;
-  var val = parseInt(document.getElementById('customDuration').value);
-  if (val < 1 || val > 30) {
-    showToast('المدة: 1-30 ثانية');
-    return;
-  }
-  images[selectedImageIndex].duration = val;
-  document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn) {
-    if (parseInt(btn.dataset.duration) === val) btn.classList.add('active');
-    else btn.classList.remove('active');
-  });
-  updateStats();
-  showToast('✅ تم تحديث المدة');
-}
-
-// ═══════════════════════════════════════════════
-// أحداث الحركة
-// ═══════════════════════════════════════════════
-document.querySelectorAll('#animationOptions .opt-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    if (selectedImageIndex < 0) return;
-    images[selectedImageIndex].animation = this.dataset.animation;
-    document.querySelectorAll('#animationOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
-    this.classList.add('active');
-    renderImagesGrid();
-    if (selectedImageIndex >= 0) {
-      document.querySelectorAll('.image-item')[selectedImageIndex].classList.add('selected');
-    }
-  });
-});
-
-// ═══════════════════════════════════════════════
-// أحداث المدة
-// ═══════════════════════════════════════════════
-document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    if (selectedImageIndex < 0) return;
-    var dur = parseInt(this.dataset.duration);
-    images[selectedImageIndex].duration = dur;
-    document.getElementById('customDuration').value = dur;
-    document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
-    this.classList.add('active');
-    updateStats();
-  });
-});
-
-// ═══════════════════════════════════════════════
-// الموسيقى
-// ═══════════════════════════════════════════════
-document.getElementById('musicInput').addEventListener('change', function(e) {
-  var file = e.target.files[0];
-  if (!file) return;
-  if (!file.type.startsWith('audio/')) {
-    showToast('❌ الرجاء اختيار ملف صوتي');
-    return;
-  }
-  musicFile = file;
-  document.getElementById('musicName').textContent = '🎵 ' + file.name;
-  document.getElementById('musicInfo').style.display = 'flex';
-  showToast('✅ تم إضافة الموسيقى');
-  e.target.value = '';
-});
-
-function removeMusic() {
-  musicFile = null;
-  document.getElementById('musicInfo').style.display = 'none';
-  document.getElementById('musicInput').value = '';
-}
-
-// ═══════════════════════════════════════════════
-// خيارات الحجم والانتقال
-// ═══════════════════════════════════════════════
-document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
-    this.classList.add('active');
-    currentSize = this.dataset.size;
-  });
-});
-
-document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
-    this.classList.add('active');
-    currentTransition = this.dataset.transition;
-  });
-});
-
-// ═══════════════════════════════════════════════
-// تفعيل الأزرار
-// ═══════════════════════════════════════════════
-function updateButtons() {
-  var hasImages = images.length > 0;
-  document.getElementById('previewBtn').disabled = !hasImages;
-  document.getElementById('exportBtn').disabled = !hasImages;
-}
-
-// ═══════════════════════════════════════════════
-// إحصائيات
-// ═══════════════════════════════════════════════
-function updateStats() {
-  var totalDuration = 0;
-  images.forEach(function(item) { totalDuration += item.duration; });
-  
-  var size = currentSize.split('x');
-  var w = parseInt(size[0]);
-  var h = parseInt(size[1]);
-  // تقدير الحجم: 5 Mbps × المدة
-  var estimatedMB = (totalDuration * 5 / 8).toFixed(1);
-  
-  document.getElementById('statImages').textContent = images.length;
-  document.getElementById('statDuration').textContent = totalDuration;
-  document.getElementById('statSize').textContent = '~' + estimatedMB;
-}
-
-// ═══════════════════════════════════════════════
-// رسم الصورة مع التحويلات
-// ═══════════════════════════════════════════════
-function drawImageCover(ctx, item, canvasWidth, canvasHeight, opacity, animationProgress) {
-  if (opacity === undefined) opacity = 1;
-  if (animationProgress === undefined) animationProgress = 0;
-  
-  var img = item.img;
-  var p = Math.min(1, Math.max(0, animationProgress));
-  
-  ctx.save();
-  ctx.globalAlpha = opacity;
-  
-  // نقطة المركز
-  var cx = canvasWidth / 2;
-  var cy = canvasHeight / 2;
-  
-  // تحويلات الصورة
-  ctx.translate(cx, cy);
-  
-  // الدوران والانعكاس
-  if (item.rotation) ctx.rotate(item.rotation * Math.PI / 180);
-  if (item.flipH) ctx.scale(-1, 1);
-  if (item.flipV) ctx.scale(1, -1);
-  
-  // حساب الأبعاد (cover)
-  var imgRatio = img.width / img.height;
-  var canvasRatio = canvasWidth / canvasHeight;
-  var drawWidth, drawHeight;
-  
-  if (imgRatio > canvasRatio) {
-    drawHeight = canvasHeight;
-    drawWidth = img.width * (canvasHeight / img.height);
-  } else {
-    drawWidth = canvasWidth;
-    drawHeight = img.height * (canvasWidth / img.width);
-  }
-  
-  // تطبيق الحركات
-  var scale = 1;
-  var offsetX = 0;
-  var offsetY = 0;
-  
-  switch(item.animation) {
-    case 'zoomIn':
-      scale = 1 + (p * 0.3);
-      break;
-    case 'zoomOut':
-      scale = 1.3 - (p * 0.3);
-      break;
-    case 'panRight':
-      scale = 1.2;
-      offsetX = (p - 0.5) * canvasWidth * 0.2;
-      break;
-    case 'panLeft':
-      scale = 1.2;
-      offsetX = -(p - 0.5) * canvasWidth * 0.2;
-      break;
-    case 'panUp':
-      scale = 1.2;
-      offsetY = -(p - 0.5) * canvasHeight * 0.2;
-      break;
-    case 'panDown':
-      scale = 1.2;
-      offsetY = (p - 0.5) * canvasHeight * 0.2;
-      break;
-    case 'rotate':
-      scale = 1.1;
-      ctx.rotate(p * Math.PI * 0.1);
-      break;
-    case 'pulse':
-      scale = 1 + Math.sin(p * Math.PI * 2) * 0.08;
-      break;
-  }
-  
-  ctx.scale(scale, scale);
-  ctx.translate(offsetX, offsetY);
-  
-  ctx.drawImage(img, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
-  ctx.restore();
-}
-
-// ═══════════════════════════════════════════════
-// المعاينة
-// ═══════════════════════════════════════════════
-function previewVideo() {
-  if (images.length === 0) return;
-  
-  if (isPreviewing) {
-    isPreviewing = false;
-    if (previewAnimationId) cancelAnimationFrame(previewAnimationId);
-    return;
-  }
-  
-  isPreviewing = true;
-  trackEvent('montage-معاينة');
-  
-  var canvas = document.getElementById('previewCanvas');
-  var placeholder = document.getElementById('previewEmpty');
-  var size = currentSize.split('x');
-  var w = parseInt(size[0]);
-  var h = parseInt(size[1]);
-  
-  var previewScale = Math.min(400 / w, 400 / h, 1);
-  canvas.width = w * previewScale;
-  canvas.height = h * previewScale;
-  canvas.style.display = 'block';
-  placeholder.style.display = 'none';
-  
-  var ctx = canvas.getContext('2d');
-  var currentIndex = 0;
-  var startTime = Date.now();
-  var phase = 'show'; // 'show' أو 'transition'
-  
-  function animate() {
-    if (!isPreviewing) return;
-    
-    var elapsed = (Date.now() - startTime) / 1000;
-    var progress = elapsed / images[currentIndex].duration;
-    
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    if (currentIndex < images.length) {
-      var item = images[currentIndex];
-      
-      // عند نهاية المدة → ابدأ الانتقال
-      if (progress > 0.75 && currentTransition !== 'none' && currentIndex < images.length - 1) {
-        var transProgress = (progress - 0.75) / 0.25;
-        
-        // رسم الصورة الحالية
-        drawImageCover(ctx, item, canvas.width, canvas.height, 1, Math.min(1, progress / 0.75));
-        
-        // رسم الانتقال
-        var nextItem = images[currentIndex + 1];
-        
-        ctx.save();
-        if (currentTransition === 'fade') {
-          drawImageCover(ctx, nextItem, canvas.width, canvas.height, transProgress, 0);
-        } else if (currentTransition === 'slideRight') {
-          var offsetX = canvas.width * (1 - transProgress);
-          ctx.translate(offsetX, 0);
-          drawImageCover(ctx, nextItem, canvas.width, canvas.height, 1, 0);
-        } else if (currentTransition === 'slideLeft') {
-          var offsetX = -canvas.width * (1 - transProgress);
-          ctx.translate(offsetX, 0);
-          drawImageCover(ctx, nextItem, canvas.width, canvas.height, 1, 0);
-        } else if (currentTransition === 'slideUp') {
-          var offsetY = canvas.height * (1 - transProgress);
-          ctx.translate(0, offsetY);
-          drawImageCover(ctx, nextItem, canvas.width, canvas.height, 1, 0);
-        } else if (currentTransition === 'zoom') {
-          var scale = 0.5 + transProgress * 0.5;
-          ctx.translate(canvas.width / 2, canvas.height / 2);
-          ctx.scale(scale, scale);
-          ctx.translate(-canvas.width / 2, -canvas.height / 2);
-          ctx.globalAlpha = transProgress;
-          drawImageCover(ctx, nextItem, canvas.width, canvas.height, 1, 0);
-        } else if (currentTransition === 'rotate') {
-          ctx.translate(canvas.width / 2, canvas.height / 2);
-          ctx.rotate((1 - transProgress) * Math.PI / 2);
-          ctx.globalAlpha = transProgress;
-          ctx.translate(-canvas.width / 2, -canvas.height / 2);
-          drawImageCover(ctx, nextItem, canvas.width, canvas.height, 1, 0);
-        }
-        ctx.restore();
-      } else {
-        // عرض عادي
-        drawImageCover(ctx, item, canvas.width, canvas.height, 1, progress);
-      }
-    }
-    
-    if (progress >= 1) {
-      currentIndex++;
-      startTime = Date.now();
-      
-      if (currentIndex >= images.length) {
-        currentIndex = 0;
-        startTime = Date.now();
-      }
-    }
-    
-    previewAnimationId = requestAnimationFrame(animate);
-  }
-  
-  animate();
-}
-
-// ═══════════════════════════════════════════════
-// تصدير الفيديو
-// ═══════════════════════════════════════════════
-async function exportVideo() {
-  if (images.length === 0 || isExporting) return;
-  
-  isExporting = true;
-  var progressContainer = document.getElementById('progressContainer');
-  var progressFill = document.getElementById('progressFill');
-  var progressText = document.getElementById('progressText');
-  var exportBtn = document.getElementById('exportBtn');
-  var previewBtn = document.getElementById('previewBtn');
-  
-  progressContainer.classList.add('active');
-  exportBtn.disabled = true;
-  previewBtn.disabled = true;
-  isPreviewing = false;
-  
-  try {
-    trackEvent('montage-تصدير');
-    
-    var size = currentSize.split('x');
-    var w = parseInt(size[0]);
-    var h = parseInt(size[1]);
-    
-    var exportCanvas = document.createElement('canvas');
-    exportCanvas.width = w;
-    exportCanvas.height = h;
-    var ctx = exportCanvas.getContext('2d');
-    
-    var stream = exportCanvas.captureStream(30);
-    
-    var audioContext = null;
-    if (musicFile) {
-      try {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        var arrayBuffer = await musicFile.arrayBuffer();
-        var audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        var audioSource = audioContext.createBufferSource();
-        audioSource.buffer = audioBuffer;
-        audioSource.loop = true;
-        var audioDest = audioContext.createMediaStreamDestination();
-        audioSource.connect(audioDest);
-        audioSource.start();
-        audioDest.stream.getAudioTracks().forEach(function(track) {
-          stream.addTrack(track);
-        });
-      } catch(e) { console.warn('تعذر دمج الصوت:', e); }
-    }
-    
-    var mimeType = 'video/webm;codecs=vp9';
-    if (!MediaRecorder.isTypeSupported(mimeType)) {
-      mimeType = 'video/webm;codecs=vp8';
-    }
-    if (!MediaRecorder.isTypeSupported(mimeType)) {
-      mimeType = 'video/webm';
-    }
-    
-    var recorder = new MediaRecorder(stream, {
-      mimeType: mimeType,
-      videoBitsPerSecond: 5000000
-    });
-    
-    var chunks = [];
-    recorder.ondataavailable = function(e) {
-      if (e.data.size > 0) chunks.push(e.data);
-    };
-    
-    var recordingDone = new Promise(function(resolve) {
-      recorder.onstop = function() {
-        var blob = new Blob(chunks, { type: 'video/webm' });
-        var url = URL.createObjectURL(blob);
-        var link = document.createElement('a');
-        link.href = url;
-        link.download = 'resha-montage-' + Date.now() + '.webm';
-        link.click();
-        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
-        
-        if (audioContext) audioContext.close();
-        
-        progressContainer.classList.remove('active');
-        exportBtn.disabled = false;
-        previewBtn.disabled = false;
-        isExporting = false;
-        showToast('✅ تم تصدير الفيديو');
-        resolve();
-      };
-    });
-    
-    recorder.start();
-    
-    var currentIndex = 0;
-    var frameStartTime = performance.now();
-    
-    function renderFrame() {
-      var now = performance.now();
-      var elapsed = (now - frameStartTime) / 1000;
-      var progress = elapsed / images[currentIndex].duration;
-      
-      ctx.fillStyle = '#000';
-      ctx.fillRect(0, 0, w, h);
-      
-      if (currentIndex < images.length) {
-        var item = images[currentIndex];
-        
-        if (progress > 0.75 && currentTransition !== 'none' && currentIndex < images.length - 1) {
-          var transProgress = (progress - 0.75) / 0.25;
-          
-          drawImageCover(ctx, item, w, h, 1, Math.min(1, progress / 0.75));
-          
-          var nextItem = images[currentIndex + 1];
-          ctx.save();
-          
-          if (currentTransition === 'fade') {
-            drawImageCover(ctx, nextItem, w, h, transProgress, 0);
-          } else if (currentTransition === 'slideRight') {
-            ctx.translate(w * (1 - transProgress), 0);
-            drawImageCover(ctx, nextItem, w, h, 1, 0);
-          } else if (currentTransition === 'slideLeft') {
-            ctx.translate(-w * (1 - transProgress), 0);
-            drawImageCover(ctx, nextItem, w, h, 1, 0);
-          } else if (currentTransition === 'slideUp') {
-            ctx.translate(0, h * (1 - transProgress));
-            drawImageCover(ctx, nextItem, w, h, 1, 0);
-          } else if (currentTransition === 'zoom') {
-            var scale = 0.5 + transProgress * 0.5;
-            ctx.translate(w / 2, h / 2);
-            ctx.scale(scale, scale);
-            ctx.translate(-w / 2, -h / 2);
-            ctx.globalAlpha = transProgress;
-            drawImageCover(ctx, nextItem, w, h, 1, 0);
-          } else if (currentTransition === 'rotate') {
-            ctx.translate(w / 2, h / 2);
-            ctx.rotate((1 - transProgress) * Math.PI / 2);
-            ctx.globalAlpha = transProgress;
-            ctx.translate(-w / 2, -h / 2);
-            drawImageCover(ctx, nextItem, w, h, 1, 0);
-          }
-          ctx.restore();
-        } else {
-          drawImageCover(ctx, item, w, h, 1, progress);
-        }
-      }
-      
-      if (progress >= 1) {
-        currentIndex++;
-        frameStartTime = now;
-        if (currentIndex >= images.length) {
-          recorder.stop();
-          return;
-        }
-      }
-      
-      var totalProgress = (currentIndex + progress) / images.length;
-      progressFill.style.width = (totalProgress * 100) + '%';
-      progressText.textContent = 'جاري التصدير... ' + Math.round(totalProgress * 100) + '%';
-      
-      requestAnimationFrame(renderFrame);
-    }
-    
-    renderFrame();
-    await recordingDone;
-    
-  } catch(err) {
-    console.error('خطأ:', err);
-    showToast('❌ حدث خطأ: ' + err.message);
-    progressContainer.classList.remove('active');
-    exportBtn.disabled = false;
-    previewBtn.disabled = false;
-    isExporting = false;
-  }
-}
-
-// ═══════════════════════════════════════════════
-// إعادة تعيين
-// ═══════════════════════════════════════════════
-function resetAll() {
-  if (!confirm('هل تريد حذف كل شيء؟')) return;
-  
-  images = [];
-  musicFile = null;
-  isPreviewing = false;
-  selectedImageIndex = -1;
-  
-  if (previewAnimationId) cancelAnimationFrame(previewAnimationId);
-  
-  renderImagesGrid();
-  updateButtons();
-  updateStats();
-  
-  document.getElementById('musicInfo').style.display = 'none';
-  document.getElementById('musicInput').value = '';
-  document.getElementById('imageInput').value = '';
-  document.getElementById('imageOptions').classList.remove('active');
-  
-  document.getElementById('previewCanvas').style.display = 'none';
-  document.getElementById('previewEmpty').style.display = 'block';
-  document.getElementById('progressContainer').classList.remove('active');
-  
-  showToast('تم إعادة التعيين');
-}
-
-// ═══════════════════════════════════════════════
-// التشغيل الأولي
-// ═══════════════════════════════════════════════
-window.addEventListener('load', function() {
-  if (!window.MediaRecorder) {
-    showToast('⚠️ متصفحك لا يدعم تصدير الفيديو');
-    document.getElementById('exportBtn').disabled = true;
-  }
-  
-  trackEvent('montage-زيارة');
-  updateStats();
-  
-  console.log('✅ المونتاج الاحترافي جاهز');
-});
-</script>
