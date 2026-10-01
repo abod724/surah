@@ -1283,3 +1283,382 @@ window.addEventListener('load', function() {
   console.log('✅ المونتاج جاهز - الجزء 2');
 });
 </script>
+  console.log('✅ المونتاج جاهز - الجزء 2');
+});
+
+// ═══════════════════════════════════════════════
+// تبديل تبويبات الصوت
+// ═══════════════════════════════════════════════
+function switchAudioTab(tab, btn) {
+  document.querySelectorAll('.audio-tab').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  
+  document.querySelectorAll('#audioTab-record, #audioTab-upload, #audioTab-music').forEach(function(el) {
+    el.classList.add('section-hidden');
+  });
+  
+  document.getElementById('audioTab-' + tab).classList.remove('section-hidden');
+}
+
+// ═══════════════════════════════════════════════
+// التسجيل الصوتي
+// ═══════════════════════════════════════════════
+async function toggleRecording() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    stopRecording();
+  } else {
+    startRecording();
+  }
+}
+
+async function startRecording() {
+  try {
+    recordingStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    
+    var mimeType = 'audio/webm;codecs=opus';
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'audio/webm';
+    }
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = '';
+    }
+    
+    var options = mimeType ? { mimeType: mimeType } : {};
+    mediaRecorder = new MediaRecorder(recordingStream, options);
+    audioChunks = [];
+    
+    mediaRecorder.ondataavailable = function(e) {
+      if (e.data.size > 0) audioChunks.push(e.data);
+    };
+    
+    mediaRecorder.onstop = function() {
+      recordedAudioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+      var url = URL.createObjectURL(recordedAudioBlob);
+      
+      var audioEl = document.getElementById('recordAudio');
+      audioEl.src = url;
+      
+      document.getElementById('recordPlayer').classList.add('active');
+      document.getElementById('recordActions').classList.remove('section-hidden');
+      document.getElementById('recorderStatus').textContent = 'التسجيل جاهز';
+      
+      if (recordingStream) {
+        recordingStream.getTracks().forEach(function(t) { t.stop(); });
+      }
+    };
+    
+    mediaRecorder.start();
+    recordingStartTime = Date.now();
+    
+    document.getElementById('recorderDot').classList.add('recording');
+    document.getElementById('recorderStatus').textContent = 'جاري التسجيل';
+    document.getElementById('recordBtn').textContent = 'إيقاف التسجيل';
+    document.getElementById('recordBtn').classList.remove('record');
+    document.getElementById('recordBtn').classList.add('stop');
+    document.getElementById('recordPlayer').classList.remove('active');
+    document.getElementById('recordActions').classList.add('section-hidden');
+    
+    recordingTimerInterval = setInterval(updateTimer, 100);
+    trackEvent('montage-تسجيل');
+    
+  } catch(err) {
+    console.error('خطأ في التسجيل:', err);
+    showToast('لم يتم السماح بالوصول للميكروفون');
+  }
+}
+
+function stopRecording() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    mediaRecorder.stop();
+  }
+  
+  if (recordingTimerInterval) {
+    clearInterval(recordingTimerInterval);
+    recordingTimerInterval = null;
+  }
+  
+  document.getElementById('recorderDot').classList.remove('recording');
+  document.getElementById('recordBtn').textContent = 'بدء التسجيل';
+  document.getElementById('recordBtn').classList.remove('stop');
+  document.getElementById('recordBtn').classList.add('record');
+}
+
+function updateTimer() {
+  var elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+  var mins = Math.floor(elapsed / 60).toString().padStart(2, '0');
+  var secs = (elapsed % 60).toString().padStart(2, '0');
+  document.getElementById('recorderTimer').textContent = mins + ':' + secs;
+}
+
+function useRecording() {
+  if (!recordedAudioBlob) return;
+  selectedAudio = 'record';
+  showToast('سيتم استخدام التسجيل');
+  trackEvent('montage-استخدام-تسجيل');
+}
+
+function deleteRecording() {
+  recordedAudioBlob = null;
+  selectedAudio = null;
+  document.getElementById('recordPlayer').classList.remove('active');
+  document.getElementById('recordActions').classList.add('section-hidden');
+  document.getElementById('recorderStatus').textContent = 'جاهز للتسجيل';
+  document.getElementById('recorderTimer').textContent = '00:00';
+  document.getElementById('recordAudio').src = '';
+  showToast('تم حذف التسجيل');
+}
+
+// ═══════════════════════════════════════════════
+// رفع ملف صوتي
+// ═══════════════════════════════════════════════
+document.getElementById('audioInput').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('audio/')) {
+    showToast('الرجاء اختيار ملف صوتي');
+    return;
+  }
+  
+  audioUpload = file;
+  selectedAudio = 'upload';
+  document.getElementById('audioUploadName').textContent = file.name;
+  document.getElementById('audioUploadInfo').classList.remove('section-hidden');
+  showToast('تم رفع الملف');
+  e.target.value = '';
+});
+
+function removeAudioUpload() {
+  audioUpload = null;
+  if (selectedAudio === 'upload') selectedAudio = null;
+  document.getElementById('audioUploadInfo').classList.add('section-hidden');
+  document.getElementById('audioInput').value = '';
+}
+
+// ═══════════════════════════════════════════════
+// رفع موسيقى
+// ═══════════════════════════════════════════════
+document.getElementById('musicInput').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('audio/')) {
+    showToast('الرجاء اختيار ملف صوتي');
+    return;
+  }
+  
+  musicFile = file;
+  document.getElementById('musicName').textContent = file.name;
+  document.getElementById('musicInfo').classList.remove('section-hidden');
+  showToast('تم رفع الموسيقى');
+  e.target.value = '';
+});
+
+function removeMusic() {
+  musicFile = null;
+  document.getElementById('musicInfo').classList.add('section-hidden');
+  document.getElementById('musicInput').value = '';
+}
+
+// ═══════════════════════════════════════════════
+// تصدير الفيديو (الإصدار الكامل)
+// ═══════════════════════════════════════════════
+async function exportVideo() {
+  if (images.length === 0 || isExporting) return;
+  
+  isExporting = true;
+  var progressContainer = document.getElementById('progressContainer');
+  var progressFill = document.getElementById('progressFill');
+  var progressText = document.getElementById('progressText');
+  var exportBtn = document.getElementById('exportBtn');
+  var previewBtn = document.getElementById('previewBtn');
+  
+  progressContainer.classList.add('active');
+  exportBtn.disabled = true;
+  previewBtn.disabled = true;
+  isPreviewing = false;
+  
+  try {
+    trackEvent('montage-تصدير');
+    
+    var size = currentSize.split('x');
+    var w = parseInt(size[0]);
+    var h = parseInt(size[1]);
+    
+    var exportCanvas = document.createElement('canvas');
+    exportCanvas.width = w;
+    exportCanvas.height = h;
+    var ctx = exportCanvas.getContext('2d');
+    
+    var stream = exportCanvas.captureStream(30);
+    
+    // ═══ دمج الأصوات ═══
+    var audioContext = null;
+    var audioSources = [];
+    
+    var audioFileToUse = null;
+    if (selectedAudio === 'record' && recordedAudioBlob) {
+      audioFileToUse = recordedAudioBlob;
+    } else if (selectedAudio === 'upload' && audioUpload) {
+      audioFileToUse = audioUpload;
+    }
+    
+    if (audioFileToUse || musicFile) {
+      try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var audioDest = audioContext.createMediaStreamDestination();
+        
+        // الصوت الأساسي (تسجيل أو رفع)
+        if (audioFileToUse) {
+          var arrayBuffer = await audioFileToUse.arrayBuffer();
+          var audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+          var audioSource = audioContext.createBufferSource();
+          audioSource.buffer = audioBuffer;
+          audioSource.loop = false;
+          audioSource.connect(audioDest);
+          audioSources.push(audioSource);
+        }
+        
+        // موسيقى خلفية (بصوت مخفض)
+        if (musicFile) {
+          var musicBuffer = await musicFile.arrayBuffer();
+          var musicBufferDecoded = await audioContext.decodeAudioData(musicBuffer);
+          var musicSource = audioContext.createBufferSource();
+          musicSource.buffer = musicBufferDecoded;
+          musicSource.loop = true;
+          
+          var musicGain = audioContext.createGain();
+          musicGain.gain.value = audioFileToUse ? 0.15 : 0.6; // خفض الموسيقى إذا فيه تعليق
+          
+          musicSource.connect(musicGain);
+          musicGain.connect(audioDest);
+          audioSources.push(musicSource);
+        }
+        
+        // بدء التشغيل
+        audioSources.forEach(function(src) {
+          try { src.start(0); } catch(e) {}
+        });
+        
+        audioDest.stream.getAudioTracks().forEach(function(track) {
+          stream.addTrack(track);
+        });
+      } catch(e) {
+        console.warn('تعذر دمج الصوت:', e);
+      }
+    }
+    
+    // ═══ اختيار صيغة الفيديو ═══
+    var mimeType = 'video/webm;codecs=vp9';
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'video/webm;codecs=vp8';
+    }
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'video/webm';
+    }
+    
+    var recorder = new MediaRecorder(stream, {
+      mimeType: mimeType,
+      videoBitsPerSecond: 5000000
+    });
+    
+    var chunks = [];
+    recorder.ondataavailable = function(e) {
+      if (e.data.size > 0) chunks.push(e.data);
+    };
+    
+    var recordingDone = new Promise(function(resolve) {
+      recorder.onstop = function() {
+        var blob = new Blob(chunks, { type: 'video/webm' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'resha-montage-' + Date.now() + '.webm';
+        link.click();
+        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+        
+        audioSources.forEach(function(src) {
+          try { src.stop(); } catch(e) {}
+        });
+        if (audioContext) audioContext.close();
+        
+        progressContainer.classList.remove('active');
+        exportBtn.disabled = false;
+        previewBtn.disabled = false;
+        isExporting = false;
+        showToast('تم تصدير الفيديو');
+        resolve();
+      };
+    });
+    
+    recorder.start();
+    
+    // ═══ الرسم ═══
+    var currentIndex = 0;
+    var frameStartTime = performance.now();
+    
+    function renderFrame() {
+      var now = performance.now();
+      var elapsed = (now - frameStartTime) / 1000;
+      var progress = elapsed / images[currentIndex].duration;
+      
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, w, h);
+      
+      if (currentIndex < images.length) {
+        var item = images[currentIndex];
+        
+        if (progress > 0.75 && currentTransition !== 'none' && currentIndex < images.length - 1) {
+          var transProgress = (progress - 0.75) / 0.25;
+          drawTransition(ctx, item, images[currentIndex + 1], w, h, transProgress);
+        } else {
+          drawImageCover(ctx, item, w, h, 1, progress);
+        }
+      }
+      
+      if (progress >= 1) {
+        currentIndex++;
+        frameStartTime = now;
+        if (currentIndex >= images.length) {
+          recorder.stop();
+          return;
+        }
+      }
+      
+      var totalProgress = (currentIndex + progress) / images.length;
+      progressFill.style.width = (totalProgress * 100) + '%';
+      progressText.textContent = 'جاري التصدير ' + Math.round(totalProgress * 100) + '%';
+      
+      requestAnimationFrame(renderFrame);
+    }
+    
+    renderFrame();
+    await recordingDone;
+    
+  } catch(err) {
+    console.error('خطأ:', err);
+    showToast('حدث خطأ: ' + err.message);
+    progressContainer.classList.remove('active');
+    exportBtn.disabled = false;
+    previewBtn.disabled = false;
+    isExporting = false;
+  }
+}
+
+// ═══════════════════════════════════════════════
+// تحقق من دعم المتصفح
+// ═══════════════════════════════════════════════
+window.addEventListener('load', function() {
+  if (!window.MediaRecorder) {
+    showToast('متصفحك لا يدعم تصدير الفيديو');
+    document.getElementById('exportBtn').disabled = true;
+  }
+  
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    document.getElementById('recordBtn').disabled = true;
+    document.getElementById('recorderStatus').textContent = 'التسجيل غير مدعوم';
+  }
+  
+  trackEvent('montage-زيارة');
+  updateStats();
+  console.log('✅ المونتاج الاحترافي جاهز بالكامل');
+});
+</script>
