@@ -387,9 +387,7 @@
     white-space: nowrap;
   }
   
-  /* ═══════════════════════════════════════════ */
-  /* ✅ شبكة اختيار حجم الجدول (مثل Word) */
-  /* ═══════════════════════════════════════════ */
+  /* ═══ Table Picker ═══ */
   .table-picker-btn {
     width: 100%;
     padding: 14px;
@@ -740,7 +738,8 @@ window.addEventListener('load', function() {
     rotatingPointOffset: 40,
     mtrCornerColor: '#f59e0b',
     mtrCornerStrokeColor: '#fff',
-    borderOpacityWhenMoving: 0.8
+    borderOpacityWhenMoving: 0.8,
+    objectCaching: false
   });
 
   fabric.Object.prototype.setControlsVisibility({
@@ -749,13 +748,22 @@ window.addEventListener('load', function() {
     mtr: true
   });
 
+  // ✅ الإصلاح: resizeCanvas بدون setZoom مزدوج
   function resizeCanvas() {
     var wrapper = document.querySelector('.canvas-wrapper');
     var maxWidth = wrapper.clientWidth - 32;
     var maxHeight = window.innerHeight * 0.55;
     var scale = Math.min(maxWidth / 1080, maxHeight / 1080);
-    canvas.setDimensions({ width: 1080 * scale, height: 1080 * scale });
-    canvas.setZoom(scale);
+    
+    // ✅ استخدم setDimensions فقط — بدون setZoom
+    canvas.setDimensions({
+      width: 1080 * scale,
+      height: 1080 * scale
+    });
+    
+    // ✅ تأكد أن الزوم = 1 (لا تصغير إضافي)
+    canvas.setZoom(1);
+    canvas.calcOffset();
     canvas.renderAll();
   }
   window.addEventListener('resize', resizeCanvas);
@@ -908,7 +916,6 @@ window.addEventListener('load', function() {
     btn.classList.add('active');
     document.getElementById('panel-' + name).classList.add('active');
     
-    // ✅ إغلاق نافذة الجدول عند تغيير التبويب
     document.getElementById('tablePickerPopup').classList.remove('active');
   };
 
@@ -934,7 +941,8 @@ window.addEventListener('load', function() {
         editable: true,
         hasControls: true,
         hasBorders: true,
-        lockUniScaling: false
+        lockUniScaling: false,
+        objectCaching: false
       });
       canvas.add(t);
       canvas.setActiveObject(t);
@@ -957,7 +965,7 @@ window.addEventListener('load', function() {
       fabric.Image.fromURL(ev.target.result, function(img) {
         var maxW = 540;
         if (img.width > maxW) img.scaleToWidth(maxW);
-        img.set({ left: 540, top: 540, originX: 'center', originY: 'center', padding: 15, filters: [] });
+        img.set({ left: 540, top: 540, originX: 'center', originY: 'center', padding: 15, filters: [], objectCaching: false });
         canvas.add(img);
         canvas.setActiveObject(img);
         canvas.renderAll();
@@ -971,7 +979,7 @@ window.addEventListener('load', function() {
   window.addShape = function(type) {
     var color = document.getElementById('shapeColor').value;
     var shape;
-    var center = { left: 540, top: 540, originX: 'center', originY: 'center', fill: color, padding: 15 };
+    var center = { left: 540, top: 540, originX: 'center', originY: 'center', fill: color, padding: 15, objectCaching: false };
     if (type === 'rect') shape = new fabric.Rect({ ...center, width: 360, height: 270 });
     else if (type === 'circle') shape = new fabric.Circle({ ...center, radius: 180 });
     else if (type === 'triangle') shape = new fabric.Triangle({ ...center, width: 360, height: 320 });
@@ -981,14 +989,11 @@ window.addEventListener('load', function() {
     canvas.renderAll();
   };
 
-  // ═══════════════════════════════════════════════════════
-  // ✅ إنشاء الجداول (مثل Word)
-  // ═══════════════════════════════════════════════════════
+  // ═══ الجداول ═══
   var pickerRows = 0;
   var pickerCols = 0;
   var PICKER_MAX = 8;
 
-  // ✅ بناء شبكة الاختيار
   function buildTablePicker() {
     var grid = document.getElementById('tablePickerGrid');
     grid.innerHTML = '';
@@ -1051,12 +1056,10 @@ window.addEventListener('load', function() {
     
     popup.classList.add('active');
     
-    // تحديد الموضع
     var popupWidth = 280;
     var left = rect.left + (rect.width / 2) - (popupWidth / 2);
     var top = rect.bottom + 10;
     
-    // تأكد من البقاء في الشاشة
     if (left < 10) left = 10;
     if (left + popupWidth > window.innerWidth - 10) {
       left = window.innerWidth - popupWidth - 10;
@@ -1074,7 +1077,6 @@ window.addEventListener('load', function() {
     document.getElementById('tablePickerPopup').classList.remove('active');
   }
 
-  // ✅ إغلاق النافذة عند الضغط خارجها
   document.addEventListener('click', function(e) {
     var popup = document.getElementById('tablePickerPopup');
     if (popup.classList.contains('active') && !popup.contains(e.target)) {
@@ -1082,7 +1084,6 @@ window.addEventListener('load', function() {
     }
   });
 
-  // ✅ إنشاء الجدول وإضافته للكانفس
   window.insertTable = function(rows, cols) {
     var borderColor = document.getElementById('tableBorderColor').value;
     var bgColor = document.getElementById('tableBgColor').value;
@@ -1097,63 +1098,42 @@ window.addEventListener('load', function() {
     
     var objects = [];
     
-    // ✅ إنشاء الخلايا (مستطيل + نص)
     for (var r = 0; r < rows; r++) {
       for (var c = 0; c < cols; c++) {
         var x = startX + c * cellWidth;
         var y = startY + r * cellHeight;
         
-        // الخلفية
         var rect = new fabric.Rect({
-          left: x,
-          top: y,
-          width: cellWidth,
-          height: cellHeight,
-          fill: bgColor,
-          stroke: borderColor,
-          strokeWidth: borderWidth,
-          selectable: false,
-          evented: false,
-          originX: 'left',
-          originY: 'top'
+          left: x, top: y,
+          width: cellWidth, height: cellHeight,
+          fill: bgColor, stroke: borderColor, strokeWidth: borderWidth,
+          selectable: false, evented: false,
+          originX: 'left', originY: 'top'
         });
         objects.push(rect);
         
-        // النص داخل الخلية
         var cellText = new fabric.IText('', {
           left: x + cellWidth / 2,
           top: y + cellHeight / 2,
-          fontFamily: 'Cairo',
-          fontSize: 32,
-          fill: '#000000',
-          direction: 'rtl',
-          textAlign: 'center',
-          originX: 'center',
-          originY: 'center',
-          padding: 5,
-          editable: true,
-          hasControls: false,
-          hasBorders: false,
+          fontFamily: 'Cairo', fontSize: 32, fill: '#000000',
+          direction: 'rtl', textAlign: 'center',
+          originX: 'center', originY: 'center',
+          padding: 5, editable: true,
+          hasControls: false, hasBorders: false,
           lockUniScaling: true,
-          selectable: true,
-          evented: true,
+          selectable: true, evented: true,
           backgroundColor: 'transparent'
         });
         objects.push(cellText);
       }
     }
     
-    // ✅ إنشاء المجموعة
     var group = new fabric.Group(objects, {
-      left: 540,
-      top: 540,
-      originX: 'center',
-      originY: 'center',
+      left: 540, top: 540,
+      originX: 'center', originY: 'center',
       padding: 10,
-      subTargetCheck: true,
-      interactive: true,
-      hasControls: true,
-      hasBorders: true,
+      subTargetCheck: true, interactive: true,
+      hasControls: true, hasBorders: true,
       lockUniScaling: false
     });
     
@@ -1162,7 +1142,6 @@ window.addEventListener('load', function() {
     canvas.renderAll();
   };
 
-  // ✅ تحديث قيمة سماكة الحدود
   document.getElementById('borderWidthSlider').addEventListener('input', function(e) {
     document.getElementById('borderWidthValue').textContent = e.target.value;
   });
@@ -1319,7 +1298,6 @@ window.addEventListener('load', function() {
 
   // ═══ تصدير PNG ═══
   window.exportPNG = function() {
-    // ✅ تتبع التحميلات
     if (window.goatcounter && window.goatcounter.count) {
       window.goatcounter.count({
         path: 'editor-تحميل-تصميم',
@@ -1346,7 +1324,7 @@ window.addEventListener('load', function() {
     }
   });
 
-  console.log('✅ ريشة جاهز — مع دعم الجداول وكود التتبع');
+  console.log('✅ ريشة جاهز — مع إصلاح مشكلة التحريك');
 });
 </script>
 
