@@ -8,36 +8,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  
   :root {
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --primary-light: #eef2ff;
-    --bg: #f8fafc;
-    --card: #ffffff;
-    --border: #e2e8f0;
-    --text: #0f172a;
-    --text-light: #64748b;
-    --danger: #ef4444;
-    --success: #10b981;
-    --warning: #f59e0b;
+    --primary: #6366f1; --primary-dark: #4f46e5; --primary-light: #eef2ff;
+    --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0;
+    --text: #0f172a; --text-light: #64748b;
+    --danger: #ef4444; --success: #10b981; --warning: #f59e0b;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-    --radius: 16px;
-    --radius-sm: 10px;
+    --radius: 16px; --radius-sm: 10px;
   }
-  
   body {
     font-family: 'Cairo', sans-serif;
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    min-height: 100vh;
-    color: var(--text);
-    padding: 12px;
+    min-height: 100vh; color: var(--text); padding: 12px;
   }
-  
   .container { max-width: 1000px; margin: 0 auto; padding-bottom: 40px; }
-  
-  /* ═══ Header ═══ */
   .header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 12px 0 16px; color: #fff;
@@ -54,24 +39,16 @@
   .header-text { font-size: 18px; font-weight: 900; }
   .header-sub { font-size: 11px; opacity: 0.85; font-weight: 600; }
   .header-back {
-    background: rgba(255,255,255,0.15);
-    color: #fff;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700; font-size: 13px;
+    background: rgba(255,255,255,0.15); color: #fff;
+    border: none; padding: 10px 16px; border-radius: 10px;
+    font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 13px;
     cursor: pointer; text-decoration: none;
     display: flex; align-items: center; gap: 5px;
   }
   .header-back:active { transform: scale(0.96); }
-  
-  /* ═══ Card ═══ */
   .card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 12px;
+    background: var(--card); border-radius: var(--radius);
+    padding: 16px; margin-bottom: 12px;
     box-shadow: var(--shadow-md);
   }
   .card-title {
@@ -80,53 +57,37 @@
     display: flex; align-items: center; gap: 8px;
   }
   .card-title::before {
-    content: '';
-    width: 4px; height: 16px;
+    content: ''; width: 4px; height: 16px;
     background: linear-gradient(135deg, var(--primary), #8b5cf6);
     border-radius: 2px;
   }
-  
-  /* ═══ Preview ═══ */
   .preview-wrapper {
-    background: #0a0a0a;
-    border-radius: var(--radius-sm);
+    background: #0a0a0a; border-radius: var(--radius-sm);
     min-height: 220px;
     display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-    margin-bottom: 12px;
-    position: relative;
+    overflow: hidden; margin-bottom: 12px; position: relative;
   }
   #previewCanvas { display: none; max-width: 100%; max-height: 400px; }
   .preview-empty {
     color: #475569; font-size: 14px;
-    padding: 40px 20px; text-align: center;
-    line-height: 1.8;
+    padding: 40px 20px; text-align: center; line-height: 1.8;
   }
-  
-  /* ═══ Upload ═══ */
   .upload-area {
-    border: 2px dashed #cbd5e1;
-    border-radius: var(--radius-sm);
+    border: 2px dashed #cbd5e1; border-radius: var(--radius-sm);
     padding: 22px 16px; text-align: center;
-    cursor: pointer; background: #f8fafc;
-    transition: all 0.2s;
+    cursor: pointer; background: #f8fafc; transition: all 0.2s;
   }
   .upload-area:active { border-color: var(--primary); background: var(--primary-light); }
   .upload-icon { font-size: 36px; margin-bottom: 6px; }
   .upload-text { font-size: 14px; font-weight: 700; color: #475569; }
   .upload-hint { font-size: 11px; color: #94a3b8; margin-top: 4px; }
-  
-  /* ═══ Stats ═══ */
   .stats-bar {
     display: flex; gap: 8px; padding: 10px;
-    background: var(--primary-light);
-    border-radius: var(--radius-sm);
+    background: var(--primary-light); border-radius: var(--radius-sm);
     margin-bottom: 12px; flex-wrap: wrap; justify-content: center;
   }
   .stat { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: var(--primary-dark); }
   .stat-num { font-weight: 900; color: var(--primary); }
-  
-  /* ═══ Images Grid ═══ */
   .images-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -135,8 +96,7 @@
   .image-item {
     position: relative; aspect-ratio: 1;
     border-radius: 10px; overflow: hidden;
-    background: #f1f5f9;
-    border: 3px solid var(--border);
+    background: #f1f5f9; border: 3px solid var(--border);
     cursor: grab; transition: all 0.2s;
   }
   .image-item.selected {
@@ -162,8 +122,7 @@
   .image-order {
     position: absolute; bottom: 4px; right: 4px;
     background: var(--primary); color: #fff;
-    width: 22px; height: 22px;
-    border-radius: 50%;
+    width: 22px; height: 22px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     font-size: 11px; font-weight: 900;
   }
@@ -173,8 +132,6 @@
     padding: 2px 7px; border-radius: 6px;
     font-size: 9px; font-weight: 700;
   }
-  
-  /* ═══ Options ═══ */
   .option-group { margin-bottom: 14px; }
   .option-group:last-child { margin-bottom: 0; }
   .option-label {
@@ -184,20 +141,15 @@
   }
   .option-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
   .opt-btn {
-    padding: 8px 14px;
-    border: 2px solid var(--border);
+    padding: 8px 14px; border: 2px solid var(--border);
     background: #fff; border-radius: 10px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700; font-size: 12px;
-    color: #475569; cursor: pointer;
-    transition: all 0.2s;
+    font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 12px;
+    color: #475569; cursor: pointer; transition: all 0.2s;
   }
   .opt-btn:active { transform: scale(0.95); }
   .opt-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
   .opt-btn.small { padding: 6px 10px; font-size: 11px; }
   .opt-btn.danger { background: #fef2f2; color: var(--danger); border-color: #fecaca; }
-  
-  /* ═══ Custom Duration ═══ */
   .duration-custom {
     display: flex; align-items: center; gap: 8px;
     margin-top: 8px; padding: 10px;
@@ -205,57 +157,43 @@
   }
   .duration-custom input[type="number"] {
     width: 70px; padding: 8px;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700; font-size: 14px;
+    border: 2px solid var(--border); border-radius: 8px;
+    font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 14px;
     text-align: center;
   }
   .duration-custom button {
-    padding: 8px 14px;
-    background: var(--primary); color: #fff;
+    padding: 8px 14px; background: var(--primary); color: #fff;
     border: none; border-radius: 8px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700; font-size: 12px;
+    font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 12px;
     cursor: pointer;
   }
-  
-  /* ═══ Audio Section ═══ */
   .audio-tabs {
     display: flex; gap: 6px; margin-bottom: 12px;
     background: #f1f5f9; padding: 4px; border-radius: 12px;
   }
   .audio-tab {
-    flex: 1; padding: 10px;
-    border: none; background: transparent;
+    flex: 1; padding: 10px; border: none; background: transparent;
     border-radius: 8px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700; font-size: 12px;
-    color: #64748b; cursor: pointer;
-    transition: all 0.2s;
+    font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 12px;
+    color: #64748b; cursor: pointer; transition: all 0.2s;
   }
   .audio-tab.active {
     background: #fff; color: var(--primary);
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   }
-  
   .recorder-box {
-    background: #f8fafc;
-    border-radius: var(--radius-sm);
-    padding: 16px;
-    text-align: center;
+    background: #f8fafc; border-radius: var(--radius-sm);
+    padding: 16px; text-align: center;
   }
   .recorder-status {
-    font-size: 13px; font-weight: 700;
-    color: var(--text-light);
+    font-size: 13px; font-weight: 700; color: var(--text-light);
     margin-bottom: 12px;
     display: flex; align-items: center; justify-content: center;
     gap: 8px;
   }
   .recorder-dot {
     width: 10px; height: 10px;
-    border-radius: 50%;
-    background: #cbd5e1;
+    border-radius: 50%; background: #cbd5e1;
   }
   .recorder-dot.recording {
     background: var(--danger);
@@ -272,23 +210,16 @@
     letter-spacing: 1px;
   }
   .recorder-btn {
-    padding: 14px 28px;
-    border: none; border-radius: 50px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 800; font-size: 14px;
+    padding: 14px 28px; border: none; border-radius: 50px;
+    font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 14px;
     color: #fff; cursor: pointer;
     display: inline-flex; align-items: center;
     gap: 8px; transition: all 0.2s;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
   .recorder-btn:active { transform: scale(0.96); }
-  .recorder-btn.record {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-  }
-  .recorder-btn.stop {
-    background: linear-gradient(135deg, #0f172a, #334155);
-  }
-  
+  .recorder-btn.record { background: linear-gradient(135deg, #ef4444, #dc2626); }
+  .recorder-btn.stop { background: linear-gradient(135deg, #0f172a, #334155); }
   .recorder-actions {
     display: flex; gap: 8px; justify-content: center;
     margin-top: 12px; flex-wrap: wrap;
@@ -296,12 +227,9 @@
   .recorder-actions button {
     padding: 10px 16px;
     border: 2px solid var(--border);
-    background: #fff;
-    border-radius: 10px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700; font-size: 12px;
-    color: var(--text-light);
-    cursor: pointer;
+    background: #fff; border-radius: 10px;
+    font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 12px;
+    color: var(--text-light); cursor: pointer;
     display: flex; align-items: center; gap: 6px;
   }
   .recorder-actions button.primary {
@@ -310,52 +238,36 @@
   .recorder-actions button.danger {
     background: var(--danger); color: #fff; border-color: var(--danger);
   }
-  
   .audio-player {
-    width: 100%; margin-top: 12px;
-    display: none;
+    width: 100%; margin-top: 12px; display: none;
   }
   .audio-player.active { display: block; }
-  .audio-player audio {
-    width: 100%; height: 40px;
-  }
-  
+  .audio-player audio { width: 100%; height: 40px; }
   .music-info {
-    padding: 12px;
-    background: #f0fdf4;
+    padding: 12px; background: #f0fdf4;
     border: 2px solid var(--success);
     border-radius: 10px;
     font-size: 12px; font-weight: 700;
     color: #047857;
     display: flex; align-items: center;
     justify-content: space-between;
-    margin-top: 8px;
-    gap: 8px;
+    margin-top: 8px; gap: 8px;
   }
   .music-remove {
     background: var(--danger); color: #fff;
     border: none; padding: 4px 10px;
     border-radius: 6px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700; font-size: 11px;
-    cursor: pointer;
-    flex-shrink: 0;
+    font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 11px;
+    cursor: pointer; flex-shrink: 0;
   }
-  
-  /* ═══ Actions ═══ */
   .actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
   }
   .btn {
-    padding: 14px;
-    border: none; border-radius: 12px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 800; font-size: 14px;
+    padding: 14px; border: none; border-radius: 12px;
+    font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 14px;
     cursor: pointer; color: #fff;
-    display: flex; align-items: center;
-    justify-content: center; gap: 6px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
     transition: all 0.2s;
   }
   .btn:active { transform: scale(0.97); }
@@ -366,8 +278,6 @@
     background: linear-gradient(135deg, #64748b, #475569);
     grid-column: 1 / -1;
   }
-  
-  /* ═══ Progress ═══ */
   .progress { margin-top: 12px; display: none; }
   .progress.active { display: block; }
   .progress-bar {
@@ -380,25 +290,17 @@
     width: 0%; transition: width 0.3s;
   }
   .progress-text {
-    text-align: center;
-    font-size: 12px; color: var(--text-light);
+    text-align: center; font-size: 12px; color: var(--text-light);
     margin-top: 6px; font-weight: 700;
   }
-  
-  /* ═══ Footer ═══ */
   .footer {
     text-align: center; padding: 20px;
     color: #fff; font-size: 12px; opacity: 0.85;
   }
-  
-  /* ═══ Empty ═══ */
   .empty-hint {
     text-align: center; color: #94a3b8;
-    font-size: 13px; padding: 20px;
-    font-weight: 600;
+    font-size: 13px; padding: 20px; font-weight: 600;
   }
-  
-  /* ═══ Toast ═══ */
   .toast {
     position: fixed; bottom: 20px; left: 50%;
     transform: translateX(-50%);
@@ -408,14 +310,10 @@
     z-index: 9999; opacity: 0;
     transition: opacity 0.3s;
     pointer-events: none;
-    max-width: 90%;
-    text-align: center;
+    max-width: 90%; text-align: center;
   }
   .toast.active { opacity: 1; }
-  
-  /* ═══ Section Toggle ═══ */
   .section-hidden { display: none !important; }
-  
   @media (max-width: 480px) {
     .container { padding: 0; }
     .card { padding: 14px; }
@@ -429,7 +327,6 @@
 
 <div class="container">
 
-  <!-- Header -->
   <div class="header">
     <div class="header-logo">
       <div class="header-icon">🎬</div>
@@ -441,18 +338,14 @@
     <a href="index.html" class="header-back">← ريشة</a>
   </div>
 
-  <!-- Preview -->
   <div class="card">
     <div class="card-title">المعاينة</div>
     <div class="preview-wrapper">
       <canvas id="previewCanvas" width="1080" height="1080"></canvas>
-      <div class="preview-empty" id="previewEmpty">
-        أضف صوراً واضغط معاينة
-      </div>
+      <div class="preview-empty" id="previewEmpty">أضف صوراً واضغط معاينة</div>
     </div>
   </div>
 
-  <!-- Stats -->
   <div class="card section-hidden" id="statsCard">
     <div class="stats-bar">
       <div class="stat"><span class="stat-num" id="statImages">0</span> صورة</div>
@@ -463,7 +356,6 @@
     </div>
   </div>
 
-  <!-- Upload -->
   <div class="card">
     <div class="card-title">الصور</div>
     <div class="upload-area" onclick="document.getElementById('imageInput').click()">
@@ -476,10 +368,8 @@
     <div class="empty-hint" id="imagesEmpty">لا توجد صور</div>
   </div>
 
-  <!-- Image Options -->
   <div class="card section-hidden" id="imageOptions">
     <div class="card-title">الصورة المحددة</div>
-    
     <div class="option-group">
       <label class="option-label">الحركة</label>
       <div class="option-buttons" id="animationOptions">
@@ -494,7 +384,6 @@
         <button class="opt-btn" data-animation="pulse">نبض</button>
       </div>
     </div>
-
     <div class="option-group">
       <label class="option-label">مدة هذه الصورة</label>
       <div class="option-buttons" id="imageDurationOptions">
@@ -509,7 +398,6 @@
         <button onclick="applyCustomDuration()">تطبيق</button>
       </div>
     </div>
-
     <div class="option-group">
       <label class="option-label">تعديل الصورة</label>
       <div class="option-buttons">
@@ -522,10 +410,8 @@
     </div>
   </div>
 
-  <!-- Global Options -->
   <div class="card">
     <div class="card-title">الإعدادات</div>
-    
     <div class="option-group">
       <label class="option-label">حجم الفيديو</label>
       <div class="option-buttons" id="sizeOptions">
@@ -535,7 +421,6 @@
         <button class="opt-btn" data-size="1080x1350">عمودي 4:5</button>
       </div>
     </div>
-
     <div class="option-group">
       <label class="option-label">نوع الانتقال</label>
       <div class="option-buttons" id="transitionOptions">
@@ -552,17 +437,13 @@
     </div>
   </div>
 
-  <!-- Audio -->
   <div class="card">
     <div class="card-title">الصوت</div>
-    
     <div class="audio-tabs">
       <button class="audio-tab active" onclick="switchAudioTab('record', this)">تسجيل صوتي</button>
       <button class="audio-tab" onclick="switchAudioTab('upload', this)">رفع ملف</button>
       <button class="audio-tab" onclick="switchAudioTab('music', this)">موسيقى</button>
     </div>
-
-    <!-- Record Tab -->
     <div id="audioTab-record">
       <div class="recorder-box">
         <div class="recorder-status">
@@ -570,22 +451,16 @@
           <span id="recorderStatus">جاهز للتسجيل</span>
         </div>
         <div class="recorder-timer" id="recorderTimer">00:00</div>
-        <button class="recorder-btn record" id="recordBtn" onclick="toggleRecording()">
-          بدء التسجيل
-        </button>
-        
+        <button class="recorder-btn record" id="recordBtn" onclick="toggleRecording()">بدء التسجيل</button>
         <div class="audio-player" id="recordPlayer">
           <audio id="recordAudio" controls></audio>
         </div>
-        
         <div class="recorder-actions section-hidden" id="recordActions">
           <button class="primary" onclick="useRecording()">استخدام التسجيل</button>
           <button class="danger" onclick="deleteRecording()">حذف</button>
         </div>
       </div>
     </div>
-
-    <!-- Upload Tab -->
     <div id="audioTab-upload" class="section-hidden">
       <div class="upload-area" onclick="document.getElementById('audioInput').click()">
         <div class="upload-icon">🎵</div>
@@ -598,8 +473,6 @@
         <button class="music-remove" onclick="removeAudioUpload()">حذف</button>
       </div>
     </div>
-
-    <!-- Music Tab -->
     <div id="audioTab-music" class="section-hidden">
       <div class="upload-area" onclick="document.getElementById('musicInput').click()">
         <div class="upload-icon">🎼</div>
@@ -614,14 +487,12 @@
     </div>
   </div>
 
-  <!-- Actions -->
   <div class="card">
     <div class="actions">
       <button class="btn btn-preview" id="previewBtn" onclick="previewVideo()" disabled>معاينة</button>
       <button class="btn btn-export" id="exportBtn" onclick="exportVideo()" disabled>تصدير الفيديو</button>
       <button class="btn btn-reset" onclick="resetAll()">إعادة تعيين</button>
     </div>
-    
     <div class="progress" id="progressContainer">
       <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
       <div class="progress-text" id="progressText">جاري التحضير</div>
@@ -635,16 +506,6 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// JavaScript سيضاف في الجزء 2 و 3
-</script>
-
-</body>
-</html>
-
-<script>
-// ═══════════════════════════════════════════════
-// المتغيرات العامة
-// ═══════════════════════════════════════════════
 var images = [];
 var audioUpload = null;
 var musicFile = null;
@@ -654,28 +515,20 @@ var selectedImageIndex = -1;
 var isExporting = false;
 var isPreviewing = false;
 var previewAnimationId = null;
-
-// التسجيل الصوتي
 var mediaRecorder = null;
 var audioChunks = [];
 var recordedAudioBlob = null;
 var recordingStartTime = 0;
 var recordingTimerInterval = null;
 var recordingStream = null;
-var selectedAudio = null; // 'record' أو 'upload' أو 'music'
+var selectedAudio = null;
 
-// ═══════════════════════════════════════════════
-// تتبع الأحداث
-// ═══════════════════════════════════════════════
 function trackEvent(eventName) {
   if (typeof goatcounter !== 'undefined' && goatcounter.count) {
     goatcounter.count({ path: eventName, title: eventName, event: true });
   }
 }
 
-// ═══════════════════════════════════════════════
-// Toast
-// ═══════════════════════════════════════════════
 function showToast(msg) {
   var t = document.getElementById('toast');
   t.textContent = msg;
@@ -683,39 +536,26 @@ function showToast(msg) {
   setTimeout(function() { t.classList.remove('active'); }, 2500);
 }
 
-// ═══════════════════════════════════════════════
-// رفع الصور
-// ═══════════════════════════════════════════════
 document.getElementById('imageInput').addEventListener('change', function(e) {
   var files = Array.from(e.target.files);
   if (files.length === 0) return;
-  
   if (images.length + files.length > 30) {
     showToast('الحد الأقصى 30 صورة');
     return;
   }
-  
   var loaded = 0;
   var total = files.length;
-  
   files.forEach(function(file) {
     if (!file.type.startsWith('image/')) return;
-    
     var reader = new FileReader();
     reader.onload = function(ev) {
       var img = new Image();
       img.onload = function() {
         images.push({
-          img: img,
-          animation: 'none',
-          duration: 3,
-          rotation: 0,
-          flipH: false,
-          flipV: false,
-          src: ev.target.result
+          img: img, animation: 'none', duration: 3,
+          rotation: 0, flipH: false, flipV: false, src: ev.target.result
         });
         loaded++;
-        
         if (loaded === total) {
           renderImagesGrid();
           updateButtons();
@@ -727,21 +567,15 @@ document.getElementById('imageInput').addEventListener('change', function(e) {
     };
     reader.readAsDataURL(file);
   });
-  
   e.target.value = '';
 });
 
-// ═══════════════════════════════════════════════
-// عرض شبكة الصور
-// ═══════════════════════════════════════════════
 function renderImagesGrid() {
   var grid = document.getElementById('imagesGrid');
   var emptyHint = document.getElementById('imagesEmpty');
   var statsCard = document.getElementById('statsCard');
   var imgOptions = document.getElementById('imageOptions');
-  
   grid.innerHTML = '';
-  
   if (images.length === 0) {
     emptyHint.style.display = 'block';
     statsCard.classList.add('section-hidden');
@@ -749,23 +583,19 @@ function renderImagesGrid() {
     selectedImageIndex = -1;
     return;
   }
-  
   emptyHint.style.display = 'none';
   statsCard.classList.remove('section-hidden');
-  
   images.forEach(function(item, index) {
     var el = document.createElement('div');
     el.className = 'image-item' + (index === selectedImageIndex ? ' selected' : '');
     el.draggable = true;
     el.dataset.index = index;
-    
     var imgEl = document.createElement('img');
     imgEl.src = item.src;
     var transform = 'rotate(' + item.rotation + 'deg)';
     if (item.flipH) transform += ' scaleX(-1)';
     if (item.flipV) transform += ' scaleY(-1)';
     imgEl.style.transform = transform;
-    
     var removeBtn = document.createElement('button');
     removeBtn.className = 'image-remove';
     removeBtn.textContent = '×';
@@ -773,32 +603,26 @@ function renderImagesGrid() {
       e.stopPropagation();
       removeImage(index);
     };
-    
     var order = document.createElement('div');
     order.className = 'image-order';
     order.textContent = index + 1;
-    
     if (item.animation !== 'none') {
       var badge = document.createElement('div');
       badge.className = 'image-badge';
       badge.textContent = getAnimationLabel(item.animation);
       el.appendChild(badge);
     }
-    
     el.appendChild(imgEl);
     el.appendChild(removeBtn);
     el.appendChild(order);
-    
     el.addEventListener('click', function() { selectImage(index); });
     el.addEventListener('dragstart', handleDragStart);
     el.addEventListener('dragover', handleDragOver);
     el.addEventListener('drop', handleDrop);
     el.addEventListener('dragend', handleDragEnd);
     el.addEventListener('dragleave', handleDragLeave);
-    
     grid.appendChild(el);
   });
-  
   if (selectedImageIndex >= 0 && selectedImageIndex < images.length) {
     imgOptions.classList.remove('section-hidden');
   }
@@ -806,89 +630,60 @@ function renderImagesGrid() {
 
 function getAnimationLabel(anim) {
   var labels = {
-    'none': 'ثابتة',
-    'zoomIn': 'زوم+',
-    'zoomOut': 'زوم-',
-    'panRight': 'تحرك',
-    'panLeft': 'تحرك',
-    'panUp': 'تحرك',
-    'panDown': 'تحرك',
-    'rotate': 'دوران',
-    'pulse': 'نبض'
+    'none': 'ثابتة', 'zoomIn': 'زوم+', 'zoomOut': 'زوم-',
+    'panRight': 'تحرك', 'panLeft': 'تحرك', 'panUp': 'تحرك', 'panDown': 'تحرك',
+    'rotate': 'دوران', 'pulse': 'نبض'
   };
   return labels[anim] || '';
 }
 
-// ═══════════════════════════════════════════════
-// اختيار صورة
-// ═══════════════════════════════════════════════
 function selectImage(index) {
   selectedImageIndex = index;
-  
   document.querySelectorAll('.image-item').forEach(function(el, i) {
     if (i === index) el.classList.add('selected');
     else el.classList.remove('selected');
   });
-  
   document.getElementById('imageOptions').classList.remove('section-hidden');
-  
   var item = images[index];
-  
   document.querySelectorAll('#animationOptions .opt-btn').forEach(function(btn) {
     if (btn.dataset.animation === item.animation) btn.classList.add('active');
     else btn.classList.remove('active');
   });
-  
   document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn) {
     if (parseInt(btn.dataset.duration) === item.duration) btn.classList.add('active');
     else btn.classList.remove('active');
   });
-  
   document.getElementById('customDuration').value = item.duration;
 }
 
-// ═══════════════════════════════════════════════
-// السحب والإفلات
-// ═══════════════════════════════════════════════
 var dragIndex = null;
-
 function handleDragStart(e) {
   dragIndex = parseInt(this.dataset.index);
   this.classList.add('dragging');
   e.dataTransfer.effectAllowed = 'move';
 }
-
 function handleDragOver(e) {
   e.preventDefault();
   e.dataTransfer.dropEffect = 'move';
   this.classList.add('drag-over');
 }
-
 function handleDragLeave() { this.classList.remove('drag-over'); }
-
 function handleDrop(e) {
   e.preventDefault();
   this.classList.remove('drag-over');
   var dropIndex = parseInt(this.dataset.index);
   if (dragIndex === null || dragIndex === dropIndex) return;
-  
   var moved = images.splice(dragIndex, 1)[0];
   images.splice(dropIndex, 0, moved);
-  
   if (selectedImageIndex === dragIndex) selectedImageIndex = dropIndex;
   else if (selectedImageIndex === dropIndex) selectedImageIndex = dragIndex;
-  
   renderImagesGrid();
 }
-
 function handleDragEnd() {
   this.classList.remove('dragging');
   dragIndex = null;
 }
 
-// ═══════════════════════════════════════════════
-// حذف صورة
-// ═══════════════════════════════════════════════
 function removeImage(index) {
   images.splice(index, 1);
   if (selectedImageIndex === index) selectedImageIndex = -1;
@@ -898,9 +693,6 @@ function removeImage(index) {
   updateStats();
 }
 
-// ═══════════════════════════════════════════════
-// تعديلات الصورة
-// ═══════════════════════════════════════════════
 function rotateImage(deg) {
   if (selectedImageIndex < 0) return;
   images[selectedImageIndex].rotation = (images[selectedImageIndex].rotation + deg) % 360;
@@ -926,9 +718,6 @@ function resetImageEdits() {
   showToast('تم إعادة الصورة');
 }
 
-// ═══════════════════════════════════════════════
-// المدة المخصصة
-// ═══════════════════════════════════════════════
 function applyCustomDuration() {
   if (selectedImageIndex < 0) return;
   var val = parseInt(document.getElementById('customDuration').value);
@@ -944,9 +733,6 @@ function applyCustomDuration() {
   showToast('تم تحديث المدة');
 }
 
-// ═══════════════════════════════════════════════
-// أحداث الحركة والمدة
-// ═══════════════════════════════════════════════
 document.querySelectorAll('#animationOptions .opt-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     if (selectedImageIndex < 0) return;
@@ -970,9 +756,6 @@ document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn
   });
 });
 
-// ═══════════════════════════════════════════════
-// الإعدادات العامة
-// ═══════════════════════════════════════════════
 document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
@@ -989,53 +772,37 @@ document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(btn) {
   });
 });
 
-// ═══════════════════════════════════════════════
-// تفعيل الأزرار
-// ═══════════════════════════════════════════════
 function updateButtons() {
   var hasImages = images.length > 0;
   document.getElementById('previewBtn').disabled = !hasImages;
   document.getElementById('exportBtn').disabled = !hasImages;
 }
 
-// ═══════════════════════════════════════════════
-// الإحصائيات
-// ═══════════════════════════════════════════════
 function updateStats() {
   var totalDuration = 0;
   images.forEach(function(item) { totalDuration += item.duration; });
   var estimatedMB = (totalDuration * 5 / 8).toFixed(1);
-  
   document.getElementById('statImages').textContent = images.length;
   document.getElementById('statDuration').textContent = totalDuration;
   document.getElementById('statSize').textContent = estimatedMB;
 }
 
-// ═══════════════════════════════════════════════
-// رسم الصورة مع الحركات
-// ═══════════════════════════════════════════════
 function drawImageCover(ctx, item, canvasWidth, canvasHeight, opacity, animationProgress) {
   if (opacity === undefined) opacity = 1;
   if (animationProgress === undefined) animationProgress = 0;
-  
   var img = item.img;
   var p = Math.min(1, Math.max(0, animationProgress));
-  
   ctx.save();
   ctx.globalAlpha = opacity;
-  
   var cx = canvasWidth / 2;
   var cy = canvasHeight / 2;
   ctx.translate(cx, cy);
-  
   if (item.rotation) ctx.rotate(item.rotation * Math.PI / 180);
   if (item.flipH) ctx.scale(-1, 1);
   if (item.flipV) ctx.scale(1, -1);
-  
   var imgRatio = img.width / img.height;
   var canvasRatio = canvasWidth / canvasHeight;
   var drawWidth, drawHeight;
-  
   if (imgRatio > canvasRatio) {
     drawHeight = canvasHeight;
     drawWidth = img.width * (canvasHeight / img.height);
@@ -1043,82 +810,45 @@ function drawImageCover(ctx, item, canvasWidth, canvasHeight, opacity, animation
     drawWidth = canvasWidth;
     drawHeight = img.height * (canvasWidth / img.width);
   }
-  
   var scale = 1;
   var offsetX = 0;
   var offsetY = 0;
-  
   switch(item.animation) {
-    case 'zoomIn':
-      scale = 1 + (p * 0.3);
-      break;
-    case 'zoomOut':
-      scale = 1.3 - (p * 0.3);
-      break;
-    case 'panRight':
-      scale = 1.2;
-      offsetX = (p - 0.5) * canvasWidth * 0.15;
-      break;
-    case 'panLeft':
-      scale = 1.2;
-      offsetX = -(p - 0.5) * canvasWidth * 0.15;
-      break;
-    case 'panUp':
-      scale = 1.2;
-      offsetY = -(p - 0.5) * canvasHeight * 0.15;
-      break;
-    case 'panDown':
-      scale = 1.2;
-      offsetY = (p - 0.5) * canvasHeight * 0.15;
-      break;
-    case 'rotate':
-      scale = 1.1;
-      ctx.rotate(p * Math.PI * 0.1);
-      break;
-    case 'pulse':
-      scale = 1 + Math.sin(p * Math.PI * 2) * 0.08;
-      break;
+    case 'zoomIn': scale = 1 + (p * 0.3); break;
+    case 'zoomOut': scale = 1.3 - (p * 0.3); break;
+    case 'panRight': scale = 1.2; offsetX = (p - 0.5) * canvasWidth * 0.15; break;
+    case 'panLeft': scale = 1.2; offsetX = -(p - 0.5) * canvasWidth * 0.15; break;
+    case 'panUp': scale = 1.2; offsetY = -(p - 0.5) * canvasHeight * 0.15; break;
+    case 'panDown': scale = 1.2; offsetY = (p - 0.5) * canvasHeight * 0.15; break;
+    case 'rotate': scale = 1.1; ctx.rotate(p * Math.PI * 0.1); break;
+    case 'pulse': scale = 1 + Math.sin(p * Math.PI * 2) * 0.08; break;
   }
-  
   ctx.scale(scale, scale);
   ctx.translate(offsetX, offsetY);
-  
   ctx.drawImage(img, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
   ctx.restore();
 }
 
-// ═══════════════════════════════════════════════
-// رسم الانتقال (بين الصور)
-// ═══════════════════════════════════════════════
 function drawTransition(ctx, prevItem, nextItem, canvasWidth, canvasHeight, progress) {
   var t = Math.min(1, Math.max(0, progress));
-  
-  // ارسم الصورة السابقة
   drawImageCover(ctx, prevItem, canvasWidth, canvasHeight, 1, 1);
-  
-  // ارسم الانتقال
   ctx.save();
-  
   switch(currentTransition) {
     case 'fade':
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, t, 0);
       break;
-      
     case 'slideRight':
       ctx.translate(canvasWidth * (1 - t), 0);
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'slideLeft':
       ctx.translate(-canvasWidth * (1 - t), 0);
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'slideUp':
       ctx.translate(0, canvasHeight * (1 - t));
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'zoom':
       var scale = 0.3 + t * 0.7;
       ctx.translate(canvasWidth / 2, canvasHeight / 2);
@@ -1127,7 +857,6 @@ function drawTransition(ctx, prevItem, nextItem, canvasWidth, canvasHeight, prog
       ctx.translate(-canvasWidth / 2, -canvasHeight / 2);
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'rotate':
       ctx.translate(canvasWidth / 2, canvasHeight / 2);
       ctx.rotate((1 - t) * Math.PI / 2);
@@ -1135,9 +864,7 @@ function drawTransition(ctx, prevItem, nextItem, canvasWidth, canvasHeight, prog
       ctx.translate(-canvasWidth / 2, -canvasHeight / 2);
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'book':
-      // فتح كتاب - انزلاق + دوران من الجانب
       var bookAngle = (1 - t) * Math.PI / 2;
       ctx.translate(canvasWidth, 0);
       ctx.rotate(-bookAngle);
@@ -1145,72 +872,53 @@ function drawTransition(ctx, prevItem, nextItem, canvasWidth, canvasHeight, prog
       ctx.translate(-canvasWidth, 0);
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'fold':
-      // طي - دوران من المنتصف
-      var foldProgress = t;
       ctx.translate(canvasWidth, canvasHeight / 2);
-      ctx.rotate(-(1 - foldProgress) * Math.PI / 2);
+      ctx.rotate(-(1 - t) * Math.PI / 2);
       ctx.translate(-canvasWidth, -canvasHeight / 2);
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'none':
     default:
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
   }
-  
   ctx.restore();
 }
 
-// ═══════════════════════════════════════════════
-// المعاينة
-// ═══════════════════════════════════════════════
 function previewVideo() {
   if (images.length === 0) return;
-  
   if (isPreviewing) {
     isPreviewing = false;
     if (previewAnimationId) cancelAnimationFrame(previewAnimationId);
     document.getElementById('previewBtn').textContent = 'معاينة';
     return;
   }
-  
   isPreviewing = true;
   trackEvent('montage-معاينة');
   document.getElementById('previewBtn').textContent = 'إيقاف';
-  
   var canvas = document.getElementById('previewCanvas');
   var placeholder = document.getElementById('previewEmpty');
   var size = currentSize.split('x');
   var w = parseInt(size[0]);
   var h = parseInt(size[1]);
-  
   var previewScale = Math.min(400 / w, 400 / h, 1);
   canvas.width = w * previewScale;
   canvas.height = h * previewScale;
   canvas.style.display = 'block';
   placeholder.style.display = 'none';
-  
   var ctx = canvas.getContext('2d');
   var currentIndex = 0;
   var startTime = Date.now();
-  
   function animate() {
     if (!isPreviewing) return;
-    
     var elapsed = (Date.now() - startTime) / 1000;
     var progress = elapsed / images[currentIndex].duration;
-    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
     if (currentIndex < images.length) {
       var item = images[currentIndex];
-      
-      // آخر 25% من المدة = انتقال
       if (progress > 0.75 && currentTransition !== 'none' && currentIndex < images.length - 1) {
         var transProgress = (progress - 0.75) / 0.25;
         drawTransition(ctx, item, images[currentIndex + 1], canvas.width, canvas.height, transProgress);
@@ -1218,7 +926,6 @@ function previewVideo() {
         drawImageCover(ctx, item, canvas.width, canvas.height, 1, progress);
       }
     }
-    
     if (progress >= 1) {
       currentIndex++;
       startTime = Date.now();
@@ -1227,27 +934,153 @@ function previewVideo() {
         startTime = Date.now();
       }
     }
-    
     previewAnimationId = requestAnimationFrame(animate);
   }
-  
   animate();
 }
 
-// ═══════════════════════════════════════════════
-// تصدير الفيديو (سيأتي في الجزء 3)
-// ═══════════════════════════════════════════════
 async function exportVideo() {
-  // سيتم في الجزء 3
-  alert('سيتم إضافة التصدير في الجزء 3');
+  if (images.length === 0 || isExporting) return;
+  isExporting = true;
+  var progressContainer = document.getElementById('progressContainer');
+  var progressFill = document.getElementById('progressFill');
+  var progressText = document.getElementById('progressText');
+  var exportBtn = document.getElementById('exportBtn');
+  var previewBtn = document.getElementById('previewBtn');
+  progressContainer.classList.add('active');
+  exportBtn.disabled = true;
+  previewBtn.disabled = true;
+  isPreviewing = false;
+  try {
+    trackEvent('montage-تصدير');
+    var size = currentSize.split('x');
+    var w = parseInt(size[0]);
+    var h = parseInt(size[1]);
+    var exportCanvas = document.createElement('canvas');
+    exportCanvas.width = w;
+    exportCanvas.height = h;
+    var ctx = exportCanvas.getContext('2d');
+    var stream = exportCanvas.captureStream(30);
+    var audioContext = null;
+    var audioSources = [];
+    var audioFileToUse = null;
+    if (selectedAudio === 'record' && recordedAudioBlob) {
+      audioFileToUse = recordedAudioBlob;
+    } else if (selectedAudio === 'upload' && audioUpload) {
+      audioFileToUse = audioUpload;
+    }
+    if (audioFileToUse || musicFile) {
+      try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var audioDest = audioContext.createMediaStreamDestination();
+        if (audioFileToUse) {
+          var arrayBuffer = await audioFileToUse.arrayBuffer();
+          var audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+          var audioSource = audioContext.createBufferSource();
+          audioSource.buffer = audioBuffer;
+          audioSource.loop = false;
+          audioSource.connect(audioDest);
+          audioSources.push(audioSource);
+        }
+        if (musicFile) {
+          var musicBuffer = await musicFile.arrayBuffer();
+          var musicBufferDecoded = await audioContext.decodeAudioData(musicBuffer);
+          var musicSource = audioContext.createBufferSource();
+          musicSource.buffer = musicBufferDecoded;
+          musicSource.loop = true;
+          var musicGain = audioContext.createGain();
+          musicGain.gain.value = audioFileToUse ? 0.15 : 0.6;
+          musicSource.connect(musicGain);
+          musicGain.connect(audioDest);
+          audioSources.push(musicSource);
+        }
+        audioSources.forEach(function(src) {
+          try { src.start(0); } catch(e) {}
+        });
+        audioDest.stream.getAudioTracks().forEach(function(track) {
+          stream.addTrack(track);
+        });
+      } catch(e) {
+        console.warn('تعذر دمج الصوت:', e);
+      }
+    }
+    var mimeType = 'video/webm;codecs=vp9';
+    if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm;codecs=vp8';
+    if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
+    var recorder = new MediaRecorder(stream, {
+      mimeType: mimeType,
+      videoBitsPerSecond: 5000000
+    });
+    var chunks = [];
+    recorder.ondataavailable = function(e) {
+      if (e.data.size > 0) chunks.push(e.data);
+    };
+    var recordingDone = new Promise(function(resolve) {
+      recorder.onstop = function() {
+        var blob = new Blob(chunks, { type: 'video/webm' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'resha-montage-' + Date.now() + '.webm';
+        link.click();
+        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+        audioSources.forEach(function(src) {
+          try { src.stop(); } catch(e) {}
+        });
+        if (audioContext) audioContext.close();
+        progressContainer.classList.remove('active');
+        exportBtn.disabled = false;
+        previewBtn.disabled = false;
+        isExporting = false;
+        showToast('تم تصدير الفيديو');
+        resolve();
+      };
+    });
+    recorder.start();
+    var currentIndex = 0;
+    var frameStartTime = performance.now();
+    function renderFrame() {
+      var now = performance.now();
+      var elapsed = (now - frameStartTime) / 1000;
+      var progress = elapsed / images[currentIndex].duration;
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, w, h);
+      if (currentIndex < images.length) {
+        var item = images[currentIndex];
+        if (progress > 0.75 && currentTransition !== 'none' && currentIndex < images.length - 1) {
+          var transProgress = (progress - 0.75) / 0.25;
+          drawTransition(ctx, item, images[currentIndex + 1], w, h, transProgress);
+        } else {
+          drawImageCover(ctx, item, w, h, 1, progress);
+        }
+      }
+      if (progress >= 1) {
+        currentIndex++;
+        frameStartTime = now;
+        if (currentIndex >= images.length) {
+          recorder.stop();
+          return;
+        }
+      }
+      var totalProgress = (currentIndex + progress) / images.length;
+      progressFill.style.width = (totalProgress * 100) + '%';
+      progressText.textContent = 'جاري التصدير ' + Math.round(totalProgress * 100) + '%';
+      requestAnimationFrame(renderFrame);
+    }
+    renderFrame();
+    await recordingDone;
+  } catch(err) {
+    console.error('خطأ:', err);
+    showToast('حدث خطأ: ' + err.message);
+    progressContainer.classList.remove('active');
+    exportBtn.disabled = false;
+    previewBtn.disabled = false;
+    isExporting = false;
+  }
 }
 
-// ═══════════════════════════════════════════════
-// إعادة تعيين
-// ═══════════════════════════════════════════════
 function resetAll() {
   if (!confirm('حذف كل شيء؟')) return;
-  
   images = [];
   audioUpload = null;
   musicFile = null;
@@ -1255,54 +1088,29 @@ function resetAll() {
   selectedAudio = null;
   isPreviewing = false;
   selectedImageIndex = -1;
-  
   if (previewAnimationId) cancelAnimationFrame(previewAnimationId);
-  
   renderImagesGrid();
   updateButtons();
   updateStats();
-  
   document.getElementById('musicInfo').classList.add('section-hidden');
   document.getElementById('audioUploadInfo').classList.add('section-hidden');
   document.getElementById('recordPlayer').classList.remove('active');
   document.getElementById('recordActions').classList.add('section-hidden');
-  
   document.getElementById('previewCanvas').style.display = 'none';
   document.getElementById('previewEmpty').style.display = 'block';
   document.getElementById('progressContainer').classList.remove('active');
-  
   showToast('تم إعادة التعيين');
 }
 
-// ═══════════════════════════════════════════════
-// التشغيل الأولي
-// ═══════════════════════════════════════════════
-window.addEventListener('load', function() {
-  trackEvent('montage-زيارة');
-  updateStats();
-  console.log('✅ المونتاج جاهز - الجزء 2');
-});
-</script>
-  console.log('✅ المونتاج جاهز - الجزء 2');
-});
-
-// ═══════════════════════════════════════════════
-// تبديل تبويبات الصوت
-// ═══════════════════════════════════════════════
 function switchAudioTab(tab, btn) {
   document.querySelectorAll('.audio-tab').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
-  
   document.querySelectorAll('#audioTab-record, #audioTab-upload, #audioTab-music').forEach(function(el) {
     el.classList.add('section-hidden');
   });
-  
   document.getElementById('audioTab-' + tab).classList.remove('section-hidden');
 }
 
-// ═══════════════════════════════════════════════
-// التسجيل الصوتي
-// ═══════════════════════════════════════════════
 async function toggleRecording() {
   if (mediaRecorder && mediaRecorder.state === 'recording') {
     stopRecording();
@@ -1314,42 +1122,29 @@ async function toggleRecording() {
 async function startRecording() {
   try {
     recordingStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    
     var mimeType = 'audio/webm;codecs=opus';
-    if (!MediaRecorder.isTypeSupported(mimeType)) {
-      mimeType = 'audio/webm';
-    }
-    if (!MediaRecorder.isTypeSupported(mimeType)) {
-      mimeType = '';
-    }
-    
+    if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'audio/webm';
+    if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = '';
     var options = mimeType ? { mimeType: mimeType } : {};
     mediaRecorder = new MediaRecorder(recordingStream, options);
     audioChunks = [];
-    
     mediaRecorder.ondataavailable = function(e) {
       if (e.data.size > 0) audioChunks.push(e.data);
     };
-    
     mediaRecorder.onstop = function() {
       recordedAudioBlob = new Blob(audioChunks, { type: 'audio/webm' });
       var url = URL.createObjectURL(recordedAudioBlob);
-      
       var audioEl = document.getElementById('recordAudio');
       audioEl.src = url;
-      
       document.getElementById('recordPlayer').classList.add('active');
       document.getElementById('recordActions').classList.remove('section-hidden');
       document.getElementById('recorderStatus').textContent = 'التسجيل جاهز';
-      
       if (recordingStream) {
         recordingStream.getTracks().forEach(function(t) { t.stop(); });
       }
     };
-    
     mediaRecorder.start();
     recordingStartTime = Date.now();
-    
     document.getElementById('recorderDot').classList.add('recording');
     document.getElementById('recorderStatus').textContent = 'جاري التسجيل';
     document.getElementById('recordBtn').textContent = 'إيقاف التسجيل';
@@ -1357,10 +1152,8 @@ async function startRecording() {
     document.getElementById('recordBtn').classList.add('stop');
     document.getElementById('recordPlayer').classList.remove('active');
     document.getElementById('recordActions').classList.add('section-hidden');
-    
     recordingTimerInterval = setInterval(updateTimer, 100);
     trackEvent('montage-تسجيل');
-    
   } catch(err) {
     console.error('خطأ في التسجيل:', err);
     showToast('لم يتم السماح بالوصول للميكروفون');
@@ -1371,12 +1164,10 @@ function stopRecording() {
   if (mediaRecorder && mediaRecorder.state === 'recording') {
     mediaRecorder.stop();
   }
-  
   if (recordingTimerInterval) {
     clearInterval(recordingTimerInterval);
     recordingTimerInterval = null;
   }
-  
   document.getElementById('recorderDot').classList.remove('recording');
   document.getElementById('recordBtn').textContent = 'بدء التسجيل';
   document.getElementById('recordBtn').classList.remove('stop');
@@ -1408,9 +1199,6 @@ function deleteRecording() {
   showToast('تم حذف التسجيل');
 }
 
-// ═══════════════════════════════════════════════
-// رفع ملف صوتي
-// ═══════════════════════════════════════════════
 document.getElementById('audioInput').addEventListener('change', function(e) {
   var file = e.target.files[0];
   if (!file) return;
@@ -1418,7 +1206,6 @@ document.getElementById('audioInput').addEventListener('change', function(e) {
     showToast('الرجاء اختيار ملف صوتي');
     return;
   }
-  
   audioUpload = file;
   selectedAudio = 'upload';
   document.getElementById('audioUploadName').textContent = file.name;
@@ -1434,9 +1221,6 @@ function removeAudioUpload() {
   document.getElementById('audioInput').value = '';
 }
 
-// ═══════════════════════════════════════════════
-// رفع موسيقى
-// ═══════════════════════════════════════════════
 document.getElementById('musicInput').addEventListener('change', function(e) {
   var file = e.target.files[0];
   if (!file) return;
@@ -1444,7 +1228,6 @@ document.getElementById('musicInput').addEventListener('change', function(e) {
     showToast('الرجاء اختيار ملف صوتي');
     return;
   }
-  
   musicFile = file;
   document.getElementById('musicName').textContent = file.name;
   document.getElementById('musicInfo').classList.remove('section-hidden');
@@ -1458,207 +1241,20 @@ function removeMusic() {
   document.getElementById('musicInput').value = '';
 }
 
-// ═══════════════════════════════════════════════
-// تصدير الفيديو (الإصدار الكامل)
-// ═══════════════════════════════════════════════
-async function exportVideo() {
-  if (images.length === 0 || isExporting) return;
-  
-  isExporting = true;
-  var progressContainer = document.getElementById('progressContainer');
-  var progressFill = document.getElementById('progressFill');
-  var progressText = document.getElementById('progressText');
-  var exportBtn = document.getElementById('exportBtn');
-  var previewBtn = document.getElementById('previewBtn');
-  
-  progressContainer.classList.add('active');
-  exportBtn.disabled = true;
-  previewBtn.disabled = true;
-  isPreviewing = false;
-  
-  try {
-    trackEvent('montage-تصدير');
-    
-    var size = currentSize.split('x');
-    var w = parseInt(size[0]);
-    var h = parseInt(size[1]);
-    
-    var exportCanvas = document.createElement('canvas');
-    exportCanvas.width = w;
-    exportCanvas.height = h;
-    var ctx = exportCanvas.getContext('2d');
-    
-    var stream = exportCanvas.captureStream(30);
-    
-    // ═══ دمج الأصوات ═══
-    var audioContext = null;
-    var audioSources = [];
-    
-    var audioFileToUse = null;
-    if (selectedAudio === 'record' && recordedAudioBlob) {
-      audioFileToUse = recordedAudioBlob;
-    } else if (selectedAudio === 'upload' && audioUpload) {
-      audioFileToUse = audioUpload;
-    }
-    
-    if (audioFileToUse || musicFile) {
-      try {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        var audioDest = audioContext.createMediaStreamDestination();
-        
-        // الصوت الأساسي (تسجيل أو رفع)
-        if (audioFileToUse) {
-          var arrayBuffer = await audioFileToUse.arrayBuffer();
-          var audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-          var audioSource = audioContext.createBufferSource();
-          audioSource.buffer = audioBuffer;
-          audioSource.loop = false;
-          audioSource.connect(audioDest);
-          audioSources.push(audioSource);
-        }
-        
-        // موسيقى خلفية (بصوت مخفض)
-        if (musicFile) {
-          var musicBuffer = await musicFile.arrayBuffer();
-          var musicBufferDecoded = await audioContext.decodeAudioData(musicBuffer);
-          var musicSource = audioContext.createBufferSource();
-          musicSource.buffer = musicBufferDecoded;
-          musicSource.loop = true;
-          
-          var musicGain = audioContext.createGain();
-          musicGain.gain.value = audioFileToUse ? 0.15 : 0.6; // خفض الموسيقى إذا فيه تعليق
-          
-          musicSource.connect(musicGain);
-          musicGain.connect(audioDest);
-          audioSources.push(musicSource);
-        }
-        
-        // بدء التشغيل
-        audioSources.forEach(function(src) {
-          try { src.start(0); } catch(e) {}
-        });
-        
-        audioDest.stream.getAudioTracks().forEach(function(track) {
-          stream.addTrack(track);
-        });
-      } catch(e) {
-        console.warn('تعذر دمج الصوت:', e);
-      }
-    }
-    
-    // ═══ اختيار صيغة الفيديو ═══
-    var mimeType = 'video/webm;codecs=vp9';
-    if (!MediaRecorder.isTypeSupported(mimeType)) {
-      mimeType = 'video/webm;codecs=vp8';
-    }
-    if (!MediaRecorder.isTypeSupported(mimeType)) {
-      mimeType = 'video/webm';
-    }
-    
-    var recorder = new MediaRecorder(stream, {
-      mimeType: mimeType,
-      videoBitsPerSecond: 5000000
-    });
-    
-    var chunks = [];
-    recorder.ondataavailable = function(e) {
-      if (e.data.size > 0) chunks.push(e.data);
-    };
-    
-    var recordingDone = new Promise(function(resolve) {
-      recorder.onstop = function() {
-        var blob = new Blob(chunks, { type: 'video/webm' });
-        var url = URL.createObjectURL(blob);
-        var link = document.createElement('a');
-        link.href = url;
-        link.download = 'resha-montage-' + Date.now() + '.webm';
-        link.click();
-        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
-        
-        audioSources.forEach(function(src) {
-          try { src.stop(); } catch(e) {}
-        });
-        if (audioContext) audioContext.close();
-        
-        progressContainer.classList.remove('active');
-        exportBtn.disabled = false;
-        previewBtn.disabled = false;
-        isExporting = false;
-        showToast('تم تصدير الفيديو');
-        resolve();
-      };
-    });
-    
-    recorder.start();
-    
-    // ═══ الرسم ═══
-    var currentIndex = 0;
-    var frameStartTime = performance.now();
-    
-    function renderFrame() {
-      var now = performance.now();
-      var elapsed = (now - frameStartTime) / 1000;
-      var progress = elapsed / images[currentIndex].duration;
-      
-      ctx.fillStyle = '#000';
-      ctx.fillRect(0, 0, w, h);
-      
-      if (currentIndex < images.length) {
-        var item = images[currentIndex];
-        
-        if (progress > 0.75 && currentTransition !== 'none' && currentIndex < images.length - 1) {
-          var transProgress = (progress - 0.75) / 0.25;
-          drawTransition(ctx, item, images[currentIndex + 1], w, h, transProgress);
-        } else {
-          drawImageCover(ctx, item, w, h, 1, progress);
-        }
-      }
-      
-      if (progress >= 1) {
-        currentIndex++;
-        frameStartTime = now;
-        if (currentIndex >= images.length) {
-          recorder.stop();
-          return;
-        }
-      }
-      
-      var totalProgress = (currentIndex + progress) / images.length;
-      progressFill.style.width = (totalProgress * 100) + '%';
-      progressText.textContent = 'جاري التصدير ' + Math.round(totalProgress * 100) + '%';
-      
-      requestAnimationFrame(renderFrame);
-    }
-    
-    renderFrame();
-    await recordingDone;
-    
-  } catch(err) {
-    console.error('خطأ:', err);
-    showToast('حدث خطأ: ' + err.message);
-    progressContainer.classList.remove('active');
-    exportBtn.disabled = false;
-    previewBtn.disabled = false;
-    isExporting = false;
-  }
-}
-
-// ═══════════════════════════════════════════════
-// تحقق من دعم المتصفح
-// ═══════════════════════════════════════════════
 window.addEventListener('load', function() {
   if (!window.MediaRecorder) {
     showToast('متصفحك لا يدعم تصدير الفيديو');
     document.getElementById('exportBtn').disabled = true;
   }
-  
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     document.getElementById('recordBtn').disabled = true;
     document.getElementById('recorderStatus').textContent = 'التسجيل غير مدعوم';
   }
-  
   trackEvent('montage-زيارة');
   updateStats();
-  console.log('✅ المونتاج الاحترافي جاهز بالكامل');
+  console.log('✅ المونتاج جاهز');
 });
 </script>
+
+</body>
+</html>
