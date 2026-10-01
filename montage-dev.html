@@ -1,1 +1,1064 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🎬 المونتاج — ريشة | نبراس GP</title>
+<script data-goatcounter="https://resha.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  
+  :root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #eef2ff;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --text-light: #64748b;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    min-height: 100vh;
+    color: var(--text);
+    padding: 12px;
+  }
+  
+  .container { max-width: 1000px; margin: 0 auto; }
+  
+  /* ═══ Header ═══ */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0 16px;
+    color: #fff;
+  }
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+  .header-text { font-size: 18px; font-weight: 900; }
+  .header-sub { font-size: 11px; opacity: 0.85; font-weight: 600; }
+  .header-back {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .header-back:active { transform: scale(0.96); }
+  
+  /* ═══ Card ═══ */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-md);
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title::before {
+    content: '';
+    width: 4px;
+    height: 16px;
+    background: linear-gradient(135deg, var(--primary), #8b5cf6);
+    border-radius: 2px;
+  }
+  
+  /* ═══ Preview ═══ */
+  .preview-wrapper {
+    background: #000;
+    border-radius: var(--radius-sm);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  #previewCanvas {
+    max-width: 100%;
+    max-height: 400px;
+    display: block;
+  }
+  .preview-empty {
+    color: #64748b;
+    font-size: 14px;
+    padding: 40px;
+    text-align: center;
+  }
+  
+  /* ═══ Upload Area ═══ */
+  .upload-area {
+    border: 3px dashed #cbd5e1;
+    border-radius: var(--radius-sm);
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    background: #f8fafc;
+    transition: all 0.2s;
+    margin-bottom: 12px;
+  }
+  .upload-area:active {
+    border-color: var(--primary);
+    background: var(--primary-light);
+  }
+  .upload-icon { font-size: 40px; margin-bottom: 8px; }
+  .upload-text { font-size: 14px; font-weight: 700; color: #475569; }
+  .upload-hint { font-size: 11px; color: #94a3b8; margin-top: 5px; }
+  
+  /* ═══ Images Grid ═══ */
+  .images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .image-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f1f5f9;
+    border: 2px solid var(--border);
+    cursor: grab;
+  }
+  .image-item:active { cursor: grabbing; }
+  .image-item.dragging { opacity: 0.5; }
+  .image-item.drag-over { border-color: var(--primary); }
+  .image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+  .image-remove {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  .image-order {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background: var(--primary);
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 900;
+  }
+  
+  /* ═══ Options ═══ */
+  .option-group {
+    margin-bottom: 14px;
+  }
+  .option-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .option-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .opt-btn {
+    padding: 8px 14px;
+    border: 2px solid var(--border);
+    background: #fff;
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .opt-btn:active { transform: scale(0.95); }
+  .opt-btn.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+  
+  /* ═══ Music ═══ */
+  .music-info {
+    padding: 10px;
+    background: #f0fdf4;
+    border: 2px solid #10b981;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #047857;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+  .music-remove {
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  
+  /* ═══ Action Buttons ═══ */
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .btn {
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-preview { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+  .btn-export { background: linear-gradient(135deg, #10b981, #059669); }
+  .btn-reset {
+    background: linear-gradient(135deg, #64748b, #475569);
+    grid-column: 1 / -1;
+  }
+  
+  /* ═══ Progress ═══ */
+  .progress {
+    margin-top: 12px;
+    display: none;
+  }
+  .progress.active { display: block; }
+  .progress-bar {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    width: 0%;
+    transition: width 0.3s;
+  }
+  .progress-text {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 6px;
+    font-weight: 700;
+  }
+  
+  /* ═══ Footer ═══ */
+  .footer {
+    text-align: center;
+    padding: 20px;
+    color: #fff;
+    font-size: 12px;
+    opacity: 0.85;
+  }
+  
+  /* ═══ Empty ═══ */
+  .empty-hint {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 13px;
+    padding: 20px;
+    font-weight: 600;
+  }
+  
+  /* ═══ Toast ═══ */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0f172a;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .toast.active { opacity: 1; }
+  
+  @media (max-width: 480px) {
+    .container { padding: 0; }
+    .card { padding: 14px; }
+    .actions { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
 
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo">
+      <div class="header-icon">🎬</div>
+      <div>
+        <div class="header-text">المونتاج</div>
+        <div class="header-sub">صور → فيديو احترافي</div>
+      </div>
+    </div>
+    <a href="index.html" class="header-back">← ريشة</a>
+  </div>
+
+  <!-- Preview Card -->
+  <div class="card">
+    <div class="card-title">المعاينة</div>
+    <div class="preview-wrapper">
+      <canvas id="previewCanvas" width="1080" height="1080"></canvas>
+      <div class="preview-empty" id="previewEmpty">
+        🎬 أضف صوراً لعرض المعاينة
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Card -->
+  <div class="card">
+    <div class="card-title">الصور</div>
+    
+    <div class="upload-area" onclick="document.getElementById('imageInput').click()">
+      <div class="upload-icon">🖼️</div>
+      <div class="upload-text">اضغط لاختيار الصور</div>
+      <div class="upload-hint">يمكنك اختيار عدة صور مرة واحدة</div>
+    </div>
+    <input type="file" id="imageInput" accept="image/*" multiple style="display:none;">
+    
+    <div class="images-grid" id="imagesGrid"></div>
+    <div class="empty-hint" id="imagesEmpty">لم تُضف صور بعد</div>
+  </div>
+
+  <!-- Options Card -->
+  <div class="card">
+    <div class="card-title">إعدادات الفيديو</div>
+    
+    <div class="option-group">
+      <label class="option-label">📐 حجم الفيديو</label>
+      <div class="option-buttons" id="sizeOptions">
+        <button class="opt-btn active" data-size="1080x1080">مربع</button>
+        <button class="opt-btn" data-size="1080x1920">طولي</button>
+        <button class="opt-btn" data-size="1920x1080">عرضي</button>
+      </div>
+    </div>
+
+    <div class="option-group">
+      <label class="option-label">🎬 نوع الانتقال</label>
+      <div class="option-buttons" id="transitionOptions">
+        <button class="opt-btn active" data-transition="fade">تلاشي</button>
+        <button class="opt-btn" data-transition="slide">انزلاق</button>
+        <button class="opt-btn" data-transition="zoom">تكبير</button>
+        <button class="opt-btn" data-transition="none">بدون</button>
+      </div>
+    </div>
+
+    <div class="option-group">
+      <label class="option-label">⏱️ مدة كل صورة</label>
+      <div class="option-buttons" id="durationOptions">
+        <button class="opt-btn" data-duration="2">2 ثانية</button>
+        <button class="opt-btn active" data-duration="3">3 ثواني</button>
+        <button class="opt-btn" data-duration="5">5 ثواني</button>
+        <button class="opt-btn" data-duration="10">10 ثواني</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Music Card -->
+  <div class="card">
+    <div class="card-title">الموسيقى (اختياري)</div>
+    <div class="upload-area" onclick="document.getElementById('musicInput').click()" style="padding: 18px;">
+      <div class="upload-icon" style="font-size: 30px;">🎵</div>
+      <div class="upload-text" style="font-size: 13px;">اضغط لإضافة موسيقى</div>
+    </div>
+    <input type="file" id="musicInput" accept="audio/*" style="display:none;">
+    <div id="musicInfo" class="music-info" style="display:none;">
+      <span id="musicName">🎵 موسيقى</span>
+      <button class="music-remove" onclick="removeMusic()">حذف</button>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="card">
+    <div class="actions">
+      <button class="btn btn-preview" id="previewBtn" onclick="previewVideo()" disabled>
+        ▶️ معاينة
+      </button>
+      <button class="btn btn-export" id="exportBtn" onclick="exportVideo()" disabled>
+        💾 تصدير الفيديو
+      </button>
+      <button class="btn btn-reset" onclick="resetAll()">
+        🔄 إعادة تعيين
+      </button>
+    </div>
+    
+    <div class="progress" id="progressContainer">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text" id="progressText">جاري التحضير...</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    جميع الحقوق محفوظة © نبراس GP 2026
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+// المتغيرات العامة
+// ═══════════════════════════════════════════════
+var images = [];           // الصور المحمّلة (HTMLImageElement)
+var imageFiles = [];       // ملفات الصور
+var musicFile = null;      // ملف الموسيقى
+var currentDuration = 3;   // مدة كل صورة
+var currentSize = '1080x1080';    // حجم الفيديو
+var currentTransition = 'fade';   // نوع الانتقال
+var isExporting = false;
+var isPreviewing = false;
+var previewAnimationId = null;
+
+// ═══════════════════════════════════════════════
+// تتبع الأحداث
+// ═══════════════════════════════════════════════
+function trackEvent(eventName) {
+  if (typeof goatcounter !== 'undefined' && goatcounter.count) {
+    goatcounter.count({ path: eventName, title: eventName, event: true });
+  }
+}
+
+// ═══════════════════════════════════════════════
+// Toast Message
+// ═══════════════════════════════════════════════
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('active');
+  setTimeout(function() { t.classList.remove('active'); }, 2500);
+}
+
+// ═══════════════════════════════════════════════
+// رفع الصور
+// ═══════════════════════════════════════════════
+document.getElementById('imageInput').addEventListener('change', function(e) {
+  var files = Array.from(e.target.files);
+  if (files.length === 0) return;
+  
+  if (images.length + files.length > 30) {
+    showToast('الحد الأقصى 30 صورة');
+    return;
+  }
+  
+  var loaded = 0;
+  var total = files.length;
+  
+  files.forEach(function(file) {
+    if (!file.type.startsWith('image/')) return;
+    
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var img = new Image();
+      img.onload = function() {
+        images.push(img);
+        imageFiles.push(file);
+        loaded++;
+        
+        if (loaded === total) {
+          renderImagesGrid();
+          updateButtons();
+          showToast('✅ تم إضافة ' + total + ' صورة');
+        }
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  e.target.value = '';
+});
+
+// ═══════════════════════════════════════════════
+// عرض شبكة الصور
+// ═══════════════════════════════════════════════
+function renderImagesGrid() {
+  var grid = document.getElementById('imagesGrid');
+  var emptyHint = document.getElementById('imagesEmpty');
+  
+  grid.innerHTML = '';
+  
+  if (images.length === 0) {
+    emptyHint.style.display = 'block';
+    return;
+  }
+  
+  emptyHint.style.display = 'none';
+  
+  images.forEach(function(img, index) {
+    var item = document.createElement('div');
+    item.className = 'image-item';
+    item.draggable = true;
+    item.dataset.index = index;
+    
+    var imgEl = document.createElement('img');
+    imgEl.src = img.src;
+    
+    var removeBtn = document.createElement('button');
+    removeBtn.className = 'image-remove';
+    removeBtn.textContent = '×';
+    removeBtn.onclick = function(e) {
+      e.stopPropagation();
+      removeImage(index);
+    };
+    
+    var order = document.createElement('div');
+    order.className = 'image-order';
+    order.textContent = index + 1;
+    
+    item.appendChild(imgEl);
+    item.appendChild(removeBtn);
+    item.appendChild(order);
+    
+    // السحب والإفلات
+    item.addEventListener('dragstart', handleDragStart);
+    item.addEventListener('dragover', handleDragOver);
+    item.addEventListener('drop', handleDrop);
+    item.addEventListener('dragend', handleDragEnd);
+    item.addEventListener('dragleave', handleDragLeave);
+    
+    grid.appendChild(item);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// السحب والإفلات
+// ═══════════════════════════════════════════════
+var dragIndex = null;
+
+function handleDragStart(e) {
+  dragIndex = parseInt(this.dataset.index);
+  this.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  this.classList.add('drag-over');
+}
+
+function handleDragLeave() {
+  this.classList.remove('drag-over');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  this.classList.remove('drag-over');
+  
+  var dropIndex = parseInt(this.dataset.index);
+  if (dragIndex === null || dragIndex === dropIndex) return;
+  
+  var movedImage = images.splice(dragIndex, 1)[0];
+  images.splice(dropIndex, 0, movedImage);
+  
+  var movedFile = imageFiles.splice(dragIndex, 1)[0];
+  imageFiles.splice(dropIndex, 0, movedFile);
+  
+  renderImagesGrid();
+}
+
+function handleDragEnd() {
+  this.classList.remove('dragging');
+  dragIndex = null;
+}
+
+// ═══════════════════════════════════════════════
+// حذف صورة
+// ═══════════════════════════════════════════════
+function removeImage(index) {
+  images.splice(index, 1);
+  imageFiles.splice(index, 1);
+  renderImagesGrid();
+  updateButtons();
+}
+
+// ═══════════════════════════════════════════════
+// الموسيقى
+// ═══════════════════════════════════════════════
+document.getElementById('musicInput').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  
+  if (!file.type.startsWith('audio/')) {
+    showToast('❌ الرجاء اختيار ملف صوتي');
+    return;
+  }
+  
+  musicFile = file;
+  document.getElementById('musicName').textContent = '🎵 ' + file.name;
+  document.getElementById('musicInfo').style.display = 'flex';
+  showToast('✅ تم إضافة الموسيقى');
+  e.target.value = '';
+});
+
+function removeMusic() {
+  musicFile = null;
+  document.getElementById('musicInfo').style.display = 'none';
+  document.getElementById('musicInput').value = '';
+}
+
+// ═══════════════════════════════════════════════
+// خيارات الأحجام
+// ═══════════════════════════════════════════════
+document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    currentSize = this.dataset.size;
+  });
+});
+
+// ═══════════════════════════════════════════════
+// خيارات الانتقال
+// ═══════════════════════════════════════════════
+document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    currentTransition = this.dataset.transition;
+  });
+});
+
+// ═══════════════════════════════════════════════
+// خيارات المدة
+// ═══════════════════════════════════════════════
+document.querySelectorAll('#durationOptions .opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('#durationOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    currentDuration = parseInt(this.dataset.duration);
+  });
+});
+
+// ═══════════════════════════════════════════════
+// تفعيل الأزرار
+// ═══════════════════════════════════════════════
+function updateButtons() {
+  var hasImages = images.length > 0;
+  document.getElementById('previewBtn').disabled = !hasImages;
+  document.getElementById('exportBtn').disabled = !hasImages;
+}
+
+// ═══════════════════════════════════════════════
+// رسم صورة (cover) على الكانفس
+// ═══════════════════════════════════════════════
+function drawImageCover(ctx, img, canvasWidth, canvasHeight, opacity) {
+  if (opacity === undefined) opacity = 1;
+  
+  var imgRatio = img.width / img.height;
+  var canvasRatio = canvasWidth / canvasHeight;
+  
+  var drawWidth, drawHeight, dx, dy;
+  
+  if (imgRatio > canvasRatio) {
+    drawHeight = canvasHeight;
+    drawWidth = img.width * (canvasHeight / img.height);
+    dx = (canvasWidth - drawWidth) / 2;
+    dy = 0;
+  } else {
+    drawWidth = canvasWidth;
+    drawHeight = img.height * (canvasWidth / img.width);
+    dx = 0;
+    dy = (canvasHeight - drawHeight) / 2;
+  }
+  
+  ctx.globalAlpha = opacity;
+  ctx.drawImage(img, dx, dy, drawWidth, drawHeight);
+  ctx.globalAlpha = 1;
+}
+
+// ═══════════════════════════════════════════════
+// المعاينة
+// ═══════════════════════════════════════════════
+function previewVideo() {
+  if (images.length === 0) return;
+  if (isPreviewing) {
+    isPreviewing = false;
+    if (previewAnimationId) cancelAnimationFrame(previewAnimationId);
+    return;
+  }
+  
+  isPreviewing = true;
+  trackEvent('montage-معاينة');
+  
+  var canvas = document.getElementById('previewCanvas');
+  var placeholder = document.getElementById('previewEmpty');
+  var size = currentSize.split('x');
+  var w = parseInt(size[0]);
+  var h = parseInt(size[1]);
+  
+  // تصغير الحجم للمعاينة
+  var previewScale = Math.min(400 / w, 400 / h, 1);
+  canvas.width = w * previewScale;
+  canvas.height = h * previewScale;
+  canvas.style.display = 'block';
+  placeholder.style.display = 'none';
+  
+  var ctx = canvas.getContext('2d');
+  var currentIndex = 0;
+  var startTime = Date.now();
+  
+  function animate() {
+    if (!isPreviewing) return;
+    
+    var elapsed = (Date.now() - startTime) / 1000;
+    var progress = elapsed / currentDuration;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // الصورة الحالية
+    if (currentIndex < images.length) {
+      drawImageCover(ctx, images[currentIndex], canvas.width, canvas.height, 1);
+    }
+    
+    // الانتقال
+    if (currentTransition !== 'none' && currentIndex < images.length - 1 && progress > 0.7) {
+      var transProgress = (progress - 0.7) / 0.3;
+      
+      if (currentTransition === 'fade') {
+        drawImageCover(ctx, images[currentIndex + 1], canvas.width, canvas.height, transProgress);
+      } else if (currentTransition === 'slide') {
+        var offset = canvas.width * (1 - transProgress);
+        ctx.save();
+        ctx.translate(offset, 0);
+        drawImageCover(ctx, images[currentIndex + 1], canvas.width, canvas.height, 1);
+        ctx.restore();
+      } else if (currentTransition === 'zoom') {
+        var scale = 1 + transProgress * 0.2;
+        ctx.save();
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.scale(scale, scale);
+        ctx.translate(-canvas.width / 2, -canvas.height / 2);
+        drawImageCover(ctx, images[currentIndex + 1], canvas.width, canvas.height, 1);
+        ctx.restore();
+      }
+    }
+    
+    if (progress >= 1) {
+      currentIndex++;
+      startTime = Date.now();
+      
+      if (currentIndex >= images.length) {
+        currentIndex = 0;
+        startTime = Date.now();
+      }
+    }
+    
+    previewAnimationId = requestAnimationFrame(animate);
+  }
+  
+  animate();
+}
+
+// ═══════════════════════════════════════════════
+// تصدير الفيديو
+// ═══════════════════════════════════════════════
+async function exportVideo() {
+  if (images.length === 0 || isExporting) return;
+  
+  isExporting = true;
+  var progressContainer = document.getElementById('progressContainer');
+  var progressFill = document.getElementById('progressFill');
+  var progressText = document.getElementById('progressText');
+  var exportBtn = document.getElementById('exportBtn');
+  var previewBtn = document.getElementById('previewBtn');
+  
+  progressContainer.classList.add('active');
+  exportBtn.disabled = true;
+  previewBtn.disabled = true;
+  isPreviewing = false;
+  
+  try {
+    trackEvent('montage-تصدير');
+    
+    var size = currentSize.split('x');
+    var w = parseInt(size[0]);
+    var h = parseInt(size[1]);
+    
+    // canvas للتصدير
+    var exportCanvas = document.createElement('canvas');
+    exportCanvas.width = w;
+    exportCanvas.height = h;
+    var ctx = exportCanvas.getContext('2d');
+    
+    // إعداد MediaRecorder
+    var stream = exportCanvas.captureStream(30);
+    
+    // إضافة الصوت
+    var audioContext = null;
+    if (musicFile) {
+      try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var arrayBuffer = await musicFile.arrayBuffer();
+        var audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        var audioSource = audioContext.createBufferSource();
+        audioSource.buffer = audioBuffer;
+        audioSource.loop = true;
+        var audioDest = audioContext.createMediaStreamDestination();
+        audioSource.connect(audioDest);
+        audioSource.start();
+        
+        audioDest.stream.getAudioTracks().forEach(function(track) {
+          stream.addTrack(track);
+        });
+      } catch(e) {
+        console.warn('تعذر دمج الصوت:', e);
+      }
+    }
+    
+    // اختيار صيغة
+    var mimeType = 'video/webm;codecs=vp9';
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'video/webm;codecs=vp8';
+    }
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'video/webm';
+    }
+    
+    var recorder = new MediaRecorder(stream, {
+      mimeType: mimeType,
+      videoBitsPerSecond: 5000000
+    });
+    
+    var chunks = [];
+    recorder.ondataavailable = function(e) {
+      if (e.data.size > 0) chunks.push(e.data);
+    };
+    
+    var recordingDone = new Promise(function(resolve) {
+      recorder.onstop = function() {
+        var blob = new Blob(chunks, { type: 'video/webm' });
+        var url = URL.createObjectURL(blob);
+        
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'resha-montage-' + Date.now() + '.webm';
+        link.click();
+        
+        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+        
+        if (audioContext) audioContext.close();
+        
+        progressContainer.classList.remove('active');
+        exportBtn.disabled = false;
+        previewBtn.disabled = false;
+        isExporting = false;
+        
+        showToast('✅ تم تصدير الفيديو');
+        resolve();
+      };
+    });
+    
+    recorder.start();
+    
+    // رسم الصور
+    var totalDuration = images.length * currentDuration;
+    var startTime = performance.now();
+    var currentIndex = 0;
+    var frameStartTime = startTime;
+    
+    function renderFrame() {
+      var now = performance.now();
+      var elapsed = (now - frameStartTime) / 1000;
+      var progress = elapsed / currentDuration;
+      
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, w, h);
+      
+      if (currentIndex < images.length) {
+        drawImageCover(ctx, images[currentIndex], w, h, 1);
+      }
+      
+      // الانتقال
+      if (currentTransition !== 'none' && currentIndex < images.length - 1 && progress > 0.7) {
+        var transProgress = (progress - 0.7) / 0.3;
+        
+        if (currentTransition === 'fade') {
+          drawImageCover(ctx, images[currentIndex + 1], w, h, transProgress);
+        } else if (currentTransition === 'slide') {
+          var offset = w * (1 - transProgress);
+          ctx.save();
+          ctx.translate(offset, 0);
+          drawImageCover(ctx, images[currentIndex + 1], w, h, 1);
+          ctx.restore();
+        } else if (currentTransition === 'zoom') {
+          var scale = 1 + transProgress * 0.2;
+          ctx.save();
+          ctx.translate(w / 2, h / 2);
+          ctx.scale(scale, scale);
+          ctx.translate(-w / 2, -h / 2);
+          drawImageCover(ctx, images[currentIndex + 1], w, h, 1);
+          ctx.restore();
+        }
+      }
+      
+      if (progress >= 1) {
+        currentIndex++;
+        frameStartTime = now;
+        
+        if (currentIndex >= images.length) {
+          recorder.stop();
+          return;
+        }
+      }
+      
+      // تحديث شريط التقدم
+      var totalProgress = (currentIndex + progress) / images.length;
+      progressFill.style.width = (totalProgress * 100) + '%';
+      progressText.textContent = 'جاري التصدير... ' + Math.round(totalProgress * 100) + '%';
+      
+      requestAnimationFrame(renderFrame);
+    }
+    
+    renderFrame();
+    await recordingDone;
+    
+  } catch(err) {
+    console.error('خطأ في التصدير:', err);
+    showToast('❌ حدث خطأ: ' + err.message);
+    progressContainer.classList.remove('active');
+    exportBtn.disabled = false;
+    previewBtn.disabled = false;
+    isExporting = false;
+  }
+}
+
+// ═══════════════════════════════════════════════
+// إعادة تعيين
+// ═══════════════════════════════════════════════
+function resetAll() {
+  if (!confirm('هل تريد حذف كل شيء؟')) return;
+  
+  images = [];
+  imageFiles = [];
+  musicFile = null;
+  isPreviewing = false;
+  
+  if (previewAnimationId) cancelAnimationFrame(previewAnimationId);
+  
+  renderImagesGrid();
+  updateButtons();
+  
+  document.getElementById('musicInfo').style.display = 'none';
+  document.getElementById('musicInput').value = '';
+  document.getElementById('imageInput').value = '';
+  
+  document.getElementById('previewCanvas').style.display = 'none';
+  document.getElementById('previewEmpty').style.display = 'block';
+  document.getElementById('progressContainer').classList.remove('active');
+  
+  showToast('تم إعادة التعيين');
+}
+
+// ═══════════════════════════════════════════════
+// تحقق من دعم المتصفح
+// ═══════════════════════════════════════════════
+window.addEventListener('load', function() {
+  if (!window.MediaRecorder) {
+    showToast('⚠️ متصفحك لا يدعم تصدير الفيديو');
+    document.getElementById('exportBtn').disabled = true;
+  }
+  
+  // تتبع زيارة الصفحة
+  trackEvent('montage-زيارة');
+  
+  console.log('✅ المونتاج جاهز');
+});
+</script>
+
+</body>
+</html>
