@@ -4,8 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ريشة — المحرر</title>
-<script data-goatcounter="https://resha.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://resha.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700&family=Almarai:wght@400;700;800&family=Mada:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&family=Readex+Pro:wght@400;700&family=Alexandria:wght@400;700;900&family=Rubik:wght@400;700&family=Changa:wght@400;700&family=Lemonada:wght@400;700&family=El+Messiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=Kufam:wght@400;700&family=Amiri:wght@400;700&family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Lateef&family=Harmattan&family=Markazi+Text:wght@400;700&family=Mirza:wght@400;700&family=Gulzar&family=Aref+Ruqaa:wght@400;700&family=Alkalami&family=Katibeh&family=Qahiri&family=Rakkas&family=Lalezar&family=Jomhuria&family=Marhey:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;700&family=Saira:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -117,8 +116,6 @@
   #c {
     border-radius: var(--radius-sm);
     box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-    max-width: 100%;
-    max-height: 55vh;
     touch-action: none;
     display: block;
     background: #fff;
@@ -738,8 +735,7 @@ window.addEventListener('load', function() {
     rotatingPointOffset: 40,
     mtrCornerColor: '#f59e0b',
     mtrCornerStrokeColor: '#fff',
-    borderOpacityWhenMoving: 0.8,
-    objectCaching: false
+    borderOpacityWhenMoving: 0.8
   });
 
   fabric.Object.prototype.setControlsVisibility({
@@ -748,20 +744,20 @@ window.addEventListener('load', function() {
     mtr: true
   });
 
-  // ✅ الإصلاح: resizeCanvas بدون setZoom مزدوج
+  // ✅✅✅ الإصلاح النهائي: الكانفس الداخلي 1080×1080 ثابت، العرض عبر CSS فقط
   function resizeCanvas() {
     var wrapper = document.querySelector('.canvas-wrapper');
     var maxWidth = wrapper.clientWidth - 32;
     var maxHeight = window.innerHeight * 0.55;
     var scale = Math.min(maxWidth / 1080, maxHeight / 1080);
     
-    // ✅ استخدم setDimensions فقط — بدون setZoom
-    canvas.setDimensions({
-      width: 1080 * scale,
-      height: 1080 * scale
-    });
+    // ✅ اضبط عرض الكانفس بـ CSS فقط
+    var canvasEl = document.getElementById('c');
+    canvasEl.style.width = (1080 * scale) + 'px';
+    canvasEl.style.height = (1080 * scale) + 'px';
     
-    // ✅ تأكد أن الزوم = 1 (لا تصغير إضافي)
+    // ✅ الكانفس الداخلي يبقى 1080×1080 (لا يتغير)
+    canvas.setDimensions({ width: 1080, height: 1080 });
     canvas.setZoom(1);
     canvas.calcOffset();
     canvas.renderAll();
@@ -941,8 +937,7 @@ window.addEventListener('load', function() {
         editable: true,
         hasControls: true,
         hasBorders: true,
-        lockUniScaling: false,
-        objectCaching: false
+        lockUniScaling: false
       });
       canvas.add(t);
       canvas.setActiveObject(t);
@@ -963,9 +958,19 @@ window.addEventListener('load', function() {
     var reader = new FileReader();
     reader.onload = function(ev) {
       fabric.Image.fromURL(ev.target.result, function(img) {
+        // ✅ تصغير الصورة لتناسب الكانفس (بحد أقصى 50% من العرض)
         var maxW = 540;
-        if (img.width > maxW) img.scaleToWidth(maxW);
-        img.set({ left: 540, top: 540, originX: 'center', originY: 'center', padding: 15, filters: [], objectCaching: false });
+        if (img.width > maxW) {
+          img.scaleToWidth(maxW);
+        }
+        img.set({ 
+          left: 540, 
+          top: 540, 
+          originX: 'center', 
+          originY: 'center', 
+          padding: 15, 
+          filters: [] 
+        });
         canvas.add(img);
         canvas.setActiveObject(img);
         canvas.renderAll();
@@ -979,7 +984,7 @@ window.addEventListener('load', function() {
   window.addShape = function(type) {
     var color = document.getElementById('shapeColor').value;
     var shape;
-    var center = { left: 540, top: 540, originX: 'center', originY: 'center', fill: color, padding: 15, objectCaching: false };
+    var center = { left: 540, top: 540, originX: 'center', originY: 'center', fill: color, padding: 15 };
     if (type === 'rect') shape = new fabric.Rect({ ...center, width: 360, height: 270 });
     else if (type === 'circle') shape = new fabric.Circle({ ...center, radius: 180 });
     else if (type === 'triangle') shape = new fabric.Triangle({ ...center, width: 360, height: 320 });
@@ -989,7 +994,9 @@ window.addEventListener('load', function() {
     canvas.renderAll();
   };
 
-  // ═══ الجداول ═══
+  // ═══════════════════════════════════════════════════════
+  // ✅ إنشاء الجداول
+  // ═══════════════════════════════════════════════════════
   var pickerRows = 0;
   var pickerCols = 0;
   var PICKER_MAX = 8;
@@ -1104,24 +1111,37 @@ window.addEventListener('load', function() {
         var y = startY + r * cellHeight;
         
         var rect = new fabric.Rect({
-          left: x, top: y,
-          width: cellWidth, height: cellHeight,
-          fill: bgColor, stroke: borderColor, strokeWidth: borderWidth,
-          selectable: false, evented: false,
-          originX: 'left', originY: 'top'
+          left: x,
+          top: y,
+          width: cellWidth,
+          height: cellHeight,
+          fill: bgColor,
+          stroke: borderColor,
+          strokeWidth: borderWidth,
+          selectable: false,
+          evented: false,
+          originX: 'left',
+          originY: 'top'
         });
         objects.push(rect);
         
         var cellText = new fabric.IText('', {
           left: x + cellWidth / 2,
           top: y + cellHeight / 2,
-          fontFamily: 'Cairo', fontSize: 32, fill: '#000000',
-          direction: 'rtl', textAlign: 'center',
-          originX: 'center', originY: 'center',
-          padding: 5, editable: true,
-          hasControls: false, hasBorders: false,
+          fontFamily: 'Cairo',
+          fontSize: 32,
+          fill: '#000000',
+          direction: 'rtl',
+          textAlign: 'center',
+          originX: 'center',
+          originY: 'center',
+          padding: 5,
+          editable: true,
+          hasControls: false,
+          hasBorders: false,
           lockUniScaling: true,
-          selectable: true, evented: true,
+          selectable: true,
+          evented: true,
           backgroundColor: 'transparent'
         });
         objects.push(cellText);
@@ -1129,11 +1149,15 @@ window.addEventListener('load', function() {
     }
     
     var group = new fabric.Group(objects, {
-      left: 540, top: 540,
-      originX: 'center', originY: 'center',
+      left: 540,
+      top: 540,
+      originX: 'center',
+      originY: 'center',
       padding: 10,
-      subTargetCheck: true, interactive: true,
-      hasControls: true, hasBorders: true,
+      subTargetCheck: true,
+      interactive: true,
+      hasControls: true,
+      hasBorders: true,
       lockUniScaling: false
     });
     
@@ -1324,7 +1348,7 @@ window.addEventListener('load', function() {
     }
   });
 
-  console.log('✅ ريشة جاهز — مع إصلاح مشكلة التحريك');
+  console.log('✅ ريشة جاهز — مع الإصلاح النهائي');
 });
 </script>
 
