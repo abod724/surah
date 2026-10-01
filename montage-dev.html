@@ -23,6 +23,8 @@
     min-height: 100vh; color: var(--text); padding: 12px;
   }
   .container { max-width: 1000px; margin: 0 auto; padding-bottom: 40px; }
+  
+  /* ═══ Header ═══ */
   .header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 12px 0 16px; color: #fff;
@@ -46,21 +48,77 @@
     display: flex; align-items: center; gap: 5px;
   }
   .header-back:active { transform: scale(0.96); }
+  
+  /* ═══ Card ═══ */
   .card {
     background: var(--card); border-radius: var(--radius);
     padding: 16px; margin-bottom: 12px;
     box-shadow: var(--shadow-md);
   }
-  .card-title {
+  
+  /* ═══ Tabs Bar (مثل المحرر) ═══ */
+  .tabs-bar {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 4px 0 12px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tabs-bar::-webkit-scrollbar { display: none; }
+  
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 10px 18px;
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-light);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    box-shadow: var(--shadow-sm);
+  }
+  .tab-btn:active { transform: scale(0.96); }
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--primary), #8b5cf6);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(99,102,241,0.35);
+  }
+  
+  /* ═══ Tab Panels ═══ */
+  .tab-panels {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .panel { display: none; padding: 18px; }
+  .panel.active { display: block; animation: fadeIn 0.2s; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .panel-title {
     font-size: 14px; font-weight: 900; color: var(--text);
     margin-bottom: 14px;
     display: flex; align-items: center; gap: 8px;
   }
-  .card-title::before {
+  .panel-title::before {
     content: ''; width: 4px; height: 16px;
     background: linear-gradient(135deg, var(--primary), #8b5cf6);
     border-radius: 2px;
   }
+  
+  /* ═══ Preview ═══ */
   .preview-wrapper {
     background: #0a0a0a; border-radius: var(--radius-sm);
     min-height: 220px;
@@ -72,6 +130,8 @@
     color: #475569; font-size: 14px;
     padding: 40px 20px; text-align: center; line-height: 1.8;
   }
+  
+  /* ═══ Upload ═══ */
   .upload-area {
     border: 2px dashed #cbd5e1; border-radius: var(--radius-sm);
     padding: 22px 16px; text-align: center;
@@ -81,6 +141,8 @@
   .upload-icon { font-size: 36px; margin-bottom: 6px; }
   .upload-text { font-size: 14px; font-weight: 700; color: #475569; }
   .upload-hint { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+  
+  /* ═══ Stats ═══ */
   .stats-bar {
     display: flex; gap: 8px; padding: 10px;
     background: var(--primary-light); border-radius: var(--radius-sm);
@@ -88,6 +150,8 @@
   }
   .stat { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: var(--primary-dark); }
   .stat-num { font-weight: 900; color: var(--primary); }
+  
+  /* ═══ Images Grid ═══ */
   .images-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -132,6 +196,8 @@
     padding: 2px 7px; border-radius: 6px;
     font-size: 9px; font-weight: 700;
   }
+  
+  /* ═══ Options ═══ */
   .option-group { margin-bottom: 14px; }
   .option-group:last-child { margin-bottom: 0; }
   .option-label {
@@ -150,6 +216,7 @@
   .opt-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
   .opt-btn.small { padding: 6px 10px; font-size: 11px; }
   .opt-btn.danger { background: #fef2f2; color: var(--danger); border-color: #fecaca; }
+  
   .duration-custom {
     display: flex; align-items: center; gap: 8px;
     margin-top: 8px; padding: 10px;
@@ -167,6 +234,18 @@
     font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 12px;
     cursor: pointer;
   }
+  
+  /* ═══ Empty State ═══ */
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #94a3b8;
+  }
+  .empty-state-icon { font-size: 48px; margin-bottom: 10px; opacity: 0.5; }
+  .empty-state-text { font-size: 14px; font-weight: 700; }
+  .empty-state-hint { font-size: 12px; margin-top: 6px; opacity: 0.7; }
+  
+  /* ═══ Audio ═══ */
   .audio-tabs {
     display: flex; gap: 6px; margin-bottom: 12px;
     background: #f1f5f9; padding: 4px; border-radius: 12px;
@@ -260,8 +339,11 @@
     font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 11px;
     cursor: pointer; flex-shrink: 0;
   }
+  
+  /* ═══ Actions ═══ */
   .actions {
     display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    margin-top: 12px;
   }
   .btn {
     padding: 14px; border: none; border-radius: 12px;
@@ -278,6 +360,8 @@
     background: linear-gradient(135deg, #64748b, #475569);
     grid-column: 1 / -1;
   }
+  
+  /* ═══ Progress ═══ */
   .progress { margin-top: 12px; display: none; }
   .progress.active { display: block; }
   .progress-bar {
@@ -293,14 +377,14 @@
     text-align: center; font-size: 12px; color: var(--text-light);
     margin-top: 6px; font-weight: 700;
   }
+  
+  /* ═══ Footer ═══ */
   .footer {
     text-align: center; padding: 20px;
     color: #fff; font-size: 12px; opacity: 0.85;
   }
-  .empty-hint {
-    text-align: center; color: #94a3b8;
-    font-size: 13px; padding: 20px; font-weight: 600;
-  }
+  
+  /* ═══ Toast ═══ */
   .toast {
     position: fixed; bottom: 20px; left: 50%;
     transform: translateX(-50%);
@@ -314,12 +398,33 @@
   }
   .toast.active { opacity: 1; }
   .section-hidden { display: none !important; }
+  
+  /* ═══ Info Row ═══ */
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-light);
+  }
+  .info-row-value {
+    color: var(--primary);
+    font-weight: 900;
+  }
+  
   @media (max-width: 480px) {
     .container { padding: 0; }
     .card { padding: 14px; }
+    .panel { padding: 14px; }
     .actions { grid-template-columns: 1fr; }
     .images-grid { grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); }
     .recorder-timer { font-size: 22px; }
+    .tab-btn { padding: 9px 14px; font-size: 12px; }
   }
 </style>
 </head>
@@ -327,176 +432,238 @@
 
 <div class="container">
 
+  <!-- Header -->
   <div class="header">
     <div class="header-logo">
       <div class="header-icon">🎬</div>
       <div>
-        <div class="header-text">المونتاج الاحترافي</div>
+        <div class="header-text">المونتاج</div>
         <div class="header-sub">صور → فيديو</div>
       </div>
     </div>
     <a href="index.html" class="header-back">← ريشة</a>
   </div>
 
+  <!-- Preview (ثابت في الأعلى) -->
   <div class="card" id="previewCard">
-    <div class="card-title">المعاينة</div>
     <div class="preview-wrapper">
       <canvas id="previewCanvas" width="1080" height="1080"></canvas>
       <div class="preview-empty" id="previewEmpty">أضف صوراً واضغط معاينة</div>
     </div>
-  </div>
-
-  <div class="card section-hidden" id="statsCard">
-    <div class="stats-bar">
-      <div class="stat"><span class="stat-num" id="statImages">0</span> صورة</div>
-      <div class="stat">·</div>
-      <div class="stat"><span class="stat-num" id="statDuration">0</span> ثانية</div>
-      <div class="stat">·</div>
-      <div class="stat"><span class="stat-num" id="statSize">0</span> MB</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">الصور</div>
-    <div class="upload-area" onclick="document.getElementById('imageInput').click()">
-      <div class="upload-icon">🖼️</div>
-      <div class="upload-text">اضغط لاختيار الصور</div>
-      <div class="upload-hint">حتى 30 صورة</div>
-    </div>
-    <input type="file" id="imageInput" accept="image/*" multiple style="display:none;">
-    <div class="images-grid" id="imagesGrid"></div>
-    <div class="empty-hint" id="imagesEmpty">لا توجد صور</div>
-  </div>
-
-  <div class="card section-hidden" id="imageOptions">
-    <div class="card-title">الصورة المحددة</div>
-    <div class="option-group">
-      <label class="option-label">الحركة</label>
-      <div class="option-buttons" id="animationOptions">
-        <button class="opt-btn active" data-animation="none">بدون</button>
-        <button class="opt-btn" data-animation="zoomIn">زوم داخل</button>
-        <button class="opt-btn" data-animation="zoomOut">زوم خارج</button>
-        <button class="opt-btn" data-animation="panRight">تحرك يمين</button>
-        <button class="opt-btn" data-animation="panLeft">تحرك يسار</button>
-        <button class="opt-btn" data-animation="panUp">تحرك فوق</button>
-        <button class="opt-btn" data-animation="panDown">تحرك تحت</button>
-        <button class="opt-btn" data-animation="rotate">دوران</button>
-        <button class="opt-btn" data-animation="pulse">نبض</button>
-      </div>
-    </div>
-    <div class="option-group">
-      <label class="option-label">مدة هذه الصورة</label>
-      <div class="option-buttons" id="imageDurationOptions">
-        <button class="opt-btn small" data-duration="2">2 ثانية</button>
-        <button class="opt-btn small active" data-duration="3">3 ثواني</button>
-        <button class="opt-btn small" data-duration="5">5 ثواني</button>
-        <button class="opt-btn small" data-duration="10">10 ثواني</button>
-      </div>
-      <div class="duration-custom">
-        <input type="number" id="customDuration" min="1" max="30" value="3">
-        <span style="font-size:12px;font-weight:700;color:#475569;">ثانية</span>
-        <button onclick="applyCustomDuration()">تطبيق</button>
-      </div>
-    </div>
-    <div class="option-group">
-      <label class="option-label">تعديل الصورة</label>
-      <div class="option-buttons">
-        <button class="opt-btn" onclick="rotateImage(90)">تدوير 90°</button>
-        <button class="opt-btn" onclick="rotateImage(-90)">تدوير -90°</button>
-        <button class="opt-btn" onclick="flipImage('h')">عكس أفقي</button>
-        <button class="opt-btn" onclick="flipImage('v')">عكس رأسي</button>
-        <button class="opt-btn danger" onclick="resetImageEdits()">إعادة</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">الإعدادات</div>
-    <div class="option-group">
-      <label class="option-label">حجم الفيديو</label>
-      <div class="option-buttons" id="sizeOptions">
-        <button class="opt-btn active" data-size="1080x1080">مربع 1:1</button>
-        <button class="opt-btn" data-size="1080x1920">طولي 9:16</button>
-        <button class="opt-btn" data-size="1920x1080">عرضي 16:9</button>
-        <button class="opt-btn" data-size="1080x1350">عمودي 4:5</button>
-      </div>
-    </div>
-    <div class="option-group">
-      <label class="option-label">نوع الانتقال</label>
-      <div class="option-buttons" id="transitionOptions">
-        <button class="opt-btn active" data-transition="fade">تلاشي</button>
-        <button class="opt-btn" data-transition="slideRight">انزلاق ←</button>
-        <button class="opt-btn" data-transition="slideLeft">انزلاق →</button>
-        <button class="opt-btn" data-transition="slideUp">انزلاق ↑</button>
-        <button class="opt-btn" data-transition="zoom">تكبير من المركز</button>
-        <button class="opt-btn" data-transition="rotate">دوران 360°</button>
-        <button class="opt-btn" data-transition="book">فتح كتاب</button>
-        <button class="opt-btn" data-transition="fold">طي الورقة</button>
-        <button class="opt-btn" data-transition="none">بدون</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">الصوت</div>
-    <div class="audio-tabs">
-      <button class="audio-tab active" onclick="switchAudioTab('record', this)">تسجيل صوتي</button>
-      <button class="audio-tab" onclick="switchAudioTab('upload', this)">رفع ملف</button>
-      <button class="audio-tab" onclick="switchAudioTab('music', this)">موسيقى</button>
-    </div>
-    <div id="audioTab-record">
-      <div class="recorder-box">
-        <div class="recorder-status">
-          <div class="recorder-dot" id="recorderDot"></div>
-          <span id="recorderStatus">جاهز للتسجيل</span>
-        </div>
-        <div class="recorder-timer" id="recorderTimer">00:00</div>
-        <button class="recorder-btn record" id="recordBtn" onclick="toggleRecording()">بدء التسجيل</button>
-        <div class="audio-player" id="recordPlayer">
-          <audio id="recordAudio" controls></audio>
-        </div>
-        <div class="recorder-actions section-hidden" id="recordActions">
-          <button class="primary" onclick="useRecording()">استخدام التسجيل</button>
-          <button class="danger" onclick="deleteRecording()">حذف</button>
-        </div>
-      </div>
-    </div>
-    <div id="audioTab-upload" class="section-hidden">
-      <div class="upload-area" onclick="document.getElementById('audioInput').click()">
-        <div class="upload-icon">🎵</div>
-        <div class="upload-text">رفع ملف صوتي</div>
-        <div class="upload-hint">MP3 / WAV / M4A</div>
-      </div>
-      <input type="file" id="audioInput" accept="audio/*" style="display:none;">
-      <div id="audioUploadInfo" class="music-info section-hidden">
-        <span id="audioUploadName">ملف صوتي</span>
-        <button class="music-remove" onclick="removeAudioUpload()">حذف</button>
-      </div>
-    </div>
-    <div id="audioTab-music" class="section-hidden">
-      <div class="upload-area" onclick="document.getElementById('musicInput').click()">
-        <div class="upload-icon">🎼</div>
-        <div class="upload-text">رفع موسيقى خلفية</div>
-        <div class="upload-hint">MP3 / WAV / M4A</div>
-      </div>
-      <input type="file" id="musicInput" accept="audio/*" style="display:none;">
-      <div id="musicInfo" class="music-info section-hidden">
-        <span id="musicName">موسيقى</span>
-        <button class="music-remove" onclick="removeMusic()">حذف</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="actions">
-      <button class="btn btn-preview" id="previewBtn" onclick="previewVideo()" disabled>معاينة</button>
-      <button class="btn btn-export" id="exportBtn" onclick="exportVideo()" disabled>تصدير الفيديو</button>
-      <button class="btn btn-reset" onclick="resetAll()">إعادة تعيين</button>
+    <div class="actions" style="margin-top:12px;">
+      <button class="btn btn-preview" id="previewBtn" onclick="previewVideo()" disabled>▶ معاينة</button>
+      <button class="btn btn-export" id="exportBtn" onclick="exportVideo()" disabled>💾 تصدير</button>
     </div>
     <div class="progress" id="progressContainer">
       <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
       <div class="progress-text" id="progressText">جاري التحضير</div>
     </div>
+  </div>
+
+  <!-- Tabs Bar -->
+  <div class="tabs-bar">
+    <button class="tab-btn active" onclick="switchTab('images', this)">🖼️ الصور</button>
+    <button class="tab-btn" onclick="switchTab('animate', this)">🎬 حركات</button>
+    <button class="tab-btn" onclick="switchTab('transitions', this)">🎞️ انتقالات</button>
+    <button class="tab-btn" onclick="switchTab('audio', this)">🎵 صوت</button>
+    <button class="tab-btn" onclick="switchTab('info', this)">ℹ️ معلومات</button>
+  </div>
+
+  <!-- Tab Panels -->
+  <div class="tab-panels">
+
+    <!-- ═══ تبويب الصور ═══ -->
+    <div id="panel-images" class="panel active">
+      <div class="panel-title">الصور</div>
+      
+      <div class="upload-area" onclick="document.getElementById('imageInput').click()">
+        <div class="upload-icon">🖼️</div>
+        <div class="upload-text">اضغط لاختيار الصور</div>
+        <div class="upload-hint">حتى 30 صورة</div>
+      </div>
+      <input type="file" id="imageInput" accept="image/*" multiple style="display:none;">
+      
+      <div class="images-grid" id="imagesGrid"></div>
+      <div class="empty-state" id="imagesEmpty">
+        <div class="empty-state-icon">🖼️</div>
+        <div class="empty-state-text">لا توجد صور</div>
+        <div class="empty-state-hint">اضغط على الزر أعلاه</div>
+      </div>
+    </div>
+
+    <!-- ═══ تبويب الحركات ═══ -->
+    <div id="panel-animate" class="panel">
+      <div class="panel-title">حركات الصورة</div>
+      
+      <div id="animateEmpty" class="empty-state">
+        <div class="empty-state-icon">🎬</div>
+        <div class="empty-state-text">لم تختر صورة</div>
+        <div class="empty-state-hint">اذهب لتبويب الصور واضغط على صورة</div>
+      </div>
+      
+      <div id="animateContent" class="section-hidden">
+        <div class="option-group">
+          <label class="option-label">الحركة</label>
+          <div class="option-buttons" id="animationOptions">
+            <button class="opt-btn active" data-animation="none">بدون</button>
+            <button class="opt-btn" data-animation="zoomIn">زوم داخل</button>
+            <button class="opt-btn" data-animation="zoomOut">زوم خارج</button>
+            <button class="opt-btn" data-animation="panRight">تحرك يمين</button>
+            <button class="opt-btn" data-animation="panLeft">تحرك يسار</button>
+            <button class="opt-btn" data-animation="panUp">تحرك فوق</button>
+            <button class="opt-btn" data-animation="panDown">تحرك تحت</button>
+            <button class="opt-btn" data-animation="rotate">دوران</button>
+            <button class="opt-btn" data-animation="pulse">نبض</button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <label class="option-label">مدة العرض</label>
+          <div class="option-buttons" id="imageDurationOptions">
+            <button class="opt-btn small" data-duration="2">2 ثانية</button>
+            <button class="opt-btn small active" data-duration="3">3 ثواني</button>
+            <button class="opt-btn small" data-duration="5">5 ثواني</button>
+            <button class="opt-btn small" data-duration="10">10 ثواني</button>
+          </div>
+          <div class="duration-custom">
+            <input type="number" id="customDuration" min="1" max="30" value="3">
+            <span style="font-size:12px;font-weight:700;color:#475569;">ثانية</span>
+            <button onclick="applyCustomDuration()">تطبيق</button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <label class="option-label">تعديل الصورة</label>
+          <div class="option-buttons">
+            <button class="opt-btn" onclick="rotateImage(90)">تدوير 90°</button>
+            <button class="opt-btn" onclick="rotateImage(-90)">تدوير -90°</button>
+            <button class="opt-btn" onclick="flipImage('h')">عكس أفقي</button>
+            <button class="opt-btn" onclick="flipImage('v')">عكس رأسي</button>
+            <button class="opt-btn danger" onclick="resetImageEdits()">إعادة</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ تبويب الانتقالات ═══ -->
+    <div id="panel-transitions" class="panel">
+      <div class="panel-title">الانتقالات والأحجام</div>
+      
+      <div class="option-group">
+        <label class="option-label">حجم الفيديو</label>
+        <div class="option-buttons" id="sizeOptions">
+          <button class="opt-btn active" data-size="1080x1080">مربع 1:1</button>
+          <button class="opt-btn" data-size="1080x1920">طولي 9:16</button>
+          <button class="opt-btn" data-size="1920x1080">عرضي 16:9</button>
+          <button class="opt-btn" data-size="1080x1350">عمودي 4:5</button>
+        </div>
+      </div>
+
+      <div class="option-group">
+        <label class="option-label">نوع الانتقال</label>
+        <div class="option-buttons" id="transitionOptions">
+          <button class="opt-btn active" data-transition="fade">تلاشي</button>
+          <button class="opt-btn" data-transition="slideRight">انزلاق ←</button>
+          <button class="opt-btn" data-transition="slideLeft">انزلاق →</button>
+          <button class="opt-btn" data-transition="slideUp">انزلاق ↑</button>
+          <button class="opt-btn" data-transition="zoom">تكبير من المركز</button>
+          <button class="opt-btn" data-transition="rotate">دوران 360°</button>
+          <button class="opt-btn" data-transition="book">فتح كتاب</button>
+          <button class="opt-btn" data-transition="fold">طي الورقة</button>
+          <button class="opt-btn" data-transition="none">بدون</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ تبويب الصوت ═══ -->
+    <div id="panel-audio" class="panel">
+      <div class="panel-title">الصوت</div>
+      
+      <div class="audio-tabs">
+        <button class="audio-tab active" onclick="switchAudioTab('record', this)">تسجيل صوتي</button>
+        <button class="audio-tab" onclick="switchAudioTab('upload', this)">رفع ملف</button>
+        <button class="audio-tab" onclick="switchAudioTab('music', this)">موسيقى</button>
+      </div>
+      
+      <div id="audioTab-record">
+        <div class="recorder-box">
+          <div class="recorder-status">
+            <div class="recorder-dot" id="recorderDot"></div>
+            <span id="recorderStatus">جاهز للتسجيل</span>
+          </div>
+          <div class="recorder-timer" id="recorderTimer">00:00</div>
+          <button class="recorder-btn record" id="recordBtn" onclick="toggleRecording()">بدء التسجيل</button>
+          <div class="audio-player" id="recordPlayer">
+            <audio id="recordAudio" controls></audio>
+          </div>
+          <div class="recorder-actions section-hidden" id="recordActions">
+            <button class="primary" onclick="useRecording()">استخدام التسجيل</button>
+            <button class="danger" onclick="deleteRecording()">حذف</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="audioTab-upload" class="section-hidden">
+        <div class="upload-area" onclick="document.getElementById('audioInput').click()">
+          <div class="upload-icon">🎵</div>
+          <div class="upload-text">رفع ملف صوتي</div>
+          <div class="upload-hint">MP3 / WAV / M4A</div>
+        </div>
+        <input type="file" id="audioInput" accept="audio/*" style="display:none;">
+        <div id="audioUploadInfo" class="music-info section-hidden">
+          <span id="audioUploadName">ملف صوتي</span>
+          <button class="music-remove" onclick="removeAudioUpload()">حذف</button>
+        </div>
+      </div>
+      
+      <div id="audioTab-music" class="section-hidden">
+        <div class="upload-area" onclick="document.getElementById('musicInput').click()">
+          <div class="upload-icon">🎼</div>
+          <div class="upload-text">رفع موسيقى خلفية</div>
+          <div class="upload-hint">MP3 / WAV / M4A</div>
+        </div>
+        <input type="file" id="musicInput" accept="audio/*" style="display:none;">
+        <div id="musicInfo" class="music-info section-hidden">
+          <span id="musicName">موسيقى</span>
+          <button class="music-remove" onclick="removeMusic()">حذف</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ تبويب المعلومات ═══ -->
+    <div id="panel-info" class="panel">
+      <div class="panel-title">معلومات الفيديو</div>
+      
+      <div class="info-row">
+        <span>🖼️ عدد الصور</span>
+        <span class="info-row-value" id="infoImages">0</span>
+      </div>
+      <div class="info-row">
+        <span>⏱️ المدة الإجمالية</span>
+        <span class="info-row-value" id="infoDuration">0 ثانية</span>
+      </div>
+      <div class="info-row">
+        <span>📦 الحجم المتوقع</span>
+        <span class="info-row-value" id="infoSize">~0 MB</span>
+      </div>
+      <div class="info-row">
+        <span>📐 الأبعاد</span>
+        <span class="info-row-value" id="infoDimensions">1080 × 1080</span>
+      </div>
+      <div class="info-row">
+        <span>🎞️ نوع الانتقال</span>
+        <span class="info-row-value" id="infoTransition">تلاشي</span>
+      </div>
+      <div class="info-row">
+        <span>🎵 الصوت</span>
+        <span class="info-row-value" id="infoAudio">بدون</span>
+      </div>
+      
+      <div style="margin-top:16px;">
+        <button class="btn btn-reset" onclick="resetAll()" style="width:100%;">🔄 إعادة تعيين الكل</button>
+      </div>
+    </div>
+
   </div>
 
   <div class="footer">© نبراس GP 2026</div>
@@ -536,6 +703,15 @@ function showToast(msg) {
   setTimeout(function() { t.classList.remove('active'); }, 2500);
 }
 
+// ═══ التبويبات ═══
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
+
+// ═══ رفع الصور ═══
 document.getElementById('imageInput').addEventListener('change', function(e) {
   var files = Array.from(e.target.files);
   if (files.length === 0) return;
@@ -559,7 +735,7 @@ document.getElementById('imageInput').addEventListener('change', function(e) {
         if (loaded === total) {
           renderImagesGrid();
           updateButtons();
-          updateStats();
+          updateInfo();
           showToast('تم إضافة ' + total + ' صورة');
         }
       };
@@ -573,18 +749,14 @@ document.getElementById('imageInput').addEventListener('change', function(e) {
 function renderImagesGrid() {
   var grid = document.getElementById('imagesGrid');
   var emptyHint = document.getElementById('imagesEmpty');
-  var statsCard = document.getElementById('statsCard');
-  var imgOptions = document.getElementById('imageOptions');
   grid.innerHTML = '';
   if (images.length === 0) {
     emptyHint.style.display = 'block';
-    statsCard.classList.add('section-hidden');
-    imgOptions.classList.add('section-hidden');
     selectedImageIndex = -1;
+    updateAnimateTab();
     return;
   }
   emptyHint.style.display = 'none';
-  statsCard.classList.remove('section-hidden');
   images.forEach(function(item, index) {
     var el = document.createElement('div');
     el.className = 'image-item' + (index === selectedImageIndex ? ' selected' : '');
@@ -623,9 +795,6 @@ function renderImagesGrid() {
     el.addEventListener('dragleave', handleDragLeave);
     grid.appendChild(el);
   });
-  if (selectedImageIndex >= 0 && selectedImageIndex < images.length) {
-    imgOptions.classList.remove('section-hidden');
-  }
 }
 
 function getAnimationLabel(anim) {
@@ -643,8 +812,31 @@ function selectImage(index) {
     if (i === index) el.classList.add('selected');
     else el.classList.remove('selected');
   });
-  document.getElementById('imageOptions').classList.remove('section-hidden');
-  var item = images[index];
+  updateAnimateTab();
+  // التبديل لتبويب الحركات تلقائياً
+  var animateBtn = document.querySelector('.tab-btn[onclick*="animate"]');
+  if (animateBtn) {
+    document.querySelectorAll('.tab-btn').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+    animateBtn.classList.add('active');
+    document.getElementById('panel-animate').classList.add('active');
+  }
+}
+
+function updateAnimateTab() {
+  var emptyEl = document.getElementById('animateEmpty');
+  var contentEl = document.getElementById('animateContent');
+  
+  if (selectedImageIndex < 0 || selectedImageIndex >= images.length) {
+    emptyEl.classList.remove('section-hidden');
+    contentEl.classList.add('section-hidden');
+    return;
+  }
+  
+  emptyEl.classList.add('section-hidden');
+  contentEl.classList.remove('section-hidden');
+  
+  var item = images[selectedImageIndex];
   document.querySelectorAll('#animationOptions .opt-btn').forEach(function(btn) {
     if (btn.dataset.animation === item.animation) btn.classList.add('active');
     else btn.classList.remove('active');
@@ -690,7 +882,8 @@ function removeImage(index) {
   else if (selectedImageIndex > index) selectedImageIndex--;
   renderImagesGrid();
   updateButtons();
-  updateStats();
+  updateInfo();
+  updateAnimateTab();
 }
 
 function rotateImage(deg) {
@@ -729,7 +922,7 @@ function applyCustomDuration() {
   document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn) {
     btn.classList.remove('active');
   });
-  updateStats();
+  updateInfo();
   showToast('تم تحديث المدة');
 }
 
@@ -752,7 +945,7 @@ document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn
     document.getElementById('customDuration').value = dur;
     document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
     this.classList.add('active');
-    updateStats();
+    updateInfo();
   });
 });
 
@@ -761,6 +954,7 @@ document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(btn) {
     document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
     this.classList.add('active');
     currentSize = this.dataset.size;
+    updateInfo();
   });
 });
 
@@ -769,6 +963,7 @@ document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(btn) {
     document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
     this.classList.add('active');
     currentTransition = this.dataset.transition;
+    updateInfo();
   });
 });
 
@@ -778,15 +973,38 @@ function updateButtons() {
   document.getElementById('exportBtn').disabled = !hasImages;
 }
 
-function updateStats() {
+function updateInfo() {
   var totalDuration = 0;
   images.forEach(function(item) { totalDuration += item.duration; });
   var estimatedMB = (totalDuration * 5 / 8).toFixed(1);
-  document.getElementById('statImages').textContent = images.length;
-  document.getElementById('statDuration').textContent = totalDuration;
-  document.getElementById('statSize').textContent = estimatedMB;
+  var size = currentSize.split('x');
+  
+  document.getElementById('infoImages').textContent = images.length;
+  document.getElementById('infoDuration').textContent = totalDuration + ' ثانية';
+  document.getElementById('infoSize').textContent = '~' + estimatedMB + ' MB';
+  document.getElementById('infoDimensions').textContent = size[0] + ' × ' + size[1];
+  
+  var transLabels = {
+    'fade': 'تلاشي',
+    'slideRight': 'انزلاق يمين',
+    'slideLeft': 'انزلاق يسار',
+    'slideUp': 'انزلاق فوق',
+    'zoom': 'تكبير',
+    'rotate': 'دوران 360°',
+    'book': 'فتح كتاب',
+    'fold': 'طي',
+    'none': 'بدون'
+  };
+  document.getElementById('infoTransition').textContent = transLabels[currentTransition] || currentTransition;
+  
+  var audioLabel = 'بدون';
+  if (selectedAudio === 'record') audioLabel = 'تسجيل صوتي';
+  else if (selectedAudio === 'upload') audioLabel = 'ملف مرفوع';
+  if (musicFile) audioLabel = audioLabel === 'بدون' ? 'موسيقى' : audioLabel + ' + موسيقى';
+  document.getElementById('infoAudio').textContent = audioLabel;
 }
 
+// ═══ رسم الصورة ═══
 function drawImageCover(ctx, item, canvasWidth, canvasHeight, opacity, animationProgress) {
   if (opacity === undefined) opacity = 1;
   if (animationProgress === undefined) animationProgress = 0;
@@ -829,42 +1047,31 @@ function drawImageCover(ctx, item, canvasWidth, canvasHeight, opacity, animation
   ctx.restore();
 }
 
-// ✅ دالة الانتقال المحسّنة — كل نوع مميز بوضوح
+// ═══ الانتقالات ═══
 function drawTransition(ctx, prevItem, nextItem, canvasWidth, canvasHeight, progress) {
   var t = Math.min(1, Math.max(0, progress));
-  var ease = 1 - Math.pow(1 - t, 3); // تخفيف ناعم
+  var ease = 1 - Math.pow(1 - t, 3);
   
-  // ارسم الصورة السابقة دائماً في الخلفية
   drawImageCover(ctx, prevItem, canvasWidth, canvasHeight, 1, 1);
-  
   ctx.save();
   
   switch(currentTransition) {
     case 'fade':
-      // تلاشي — الصورة الجديدة تظهر تدريجياً
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, ease, 0);
       break;
-      
     case 'slideRight':
-      // انزلاق من اليمين
       ctx.translate(canvasWidth * (1 - ease), 0);
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'slideLeft':
-      // انزلاق من اليسار
       ctx.translate(-canvasWidth * (1 - ease), 0);
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'slideUp':
-      // انزلاق من الأسفل للأعلى
       ctx.translate(0, canvasHeight * (1 - ease));
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'zoom':
-      // تكبير من المركز
       var zScale = 0.3 + ease * 0.7;
       ctx.translate(canvasWidth / 2, canvasHeight / 2);
       ctx.scale(zScale, zScale);
@@ -872,9 +1079,7 @@ function drawTransition(ctx, prevItem, nextItem, canvasWidth, canvasHeight, prog
       ctx.translate(-canvasWidth / 2, -canvasHeight / 2);
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'rotate':
-      // ✅ دوران 360° كامل — الصورة تدور دورة كاملة مع التكبير
       var rotAngle = ease * Math.PI * 2;
       var rotScale = 0.2 + ease * 0.8;
       ctx.translate(canvasWidth / 2, canvasHeight / 2);
@@ -884,43 +1089,33 @@ function drawTransition(ctx, prevItem, nextItem, canvasWidth, canvasHeight, prog
       ctx.translate(-canvasWidth / 2, -canvasHeight / 2);
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'book':
-      // ✅ فتح كتاب — الصورة تنقلب من الحافة اليمنى (كما تُقلب صفحة كتاب)
-      var bookAngle = ease * Math.PI; // من 0 إلى 180°
-      // ارسم الصورة كأنها على الصفحة اليمنى
+      var bookAngle = ease * Math.PI;
       ctx.translate(canvasWidth, canvasHeight / 2);
       ctx.rotate(-Math.PI + bookAngle);
       ctx.globalAlpha = ease;
       ctx.translate(-canvasWidth, -canvasHeight / 2);
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
     case 'fold':
-      // ✅ طي الورقة — الصورة تنثني من المنتصف (طي عمودي)
       var foldAngle = ease * Math.PI / 2;
-      // الصورة تُطوى عمودياً — تنثني من المنتصف
       ctx.translate(canvasWidth / 2, canvasHeight / 2);
       ctx.scale(Math.cos(foldAngle), 1);
       ctx.globalAlpha = ease;
       ctx.translate(-canvasWidth / 2, -canvasHeight / 2);
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
-      
-    case 'none':
     default:
       drawImageCover(ctx, nextItem, canvasWidth, canvasHeight, 1, 0);
       break;
   }
-  
   ctx.restore();
 }
 
-// ✅ معاينة محسّنة مع النزول التلقائي
+// ═══ المعاينة ═══
 function previewVideo() {
   if (images.length === 0) return;
   
-  // ✅ النزول التلقائي إلى الكانفس
   var previewCard = document.getElementById('previewCard');
   if (previewCard && !isPreviewing) {
     setTimeout(function() {
@@ -931,13 +1126,13 @@ function previewVideo() {
   if (isPreviewing) {
     isPreviewing = false;
     if (previewAnimationId) cancelAnimationFrame(previewAnimationId);
-    document.getElementById('previewBtn').textContent = 'معاينة';
+    document.getElementById('previewBtn').textContent = '▶ معاينة';
     return;
   }
   
   isPreviewing = true;
   trackEvent('montage-معاينة');
-  document.getElementById('previewBtn').textContent = 'إيقاف';
+  document.getElementById('previewBtn').textContent = '⏹ إيقاف';
   
   var canvas = document.getElementById('previewCanvas');
   var placeholder = document.getElementById('previewEmpty');
@@ -982,6 +1177,7 @@ function previewVideo() {
   animate();
 }
 
+// ═══ التصدير ═══
 async function exportVideo() {
   if (images.length === 0 || isExporting) return;
   isExporting = true;
@@ -1134,7 +1330,8 @@ function resetAll() {
   if (previewAnimationId) cancelAnimationFrame(previewAnimationId);
   renderImagesGrid();
   updateButtons();
-  updateStats();
+  updateInfo();
+  updateAnimateTab();
   document.getElementById('musicInfo').classList.add('section-hidden');
   document.getElementById('audioUploadInfo').classList.add('section-hidden');
   document.getElementById('recordPlayer').classList.remove('active');
@@ -1227,6 +1424,7 @@ function updateTimer() {
 function useRecording() {
   if (!recordedAudioBlob) return;
   selectedAudio = 'record';
+  updateInfo();
   showToast('سيتم استخدام التسجيل');
   trackEvent('montage-استخدام-تسجيل');
 }
@@ -1239,6 +1437,7 @@ function deleteRecording() {
   document.getElementById('recorderStatus').textContent = 'جاهز للتسجيل';
   document.getElementById('recorderTimer').textContent = '00:00';
   document.getElementById('recordAudio').src = '';
+  updateInfo();
   showToast('تم حذف التسجيل');
 }
 
@@ -1253,6 +1452,7 @@ document.getElementById('audioInput').addEventListener('change', function(e) {
   selectedAudio = 'upload';
   document.getElementById('audioUploadName').textContent = file.name;
   document.getElementById('audioUploadInfo').classList.remove('section-hidden');
+  updateInfo();
   showToast('تم رفع الملف');
   e.target.value = '';
 });
@@ -1262,6 +1462,7 @@ function removeAudioUpload() {
   if (selectedAudio === 'upload') selectedAudio = null;
   document.getElementById('audioUploadInfo').classList.add('section-hidden');
   document.getElementById('audioInput').value = '';
+  updateInfo();
 }
 
 document.getElementById('musicInput').addEventListener('change', function(e) {
@@ -1274,6 +1475,7 @@ document.getElementById('musicInput').addEventListener('change', function(e) {
   musicFile = file;
   document.getElementById('musicName').textContent = file.name;
   document.getElementById('musicInfo').classList.remove('section-hidden');
+  updateInfo();
   showToast('تم رفع الموسيقى');
   e.target.value = '';
 });
@@ -1282,6 +1484,7 @@ function removeMusic() {
   musicFile = null;
   document.getElementById('musicInfo').classList.add('section-hidden');
   document.getElementById('musicInput').value = '';
+  updateInfo();
 }
 
 window.addEventListener('load', function() {
@@ -1294,7 +1497,7 @@ window.addEventListener('load', function() {
     document.getElementById('recorderStatus').textContent = 'التسجيل غير مدعوم';
   }
   trackEvent('montage-زيارة');
-  updateStats();
+  updateInfo();
   console.log('✅ المونتاج جاهز');
 });
 </script>
