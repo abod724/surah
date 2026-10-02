@@ -130,7 +130,7 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #63
 .progress-text { text-align: center; font-size: 12px; color: var(--text-light); margin-top: 6px; font-weight: 700; }
 .footer { text-align: center; padding: 20px; color: #fff; font-size: 12px; opacity: 0.85; }
 .empty-hint { text-align: center; color: #94a3b8; font-size: 13px; padding: 20px; font-weight: 600; }
-.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0f172a; color: #fff; padding: 12px 24px; border-radius: 12px; font-size: 13px; font-weight: 700; z-index: 9999; opacity: 0; transition: opacity 0.3s; pointer-events: none; max-width: 90%; text-align: center; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0f172a; color: #fff; padding: 12px 24px; border-radius: 12px; font-size: 13px; font-weight: 700; z-index: 99999; opacity: 0; transition: opacity 0.3s; pointer-events: none; max-width: 90%; text-align: center; }
 .toast.active { opacity: 1; }
 .section-hidden { display: none !important; }
 .info-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: #f8fafc; border-radius: 8px; margin-bottom: 6px; font-size: 13px; font-weight: 700; color: var(--text-light); }
@@ -162,6 +162,21 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #63
 #appRoot { display: none; }
 #appRoot.ready { display: block; }
 
+/* ═══ قائمة المشاريع ═══ */
+.project-item { display: flex; align-items: center; gap: 10px; padding: 12px; background: #f8fafc; border-radius: 10px; margin-bottom: 8px; border: 2px solid #e2e8f0; }
+.project-thumb { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; background: #e2e8f0; flex-shrink: 0; }
+.project-info { flex: 1; min-width: 0; }
+.project-name { font-size: 13px; font-weight: 800; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.project-date { font-size: 10px; color: #64748b; font-weight: 600; margin-top: 2px; }
+.project-actions { display: flex; gap: 4px; }
+.project-actions button { padding: 6px 10px; border: none; border-radius: 8px; font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 11px; cursor: pointer; }
+.project-load { background: #6366f1; color: #fff; }
+.project-del { background: #ef4444; color: #fff; }
+
+/* ═══ نافذة إعادة تعيين كلمة المرور ═══ */
+#resetOverlay { position: fixed; inset: 0; z-index: 10001; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+#resetOverlay.active { display: flex; }
+
 @media (max-width: 480px) {
   .container { padding: 0; }
   .card { padding: 14px; }
@@ -181,7 +196,7 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #63
   <div class="auth-card">
     <div class="auth-logo">🎬</div>
     <div class="auth-title">ريشة المونتاج</div>
-    <div class="auth-sub">سجّل دخولك للبدء</div>
+    <div class="auth-sub" id="authSubtitle">سجّل دخولك للبدء</div>
     <div class="auth-error" id="authError"></div>
     <div class="auth-success" id="authSuccess"></div>
     <form id="authForm">
@@ -193,7 +208,16 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #63
         <label>كلمة المرور</label>
         <input type="password" id="authPassword" placeholder="••••••••" required minlength="6" autocomplete="current-password">
       </div>
+      <div class="auth-field" id="confirmPasswordField" style="display:none;">
+        <label>تأكيد كلمة المرور</label>
+        <input type="password" id="authPassword2" placeholder="••••••••" minlength="6" autocomplete="new-password">
+      </div>
       <button type="submit" class="auth-btn" id="authSubmitBtn">دخول</button>
+      <div style="text-align:center;margin-top:10px;">
+        <button type="button" id="forgotBtn" style="background:none;border:none;color:#6366f1;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;text-decoration:underline;">
+          نسيت كلمة المرور؟
+        </button>
+      </div>
     </form>
     <div class="auth-switch" id="authSwitch">
       ما عندك حساب؟
@@ -214,6 +238,8 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #63
       </div>
       <div style="display:flex;align-items:center;gap:6px;">
         <span class="user-chip" id="userChip">—</span>
+        <button class="logout-btn" id="saveProjectBtn" title="حفظ المشروع">💾</button>
+        <button class="logout-btn" id="myProjectsBtn" title="مشاريعي">📁</button>
         <button class="logout-btn" id="logoutBtn" title="خروج">خروج</button>
         <a href="index.html" class="header-back">←</a>
       </div>
@@ -434,6 +460,43 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #63
   </div>
 </div>
 
+<!-- ═══ نافذة مشاريعي ═══ -->
+<div class="crop-overlay" id="projectsOverlay">
+  <div class="crop-header">
+    <div class="crop-title">📁 مشاريعي</div>
+    <button class="crop-close" onclick="closeProjects()">✕</button>
+  </div>
+  <div style="background:#fff;border-radius:16px;padding:16px;max-height:70vh;overflow-y:auto;">
+    <div id="projectsList">
+      <div class="empty-hint">لا توجد مشاريع محفوظة</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ نافذة إعادة تعيين كلمة المرور ═══ -->
+<div id="resetOverlay">
+  <div class="auth-card">
+    <div class="auth-logo">🔑</div>
+    <div class="auth-title">كلمة مرور جديدة</div>
+    <div class="auth-sub">اكتب كلمة المرور الجديدة</div>
+    <div class="auth-error" id="resetError"></div>
+    <form id="resetForm">
+      <div class="auth-field">
+        <label>كلمة المرور الجديدة</label>
+        <input type="password" id="resetPassword" placeholder="••••••••" required minlength="6">
+      </div>
+      <div class="auth-field">
+        <label>تأكيد كلمة المرور</label>
+        <input type="password" id="resetPassword2" placeholder="••••••••" required minlength="6">
+      </div>
+      <button type="submit" class="auth-btn" id="resetBtn">تحديث كلمة المرور</button>
+    </form>
+    <div class="auth-switch">
+      <button type="button" onclick="document.getElementById('resetOverlay').classList.remove('active')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -455,6 +518,9 @@ const authSubmitBtn = document.getElementById('authSubmitBtn');
 const authError     = document.getElementById('authError');
 const authSuccess   = document.getElementById('authSuccess');
 const authSwitchEl  = document.getElementById('authSwitch');
+const authSubtitle  = document.getElementById('authSubtitle');
+const confirmPasswordField = document.getElementById('confirmPasswordField');
+const authPassword2 = document.getElementById('authPassword2');
 
 function showAuthError(msg) { authError.textContent = msg; authError.classList.add('show'); authSuccess.classList.remove('show'); }
 function showAuthSuccess(msg) { authSuccess.textContent = msg; authSuccess.classList.add('show'); authError.classList.remove('show'); }
@@ -463,13 +529,24 @@ function clearAuthMessages() { authError.classList.remove('show'); authSuccess.c
 function setAuthMode(mode) {
   authMode = mode;
   clearAuthMessages();
+
   if (mode === 'signup') {
+    authSubtitle.textContent = 'أنشئ حسابك الجديد';
     authSubmitBtn.textContent = 'إنشاء حساب';
     authSwitchEl.innerHTML = 'عندك حساب؟ <button type="button" id="authToggleMode">سجّل دخول</button>';
+    confirmPasswordField.style.display = 'block';
+    authPassword2.required = true;
+    authPassword.setAttribute('autocomplete', 'new-password');
   } else {
+    authSubtitle.textContent = 'سجّل دخولك للبدء';
     authSubmitBtn.textContent = 'دخول';
     authSwitchEl.innerHTML = 'ما عندك حساب؟ <button type="button" id="authToggleMode">أنشئ حساب</button>';
+    confirmPasswordField.style.display = 'none';
+    authPassword2.required = false;
+    authPassword2.value = '';
+    authPassword.setAttribute('autocomplete', 'current-password');
   }
+
   document.getElementById('authToggleMode').addEventListener('click', function() {
     setAuthMode(authMode === 'login' ? 'signup' : 'login');
   });
@@ -481,6 +558,7 @@ authForm.addEventListener('submit', async function(e) {
   clearAuthMessages();
   const email = authEmail.value.trim();
   const password = authPassword.value;
+
   if (!email || !password) { showAuthError('عبّئ كل الحقول'); return; }
   if (password.length < 6) { showAuthError('كلمة المرور 6 أحرف على الأقل'); return; }
 
@@ -490,11 +568,26 @@ authForm.addEventListener('submit', async function(e) {
 
   try {
     if (authMode === 'signup') {
-      const { data, error } = await sb.auth.signUp({ email, password });
+      const pass2 = authPassword2.value;
+      if (password !== pass2) {
+        showAuthError('كلمتا المرور غير متطابقتين');
+        authSubmitBtn.disabled = false;
+        authSubmitBtn.textContent = origText;
+        return;
+      }
+
+      const { data, error } = await sb.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: window.location.origin + window.location.pathname
+        }
+      });
       if (error) throw error;
+
       if (data.user && !data.session) {
-        showAuthSuccess('تم إنشاء الحساب ✅ تحقق من بريدك لتأكيد الحساب');
-      } else {
+        showAuthSuccess('✅ تم إنشاء الحساب! افتح بريدك واضغط رابط التأكيد، وسيتم إدخالك تلقائياً للموقع.');
+      } else if (data.session) {
         onLoginSuccess(data.user);
       }
     } else {
@@ -505,8 +598,8 @@ authForm.addEventListener('submit', async function(e) {
   } catch (err) {
     const msg = (err && err.message) ? err.message : 'حدث خطأ';
     if (msg.includes('Invalid login')) showAuthError('البريد أو كلمة المرور غير صحيحة');
-    else if (msg.includes('already registered')) showAuthError('هذا البريد مسجّل مسبقاً');
-    else if (msg.includes('Email not confirmed')) showAuthError('لازم تأكيد البريد أولاً');
+    else if (msg.includes('already registered') || msg.includes('User already registered')) showAuthError('هذا البريد مسجّل مسبقاً، جرّب تسجيل الدخول');
+    else if (msg.includes('Email not confirmed')) showAuthError('لازم تأكيد البريد أولاً — تحقق من إيميلك');
     else showAuthError(msg);
   } finally {
     authSubmitBtn.disabled = false;
@@ -531,9 +624,21 @@ function onLoginSuccess(user) {
 
 (async function initAuth() {
   try {
+    // أول شي: نشوف لو فيه hash في الرابط (بعد تأكيد الإيميل أو استعادة كلمة المرور)
+    if (window.location.hash && window.location.hash.includes('access_token')) {
+      // Supabase SDK يلتقط التوكن تلقائياً — ننتظر شوي
+      await new Promise(function(r) { setTimeout(r, 600); });
+    }
+
     const { data: { session } } = await sb.auth.getSession();
     if (session && session.user) {
       onLoginSuccess(session.user);
+      // نظّف الرابط
+      if (window.location.hash) {
+        setTimeout(function() {
+          history.replaceState(null, '', window.location.pathname);
+        }, 500);
+      }
     } else {
       authOverlay.classList.remove('hidden');
     }
@@ -551,6 +656,69 @@ sb.auth.onAuthStateChange(function(event, session) {
   }
   if (event === 'SIGNED_IN' && session && session.user) {
     onLoginSuccess(session.user);
+    // نظّف الرابط لو فيه hash
+    if (window.location.hash) {
+      setTimeout(function() {
+        history.replaceState(null, '', window.location.pathname);
+      }, 500);
+    }
+  }
+  if (event === 'PASSWORD_RECOVERY') {
+    document.getElementById('resetOverlay').classList.add('active');
+  }
+});
+
+// ═══════════════════════════════════════
+// نسيت كلمة المرور
+// ═══════════════════════════════════════
+document.getElementById('forgotBtn').addEventListener('click', async function() {
+  const email = prompt('اكتب إيميلك لإرسال رابط إعادة التعيين:');
+  if (!email) return;
+  if (!email.includes('@')) { showToast('إيميل غير صحيح'); return; }
+
+  try {
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + window.location.pathname
+    });
+    if (error) throw error;
+    showToast('✅ تم إرسال الرابط على بريدك');
+  } catch (err) {
+    console.error(err);
+    showToast('فشل الإرسال: ' + (err.message || 'خطأ'));
+  }
+});
+
+document.getElementById('resetForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const pass1 = document.getElementById('resetPassword').value;
+  const pass2 = document.getElementById('resetPassword2').value;
+  const errEl = document.getElementById('resetError');
+  errEl.classList.remove('show');
+
+  if (pass1.length < 6) { errEl.textContent = 'كلمة المرور 6 أحرف على الأقل'; errEl.classList.add('show'); return; }
+  if (pass1 !== pass2) { errEl.textContent = 'كلمتا المرور غير متطابقتين'; errEl.classList.add('show'); return; }
+
+  const btn = document.getElementById('resetBtn');
+  btn.disabled = true;
+  btn.textContent = 'جاري التحديث...';
+
+  try {
+    const { error } = await sb.auth.updateUser({ password: pass1 });
+    if (error) throw error;
+    showToast('✅ تم تحديث كلمة المرور');
+    document.getElementById('resetOverlay').classList.remove('active');
+    document.getElementById('resetForm').reset();
+    setTimeout(function() {
+      window.location.hash = '';
+      window.location.reload();
+    }, 1200);
+  } catch (err) {
+    console.error(err);
+    errEl.textContent = err.message || 'فشل التحديث';
+    errEl.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'تحديث كلمة المرور';
   }
 });
 
@@ -588,7 +756,7 @@ function showToast(msg) {
   var t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('active');
-  setTimeout(function() { t.classList.remove('active'); }, 2500);
+  setTimeout(function() { t.classList.remove('active'); }, 3000);
 }
 function switchTab(name, btn) {
   document.querySelectorAll('.tab-btn').forEach(function(t) { t.classList.remove('active'); });
@@ -1513,6 +1681,192 @@ function exportVideo() {
     isExporting = false;
   });
 }
+
+// ═══════════════════════════════════════
+// حفظ وتحميل المشاريع من Supabase
+// ═══════════════════════════════════════
+function getProjectData() {
+  return {
+    images: images.map(function(item) {
+      return {
+        src: item.src,
+        animation: item.animation,
+        duration: item.duration,
+        rotation: item.rotation,
+        flipH: item.flipH,
+        flipV: item.flipV,
+        speed: item.speed,
+        crop: item.crop
+      };
+    }),
+    currentSize: currentSize,
+    currentTransition: currentTransition,
+    currentLayout: currentLayout,
+    selectedAudio: selectedAudio,
+    hasRecordedAudio: !!recordedAudioBlob,
+    hasAudioUpload: !!audioUpload,
+    hasMusic: !!musicFile
+  };
+}
+
+async function loadProjectData(data) {
+  if (!data || !data.images) return;
+  images = [];
+  var loaded = 0;
+  var total = data.images.length;
+  if (total === 0) { renderImagesGrid(); updateInfo(); return; }
+  data.images.forEach(function(saved, i) {
+    var img = new Image();
+    img.onload = function() {
+      images[i] = {
+        img: img,
+        originalImg: img,
+        src: saved.src,
+        animation: saved.animation || 'none',
+        duration: saved.duration || 3,
+        rotation: saved.rotation || 0,
+        flipH: !!saved.flipH,
+        flipV: !!saved.flipV,
+        speed: saved.speed !== undefined ? saved.speed : 1,
+        crop: saved.crop || null
+      };
+      loaded++;
+      if (loaded === total) {
+        currentSize = data.currentSize || '1080x1080';
+        currentTransition = data.currentTransition || 'fade';
+        currentLayout = data.currentLayout || 'single';
+        document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(b) {
+          b.classList.toggle('active', b.dataset.size === currentSize);
+        });
+        document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(b) {
+          b.classList.toggle('active', b.dataset.transition === currentTransition);
+        });
+        renderImagesGrid();
+        renderLayouts();
+        updateButtons();
+        updateInfo();
+        showToast('تم تحميل المشروع ✅');
+      }
+    };
+    img.src = saved.src;
+  });
+}
+
+async function saveProject() {
+  if (!currentUser) { showToast('سجّل دخول أولاً'); return; }
+  if (images.length === 0) { showToast('أضف صوراً أولاً'); return; }
+  var name = prompt('اسم المشروع:', 'مشروع ' + new Date().toLocaleDateString('ar'));
+  if (!name) return;
+  var btn = document.getElementById('saveProjectBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳';
+  showToast('جاري الحفظ...');
+  try {
+    var data = getProjectData();
+    var thumbnail = images[0] ? images[0].src : null;
+    var result = await sb.from('projects').insert({
+      user_id: currentUser.id,
+      name: name,
+      data: data,
+      thumbnail: thumbnail
+    }).select().single();
+    if (result.error) throw result.error;
+    showToast('تم حفظ المشروع ✅');
+  } catch (err) {
+    console.error(err);
+    showToast('فشل الحفظ: ' + (err.message || 'خطأ'));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '💾';
+  }
+}
+
+async function openProjects() {
+  if (!currentUser) return;
+  document.getElementById('projectsOverlay').classList.add('active');
+  var list = document.getElementById('projectsList');
+  list.innerHTML = '<div class="empty-hint">جاري التحميل...</div>';
+  try {
+    var result = await sb.from('projects')
+      .select('id, name, thumbnail, created_at')
+      .order('created_at', { ascending: false });
+    if (result.error) throw result.error;
+    var data = result.data;
+    if (!data || data.length === 0) {
+      list.innerHTML = '<div class="empty-hint">لا توجد مشاريع محفوظة</div>';
+      return;
+    }
+    list.innerHTML = '';
+    data.forEach(function(p) {
+      var el = document.createElement('div');
+      el.className = 'project-item';
+      var thumb = document.createElement('img');
+      thumb.className = 'project-thumb';
+      thumb.src = p.thumbnail || '';
+      var info = document.createElement('div');
+      info.className = 'project-info';
+      info.innerHTML = '<div class="project-name">' + escapeHtml(p.name) + '</div>' +
+                       '<div class="project-date">' + new Date(p.created_at).toLocaleString('ar') + '</div>';
+      var actions = document.createElement('div');
+      actions.className = 'project-actions';
+      var loadBtn = document.createElement('button');
+      loadBtn.className = 'project-load';
+      loadBtn.textContent = 'فتح';
+      loadBtn.onclick = function() { loadProjectById(p.id); };
+      var delBtn = document.createElement('button');
+      delBtn.className = 'project-del';
+      delBtn.textContent = 'حذف';
+      delBtn.onclick = function() { deleteProjectById(p.id); };
+      actions.appendChild(loadBtn);
+      actions.appendChild(delBtn);
+      el.appendChild(thumb);
+      el.appendChild(info);
+      el.appendChild(actions);
+      list.appendChild(el);
+    });
+  } catch (err) {
+    console.error(err);
+    list.innerHTML = '<div class="empty-hint">فشل التحميل: ' + (err.message || '') + '</div>';
+  }
+}
+
+async function loadProjectById(id) {
+  try {
+    var result = await sb.from('projects').select('*').eq('id', id).single();
+    if (result.error) throw result.error;
+    closeProjects();
+    await loadProjectData(result.data.data);
+  } catch (err) {
+    console.error(err);
+    showToast('فشل فتح المشروع');
+  }
+}
+
+async function deleteProjectById(id) {
+  if (!confirm('حذف المشروع نهائياً؟')) return;
+  try {
+    var result = await sb.from('projects').delete().eq('id', id);
+    if (result.error) throw result.error;
+    showToast('تم الحذف');
+    openProjects();
+  } catch (err) {
+    console.error(err);
+    showToast('فشل الحذف');
+  }
+}
+
+function closeProjects() {
+  document.getElementById('projectsOverlay').classList.remove('active');
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, function(m) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+  });
+}
+
+document.getElementById('saveProjectBtn').addEventListener('click', saveProject);
+document.getElementById('myProjectsBtn').addEventListener('click', openProjects);
 
 // ═══════════════════════════════════════
 // التهيئة
