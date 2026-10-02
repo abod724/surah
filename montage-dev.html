@@ -774,3 +774,633 @@
 <script>
 // JavaScript في الجزء 2
 </script>
+  console.log('✅ الجزء 2 جاهز');
+});
+
+// ═══════════════════════════════════════
+// تبديل تبويبات الصوت
+// ═══════════════════════════════════════
+function switchAudioTab(tab, btn) {
+  document.querySelectorAll('.audio-tab').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('#audioTab-record, #audioTab-upload, #audioTab-music').forEach(function(el) {
+    el.classList.add('section-hidden');
+  });
+  document.getElementById('audioTab-' + tab).classList.remove('section-hidden');
+}
+
+// ═══════════════════════════════════════
+// التسجيل الصوتي
+// ═══════════════════════════════════════
+function toggleRecording() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    stopRecording();
+  } else {
+    startRecording();
+  }
+}
+
+function startRecording() {
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(function(stream) {
+      recordingStream = stream;
+      var mimeType = 'audio/webm;codecs=opus';
+      if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'audio/webm';
+      if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = '';
+      var options = mimeType ? { mimeType: mimeType } : {};
+      mediaRecorder = new MediaRecorder(stream, options);
+      audioChunks = [];
+
+      mediaRecorder.ondataavailable = function(e) {
+        if (e.data.size > 0) audioChunks.push(e.data);
+      };
+
+      mediaRecorder.onstop = function() {
+        recordedAudioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        var url = URL.createObjectURL(recordedAudioBlob);
+        document.getElementById('recordAudio').src = url;
+        document.getElementById('recordPlayer').classList.add('active');
+        document.getElementById('recordActions').classList.remove('section-hidden');
+        document.getElementById('recorderStatus').textContent = 'التسجيل جاهز';
+        if (recordingStream) {
+          recordingStream.getTracks().forEach(function(t) { t.stop(); });
+        }
+      };
+
+      mediaRecorder.start();
+      recordingStartTime = Date.now();
+      document.getElementById('recorderDot').classList.add('recording');
+      document.getElementById('recorderStatus').textContent = 'جاري التسجيل';
+      document.getElementById('recordBtn').textContent = 'إيقاف التسجيل';
+      document.getElementById('recordBtn').classList.remove('record');
+      document.getElementById('recordBtn').classList.add('stop');
+      document.getElementById('recordPlayer').classList.remove('active');
+      document.getElementById('recordActions').classList.add('section-hidden');
+      recordingTimerInterval = setInterval(updateTimer, 100);
+      trackEvent('montage-تسجيل');
+    })
+    .catch(function(err) {
+      console.error('خطأ في التسجيل:', err);
+      showToast('لم يتم السماح بالوصول للميكروفون');
+    });
+}
+
+function stopRecording() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    mediaRecorder.stop();
+  }
+  if (recordingTimerInterval) {
+    clearInterval(recordingTimerInterval);
+    recordingTimerInterval = null;
+  }
+  document.getElementById('recorderDot').classList.remove('recording');
+  document.getElementById('recordBtn').textContent = 'بدء التسجيل';
+  document.getElementById('recordBtn').classList.remove('stop');
+  document.getElementById('recordBtn').classList.add('record');
+}
+
+function updateTimer() {
+  var elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+  var mins = Math.floor(elapsed / 60).toString().padStart(2, '0');
+  var secs = (elapsed % 60).toString().padStart(2, '0');
+  document.getElementById('recorderTimer').textContent = mins + ':' + secs;
+}
+
+function useRecording() {
+  if (!recordedAudioBlob) return;
+  selectedAudio = 'record';
+  updateInfo();
+  showToast('سيتم استخدام التسجيل');
+}
+
+function deleteRecording() {
+  recordedAudioBlob = null;
+  selectedAudio = null;
+  document.getElementById('recordPlayer').classList.remove('active');
+  document.getElementById('recordActions').classList.add('section-hidden');
+  document.getElementById('recorderStatus').textContent = 'جاهز للتسجيل';
+  document.getElementById('recorderTimer').textContent = '00:00';
+  document.getElementById('recordAudio').src = '';
+  updateInfo();
+  showToast('تم حذف التسجيل');
+}
+
+// ═══════════════════════════════════════
+// رفع ملف صوتي
+// ═══════════════════════════════════════
+document.getElementById('audioInput').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('audio/')) {
+    showToast('الرجاء اختيار ملف صوتي');
+    return;
+  }
+  audioUpload = file;
+  selectedAudio = 'upload';
+  document.getElementById('audioUploadName').textContent = file.name;
+  document.getElementById('audioUploadInfo').classList.remove('section-hidden');
+  updateInfo();
+  showToast('تم رفع الملف');
+  e.target.value = '';
+});
+
+function removeAudioUpload() {
+  audioUpload = null;
+  if (selectedAudio === 'upload') selectedAudio = null;
+  document.getElementById('audioUploadInfo').classList.add('section-hidden');
+  document.getElementById('audioInput').value = '';
+  updateInfo();
+}
+
+// ═══════════════════════════════════════
+// رفع موسيقى
+// ═══════════════════════════════════════
+document.getElementById('musicInput').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('audio/')) {
+    showToast('الرجاء اختيار ملف صوتي');
+    return;
+  }
+  musicFile = file;
+  document.getElementById('musicName').textContent = file.name;
+  document.getElementById('musicInfo').classList.remove('section-hidden');
+  updateInfo();
+  showToast('تم رفع الموسيقى');
+  e.target.value = '';
+});
+
+function removeMusic() {
+  musicFile = null;
+  document.getElementById('musicInfo').classList.add('section-hidden');
+  document.getElementById('musicInput').value = '';
+  updateInfo();
+}
+
+// ═══════════════════════════════════════
+// القص (Crop)
+// ═══════════════════════════════════════
+function openCrop() {
+  if (selectedImageIndex < 0) {
+    showToast('اختر صورة أولاً');
+    return;
+  }
+  
+  var item = images[selectedImageIndex];
+  cropOriginalImage = item.img;
+  
+  document.getElementById('cropOverlay').classList.add('active');
+  
+  var canvas = document.getElementById('cropCanvas');
+  cropCanvas = canvas;
+  
+  // حساب الأبعاد
+  var maxW = window.innerWidth - 40;
+  var maxH = window.innerHeight * 0.6;
+  var scale = Math.min(maxW / cropOriginalImage.width, maxH / cropOriginalImage.height, 1);
+  cropScale = scale;
+  
+  canvas.width = cropOriginalImage.width * scale;
+  canvas.height = cropOriginalImage.height * scale;
+  
+  var ctx = canvas.getContext('2d');
+  ctx.drawImage(cropOriginalImage, 0, 0, canvas.width, canvas.height);
+  
+  // إضافة طبقة القص
+  initCropRect(canvas);
+}
+
+function initCropRect(canvas) {
+  var ctx = canvas.getContext('2d');
+  
+  // إذا كان هناك قص سابق
+  if (images[selectedImageIndex].crop) {
+    var c = images[selectedImageIndex].crop;
+    cropRect = {
+      x: c.x * cropScale,
+      y: c.y * cropScale,
+      w: c.w * cropScale,
+      h: c.h * cropScale
+    };
+  } else {
+    // مربع افتراضي في المنتصف
+    var size = Math.min(canvas.width, canvas.height) * 0.6;
+    cropRect = {
+      x: (canvas.width - size) / 2,
+      y: (canvas.height - size) / 2,
+      w: size,
+      h: size
+    };
+  }
+  
+  renderCrop();
+  setupCropDrag(canvas);
+}
+
+function renderCrop() {
+  var canvas = cropCanvas;
+  var ctx = canvas.getContext('2d');
+  
+  // أعد رسم الصورة الأصلية
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(cropOriginalImage, 0, 0, canvas.width, canvas.height);
+  
+  // طبقة معتمة على الخارج
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.fillRect(0, 0, canvas.width, cropRect.y);
+  ctx.fillRect(0, cropRect.y + cropRect.h, canvas.width, canvas.height);
+  ctx.fillRect(0, cropRect.y, cropRect.x, cropRect.h);
+  ctx.fillRect(cropRect.x + cropRect.w, cropRect.y, canvas.width - cropRect.x - cropRect.w, cropRect.h);
+  
+  // إطار القص
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(cropRect.x, cropRect.y, cropRect.w, cropRect.h);
+  
+  // شبكة 3x3
+  ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+  ctx.lineWidth = 1;
+  for (var i = 1; i < 3; i++) {
+    ctx.beginPath();
+    ctx.moveTo(cropRect.x + (cropRect.w / 3) * i, cropRect.y);
+    ctx.lineTo(cropRect.x + (cropRect.w / 3) * i, cropRect.y + cropRect.h);
+    ctx.stroke();
+    
+    ctx.beginPath();
+    ctx.moveTo(cropRect.x, cropRect.y + (cropRect.h / 3) * i);
+    ctx.lineTo(cropRect.x + cropRect.w, cropRect.y + (cropRect.h / 3) * i);
+    ctx.stroke();
+  }
+  
+  // مقابض الزوايا
+  ctx.fillStyle = '#6366f1';
+  var handles = [
+    { x: cropRect.x, y: cropRect.y },
+    { x: cropRect.x + cropRect.w, y: cropRect.y },
+    { x: cropRect.x, y: cropRect.y + cropRect.h },
+    { x: cropRect.x + cropRect.w, y: cropRect.y + cropRect.h }
+  ];
+  handles.forEach(function(h) {
+    ctx.beginPath();
+    ctx.arc(h.x, h.y, 8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+}
+
+function setupCropDrag(canvas) {
+  var isDragging = false;
+  var isResizing = false;
+  var resizeCorner = null;
+  var startX, startY;
+  var startRect = {};
+  
+  function getPos(e) {
+    var rect = canvas.getBoundingClientRect();
+    var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+      x: (clientX - rect.left) * (canvas.width / rect.width),
+      y: (clientY - rect.top) * (canvas.height / rect.height)
+    };
+  }
+  
+  function findCorner(pos) {
+    var corners = ['tl', 'tr', 'bl', 'br'];
+    var points = [
+      { x: cropRect.x, y: cropRect.y },
+      { x: cropRect.x + cropRect.w, y: cropRect.y },
+      { x: cropRect.x, y: cropRect.y + cropRect.h },
+      { x: cropRect.x + cropRect.w, y: cropRect.y + cropRect.h }
+    ];
+    for (var i = 0; i < points.length; i++) {
+      var d = Math.sqrt(Math.pow(pos.x - points[i].x, 2) + Math.pow(pos.y - points[i].y, 2));
+      if (d < 20) return corners[i];
+    }
+    return null;
+  }
+  
+  function start(e) {
+    e.preventDefault();
+    var pos = getPos(e);
+    var corner = findCorner(pos);
+    
+    if (corner) {
+      isResizing = true;
+      resizeCorner = corner;
+    } else if (pos.x >= cropRect.x && pos.x <= cropRect.x + cropRect.w &&
+               pos.y >= cropRect.y && pos.y <= cropRect.y + cropRect.h) {
+      isDragging = true;
+    } else {
+      return;
+    }
+    
+    startX = pos.x;
+    startY = pos.y;
+    startRect = { x: cropRect.x, y: cropRect.y, w: cropRect.w, h: cropRect.h };
+  }
+  
+  function move(e) {
+    if (!isDragging && !isResizing) return;
+    e.preventDefault();
+    var pos = getPos(e);
+    var dx = pos.x - startX;
+    var dy = pos.y - startY;
+    
+    if (isDragging) {
+      cropRect.x = Math.max(0, Math.min(canvas.width - cropRect.w, startRect.x + dx));
+      cropRect.y = Math.max(0, Math.min(canvas.height - cropRect.h, startRect.y + dy));
+    } else if (isResizing) {
+      if (resizeCorner === 'br') {
+        cropRect.w = Math.max(30, Math.min(canvas.width - cropRect.x, startRect.w + dx));
+        cropRect.h = Math.max(30, Math.min(canvas.height - cropRect.y, startRect.h + dy));
+      } else if (resizeCorner === 'tl') {
+        var newX = Math.max(0, startRect.x + dx);
+        var newY = Math.max(0, startRect.y + dy);
+        cropRect.w = startRect.w + (startRect.x - newX);
+        cropRect.h = startRect.h + (startRect.y - newY);
+        cropRect.x = newX;
+        cropRect.y = newY;
+      } else if (resizeCorner === 'tr') {
+        var newW = Math.max(30, startRect.w + dx);
+        cropRect.w = Math.min(newW, canvas.width - cropRect.x);
+        var newY2 = Math.max(0, startRect.y + dy);
+        cropRect.h = startRect.h + (startRect.y - newY2);
+        cropRect.y = newY2;
+      } else if (resizeCorner === 'bl') {
+        var newX2 = Math.max(0, startRect.x + dx);
+        cropRect.w = startRect.w + (startRect.x - newX2);
+        cropRect.x = newX2;
+        var newH = Math.max(30, startRect.h + dy);
+        cropRect.h = Math.min(newH, canvas.height - cropRect.y);
+      }
+    }
+    
+    renderCrop();
+  }
+  
+  function end() {
+    isDragging = false;
+    isResizing = false;
+    resizeCorner = null;
+  }
+  
+  // إزالة المستمعات القديمة (لتجنب التكرار)
+  if (canvas._cropCleanup) canvas._cropCleanup();
+  
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, { passive: false });
+  canvas.addEventListener('touchmove', move, { passive: false });
+  canvas.addEventListener('touchend', end);
+  
+  canvas._cropCleanup = function() {
+    canvas.removeEventListener('mousedown', start);
+    canvas.removeEventListener('mousemove', move);
+    canvas.removeEventListener('mouseup', end);
+    canvas.removeEventListener('touchstart', start);
+    canvas.removeEventListener('touchmove', move);
+    canvas.removeEventListener('touchend', end);
+  };
+}
+
+function applyCrop() {
+  if (!cropRect || selectedImageIndex < 0) return;
+  
+  var item = images[selectedImageIndex];
+  var original = item.originalImg;
+  
+  // حوّل إحداثيات القص للإحداثيات الأصلية
+  var realX = cropRect.x / cropScale;
+  var realY = cropRect.y / cropScale;
+  var realW = cropRect.w / cropScale;
+  var realH = cropRect.h / cropScale;
+  
+  // أنشئ canvas جديد للصورة المقصوصة
+  var tempCanvas = document.createElement('canvas');
+  tempCanvas.width = realW;
+  tempCanvas.height = realH;
+  var tctx = tempCanvas.getContext('2d');
+  
+  tctx.drawImage(original, realX, realY, realW, realH, 0, 0, realW, realH);
+  
+  // أنشئ صورة جديدة
+  var newImg = new Image();
+  newImg.onload = function() {
+    item.img = newImg;
+    item.crop = { x: realX, y: realY, w: realW, h: realH };
+    renderImagesGrid();
+    updateInfo();
+    closeCrop();
+    showToast('تم قص الصورة');
+    trackEvent('montage-قص');
+  };
+  newImg.src = tempCanvas.toDataURL('image/jpeg', 0.95);
+}
+
+function closeCrop() {
+  document.getElementById('cropOverlay').classList.remove('active');
+  cropRect = null;
+  cropOriginalImage = null;
+}
+
+// ═══════════════════════════════════════
+// تصدير الفيديو
+// ═══════════════════════════════════════
+async function exportVideo() {
+  if (images.length === 0 || isExporting) return;
+  isExporting = true;
+  
+  var progressContainer = document.getElementById('progressContainer');
+  var progressFill = document.getElementById('progressFill');
+  var progressText = document.getElementById('progressText');
+  var exportBtn = document.getElementById('exportBtn');
+  var previewBtn = document.getElementById('previewBtn');
+  
+  progressContainer.classList.add('active');
+  exportBtn.disabled = true;
+  previewBtn.disabled = true;
+  isPreviewing = false;
+  
+  try {
+    trackEvent('montage-تصدير');
+    
+    var size = currentSize.split('x');
+    var w = parseInt(size[0]);
+    var h = parseInt(size[1]);
+    
+    var exportCanvas = document.createElement('canvas');
+    exportCanvas.width = w;
+    exportCanvas.height = h;
+    var ctx = exportCanvas.getContext('2d');
+    
+    var stream = exportCanvas.captureStream(30);
+    var audioContext = null;
+    var audioSources = [];
+    var audioFileToUse = null;
+    
+    if (selectedAudio === 'record' && recordedAudioBlob) {
+      audioFileToUse = recordedAudioBlob;
+    } else if (selectedAudio === 'upload' && audioUpload) {
+      audioFileToUse = audioUpload;
+    }
+    
+    if (audioFileToUse || musicFile) {
+      try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var audioDest = audioContext.createMediaStreamDestination();
+        
+        if (audioFileToUse) {
+          var arrayBuffer = await audioFileToUse.arrayBuffer();
+          var audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+          var audioSource = audioContext.createBufferSource();
+          audioSource.buffer = audioBuffer;
+          audioSource.loop = false;
+          audioSource.connect(audioDest);
+          audioSources.push(audioSource);
+        }
+        
+        if (musicFile) {
+          var musicBuffer = await musicFile.arrayBuffer();
+          var musicBufferDecoded = await audioContext.decodeAudioData(musicBuffer);
+          var musicSource = audioContext.createBufferSource();
+          musicSource.buffer = musicBufferDecoded;
+          musicSource.loop = true;
+          var musicGain = audioContext.createGain();
+          musicGain.gain.value = audioFileToUse ? 0.15 : 0.6;
+          musicSource.connect(musicGain);
+          musicGain.connect(audioDest);
+          audioSources.push(musicSource);
+        }
+        
+        audioSources.forEach(function(src) {
+          try { src.start(0); } catch(e) {}
+        });
+        
+        audioDest.stream.getAudioTracks().forEach(function(track) {
+          stream.addTrack(track);
+        });
+      } catch(e) {
+        console.warn('تعذر دمج الصوت:', e);
+      }
+    }
+    
+    var mimeType = 'video/webm;codecs=vp9';
+    if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm;codecs=vp8';
+    if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
+    
+    var recorder = new MediaRecorder(stream, {
+      mimeType: mimeType,
+      videoBitsPerSecond: 5000000
+    });
+    
+    var chunks = [];
+    recorder.ondataavailable = function(e) {
+      if (e.data.size > 0) chunks.push(e.data);
+    };
+    
+    var recordingDone = new Promise(function(resolve) {
+      recorder.onstop = function() {
+        var blob = new Blob(chunks, { type: 'video/webm' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'resha-montage-' + Date.now() + '.webm';
+        link.click();
+        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+        
+        audioSources.forEach(function(src) {
+          try { src.stop(); } catch(e) {}
+        });
+        if (audioContext) audioContext.close();
+        
+        progressContainer.classList.remove('active');
+        exportBtn.disabled = false;
+        previewBtn.disabled = false;
+        isExporting = false;
+        showToast('تم تصدير الفيديو');
+        resolve();
+      };
+    });
+    
+    recorder.start();
+    
+    var layout = LAYOUTS.find(function(l) { return l.id === currentLayout; });
+    var imgsPerScene = layout ? layout.cells.length : 1;
+    var totalScenes = Math.ceil(images.length / imgsPerScene);
+    
+    var currentScene = 0;
+    var frameStartTime = performance.now();
+    
+    function renderFrame() {
+      var now = performance.now();
+      var duration = getSceneDuration(currentScene);
+      var elapsed = (now - frameStartTime) / 1000;
+      var progress = elapsed / duration;
+      
+      ctx.clearRect(0, 0, w, h);
+      
+      var startIdx = currentScene * imgsPerScene;
+      
+      if (progress > 0.75 && currentTransition !== 'none' && currentScene < totalScenes - 1) {
+        var transProgress = (progress - 0.75) / 0.25;
+        var nextStart = (currentScene + 1) * imgsPerScene;
+        drawTransition(ctx, startIdx, nextStart, w, h, transProgress);
+      } else {
+        drawLayout(ctx, startIdx, w, h, 1, progress);
+      }
+      
+      if (progress >= 1) {
+        currentScene++;
+        frameStartTime = now;
+        if (currentScene >= totalScenes) {
+          recorder.stop();
+          return;
+        }
+      }
+      
+      var totalProgress = (currentScene + progress) / totalScenes;
+      progressFill.style.width = (totalProgress * 100) + '%';
+      progressText.textContent = 'جاري التصدير ' + Math.round(totalProgress * 100) + '%';
+      
+      requestAnimationFrame(renderFrame);
+    }
+    
+    renderFrame();
+    await recordingDone;
+    
+  } catch(err) {
+    console.error('خطأ:', err);
+    showToast('حدث خطأ: ' + err.message);
+    progressContainer.classList.remove('active');
+    exportBtn.disabled = false;
+    previewBtn.disabled = false;
+    isExporting = false;
+  }
+}
+
+// ═══════════════════════════════════════
+// التحقق من دعم المتصفح
+// ═══════════════════════════════════════
+window.addEventListener('load', function() {
+  if (!window.MediaRecorder) {
+    showToast('متصفحك لا يدعم تصدير الفيديو');
+    document.getElementById('exportBtn').disabled = true;
+  }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    var rb = document.getElementById('recordBtn');
+    if (rb) rb.disabled = true;
+    var rs = document.getElementById('recorderStatus');
+    if (rs) rs.textContent = 'التسجيل غير مدعوم';
+  }
+  trackEvent('montage-زيارة');
+  updateInfo();
+  console.log('✅ المونتاج الاحترافي جاهز بالكامل');
+});
+</script>
+
+</body>
+</html>
