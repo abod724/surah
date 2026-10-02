@@ -23,7 +23,6 @@
     min-height: 100vh; color: var(--text); padding: 12px;
   }
   .container { max-width: 1000px; margin: 0 auto; padding-bottom: 40px; }
-  
   .header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 12px 0 16px; color: #fff;
@@ -47,20 +46,17 @@
     display: flex; align-items: center; gap: 5px;
   }
   .header-back:active { transform: scale(0.96); }
-  
   .card {
     background: var(--card); border-radius: var(--radius);
     padding: 16px; margin-bottom: 12px;
     box-shadow: var(--shadow-md);
   }
-  
   .tabs-bar {
     display: flex; gap: 6px; overflow-x: auto;
     padding: 4px 0 12px; scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
   .tabs-bar::-webkit-scrollbar { display: none; }
-  
   .tab-btn {
     flex-shrink: 0; padding: 10px 16px;
     background: #fff; border: 2px solid var(--border);
@@ -77,7 +73,6 @@
     color: #fff; border-color: transparent;
     box-shadow: 0 4px 12px rgba(99,102,241,0.35);
   }
-  
   .tab-panels {
     background: var(--card); border-radius: var(--radius);
     box-shadow: var(--shadow-md); overflow: hidden;
@@ -88,7 +83,6 @@
     from { opacity: 0; transform: translateY(5px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  
   .panel-title {
     font-size: 14px; font-weight: 900; color: var(--text);
     margin-bottom: 14px;
@@ -99,7 +93,6 @@
     background: linear-gradient(135deg, var(--primary), #8b5cf6);
     border-radius: 2px;
   }
-  
   .preview-wrapper {
     background: #0a0a0a; border-radius: var(--radius-sm);
     min-height: 220px;
@@ -111,7 +104,6 @@
     color: #475569; font-size: 14px;
     padding: 40px 20px; text-align: center; line-height: 1.8;
   }
-  
   .upload-area {
     border: 2px dashed #cbd5e1; border-radius: var(--radius-sm);
     padding: 22px 16px; text-align: center;
@@ -121,7 +113,6 @@
   .upload-icon { font-size: 36px; margin-bottom: 6px; }
   .upload-text { font-size: 14px; font-weight: 700; color: #475569; }
   .upload-hint { font-size: 11px; color: #94a3b8; margin-top: 4px; }
-  
   .images-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -166,7 +157,6 @@
     padding: 2px 7px; border-radius: 6px;
     font-size: 9px; font-weight: 700;
   }
-  
   .option-group { margin-bottom: 14px; }
   .option-group:last-child { margin-bottom: 0; }
   .option-label {
@@ -185,8 +175,6 @@
   .opt-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
   .opt-btn.small { padding: 6px 10px; font-size: 11px; }
   .opt-btn.danger { background: #fef2f2; color: var(--danger); border-color: #fecaca; }
-  
-  /* ═══ التخطيطات ═══ */
   .layouts-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -225,17 +213,9 @@
   .layout-card.active .layout-preview div {
     background: var(--primary);
   }
-  
-  /* تخطيط صورة واحدة */
   .layout-1 { grid-template-columns: 1fr; grid-template-rows: 1fr; }
-  
-  /* تخطيط صورتان جنب بعض */
   .layout-2h { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; }
-  
-  /* تخطيط صورتان فوق بعض */
   .layout-2v { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
-  
-  /* تخطيط 3 صور */
   .layout-3 {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -243,11 +223,7 @@
   .layout-3 div:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 2; }
   .layout-3 div:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; }
   .layout-3 div:nth-child(3) { grid-column: 1 / 3; grid-row: 2 / 3; }
-  
-  /* تخطيط 4 صور */
   .layout-4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
-  
-  /* تخطيط Overlay */
   .layout-overlay {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
@@ -261,8 +237,6 @@
     height: 35%;
     background: var(--primary);
   }
-  
-  /* ═══ القص ═══ */
   .crop-overlay {
     position: fixed;
     top: 0; left: 0;
@@ -325,8 +299,6 @@
   .crop-btn:active { transform: scale(0.97); }
   .crop-btn-apply { background: linear-gradient(135deg, #10b981, #059669); }
   .crop-btn-cancel { background: linear-gradient(135deg, #64748b, #475569); }
-  
-  /* ═══ الصوت ═══ */
   .audio-tabs {
     display: flex; gap: 6px; margin-bottom: 12px;
     background: #f1f5f9; padding: 4px; border-radius: 12px;
@@ -420,8 +392,6 @@
     font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 11px;
     cursor: pointer; flex-shrink: 0;
   }
-  
-  /* ═══ الإجراءات ═══ */
   .actions {
     display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
     margin-top: 12px;
@@ -441,7 +411,6 @@
     background: linear-gradient(135deg, #64748b, #475569);
     grid-column: 1 / -1;
   }
-  
   .progress { margin-top: 12px; display: none; }
   .progress.active { display: block; }
   .progress-bar {
@@ -457,7 +426,6 @@
     text-align: center; font-size: 12px; color: var(--text-light);
     margin-top: 6px; font-weight: 700;
   }
-  
   .footer {
     text-align: center; padding: 20px;
     color: #fff; font-size: 12px; opacity: 0.85;
@@ -479,7 +447,6 @@
   }
   .toast.active { opacity: 1; }
   .section-hidden { display: none !important; }
-  
   .info-row {
     display: flex; justify-content: space-between; align-items: center;
     padding: 10px 12px; background: #f8fafc;
@@ -487,7 +454,6 @@
     font-size: 13px; font-weight: 700; color: var(--text-light);
   }
   .info-row-value { color: var(--primary); font-weight: 900; }
-  
   @media (max-width: 480px) {
     .container { padding: 0; }
     .card { padding: 14px; }
@@ -514,7 +480,6 @@
     <a href="index.html" class="header-back">← ريشة</a>
   </div>
 
-  <!-- Preview -->
   <div class="card" id="previewCard">
     <div class="preview-wrapper">
       <canvas id="previewCanvas" width="1080" height="1080"></canvas>
@@ -530,7 +495,6 @@
     </div>
   </div>
 
-  <!-- Tabs -->
   <div class="tabs-bar">
     <button class="tab-btn active" onclick="switchTab('images', this)">🖼️ الصور</button>
     <button class="tab-btn" onclick="switchTab('layouts', this)">🎨 تخطيطات</button>
@@ -542,7 +506,6 @@
 
   <div class="tab-panels">
 
-    <!-- ═══ الصور ═══ -->
     <div id="panel-images" class="panel active">
       <div class="panel-title">الصور</div>
       <div class="upload-area" onclick="document.getElementById('imageInput').click()">
@@ -555,7 +518,6 @@
       <div class="empty-hint" id="imagesEmpty">لا توجد صور</div>
     </div>
 
-    <!-- ═══ التخطيطات ═══ -->
     <div id="panel-layouts" class="panel">
       <div class="panel-title">اختر التخطيط</div>
       <p style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">
@@ -568,7 +530,6 @@
       </div>
     </div>
 
-    <!-- ═══ الحركات ═══ -->
     <div id="panel-animate" class="panel">
       <div class="panel-title">حركات الصورة</div>
       <div id="animateEmpty" class="empty-hint">لم تختر صورة</div>
@@ -629,7 +590,6 @@
       </div>
     </div>
 
-    <!-- ═══ الانتقالات ═══ -->
     <div id="panel-transitions" class="panel">
       <div class="panel-title">الانتقالات والأحجام</div>
       <div class="option-group">
@@ -657,7 +617,6 @@
       </div>
     </div>
 
-    <!-- ═══ الصوت ═══ -->
     <div id="panel-audio" class="panel">
       <div class="panel-title">الصوت</div>
       <div class="audio-tabs">
@@ -706,7 +665,6 @@
       </div>
     </div>
 
-    <!-- ═══ المعلومات ═══ -->
     <div id="panel-info" class="panel">
       <div class="panel-title">معلومات الفيديو</div>
       <div class="info-row">
@@ -748,7 +706,6 @@
 
 </div>
 
-<!-- ═══ Crop Overlay ═══ -->
 <div class="crop-overlay" id="cropOverlay">
   <div class="crop-header">
     <div class="crop-title">✂️ قص الصورة</div>
@@ -766,19 +723,857 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// JavaScript في الجزء 2
-</script>
+// ═══════════════════════════════════════
+// المتغيرات
+// ═══════════════════════════════════════
+var images = [];
+var audioUpload = null;
+var musicFile = null;
+var currentSize = '1080x1080';
+var currentTransition = 'fade';
+var currentLayout = 'single';
+var selectedImageIndex = -1;
+var isExporting = false;
+var isPreviewing = false;
+var previewAnimationId = null;
+var mediaRecorder = null;
+var audioChunks = [];
+var recordedAudioBlob = null;
+var recordingStartTime = 0;
+var recordingTimerInterval = null;
+var recordingStream = null;
+var selectedAudio = null;
+var cropCanvas = null;
+var cropRect = null;
+var cropOriginalImage = null;
+var cropScale = 1;
 
-</body>
-</html>
-<script>
-// JavaScript في الجزء 2
-</script>
-  console.log('✅ الجزء 2 جاهز');
-});
+function trackEvent(eventName) {
+  if (typeof goatcounter !== 'undefined' && goatcounter.count) {
+    goatcounter.count({ path: eventName, title: eventName, event: true });
+  }
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('active');
+  setTimeout(function() { t.classList.remove('active'); }, 2500);
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+  if (name === 'animate') updateAnimateTab();
+}
 
 // ═══════════════════════════════════════
-// تبديل تبويبات الصوت
+// رفع الصور
+// ═══════════════════════════════════════
+document.getElementById('imageInput').addEventListener('change', function(e) {
+  var files = Array.from(e.target.files);
+  if (files.length === 0) return;
+  if (images.length + files.length > 30) {
+    showToast('الحد الأقصى 30 صورة');
+    return;
+  }
+  var loaded = 0;
+  var total = files.length;
+  files.forEach(function(file) {
+    if (!file.type.startsWith('image/')) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var img = new Image();
+      img.onload = function() {
+        images.push({
+          img: img, originalImg: img, animation: 'none',
+          duration: 3, rotation: 0, flipH: false, flipV: false,
+          src: ev.target.result, speed: 1, crop: null
+        });
+        loaded++;
+        if (loaded === total) {
+          renderImagesGrid();
+          renderLayouts();
+          updateButtons();
+          updateInfo();
+          showToast('تم إضافة ' + total + ' صورة');
+        }
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
+});
+
+function renderImagesGrid() {
+  var grid = document.getElementById('imagesGrid');
+  var emptyHint = document.getElementById('imagesEmpty');
+  grid.innerHTML = '';
+  if (images.length === 0) {
+    emptyHint.style.display = 'block';
+    selectedImageIndex = -1;
+    updateAnimateTab();
+    return;
+  }
+  emptyHint.style.display = 'none';
+  images.forEach(function(item, index) {
+    var el = document.createElement('div');
+    el.className = 'image-item' + (index === selectedImageIndex ? ' selected' : '');
+    el.draggable = true;
+    el.dataset.index = index;
+    var imgEl = document.createElement('img');
+    imgEl.src = item.src;
+    var transform = 'rotate(' + item.rotation + 'deg)';
+    if (item.flipH) transform += ' scaleX(-1)';
+    if (item.flipV) transform += ' scaleY(-1)';
+    imgEl.style.transform = transform;
+    var removeBtn = document.createElement('button');
+    removeBtn.className = 'image-remove';
+    removeBtn.textContent = '×';
+    removeBtn.onclick = function(e) { e.stopPropagation(); removeImage(index); };
+    var order = document.createElement('div');
+    order.className = 'image-order';
+    order.textContent = index + 1;
+    if (item.animation !== 'none') {
+      var badge = document.createElement('div');
+      badge.className = 'image-badge';
+      badge.textContent = getAnimationLabel(item.animation);
+      el.appendChild(badge);
+    }
+    if (item.crop) {
+      var cropBadge = document.createElement('div');
+      cropBadge.className = 'image-badge';
+      cropBadge.style.background = 'rgba(239,68,68,0.9)';
+      cropBadge.textContent = '✂️';
+      el.appendChild(cropBadge);
+    }
+    el.appendChild(imgEl);
+    el.appendChild(removeBtn);
+    el.appendChild(order);
+    el.addEventListener('click', function() { selectImage(index); });
+    el.addEventListener('dragstart', handleDragStart);
+    el.addEventListener('dragover', handleDragOver);
+    el.addEventListener('drop', handleDrop);
+    el.addEventListener('dragend', handleDragEnd);
+    el.addEventListener('dragleave', handleDragLeave);
+    grid.appendChild(el);
+  });
+}
+
+function getAnimationLabel(anim) {
+  var labels = {
+    'none': 'ثابتة', 'zoomIn': 'زوم+', 'zoomOut': 'زوم-',
+    'panRight': '→', 'panLeft': '←', 'panUp': '↑', 'panDown': '↓',
+    'rotate': '↻', 'pulse': '◎', 'fadeIn': 'ظهور',
+    'kenRight': 'Ken→', 'kenLeft': 'Ken←', 'shake': 'اهتزاز',
+    'bounce': 'قفز', 'flip': 'انقلاب'
+  };
+  return labels[anim] || '';
+}
+
+var LAYOUTS = [
+  { id: 'single', name: 'صورة واحدة', count: 1, cells: [{ x: 0, y: 0, w: 1, h: 1 }] },
+  { id: 'splitH', name: 'صورتان جنب بعض', count: 2, cells: [
+    { x: 0, y: 0, w: 0.5, h: 1 }, { x: 0.5, y: 0, w: 0.5, h: 1 }
+  ]},
+  { id: 'splitV', name: 'صورتان فوق بعض', count: 2, cells: [
+    { x: 0, y: 0, w: 1, h: 0.5 }, { x: 0, y: 0.5, w: 1, h: 0.5 }
+  ]},
+  { id: 'triple', name: '3 صور', count: 3, cells: [
+    { x: 0, y: 0, w: 0.5, h: 0.5 }, { x: 0.5, y: 0, w: 0.5, h: 0.5 },
+    { x: 0, y: 0.5, w: 1, h: 0.5 }
+  ]},
+  { id: 'grid4', name: '4 صور', count: 4, cells: [
+    { x: 0, y: 0, w: 0.5, h: 0.5 }, { x: 0.5, y: 0, w: 0.5, h: 0.5 },
+    { x: 0, y: 0.5, w: 0.5, h: 0.5 }, { x: 0.5, y: 0.5, w: 0.5, h: 0.5 }
+  ]},
+  { id: 'overlay', name: 'صورة + صورة صغيرة', count: 2, cells: [
+    { x: 0, y: 0, w: 1, h: 1 }, { x: 0.65, y: 0.65, w: 0.3, h: 0.3, overlay: true }
+  ]}
+];
+
+function renderLayouts() {
+  var grid = document.getElementById('layoutsGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  LAYOUTS.forEach(function(layout) {
+    var card = document.createElement('div');
+    card.className = 'layout-card' + (layout.id === currentLayout ? ' active' : '');
+    card.onclick = function() { selectLayout(layout.id); };
+    var preview = document.createElement('div');
+    preview.className = 'layout-preview layout-' + getPreviewClass(layout.id);
+    layout.cells.forEach(function() {
+      var cell = document.createElement('div');
+      preview.appendChild(cell);
+    });
+    card.appendChild(preview);
+    grid.appendChild(card);
+  });
+}
+
+function getPreviewClass(id) {
+  var map = { 'single': '1', 'splitH': '2h', 'splitV': '2v',
+    'triple': '3', 'grid4': '4', 'overlay': 'overlay' };
+  return map[id] || '1';
+}
+
+function selectLayout(id) {
+  currentLayout = id;
+  renderLayouts();
+  updateInfo();
+  var layout = LAYOUTS.find(function(l) { return l.id === id; });
+  if (layout) showToast('التخطيط: ' + layout.name);
+}
+
+function selectImage(index) {
+  selectedImageIndex = index;
+  document.querySelectorAll('.image-item').forEach(function(el, i) {
+    if (i === index) el.classList.add('selected');
+    else el.classList.remove('selected');
+  });
+  updateAnimateTab();
+  var animateBtn = document.querySelector('.tab-btn[onclick*="animate"]');
+  if (animateBtn) {
+    document.querySelectorAll('.tab-btn').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+    animateBtn.classList.add('active');
+    document.getElementById('panel-animate').classList.add('active');
+  }
+}
+
+function updateAnimateTab() {
+  var emptyEl = document.getElementById('animateEmpty');
+  var contentEl = document.getElementById('animateContent');
+  if ((selectedImageIndex < 0 || selectedImageIndex >= images.length) && images.length > 0) {
+    selectedImageIndex = 0;
+    document.querySelectorAll('.image-item').forEach(function(el, i) {
+      if (i === 0) el.classList.add('selected');
+    });
+  }
+  if (selectedImageIndex < 0 || selectedImageIndex >= images.length) {
+    emptyEl.classList.remove('section-hidden');
+    contentEl.classList.add('section-hidden');
+    return;
+  }
+  emptyEl.classList.add('section-hidden');
+  contentEl.classList.remove('section-hidden');
+  var item = images[selectedImageIndex];
+  document.querySelectorAll('#animationOptions .opt-btn').forEach(function(btn) {
+    if (btn.dataset.animation === item.animation) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+  document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn) {
+    if (parseInt(btn.dataset.duration) === item.duration) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+  var speed = item.speed !== undefined ? item.speed : 1;
+  document.querySelectorAll('#speedOptions .opt-btn').forEach(function(btn) {
+    if (parseFloat(btn.dataset.speed) === speed) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+  document.getElementById('customDuration').value = item.duration;
+}
+
+var dragIndex = null;
+function handleDragStart(e) {
+  dragIndex = parseInt(this.dataset.index);
+  this.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  this.classList.add('drag-over');
+}
+function handleDragLeave() { this.classList.remove('drag-over'); }
+function handleDrop(e) {
+  e.preventDefault();
+  this.classList.remove('drag-over');
+  var dropIndex = parseInt(this.dataset.index);
+  if (dragIndex === null || dragIndex === dropIndex) return;
+  var moved = images.splice(dragIndex, 1)[0];
+  images.splice(dropIndex, 0, moved);
+  if (selectedImageIndex === dragIndex) selectedImageIndex = dropIndex;
+  else if (selectedImageIndex === dropIndex) selectedImageIndex = dragIndex;
+  renderImagesGrid();
+}
+function handleDragEnd() {
+  this.classList.remove('dragging');
+  dragIndex = null;
+}
+
+function removeImage(index) {
+  images.splice(index, 1);
+  if (selectedImageIndex === index) selectedImageIndex = -1;
+  else if (selectedImageIndex > index) selectedImageIndex--;
+  renderImagesGrid();
+  updateButtons();
+  updateInfo();
+  updateAnimateTab();
+}
+
+function rotateImage(deg) {
+  if (selectedImageIndex < 0) return;
+  images[selectedImageIndex].rotation = (images[selectedImageIndex].rotation + deg) % 360;
+  renderImagesGrid();
+  document.querySelectorAll('.image-item')[selectedImageIndex].classList.add('selected');
+}
+
+function flipImage(dir) {
+  if (selectedImageIndex < 0) return;
+  if (dir === 'h') images[selectedImageIndex].flipH = !images[selectedImageIndex].flipH;
+  if (dir === 'v') images[selectedImageIndex].flipV = !images[selectedImageIndex].flipV;
+  renderImagesGrid();
+  document.querySelectorAll('.image-item')[selectedImageIndex].classList.add('selected');
+}
+
+function resetImageEdits() {
+  if (selectedImageIndex < 0) return;
+  images[selectedImageIndex].rotation = 0;
+  images[selectedImageIndex].flipH = false;
+  images[selectedImageIndex].flipV = false;
+  images[selectedImageIndex].crop = null;
+  images[selectedImageIndex].img = images[selectedImageIndex].originalImg;
+  renderImagesGrid();
+  document.querySelectorAll('.image-item')[selectedImageIndex].classList.add('selected');
+  showToast('تم إعادة الصورة');
+}
+
+function applyCustomDuration() {
+  if (selectedImageIndex < 0) return;
+  var val = parseInt(document.getElementById('customDuration').value);
+  if (val < 1 || val > 60) { showToast('المدة: 1-60 ثانية'); return; }
+  images[selectedImageIndex].duration = val;
+  document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn) {
+    btn.classList.remove('active');
+  });
+  updateInfo();
+  showToast('تم تحديث المدة');
+}
+
+document.querySelectorAll('#animationOptions .opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    if (selectedImageIndex < 0) return;
+    images[selectedImageIndex].animation = this.dataset.animation;
+    document.querySelectorAll('#animationOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    renderImagesGrid();
+    document.querySelectorAll('.image-item')[selectedImageIndex].classList.add('selected');
+  });
+});
+
+document.querySelectorAll('#speedOptions .opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    if (selectedImageIndex < 0) return;
+    var speed = parseFloat(this.dataset.speed);
+    images[selectedImageIndex].speed = speed;
+    document.querySelectorAll('#speedOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+  });
+});
+
+document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    if (selectedImageIndex < 0) return;
+    var dur = parseInt(this.dataset.duration);
+    images[selectedImageIndex].duration = dur;
+    document.getElementById('customDuration').value = dur;
+    document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    updateInfo();
+  });
+});
+
+document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    currentSize = this.dataset.size;
+    updateInfo();
+  });
+});
+
+document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    currentTransition = this.dataset.transition;
+    updateInfo();
+  });
+});
+
+function updateButtons() {
+  var hasImages = images.length > 0;
+  document.getElementById('previewBtn').disabled = !hasImages;
+  document.getElementById('exportBtn').disabled = !hasImages;
+}
+
+function updateInfo() {
+  var totalDuration = 0;
+  images.forEach(function(item) { totalDuration += item.duration; });
+  var estimatedMB = (totalDuration * 5 / 8).toFixed(1);
+  var size = currentSize.split('x');
+  var layout = LAYOUTS.find(function(l) { return l.id === currentLayout; });
+  document.getElementById('infoImages').textContent = images.length;
+  document.getElementById('infoDuration').textContent = totalDuration + ' ثانية';
+  document.getElementById('infoSize').textContent = '~' + estimatedMB + ' MB';
+  document.getElementById('infoDimensions').textContent = size[0] + ' × ' + size[1];
+  document.getElementById('infoLayout').textContent = layout ? layout.name : 'صورة واحدة';
+  var ln = document.getElementById('layoutName');
+  if (ln) ln.textContent = layout ? layout.name : 'صورة واحدة';
+  var transLabels = {
+    'fade': 'تلاشي', 'slideRight': 'انزلاق يمين', 'slideLeft': 'انزلاق يسار',
+    'slideUp': 'انزلاق فوق', 'zoom': 'تكبير', 'rotate': 'دوران',
+    'book': 'فتح كتاب', 'fold': 'طي', 'none': 'بدون'
+  };
+  document.getElementById('infoTransition').textContent = transLabels[currentTransition] || currentTransition;
+  var audioLabel = 'بدون';
+  if (selectedAudio === 'record') audioLabel = 'تسجيل صوتي';
+  else if (selectedAudio === 'upload') audioLabel = 'ملف مرفوع';
+  if (musicFile) audioLabel = audioLabel === 'بدون' ? 'موسيقى' : audioLabel + ' + موسيقى';
+  document.getElementById('infoAudio').textContent = audioLabel;
+}
+
+function drawImageInCell(ctx, item, x, y, w, h, opacity, animationProgress) {
+  if (opacity === undefined) opacity = 1;
+  if (animationProgress === undefined) animationProgress = 0;
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(x, y, w, h);
+  ctx.clip();
+  var img = item.img;
+  var p = Math.min(1, Math.max(0, animationProgress));
+  ctx.globalAlpha = opacity;
+  var imgRatio = img.width / img.height;
+  var cellRatio = w / h;
+  var drawWidth, drawHeight;
+  if (imgRatio > cellRatio) {
+    drawHeight = h;
+    drawWidth = img.width * (h / img.height);
+  } else {
+    drawWidth = w;
+    drawHeight = img.height * (w / img.width);
+  }
+  var cx = x + w / 2;
+  var cy = y + h / 2;
+  ctx.translate(cx, cy);
+  if (item.rotation) ctx.rotate(item.rotation * Math.PI / 180);
+  if (item.flipH) ctx.scale(-1, 1);
+  if (item.flipV) ctx.scale(1, -1);
+  var speed = item.speed !== undefined ? item.speed : 1;
+  var sp = Math.min(1, p * speed);
+  var scale = 1, offsetX = 0, offsetY = 0, alpha = 1;
+  switch(item.animation) {
+    case 'zoomIn': scale = 1 + (sp * 0.3); break;
+    case 'zoomOut': scale = 1.3 - (sp * 0.3); break;
+    case 'panRight': scale = 1.2; offsetX = (sp - 0.5) * w * 0.15; break;
+    case 'panLeft': scale = 1.2; offsetX = -(sp - 0.5) * w * 0.15; break;
+    case 'panUp': scale = 1.2; offsetY = -(sp - 0.5) * h * 0.15; break;
+    case 'panDown': scale = 1.2; offsetY = (sp - 0.5) * h * 0.15; break;
+    case 'rotate': scale = 1.1; ctx.rotate(sp * Math.PI * 0.1); break;
+    case 'pulse': scale = 1 + Math.sin(sp * Math.PI * 2) * 0.08; break;
+    case 'fadeIn': alpha = Math.min(1, sp * 1.5); break;
+    case 'kenRight': scale = 1 + (sp * 0.25); offsetX = (sp - 0.5) * w * 0.1; break;
+    case 'kenLeft': scale = 1 + (sp * 0.25); offsetX = -(sp - 0.5) * w * 0.1; break;
+    case 'shake': offsetX = Math.sin(sp * Math.PI * 20) * w * 0.02 * (1 - sp); break;
+    case 'bounce': offsetY = -Math.abs(Math.sin(sp * Math.PI * 3)) * h * 0.05; break;
+    case 'flip': ctx.scale(Math.cos(sp * Math.PI), 1); break;
+  }
+  ctx.globalAlpha = opacity * alpha;
+  ctx.scale(scale, scale);
+  ctx.translate(offsetX, offsetY);
+  ctx.drawImage(img, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
+  ctx.restore();
+}
+
+function drawLayout(ctx, startIndex, canvasW, canvasH, opacity, animProgress) {
+  if (opacity === undefined) opacity = 1;
+  if (animProgress === undefined) animProgress = 0;
+  var layout = LAYOUTS.find(function(l) { return l.id === currentLayout; });
+  if (!layout) return;
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, canvasW, canvasH);
+  layout.cells.forEach(function(cell, i) {
+    var imgIdx = (startIndex + i) % images.length;
+    var item = images[imgIdx];
+    if (!item) return;
+    var x = cell.x * canvasW;
+    var y = cell.y * canvasH;
+    var w = cell.w * canvasW;
+    var h = cell.h * canvasH;
+    if (cell.overlay) {
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowBlur = 15;
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(x - 5, y - 5, w + 10, h + 10);
+      ctx.restore();
+    }
+    drawImageInCell(ctx, item, x, y, w, h, opacity, animProgress);
+  });
+}
+
+function drawTransition(ctx, prevStart, nextStart, canvasW, canvasH, progress) {
+  var t = Math.min(1, Math.max(0, progress));
+  var ease = 1 - Math.pow(1 - t, 3);
+  drawLayout(ctx, prevStart, canvasW, canvasH, 1, 1);
+  ctx.save();
+  switch(currentTransition) {
+    case 'fade':
+      ctx.globalAlpha = ease;
+      drawLayout(ctx, nextStart, canvasW, canvasH, 1, 0);
+      break;
+    case 'slideRight':
+      ctx.translate(canvasW * (1 - ease), 0);
+      drawLayout(ctx, nextStart, canvasW, canvasH, 1, 0);
+      break;
+    case 'slideLeft':
+      ctx.translate(-canvasW * (1 - ease), 0);
+      drawLayout(ctx, nextStart, canvasW, canvasH, 1, 0);
+      break;
+    case 'slideUp':
+      ctx.translate(0, canvasH * (1 - ease));
+      drawLayout(ctx, nextStart, canvasW, canvasH, 1, 0);
+      break;
+    case 'zoom':
+      var zScale = 0.3 + ease * 0.7;
+      ctx.translate(canvasW / 2, canvasH / 2);
+      ctx.scale(zScale, zScale);
+      ctx.globalAlpha = ease;
+      ctx.translate(-canvasW / 2, -canvasH / 2);
+      drawLayout(ctx, nextStart, canvasW, canvasH, 1, 0);
+      break;
+    case 'rotate':
+      ctx.translate(canvasW / 2, canvasH / 2);
+      ctx.rotate(ease * Math.PI * 2);
+      var rs = 0.2 + ease * 0.8;
+      ctx.scale(rs, rs);
+      ctx.globalAlpha = ease;
+      ctx.translate(-canvasW / 2, -canvasH / 2);
+      drawLayout(ctx, nextStart, canvasW, canvasH, 1, 0);
+      break;
+    case 'book':
+      var bookAngle = ease * Math.PI;
+      ctx.translate(canvasW, canvasH / 2);
+      ctx.rotate(-Math.PI + bookAngle);
+      ctx.globalAlpha = ease;
+      ctx.translate(-canvasW, -canvasH / 2);
+      drawLayout(ctx, nextStart, canvasW, canvasH, 1, 0);
+      break;
+    case 'fold':
+      var foldAngle = ease * Math.PI / 2;
+      ctx.translate(canvasW / 2, canvasH / 2);
+      ctx.scale(Math.cos(foldAngle), 1);
+      ctx.globalAlpha = ease;
+      ctx.translate(-canvasW / 2, -canvasH / 2);
+      drawLayout(ctx, nextStart, canvasW, canvasH, 1, 0);
+      break;
+    default:
+      drawLayout(ctx, nextStart, canvasW, canvasH, 1, 0);
+      break;
+  }
+  ctx.restore();
+}
+
+function getSceneCount() {
+  var layout = LAYOUTS.find(function(l) { return l.id === currentLayout; });
+  if (!layout) return images.length;
+  return Math.ceil(images.length / layout.cells.length);
+}
+
+function getSceneDuration(sceneIndex) {
+  var layout = LAYOUTS.find(function(l) { return l.id === currentLayout; });
+  if (!layout) return 3;
+  var imgsPerScene = layout.cells.length;
+  var maxDur = 3;
+  for (var i = 0; i < imgsPerScene; i++) {
+    var idx = sceneIndex * imgsPerScene + i;
+    if (images[idx]) maxDur = Math.max(maxDur, images[idx].duration);
+  }
+  return maxDur;
+}
+
+function previewVideo() {
+  if (images.length === 0) return;
+  var previewCard = document.getElementById('previewCard');
+  if (previewCard && !isPreviewing) {
+    setTimeout(function() {
+      previewCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+  if (isPreviewing) {
+    isPreviewing = false;
+    if (previewAnimationId) cancelAnimationFrame(previewAnimationId);
+    document.getElementById('previewBtn').textContent = '▶ معاينة';
+    return;
+  }
+  isPreviewing = true;
+  trackEvent('montage-معاينة');
+  document.getElementById('previewBtn').textContent = '⏹ إيقاف';
+  var canvas = document.getElementById('previewCanvas');
+  var placeholder = document.getElementById('previewEmpty');
+  var size = currentSize.split('x');
+  var w = parseInt(size[0]);
+  var h = parseInt(size[1]);
+  var previewScale = Math.min(400 / w, 400 / h, 1);
+  canvas.width = w * previewScale;
+  canvas.height = h * previewScale;
+  canvas.style.display = 'block';
+  placeholder.style.display = 'none';
+  var ctx = canvas.getContext('2d');
+  var totalScenes = getSceneCount();
+  var currentScene = 0;
+  var startTime = Date.now();
+  function animate() {
+    if (!isPreviewing) return;
+    var duration = getSceneDuration(currentScene);
+    var elapsed = (Date.now() - startTime) / 1000;
+    var progress = elapsed / duration;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var layout = LAYOUTS.find(function(l) { return l.id === currentLayout; });
+    var imgsPerScene = layout ? layout.cells.length : 1;
+    var startIdx = currentScene * imgsPerScene;
+    if (progress > 0.75 && currentTransition !== 'none' && currentScene < totalScenes - 1) {
+      var transProgress = (progress - 0.75) / 0.25;
+      var nextStart = (currentScene + 1) * imgsPerScene;
+      drawTransition(ctx, startIdx, nextStart, canvas.width, canvas.height, transProgress);
+    } else {
+      drawLayout(ctx, startIdx, canvas.width, canvas.height, 1, progress);
+    }
+    if (progress >= 1) {
+      currentScene++;
+      startTime = Date.now();
+      if (currentScene >= totalScenes) {
+        currentScene = 0;
+        startTime = Date.now();
+      }
+    }
+    previewAnimationId = requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+function resetAll() {
+  if (!confirm('حذف كل شيء؟')) return;
+  images = [];
+  audioUpload = null;
+  musicFile = null;
+  recordedAudioBlob = null;
+  selectedAudio = null;
+  isPreviewing = false;
+  selectedImageIndex = -1;
+  currentLayout = 'single';
+  if (previewAnimationId) cancelAnimationFrame(previewAnimationId);
+  renderImagesGrid();
+  renderLayouts();
+  updateButtons();
+  updateInfo();
+  updateAnimateTab();
+  document.getElementById('musicInfo').classList.add('section-hidden');
+  document.getElementById('audioUploadInfo').classList.add('section-hidden');
+  document.getElementById('recordPlayer').classList.remove('active');
+  document.getElementById('recordActions').classList.add('section-hidden');
+  document.getElementById('previewCanvas').style.display = 'none';
+  document.getElementById('previewEmpty').style.display = 'block';
+  document.getElementById('progressContainer').classList.remove('active');
+  showToast('تم إعادة التعيين');
+}
+
+// ═══════════════════════════════════════
+// القص
+// ═══════════════════════════════════════
+function openCrop() {
+  if (selectedImageIndex < 0) { showToast('اختر صورة أولاً'); return; }
+  var item = images[selectedImageIndex];
+  cropOriginalImage = item.img;
+  document.getElementById('cropOverlay').classList.add('active');
+  var canvas = document.getElementById('cropCanvas');
+  cropCanvas = canvas;
+  var maxW = window.innerWidth - 40;
+  var maxH = window.innerHeight * 0.6;
+  var scale = Math.min(maxW / cropOriginalImage.width, maxH / cropOriginalImage.height, 1);
+  cropScale = scale;
+  canvas.width = cropOriginalImage.width * scale;
+  canvas.height = cropOriginalImage.height * scale;
+  var ctx = canvas.getContext('2d');
+  ctx.drawImage(cropOriginalImage, 0, 0, canvas.width, canvas.height);
+  initCropRect(canvas);
+}
+
+function initCropRect(canvas) {
+  if (images[selectedImageIndex].crop) {
+    var c = images[selectedImageIndex].crop;
+    cropRect = { x: c.x * cropScale, y: c.y * cropScale, w: c.w * cropScale, h: c.h * cropScale };
+  } else {
+    var size = Math.min(canvas.width, canvas.height) * 0.6;
+    cropRect = { x: (canvas.width - size) / 2, y: (canvas.height - size) / 2, w: size, h: size };
+  }
+  renderCrop();
+  setupCropDrag(canvas);
+}
+
+function renderCrop() {
+  var canvas = cropCanvas;
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(cropOriginalImage, 0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.fillRect(0, 0, canvas.width, cropRect.y);
+  ctx.fillRect(0, cropRect.y + cropRect.h, canvas.width, canvas.height);
+  ctx.fillRect(0, cropRect.y, cropRect.x, cropRect.h);
+  ctx.fillRect(cropRect.x + cropRect.w, cropRect.y, canvas.width - cropRect.x - cropRect.w, cropRect.h);
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(cropRect.x, cropRect.y, cropRect.w, cropRect.h);
+  ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+  ctx.lineWidth = 1;
+  for (var i = 1; i < 3; i++) {
+    ctx.beginPath();
+    ctx.moveTo(cropRect.x + (cropRect.w / 3) * i, cropRect.y);
+    ctx.lineTo(cropRect.x + (cropRect.w / 3) * i, cropRect.y + cropRect.h);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cropRect.x, cropRect.y + (cropRect.h / 3) * i);
+    ctx.lineTo(cropRect.x + cropRect.w, cropRect.y + (cropRect.h / 3) * i);
+    ctx.stroke();
+  }
+  ctx.fillStyle = '#6366f1';
+  var handles = [
+    { x: cropRect.x, y: cropRect.y }, { x: cropRect.x + cropRect.w, y: cropRect.y },
+    { x: cropRect.x, y: cropRect.y + cropRect.h }, { x: cropRect.x + cropRect.w, y: cropRect.y + cropRect.h }
+  ];
+  handles.forEach(function(h) {
+    ctx.beginPath();
+    ctx.arc(h.x, h.y, 8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+}
+
+function setupCropDrag(canvas) {
+  var isDragging = false;
+  var isResizing = false;
+  var resizeCorner = null;
+  var startX, startY, startRect = {};
+  function getPos(e) {
+    var rect = canvas.getBoundingClientRect();
+    var cx = e.touches ? e.touches[0].clientX : e.clientX;
+    var cy = e.touches ? e.touches[0].clientY : e.clientY;
+    return { x: (cx - rect.left) * (canvas.width / rect.width), y: (cy - rect.top) * (canvas.height / rect.height) };
+  }
+  function findCorner(pos) {
+    var corners = ['tl', 'tr', 'bl', 'br'];
+    var points = [
+      { x: cropRect.x, y: cropRect.y }, { x: cropRect.x + cropRect.w, y: cropRect.y },
+      { x: cropRect.x, y: cropRect.y + cropRect.h }, { x: cropRect.x + cropRect.w, y: cropRect.y + cropRect.h }
+    ];
+    for (var i = 0; i < points.length; i++) {
+      var d = Math.sqrt(Math.pow(pos.x - points[i].x, 2) + Math.pow(pos.y - points[i].y, 2));
+      if (d < 20) return corners[i];
+    }
+    return null;
+  }
+  function start(e) {
+    e.preventDefault();
+    var pos = getPos(e);
+    var corner = findCorner(pos);
+    if (corner) { isResizing = true; resizeCorner = corner; }
+    else if (pos.x >= cropRect.x && pos.x <= cropRect.x + cropRect.w && pos.y >= cropRect.y && pos.y <= cropRect.y + cropRect.h) {
+      isDragging = true;
+    } else return;
+    startX = pos.x; startY = pos.y;
+    startRect = { x: cropRect.x, y: cropRect.y, w: cropRect.w, h: cropRect.h };
+  }
+  function move(e) {
+    if (!isDragging && !isResizing) return;
+    e.preventDefault();
+    var pos = getPos(e);
+    var dx = pos.x - startX;
+    var dy = pos.y - startY;
+    if (isDragging) {
+      cropRect.x = Math.max(0, Math.min(canvas.width - cropRect.w, startRect.x + dx));
+      cropRect.y = Math.max(0, Math.min(canvas.height - cropRect.h, startRect.y + dy));
+    } else if (isResizing) {
+      if (resizeCorner === 'br') {
+        cropRect.w = Math.max(30, Math.min(canvas.width - cropRect.x, startRect.w + dx));
+        cropRect.h = Math.max(30, Math.min(canvas.height - cropRect.y, startRect.h + dy));
+      } else if (resizeCorner === 'tl') {
+        var nx = Math.max(0, startRect.x + dx);
+        var ny = Math.max(0, startRect.y + dy);
+        cropRect.w = startRect.w + (startRect.x - nx);
+        cropRect.h = startRect.h + (startRect.y - ny);
+        cropRect.x = nx; cropRect.y = ny;
+      } else if (resizeCorner === 'tr') {
+        cropRect.w = Math.min(Math.max(30, startRect.w + dx), canvas.width - cropRect.x);
+        var ny2 = Math.max(0, startRect.y + dy);
+        cropRect.h = startRect.h + (startRect.y - ny2);
+        cropRect.y = ny2;
+      } else if (resizeCorner === 'bl') {
+        var nx2 = Math.max(0, startRect.x + dx);
+        cropRect.w = startRect.w + (startRect.x - nx2);
+        cropRect.x = nx2;
+        cropRect.h = Math.min(Math.max(30, startRect.h + dy), canvas.height - cropRect.y);
+      }
+    }
+    renderCrop();
+  }
+  function end() { isDragging = false; isResizing = false; resizeCorner = null; }
+  if (canvas._cropCleanup) canvas._cropCleanup();
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, { passive: false });
+  canvas.addEventListener('touchmove', move, { passive: false });
+  canvas.addEventListener('touchend', end);
+  canvas._cropCleanup = function() {
+    canvas.removeEventListener('mousedown', start);
+    canvas.removeEventListener('mousemove', move);
+    canvas.removeEventListener('mouseup', end);
+    canvas.removeEventListener('touchstart', start);
+    canvas.removeEventListener('touchmove', move);
+    canvas.removeEventListener('touchend', end);
+  };
+}
+
+function applyCrop() {
+  if (!cropRect || selectedImageIndex < 0) return;
+  var item = images[selectedImageIndex];
+  var original = item.originalImg;
+  var realX = cropRect.x / cropScale;
+  var realY = cropRect.y / cropScale;
+  var realW = cropRect.w / cropScale;
+  var realH = cropRect.h / cropScale;
+  var tempCanvas = document.createElement('canvas');
+  tempCanvas.width = realW;
+  tempCanvas.height = realH;
+  var tctx = tempCanvas.getContext('2d');
+  tctx.drawImage(original, realX, realY, realW, realH, 0, 0, realW, realH);
+  var newImg = new Image();
+  newImg.onload = function() {
+    item.img = newImg;
+    item.crop = { x: realX, y: realY, w: realW, h: realH };
+    renderImagesGrid();
+    updateInfo();
+    closeCrop();
+    showToast('تم قص الصورة');
+    trackEvent('montage-قص');
+  };
+  newImg.src = tempCanvas.toDataURL('image/jpeg', 0.95);
+}
+
+function closeCrop() {
+  document.getElementById('cropOverlay').classList.remove('active');
+  cropRect = null;
+  cropOriginalImage = null;
+}
+
+// ═══════════════════════════════════════
+// التسجيل الصوتي
 // ═══════════════════════════════════════
 function switchAudioTab(tab, btn) {
   document.querySelectorAll('.audio-tab').forEach(function(b) { b.classList.remove('active'); });
@@ -789,15 +1584,9 @@ function switchAudioTab(tab, btn) {
   document.getElementById('audioTab-' + tab).classList.remove('section-hidden');
 }
 
-// ═══════════════════════════════════════
-// التسجيل الصوتي
-// ═══════════════════════════════════════
 function toggleRecording() {
-  if (mediaRecorder && mediaRecorder.state === 'recording') {
-    stopRecording();
-  } else {
-    startRecording();
-  }
+  if (mediaRecorder && mediaRecorder.state === 'recording') stopRecording();
+  else startRecording();
 }
 
 function startRecording() {
@@ -810,11 +1599,7 @@ function startRecording() {
       var options = mimeType ? { mimeType: mimeType } : {};
       mediaRecorder = new MediaRecorder(stream, options);
       audioChunks = [];
-
-      mediaRecorder.ondataavailable = function(e) {
-        if (e.data.size > 0) audioChunks.push(e.data);
-      };
-
+      mediaRecorder.ondataavailable = function(e) { if (e.data.size > 0) audioChunks.push(e.data); };
       mediaRecorder.onstop = function() {
         recordedAudioBlob = new Blob(audioChunks, { type: 'audio/webm' });
         var url = URL.createObjectURL(recordedAudioBlob);
@@ -822,11 +1607,8 @@ function startRecording() {
         document.getElementById('recordPlayer').classList.add('active');
         document.getElementById('recordActions').classList.remove('section-hidden');
         document.getElementById('recorderStatus').textContent = 'التسجيل جاهز';
-        if (recordingStream) {
-          recordingStream.getTracks().forEach(function(t) { t.stop(); });
-        }
+        if (recordingStream) recordingStream.getTracks().forEach(function(t) { t.stop(); });
       };
-
       mediaRecorder.start();
       recordingStartTime = Date.now();
       document.getElementById('recorderDot').classList.add('recording');
@@ -846,9 +1628,7 @@ function startRecording() {
 }
 
 function stopRecording() {
-  if (mediaRecorder && mediaRecorder.state === 'recording') {
-    mediaRecorder.stop();
-  }
+  if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
   if (recordingTimerInterval) {
     clearInterval(recordingTimerInterval);
     recordingTimerInterval = null;
@@ -885,16 +1665,10 @@ function deleteRecording() {
   showToast('تم حذف التسجيل');
 }
 
-// ═══════════════════════════════════════
-// رفع ملف صوتي
-// ═══════════════════════════════════════
 document.getElementById('audioInput').addEventListener('change', function(e) {
   var file = e.target.files[0];
   if (!file) return;
-  if (!file.type.startsWith('audio/')) {
-    showToast('الرجاء اختيار ملف صوتي');
-    return;
-  }
+  if (!file.type.startsWith('audio/')) { showToast('الرجاء اختيار ملف صوتي'); return; }
   audioUpload = file;
   selectedAudio = 'upload';
   document.getElementById('audioUploadName').textContent = file.name;
@@ -912,16 +1686,10 @@ function removeAudioUpload() {
   updateInfo();
 }
 
-// ═══════════════════════════════════════
-// رفع موسيقى
-// ═══════════════════════════════════════
 document.getElementById('musicInput').addEventListener('change', function(e) {
   var file = e.target.files[0];
   if (!file) return;
-  if (!file.type.startsWith('audio/')) {
-    showToast('الرجاء اختيار ملف صوتي');
-    return;
-  }
+  if (!file.type.startsWith('audio/')) { showToast('الرجاء اختيار ملف صوتي'); return; }
   musicFile = file;
   document.getElementById('musicName').textContent = file.name;
   document.getElementById('musicInfo').classList.remove('section-hidden');
@@ -938,413 +1706,125 @@ function removeMusic() {
 }
 
 // ═══════════════════════════════════════
-// القص (Crop)
-// ═══════════════════════════════════════
-function openCrop() {
-  if (selectedImageIndex < 0) {
-    showToast('اختر صورة أولاً');
-    return;
-  }
-  
-  var item = images[selectedImageIndex];
-  cropOriginalImage = item.img;
-  
-  document.getElementById('cropOverlay').classList.add('active');
-  
-  var canvas = document.getElementById('cropCanvas');
-  cropCanvas = canvas;
-  
-  // حساب الأبعاد
-  var maxW = window.innerWidth - 40;
-  var maxH = window.innerHeight * 0.6;
-  var scale = Math.min(maxW / cropOriginalImage.width, maxH / cropOriginalImage.height, 1);
-  cropScale = scale;
-  
-  canvas.width = cropOriginalImage.width * scale;
-  canvas.height = cropOriginalImage.height * scale;
-  
-  var ctx = canvas.getContext('2d');
-  ctx.drawImage(cropOriginalImage, 0, 0, canvas.width, canvas.height);
-  
-  // إضافة طبقة القص
-  initCropRect(canvas);
-}
-
-function initCropRect(canvas) {
-  var ctx = canvas.getContext('2d');
-  
-  // إذا كان هناك قص سابق
-  if (images[selectedImageIndex].crop) {
-    var c = images[selectedImageIndex].crop;
-    cropRect = {
-      x: c.x * cropScale,
-      y: c.y * cropScale,
-      w: c.w * cropScale,
-      h: c.h * cropScale
-    };
-  } else {
-    // مربع افتراضي في المنتصف
-    var size = Math.min(canvas.width, canvas.height) * 0.6;
-    cropRect = {
-      x: (canvas.width - size) / 2,
-      y: (canvas.height - size) / 2,
-      w: size,
-      h: size
-    };
-  }
-  
-  renderCrop();
-  setupCropDrag(canvas);
-}
-
-function renderCrop() {
-  var canvas = cropCanvas;
-  var ctx = canvas.getContext('2d');
-  
-  // أعد رسم الصورة الأصلية
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(cropOriginalImage, 0, 0, canvas.width, canvas.height);
-  
-  // طبقة معتمة على الخارج
-  ctx.fillStyle = 'rgba(0,0,0,0.6)';
-  ctx.fillRect(0, 0, canvas.width, cropRect.y);
-  ctx.fillRect(0, cropRect.y + cropRect.h, canvas.width, canvas.height);
-  ctx.fillRect(0, cropRect.y, cropRect.x, cropRect.h);
-  ctx.fillRect(cropRect.x + cropRect.w, cropRect.y, canvas.width - cropRect.x - cropRect.w, cropRect.h);
-  
-  // إطار القص
-  ctx.strokeStyle = '#ffffff';
-  ctx.lineWidth = 3;
-  ctx.strokeRect(cropRect.x, cropRect.y, cropRect.w, cropRect.h);
-  
-  // شبكة 3x3
-  ctx.strokeStyle = 'rgba(255,255,255,0.5)';
-  ctx.lineWidth = 1;
-  for (var i = 1; i < 3; i++) {
-    ctx.beginPath();
-    ctx.moveTo(cropRect.x + (cropRect.w / 3) * i, cropRect.y);
-    ctx.lineTo(cropRect.x + (cropRect.w / 3) * i, cropRect.y + cropRect.h);
-    ctx.stroke();
-    
-    ctx.beginPath();
-    ctx.moveTo(cropRect.x, cropRect.y + (cropRect.h / 3) * i);
-    ctx.lineTo(cropRect.x + cropRect.w, cropRect.y + (cropRect.h / 3) * i);
-    ctx.stroke();
-  }
-  
-  // مقابض الزوايا
-  ctx.fillStyle = '#6366f1';
-  var handles = [
-    { x: cropRect.x, y: cropRect.y },
-    { x: cropRect.x + cropRect.w, y: cropRect.y },
-    { x: cropRect.x, y: cropRect.y + cropRect.h },
-    { x: cropRect.x + cropRect.w, y: cropRect.y + cropRect.h }
-  ];
-  handles.forEach(function(h) {
-    ctx.beginPath();
-    ctx.arc(h.x, h.y, 8, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  });
-}
-
-function setupCropDrag(canvas) {
-  var isDragging = false;
-  var isResizing = false;
-  var resizeCorner = null;
-  var startX, startY;
-  var startRect = {};
-  
-  function getPos(e) {
-    var rect = canvas.getBoundingClientRect();
-    var clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    var clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    return {
-      x: (clientX - rect.left) * (canvas.width / rect.width),
-      y: (clientY - rect.top) * (canvas.height / rect.height)
-    };
-  }
-  
-  function findCorner(pos) {
-    var corners = ['tl', 'tr', 'bl', 'br'];
-    var points = [
-      { x: cropRect.x, y: cropRect.y },
-      { x: cropRect.x + cropRect.w, y: cropRect.y },
-      { x: cropRect.x, y: cropRect.y + cropRect.h },
-      { x: cropRect.x + cropRect.w, y: cropRect.y + cropRect.h }
-    ];
-    for (var i = 0; i < points.length; i++) {
-      var d = Math.sqrt(Math.pow(pos.x - points[i].x, 2) + Math.pow(pos.y - points[i].y, 2));
-      if (d < 20) return corners[i];
-    }
-    return null;
-  }
-  
-  function start(e) {
-    e.preventDefault();
-    var pos = getPos(e);
-    var corner = findCorner(pos);
-    
-    if (corner) {
-      isResizing = true;
-      resizeCorner = corner;
-    } else if (pos.x >= cropRect.x && pos.x <= cropRect.x + cropRect.w &&
-               pos.y >= cropRect.y && pos.y <= cropRect.y + cropRect.h) {
-      isDragging = true;
-    } else {
-      return;
-    }
-    
-    startX = pos.x;
-    startY = pos.y;
-    startRect = { x: cropRect.x, y: cropRect.y, w: cropRect.w, h: cropRect.h };
-  }
-  
-  function move(e) {
-    if (!isDragging && !isResizing) return;
-    e.preventDefault();
-    var pos = getPos(e);
-    var dx = pos.x - startX;
-    var dy = pos.y - startY;
-    
-    if (isDragging) {
-      cropRect.x = Math.max(0, Math.min(canvas.width - cropRect.w, startRect.x + dx));
-      cropRect.y = Math.max(0, Math.min(canvas.height - cropRect.h, startRect.y + dy));
-    } else if (isResizing) {
-      if (resizeCorner === 'br') {
-        cropRect.w = Math.max(30, Math.min(canvas.width - cropRect.x, startRect.w + dx));
-        cropRect.h = Math.max(30, Math.min(canvas.height - cropRect.y, startRect.h + dy));
-      } else if (resizeCorner === 'tl') {
-        var newX = Math.max(0, startRect.x + dx);
-        var newY = Math.max(0, startRect.y + dy);
-        cropRect.w = startRect.w + (startRect.x - newX);
-        cropRect.h = startRect.h + (startRect.y - newY);
-        cropRect.x = newX;
-        cropRect.y = newY;
-      } else if (resizeCorner === 'tr') {
-        var newW = Math.max(30, startRect.w + dx);
-        cropRect.w = Math.min(newW, canvas.width - cropRect.x);
-        var newY2 = Math.max(0, startRect.y + dy);
-        cropRect.h = startRect.h + (startRect.y - newY2);
-        cropRect.y = newY2;
-      } else if (resizeCorner === 'bl') {
-        var newX2 = Math.max(0, startRect.x + dx);
-        cropRect.w = startRect.w + (startRect.x - newX2);
-        cropRect.x = newX2;
-        var newH = Math.max(30, startRect.h + dy);
-        cropRect.h = Math.min(newH, canvas.height - cropRect.y);
-      }
-    }
-    
-    renderCrop();
-  }
-  
-  function end() {
-    isDragging = false;
-    isResizing = false;
-    resizeCorner = null;
-  }
-  
-  // إزالة المستمعات القديمة (لتجنب التكرار)
-  if (canvas._cropCleanup) canvas._cropCleanup();
-  
-  canvas.addEventListener('mousedown', start);
-  canvas.addEventListener('mousemove', move);
-  canvas.addEventListener('mouseup', end);
-  canvas.addEventListener('touchstart', start, { passive: false });
-  canvas.addEventListener('touchmove', move, { passive: false });
-  canvas.addEventListener('touchend', end);
-  
-  canvas._cropCleanup = function() {
-    canvas.removeEventListener('mousedown', start);
-    canvas.removeEventListener('mousemove', move);
-    canvas.removeEventListener('mouseup', end);
-    canvas.removeEventListener('touchstart', start);
-    canvas.removeEventListener('touchmove', move);
-    canvas.removeEventListener('touchend', end);
-  };
-}
-
-function applyCrop() {
-  if (!cropRect || selectedImageIndex < 0) return;
-  
-  var item = images[selectedImageIndex];
-  var original = item.originalImg;
-  
-  // حوّل إحداثيات القص للإحداثيات الأصلية
-  var realX = cropRect.x / cropScale;
-  var realY = cropRect.y / cropScale;
-  var realW = cropRect.w / cropScale;
-  var realH = cropRect.h / cropScale;
-  
-  // أنشئ canvas جديد للصورة المقصوصة
-  var tempCanvas = document.createElement('canvas');
-  tempCanvas.width = realW;
-  tempCanvas.height = realH;
-  var tctx = tempCanvas.getContext('2d');
-  
-  tctx.drawImage(original, realX, realY, realW, realH, 0, 0, realW, realH);
-  
-  // أنشئ صورة جديدة
-  var newImg = new Image();
-  newImg.onload = function() {
-    item.img = newImg;
-    item.crop = { x: realX, y: realY, w: realW, h: realH };
-    renderImagesGrid();
-    updateInfo();
-    closeCrop();
-    showToast('تم قص الصورة');
-    trackEvent('montage-قص');
-  };
-  newImg.src = tempCanvas.toDataURL('image/jpeg', 0.95);
-}
-
-function closeCrop() {
-  document.getElementById('cropOverlay').classList.remove('active');
-  cropRect = null;
-  cropOriginalImage = null;
-}
-
-// ═══════════════════════════════════════
 // تصدير الفيديو
 // ═══════════════════════════════════════
-async function exportVideo() {
+function exportVideo() {
   if (images.length === 0 || isExporting) return;
   isExporting = true;
-  
   var progressContainer = document.getElementById('progressContainer');
   var progressFill = document.getElementById('progressFill');
   var progressText = document.getElementById('progressText');
   var exportBtn = document.getElementById('exportBtn');
   var previewBtn = document.getElementById('previewBtn');
-  
   progressContainer.classList.add('active');
   exportBtn.disabled = true;
   previewBtn.disabled = true;
   isPreviewing = false;
-  
-  try {
-    trackEvent('montage-تصدير');
-    
-    var size = currentSize.split('x');
-    var w = parseInt(size[0]);
-    var h = parseInt(size[1]);
-    
-    var exportCanvas = document.createElement('canvas');
-    exportCanvas.width = w;
-    exportCanvas.height = h;
-    var ctx = exportCanvas.getContext('2d');
-    
-    var stream = exportCanvas.captureStream(30);
-    var audioContext = null;
-    var audioSources = [];
-    var audioFileToUse = null;
-    
-    if (selectedAudio === 'record' && recordedAudioBlob) {
-      audioFileToUse = recordedAudioBlob;
-    } else if (selectedAudio === 'upload' && audioUpload) {
-      audioFileToUse = audioUpload;
-    }
-    
-    if (audioFileToUse || musicFile) {
-      try {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        var audioDest = audioContext.createMediaStreamDestination();
-        
-        if (audioFileToUse) {
-          var arrayBuffer = await audioFileToUse.arrayBuffer();
-          var audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-          var audioSource = audioContext.createBufferSource();
-          audioSource.buffer = audioBuffer;
-          audioSource.loop = false;
-          audioSource.connect(audioDest);
-          audioSources.push(audioSource);
-        }
-        
-        if (musicFile) {
-          var musicBuffer = await musicFile.arrayBuffer();
-          var musicBufferDecoded = await audioContext.decodeAudioData(musicBuffer);
-          var musicSource = audioContext.createBufferSource();
-          musicSource.buffer = musicBufferDecoded;
-          musicSource.loop = true;
-          var musicGain = audioContext.createGain();
-          musicGain.gain.value = audioFileToUse ? 0.15 : 0.6;
-          musicSource.connect(musicGain);
-          musicGain.connect(audioDest);
-          audioSources.push(musicSource);
-        }
-        
-        audioSources.forEach(function(src) {
-          try { src.start(0); } catch(e) {}
-        });
-        
+
+  trackEvent('montage-تصدير');
+  var size = currentSize.split('x');
+  var w = parseInt(size[0]);
+  var h = parseInt(size[1]);
+
+  var exportCanvas = document.createElement('canvas');
+  exportCanvas.width = w;
+  exportCanvas.height = h;
+  var ctx = exportCanvas.getContext('2d');
+  var stream = exportCanvas.captureStream(30);
+
+  var audioContext = null;
+  var audioSources = [];
+  var audioFileToUse = null;
+  if (selectedAudio === 'record' && recordedAudioBlob) audioFileToUse = recordedAudioBlob;
+  else if (selectedAudio === 'upload' && audioUpload) audioFileToUse = audioUpload;
+
+  var setupAudio = Promise.resolve();
+  if (audioFileToUse || musicFile) {
+    setupAudio = (function() {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      var audioDest = audioContext.createMediaStreamDestination();
+      var promises = [];
+
+      if (audioFileToUse) {
+        promises.push(audioFileToUse.arrayBuffer().then(function(buf) {
+          return audioContext.decodeAudioData(buf);
+        }).then(function(audioBuffer) {
+          var src = audioContext.createBufferSource();
+          src.buffer = audioBuffer;
+          src.loop = false;
+          src.connect(audioDest);
+          audioSources.push(src);
+        }));
+      }
+
+      if (musicFile) {
+        promises.push(musicFile.arrayBuffer().then(function(buf) {
+          return audioContext.decodeAudioData(buf);
+        }).then(function(musicDecoded) {
+          var msrc = audioContext.createBufferSource();
+          msrc.buffer = musicDecoded;
+          msrc.loop = true;
+          var gain = audioContext.createGain();
+          gain.gain.value = audioFileToUse ? 0.15 : 0.6;
+          msrc.connect(gain);
+          gain.connect(audioDest);
+          audioSources.push(msrc);
+        }));
+      }
+
+      return Promise.all(promises).then(function() {
         audioDest.stream.getAudioTracks().forEach(function(track) {
           stream.addTrack(track);
         });
-      } catch(e) {
-        console.warn('تعذر دمج الصوت:', e);
-      }
-    }
-    
+      });
+    })();
+  }
+
+  setupAudio.then(function() {
     var mimeType = 'video/webm;codecs=vp9';
     if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm;codecs=vp8';
     if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
-    
+
     var recorder = new MediaRecorder(stream, {
       mimeType: mimeType,
       videoBitsPerSecond: 5000000
     });
-    
     var chunks = [];
-    recorder.ondataavailable = function(e) {
-      if (e.data.size > 0) chunks.push(e.data);
+    recorder.ondataavailable = function(e) { if (e.data.size > 0) chunks.push(e.data); };
+
+    recorder.onstop = function() {
+      var blob = new Blob(chunks, { type: 'video/webm' });
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement('a');
+      link.href = url;
+      link.download = 'resha-montage-' + Date.now() + '.webm';
+      link.click();
+      setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+      audioSources.forEach(function(src) { try { src.stop(); } catch(e) {} });
+      if (audioContext) audioContext.close();
+      progressContainer.classList.remove('active');
+      exportBtn.disabled = false;
+      previewBtn.disabled = false;
+      isExporting = false;
+      showToast('تم تصدير الفيديو');
     };
-    
-    var recordingDone = new Promise(function(resolve) {
-      recorder.onstop = function() {
-        var blob = new Blob(chunks, { type: 'video/webm' });
-        var url = URL.createObjectURL(blob);
-        var link = document.createElement('a');
-        link.href = url;
-        link.download = 'resha-montage-' + Date.now() + '.webm';
-        link.click();
-        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
-        
-        audioSources.forEach(function(src) {
-          try { src.stop(); } catch(e) {}
-        });
-        if (audioContext) audioContext.close();
-        
-        progressContainer.classList.remove('active');
-        exportBtn.disabled = false;
-        previewBtn.disabled = false;
-        isExporting = false;
-        showToast('تم تصدير الفيديو');
-        resolve();
-      };
-    });
-    
+
     recorder.start();
-    
+    audioSources.forEach(function(src) { try { src.start(0); } catch(e) {} });
+
     var layout = LAYOUTS.find(function(l) { return l.id === currentLayout; });
     var imgsPerScene = layout ? layout.cells.length : 1;
     var totalScenes = Math.ceil(images.length / imgsPerScene);
-    
     var currentScene = 0;
     var frameStartTime = performance.now();
-    
+
     function renderFrame() {
       var now = performance.now();
       var duration = getSceneDuration(currentScene);
       var elapsed = (now - frameStartTime) / 1000;
       var progress = elapsed / duration;
-      
       ctx.clearRect(0, 0, w, h);
-      
       var startIdx = currentScene * imgsPerScene;
-      
       if (progress > 0.75 && currentTransition !== 'none' && currentScene < totalScenes - 1) {
         var transProgress = (progress - 0.75) / 0.25;
         var nextStart = (currentScene + 1) * imgsPerScene;
@@ -1352,7 +1832,6 @@ async function exportVideo() {
       } else {
         drawLayout(ctx, startIdx, w, h, 1, progress);
       }
-      
       if (progress >= 1) {
         currentScene++;
         frameStartTime = now;
@@ -1361,31 +1840,28 @@ async function exportVideo() {
           return;
         }
       }
-      
       var totalProgress = (currentScene + progress) / totalScenes;
       progressFill.style.width = (totalProgress * 100) + '%';
       progressText.textContent = 'جاري التصدير ' + Math.round(totalProgress * 100) + '%';
-      
       requestAnimationFrame(renderFrame);
     }
-    
     renderFrame();
-    await recordingDone;
-    
-  } catch(err) {
-    console.error('خطأ:', err);
-    showToast('حدث خطأ: ' + err.message);
+  }).catch(function(err) {
+    console.error('خطأ في الصوت:', err);
+    showToast('حدث خطأ في الصوت');
     progressContainer.classList.remove('active');
     exportBtn.disabled = false;
     previewBtn.disabled = false;
     isExporting = false;
-  }
+  });
 }
 
 // ═══════════════════════════════════════
-// التحقق من دعم المتصفح
+// التهيئة
 // ═══════════════════════════════════════
 window.addEventListener('load', function() {
+  renderLayouts();
+  updateInfo();
   if (!window.MediaRecorder) {
     showToast('متصفحك لا يدعم تصدير الفيديو');
     document.getElementById('exportBtn').disabled = true;
@@ -1397,8 +1873,7 @@ window.addEventListener('load', function() {
     if (rs) rs.textContent = 'التسجيل غير مدعوم';
   }
   trackEvent('montage-زيارة');
-  updateInfo();
-  console.log('✅ المونتاج الاحترافي جاهز بالكامل');
+  console.log('✅ المونتاج جاهز بالكامل');
 });
 </script>
 
