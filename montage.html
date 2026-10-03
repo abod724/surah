@@ -3,363 +3,1799 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🎬 المونتاج — قريباً | ريشة</title>
-<script data-goatcounter="https://resha.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<title>🎬 المونتاج الاحترافي | ريشة</title>
+<script data-goatcounter="https://resha.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Lalezar&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  
-  body {
-    font-family: 'Cairo', sans-serif;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #764ba2 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    overflow: hidden;
-    position: relative;
-  }
-  
-  /* ═══ خلفية متحركة ═══ */
-  body::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: floatBg 30s linear infinite;
-    pointer-events: none;
-  }
-  
-  @keyframes floatBg {
-    from { transform: translate(0, 0); }
-    to { transform: translate(50px, 50px); }
-  }
-  
-  /* ═══ Container ═══ */
-  .container {
-    position: relative;
-    z-index: 10;
-    max-width: 500px;
-    width: 100%;
-    text-align: center;
-    animation: fadeInUp 0.8s ease-out;
-  }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* ═══ Icon ═══ */
-  .icon-wrapper {
-    width: 140px;
-    height: 140px;
-    margin: 0 auto 30px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
-    border-radius: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    position: relative;
-    animation: pulse 2s ease-in-out infinite;
-  }
-  
-  @keyframes pulse {
-    0%, 100% { 
-      transform: scale(1);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    }
-    50% { 
-      transform: scale(1.05);
-      box-shadow: 0 25px 80px rgba(139, 92, 246, 0.4);
-    }
-  }
-  
-  .icon-wrapper::before {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 42px;
-    background: linear-gradient(135deg, #a78bfa, #ec4899, #f59e0b);
-    z-index: -1;
-    opacity: 0.5;
-    filter: blur(15px);
-    animation: glow 3s ease-in-out infinite;
-  }
-  
-  @keyframes glow {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 0.8; }
-  }
-  
-  .icon {
-    font-size: 70px;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
-  }
-  
-  /* ═══ Title ═══ */
-  .title {
-    font-size: 42px;
-    font-weight: 900;
-    color: #fff;
-    margin-bottom: 12px;
-    letter-spacing: -1px;
-    text-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  }
-  
-  .subtitle {
-    font-size: 20px;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 30px;
-  }
-  
-  /* ═══ Message Card ═══ */
-  .message-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border-radius: 24px;
-    padding: 30px 24px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    margin-bottom: 24px;
-  }
-  
-  .message-text {
-    font-size: 17px;
-    line-height: 1.8;
-    color: #fff;
-    font-weight: 600;
-    margin-bottom: 16px;
-  }
-  
-  .message-text strong {
-    color: #fbbf24;
-    font-weight: 900;
-  }
-  
-  /* ═══ Dots Animation ═══ */
-  .dots {
-    display: inline-flex;
-    gap: 6px;
-    margin-top: 10px;
-  }
-  
-  .dot {
-    width: 10px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    animation: bounce 1.4s ease-in-out infinite;
-  }
-  
-  .dot:nth-child(1) { animation-delay: 0s; }
-  .dot:nth-child(2) { animation-delay: 0.2s; }
-  .dot:nth-child(3) { animation-delay: 0.4s; }
-  
-  @keyframes bounce {
-    0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-    40% { transform: scale(1.2); opacity: 1; }
-  }
-  
-  /* ═══ Progress Bar ═══ */
-  .progress-container {
-    margin-top: 20px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 50px;
-    height: 8px;
-    overflow: hidden;
-  }
-  
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #fbbf24, #f59e0b, #ec4899);
-    border-radius: 50px;
-    width: 65%;
-    animation: progress 3s ease-in-out infinite;
-    box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
-  }
-  
-  @keyframes progress {
-    0%, 100% { width: 60%; }
-    50% { width: 75%; }
-  }
-  
-  /* ═══ Button ═══ */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 16px 40px;
-    background: #fff;
-    color: #6366f1;
-    font-family: 'Cairo', sans-serif;
-    font-size: 17px;
-    font-weight: 900;
-    text-decoration: none;
-    border-radius: 16px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .btn:active {
-    transform: scale(0.97);
-  }
-  
-  .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-  }
-  
-  .btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
-    transition: left 0.5s;
-  }
-  
-  .btn:hover::before {
-    left: 100%;
-  }
-  
-  /* ═══ Footer ═══ */
-  .footer {
-    margin-top: 30px;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 13px;
-    font-weight: 600;
-  }
-  
-  .footer-brand {
-    color: #fff;
-    font-weight: 900;
-    font-size: 15px;
-  }
-  
-  /* ═══ Social Icons ═══ */
-  .social {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .social-icon {
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    text-decoration: none;
-    font-size: 20px;
-    transition: all 0.3s;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-  
-  .social-icon:active {
-    transform: scale(0.95);
-  }
-  
-  .social-icon:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-3px);
-  }
-  
-  /* ═══ Responsive ═══ */
-  @media (max-width: 500px) {
-    .icon-wrapper {
-      width: 120px;
-      height: 120px;
-      border-radius: 32px;
-    }
-    .icon { font-size: 60px; }
-    .title { font-size: 34px; }
-    .subtitle { font-size: 17px; }
-    .message-text { font-size: 15px; }
-    .btn { padding: 14px 32px; font-size: 15px; }
-  }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--primary:#6366f1;--primary-dark:#4f46e5;--primary-light:#eef2ff;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#0f172a;--text-light:#64748b;--danger:#ef4444;--success:#10b981;--warning:#f59e0b;--shadow-sm:0 1px 3px rgba(0,0,0,.05);--shadow-md:0 4px 12px rgba(0,0,0,.08);--radius:16px;--radius-sm:10px}
+body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 100%);min-height:100vh;color:var(--text);padding:12px}
+.container{max-width:1000px;margin:0 auto;padding-bottom:40px}
+.header{display:flex;align-items:center;justify-content:space-between;padding:12px 0 16px;color:#fff;gap:8px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-icon{width:44px;height:44px;background:rgba(255,255,255,.2);backdrop-filter:blur(10px);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.header-text{font-size:18px;font-weight:900}
+.header-sub{font-size:11px;opacity:.85;font-weight:600}
+.header-back{background:rgba(255,255,255,.15);color:#fff;border:none;padding:10px 16px;border-radius:10px;font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:5px}
+.card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow-md)}
+.tabs-bar{display:flex;gap:6px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs-bar::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;padding:10px 14px;background:#fff;border:2px solid var(--border);border-radius:12px;color:var(--text-light);font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;box-shadow:var(--shadow-sm);transition:all .2s}
+.tab-btn.active{background:linear-gradient(135deg,var(--primary),#8b5cf6);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(99,102,241,.35)}
+.tab-panels{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow-md);overflow:hidden}
+.panel{display:none;padding:18px}
+.panel.active{display:block;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.panel-title{font-size:14px;font-weight:900;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.panel-title::before{content:'';width:4px;height:16px;background:linear-gradient(135deg,var(--primary),#8b5cf6);border-radius:2px}
+.preview-wrapper{background:#0a0a0a;border-radius:var(--radius-sm);min-height:220px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:12px;position:relative}
+#previewCanvas{display:none;max-width:100%;max-height:400px}
+.preview-empty{color:#475569;font-size:14px;padding:40px 20px;text-align:center;line-height:1.8}
+.upload-area{border:2px dashed #cbd5e1;border-radius:var(--radius-sm);padding:22px 16px;text-align:center;cursor:pointer;background:#f8fafc;transition:all .2s}
+.upload-area:active{border-color:var(--primary);background:var(--primary-light)}
+.upload-icon{font-size:36px;margin-bottom:6px}
+.upload-text{font-size:14px;font-weight:700;color:#475569}
+.upload-hint{font-size:11px;color:#94a3b8;margin-top:4px}
+.images-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-top:12px}
+.image-item{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#f1f5f9;border:3px solid var(--border);cursor:grab;transition:all .2s}
+.image-item.selected{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light)}
+.image-item img{width:100%;height:100%;object-fit:cover;pointer-events:none;transition:transform .2s}
+.image-remove{position:absolute;top:4px;left:4px;width:24px;height:24px;background:var(--danger);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.image-order{position:absolute;bottom:4px;right:4px;background:var(--primary);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}
+.image-badge{position:absolute;top:4px;right:4px;background:rgba(15,23,42,.85);color:#fff;padding:2px 7px;border-radius:6px;font-size:9px;font-weight:700}
+.option-group{margin-bottom:14px}
+.option-label{font-size:12px;font-weight:700;color:#475569;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.option-buttons{display:flex;gap:6px;flex-wrap:wrap}
+.opt-btn{padding:8px 14px;border:2px solid var(--border);background:#fff;border-radius:10px;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;color:#475569;cursor:pointer;transition:all .2s}
+.opt-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.opt-btn.small{padding:6px 10px;font-size:11px}
+.opt-btn.danger{background:#fef2f2;color:var(--danger);border-color:#fecaca}
+.layouts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.layout-card{aspect-ratio:1;border:3px solid var(--border);border-radius:12px;cursor:pointer;background:#fff;transition:all .2s;padding:10px;display:flex;align-items:center;justify-content:center}
+.layout-card.active{border-color:var(--primary);background:var(--primary-light);box-shadow:0 0 0 3px rgba(99,102,241,.2)}
+.layout-preview{width:100%;height:100%;display:grid;gap:3px}
+.layout-preview div{background:#cbd5e1;border-radius:3px}
+.layout-card.active .layout-preview div{background:var(--primary)}
+.layout-1{grid-template-columns:1fr;grid-template-rows:1fr}
+.layout-2h{grid-template-columns:1fr 1fr;grid-template-rows:1fr}
+.layout-2v{grid-template-columns:1fr;grid-template-rows:1fr 1fr}
+.layout-3{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.layout-3 div:nth-child(1){grid-column:1/2;grid-row:1/2}
+.layout-3 div:nth-child(2){grid-column:2/3;grid-row:1/2}
+.layout-3 div:nth-child(3){grid-column:1/3;grid-row:2/3}
+.layout-4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.layout-overlay{grid-template-columns:1fr;grid-template-rows:1fr;position:relative}
+.layout-overlay div:nth-child(2){position:absolute;bottom:5px;left:5px;width:35%;height:35%;background:var(--primary)}
+.crop-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:9999;display:none;flex-direction:column;padding:16px;overflow-y:auto}
+.crop-overlay.active{display:flex}
+.crop-header{display:flex;justify-content:space-between;align-items:center;color:#fff;margin-bottom:16px}
+.crop-title{font-size:18px;font-weight:900}
+.crop-close{width:40px;height:40px;background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:50%;font-size:20px;cursor:pointer}
+.crop-canvas-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:#0a0a0a;border-radius:12px;position:relative;overflow:hidden;min-height:300px}
+.crop-canvas-wrap canvas{max-width:100%;max-height:60vh;touch-action:none}
+.crop-controls{display:flex;gap:8px;margin-top:16px;justify-content:center}
+.crop-btn{padding:12px 24px;border:none;border-radius:12px;font-family:'Cairo',sans-serif;font-weight:800;font-size:14px;cursor:pointer;color:#fff}
+.crop-btn-apply{background:linear-gradient(135deg,#10b981,#059669)}
+.crop-btn-cancel{background:linear-gradient(135deg,#64748b,#475569)}
+.audio-tabs{display:flex;gap:6px;margin-bottom:12px;background:#f1f5f9;padding:4px;border-radius:12px}
+.audio-tab{flex:1;padding:10px;border:none;background:transparent;border-radius:8px;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;color:#64748b;cursor:pointer}
+.audio-tab.active{background:#fff;color:var(--primary);box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.recorder-box{background:#f8fafc;border-radius:var(--radius-sm);padding:16px;text-align:center}
+.recorder-status{font-size:13px;font-weight:700;color:var(--text-light);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px}
+.recorder-dot{width:10px;height:10px;border-radius:50%;background:#cbd5e1}
+.recorder-dot.recording{background:var(--danger);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+.recorder-timer{font-size:26px;font-weight:900;color:var(--text);margin-bottom:12px;font-family:'Cairo',monospace;letter-spacing:1px}
+.recorder-btn{padding:14px 28px;border:none;border-radius:50px;font-family:'Cairo',sans-serif;font-weight:800;font-size:14px;color:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.recorder-btn.record{background:linear-gradient(135deg,#ef4444,#dc2626)}
+.recorder-btn.stop{background:linear-gradient(135deg,#0f172a,#334155)}
+.recorder-actions{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.recorder-actions button{padding:10px 16px;border:2px solid var(--border);background:#fff;border-radius:10px;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;color:var(--text-light);cursor:pointer}
+.recorder-actions button.primary{background:var(--success);color:#fff;border-color:var(--success)}
+.recorder-actions button.danger{background:var(--danger);color:#fff;border-color:var(--danger)}
+.audio-player{width:100%;margin-top:12px;display:none}
+.audio-player.active{display:block}
+.audio-player audio{width:100%;height:40px}
+.music-info{padding:12px;background:#f0fdf4;border:2px solid var(--success);border-radius:10px;font-size:12px;font-weight:700;color:#047857;display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:8px}
+.music-remove{background:var(--danger);color:#fff;border:none;padding:4px 10px;border-radius:6px;font-family:'Cairo',sans-serif;font-weight:700;font-size:11px;cursor:pointer}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.btn{padding:14px;border:none;border-radius:12px;font-family:'Cairo',sans-serif;font-weight:800;font-size:14px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-preview{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+.btn-export{background:linear-gradient(135deg,#10b981,#059669)}
+.btn-reset{background:linear-gradient(135deg,#64748b,#475569);grid-column:1/-1}
+.progress{margin-top:12px;display:none}
+.progress.active{display:block}
+.progress-bar{height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#6366f1,#8b5cf6);width:0%;transition:width .3s}
+.progress-text{text-align:center;font-size:12px;color:var(--text-light);margin-top:6px;font-weight:700}
+.footer{text-align:center;padding:20px;color:#fff;font-size:12px;opacity:.85}
+.empty-hint{text-align:center;color:#94a3b8;font-size:13px;padding:20px;font-weight:600}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:12px 24px;border-radius:12px;font-size:13px;font-weight:700;z-index:99999;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%;text-align:center}
+.toast.active{opacity:1}
+.section-hidden{display:none!important}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#f8fafc;border-radius:8px;margin-bottom:6px;font-size:13px;font-weight:700;color:var(--text-light)}
+.info-row-value{color:var(--primary);font-weight:900}
+#authOverlay{position:fixed;inset:0;z-index:10000;background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+#authOverlay.hidden{display:none}
+.auth-card{background:#fff;border-radius:20px;padding:28px 22px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.auth-logo{width:64px;height:64px;margin:0 auto 14px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px}
+.auth-title{font-size:20px;font-weight:900;text-align:center;color:#0f172a;margin-bottom:4px}
+.auth-sub{font-size:12px;color:#64748b;text-align:center;margin-bottom:20px;font-weight:600}
+.auth-field{margin-bottom:12px}
+.auth-field label{display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:6px}
+.auth-field input,.auth-field select,.auth-field textarea{width:100%;padding:12px 14px;border:2px solid #e2e8f0;border-radius:12px;font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;color:#0f172a;background:#f8fafc}
+.auth-field input:focus,.auth-field select:focus,.auth-field textarea:focus{outline:none;border-color:#6366f1;background:#fff}
+.auth-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-family:'Cairo',sans-serif;font-weight:800;font-size:15px;cursor:pointer;margin-top:6px}
+.auth-btn:disabled{opacity:.6;cursor:not-allowed}
+.auth-switch{text-align:center;margin-top:16px;font-size:13px;color:#64748b;font-weight:600}
+.auth-switch button{background:none;border:none;color:#6366f1;font-family:'Cairo',sans-serif;font-weight:800;font-size:13px;cursor:pointer;text-decoration:underline}
+.auth-error{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;padding:10px 12px;border-radius:10px;font-size:12px;font-weight:700;margin-bottom:12px;display:none}
+.auth-error.show{display:block}
+.auth-success{background:#f0fdf4;color:#047857;border:1px solid #bbf7d0;padding:10px 12px;border-radius:10px;font-size:12px;font-weight:700;margin-bottom:12px;display:none}
+.auth-success.show{display:block}
+.user-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);color:#fff;padding:8px 12px;border-radius:10px;font-size:11px;font-weight:700;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout-btn{background:rgba(255,255,255,.15);color:#fff;border:none;padding:8px 12px;border-radius:10px;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer}
+#appRoot{display:none}
+#appRoot.ready{display:block}
+.project-item{display:flex;align-items:center;gap:10px;padding:12px;background:#f8fafc;border-radius:10px;margin-bottom:8px;border:2px solid #e2e8f0}
+.project-thumb{width:50px;height:50px;border-radius:8px;object-fit:cover;background:#e2e8f0;flex-shrink:0}
+.project-info{flex:1;min-width:0}
+.project-name{font-size:13px;font-weight:800;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.project-date{font-size:10px;color:#64748b;font-weight:600;margin-top:2px}
+.project-actions{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:130px}
+.project-actions button{padding:6px 10px;border:none;border-radius:8px;font-family:'Cairo',sans-serif;font-weight:700;font-size:11px;cursor:pointer}
+.project-load{background:#6366f1;color:#fff}
+.project-del{background:#ef4444;color:#fff}
+.project-pub{background:#f59e0b;color:#fff}
+.project-pub.on{background:#10b981}
+#resetOverlay{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+#resetOverlay.active{display:flex}
+.loading-overlay{position:fixed;inset:0;z-index:10002;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;color:#fff;font-family:'Cairo',sans-serif;font-weight:800;font-size:16px;flex-direction:column;gap:14px}
+.loading-overlay.active{display:flex}
+.spinner{width:44px;height:44px;border:4px solid rgba(255,255,255,.2);border-top-color:#6366f1;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.element-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.element-item{background:#f8fafc;border:2px solid var(--border);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px}
+.element-item.selected{border-color:var(--primary);background:var(--primary-light)}
+.element-item-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.element-item-preview{flex:1;font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.element-item-actions{display:flex;gap:4px}
+.element-item-actions button{padding:4px 8px;border:none;border-radius:6px;font-family:'Cairo',sans-serif;font-weight:700;font-size:11px;cursor:pointer}
+.el-del{background:#ef4444;color:#fff}
+.el-edit{background:#6366f1;color:#fff}
+.position-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:#f1f5f9;padding:4px;border-radius:10px}
+.position-cell{aspect-ratio:1;background:#fff;border:2px solid transparent;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.position-cell.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.emoji-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;max-height:180px;overflow-y:auto;padding:6px;background:#f8fafc;border-radius:10px;margin-top:8px}
+.emoji-btn{aspect-ratio:1;background:#fff;border:2px solid transparent;border-radius:8px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.emoji-btn:hover,.emoji-btn:active{border-color:var(--primary)}
+.templates-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.template-card{aspect-ratio:1;border:3px solid var(--border);border-radius:12px;cursor:pointer;background:linear-gradient(135deg,#f8fafc,#eef2ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px;transition:all .2s}
+.template-card:active{transform:scale(.96);border-color:var(--primary)}
+.template-emoji{font-size:26px}
+.template-name{font-size:10px;font-weight:800;color:#0f172a;text-align:center;line-height:1.2}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:12px}
+.gallery-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);cursor:pointer;transition:all .2s}
+.gallery-card:active{transform:scale(.97)}
+.gallery-thumb{width:100%;aspect-ratio:1;object-fit:cover;background:#f1f5f9}
+.gallery-info{padding:8px}
+.gallery-title{font-size:12px;font-weight:800;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gallery-author{font-size:10px;color:#64748b;font-weight:600;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.share-row{display:flex;gap:6px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.share-btn{padding:10px 16px;border:none;border-radius:10px;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;gap:5px}
+.share-wa{background:#25d366}
+.share-tw{background:#1da1f2}
+.share-cp{background:#6366f1}
+.share-tg{background:#0088cc}
+@media (max-width:480px){
+  .container{padding:0}
+  .card{padding:14px}
+  .panel{padding:14px}
+  .actions{grid-template-columns:1fr}
+  .images-grid{grid-template-columns:repeat(auto-fill,minmax(85px,1fr))}
+  .tab-btn{padding:9px 11px;font-size:11px}
+  .user-chip{max-width:80px;font-size:10px;padding:6px 8px}
+  .logout-btn{padding:6px 9px;font-size:11px}
+  .emoji-grid{grid-template-columns:repeat(6,1fr)}
+  .templates-grid{grid-template-columns:repeat(3,1fr)}
+  .template-emoji{font-size:24px}
+}
 </style>
 </head>
 <body>
 
-<div class="container">
-  
-  <!-- Icon -->
-  <div class="icon-wrapper">
-    <div class="icon">🎬</div>
+<div id="authOverlay">
+  <div class="auth-card">
+    <div class="auth-logo">🎬</div>
+    <div class="auth-title">ريشة المونتاج</div>
+    <div class="auth-sub" id="authSubtitle">سجّل دخولك للبدء</div>
+    <div class="auth-error" id="authError"></div>
+    <div class="auth-success" id="authSuccess"></div>
+    <form id="authForm">
+      <div class="auth-field"><label>البريد الإلكتروني</label><input type="email" id="authEmail" placeholder="you@example.com" required autocomplete="email"></div>
+      <div class="auth-field"><label>كلمة المرور</label><input type="password" id="authPassword" placeholder="••••••••" required minlength="6" autocomplete="current-password"></div>
+      <div class="auth-field" id="confirmPasswordField" style="display:none;"><label>تأكيد كلمة المرور</label><input type="password" id="authPassword2" placeholder="••••••••" minlength="6" autocomplete="new-password"></div>
+      <button type="submit" class="auth-btn" id="authSubmitBtn">دخول</button>
+      <div style="text-align:center;margin-top:10px;"><button type="button" id="forgotBtn" style="background:none;border:none;color:#6366f1;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;text-decoration:underline;">نسيت كلمة المرور؟</button></div>
+    </form>
+    <div class="auth-switch" id="authSwitch">ما عندك حساب؟ <button type="button" id="authToggleMode">أنشئ حساب</button></div>
   </div>
-  
-  <!-- Title -->
-  <h1 class="title">قريباً</h1>
-  <p class="subtitle">قسم المونتاج</p>
-  
-  <!-- Message Card -->
-  <div class="message-card">
-    <p class="message-text">
-      نعمل حالياً على تطوير
-      <br>
-      <strong>قسم المونتاج الاحترافي</strong>
-    </p>
-    <p class="message-text" style="font-size: 15px; opacity: 0.9;">
-      حوّل صورك إلى فيديو احترافي
-      <br>
-      بانتقالات وموسيقى وتأثيرات
-    </p>
-    
-    <!-- Dots -->
-    <div class="dots">
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-    </div>
-    
-    <!-- Progress Bar -->
-    <div class="progress-container">
-      <div class="progress-bar"></div>
-    </div>
-  </div>
-  
-  <!-- Back Button -->
-  <a href="index.html" class="btn">
-    <span>←</span>
-    <span>العودة إلى ريشة</span>
-  </a>
-  
-  <!-- Footer -->
-  <div class="footer">
-    <div class="footer-brand">✨ ريشة</div>
-    <div>استوديو الصور والفيديوهات</div>
-  </div>
-  
 </div>
 
+<div id="appRoot">
+  <div class="container">
+    <div class="header">
+      <div class="header-logo">
+        <div class="header-icon">🎬</div>
+        <div><div class="header-text">المونتاج</div><div class="header-sub">صور → فيديو</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
+        <span class="user-chip" id="userChip">—</span>
+        <button class="logout-btn" id="saveProjectBtn" title="حفظ">💾</button>
+        <button class="logout-btn" id="myProjectsBtn" title="مشاريعي">📁</button>
+        <button class="logout-btn" id="galleryBtn" title="معرض الأعمال">🌐</button>
+        <button class="logout-btn" id="logoutBtn" title="خروج">خروج</button>
+      </div>
+    </div>
+
+    <div class="card" id="previewCard">
+      <div class="preview-wrapper">
+        <canvas id="previewCanvas" width="1080" height="1080"></canvas>
+        <div class="preview-empty" id="previewEmpty">أضف صوراً واضغط معاينة</div>
+      </div>
+      <div class="actions" style="margin-top:12px;">
+        <button class="btn btn-preview" id="previewBtn" onclick="previewVideo()" disabled>▶ معاينة</button>
+        <button class="btn btn-export" id="exportBtn" onclick="exportVideo()" disabled>💾 تصدير</button>
+      </div>
+      <div class="share-row section-hidden" id="shareRow">
+        <button class="share-btn share-wa" onclick="shareWhatsApp()">واتساب</button>
+        <button class="share-btn share-tw" onclick="shareTwitter()">تويتر</button>
+        <button class="share-btn share-tg" onclick="shareTelegram()">تلغرام</button>
+        <button class="share-btn share-cp" onclick="copyShareLink()">📋 نسخ</button>
+      </div>
+      <div class="progress" id="progressContainer">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">جاري التحضير</div>
+      </div>
+    </div>
+
+    <div class="tabs-bar">
+      <button class="tab-btn active" onclick="switchTab('images', this)">🖼️ الصور</button>
+      <button class="tab-btn" onclick="switchTab('layouts', this)">🎨 تخطيطات</button>
+      <button class="tab-btn" onclick="switchTab('animate', this)">🎬 حركات</button>
+      <button class="tab-btn" onclick="switchTab('transitions', this)">🎞️ انتقالات</button>
+      <button class="tab-btn" onclick="switchTab('elements', this)">✍️ عناصر</button>
+      <button class="tab-btn" onclick="switchTab('watermark', this)">💧 شعار</button>
+      <button class="tab-btn" onclick="switchTab('templates', this)">📋 قوالب</button>
+      <button class="tab-btn" onclick="switchTab('audio', this)">🎵 صوت</button>
+      <button class="tab-btn" onclick="switchTab('info', this)">ℹ️ معلومات</button>
+    </div>
+
+    <div class="tab-panels">
+      <div id="panel-images" class="panel active">
+        <div class="panel-title">الصور</div>
+        <div class="upload-area" onclick="document.getElementById('imageInput').click()">
+          <div class="upload-icon">🖼️</div>
+          <div class="upload-text">اضغط لاختيار الصور</div>
+          <div class="upload-hint">حتى 30 صورة</div>
+        </div>
+        <input type="file" id="imageInput" accept="image/*" multiple style="display:none;">
+        <div class="images-grid" id="imagesGrid"></div>
+        <div class="empty-hint" id="imagesEmpty">لا توجد صور</div>
+      </div>
+
+      <div id="panel-layouts" class="panel">
+        <div class="panel-title">اختر التخطيط</div>
+        <p style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">كل تخطيط يستخدم عدداً مختلفاً من الصور.</p>
+        <div class="layouts-grid" id="layoutsGrid"></div>
+        <div class="info-row" style="margin-top:12px;"><span>🎨 التخطيط الحالي</span><span class="info-row-value" id="layoutName">صورة واحدة</span></div>
+      </div>
+
+      <div id="panel-animate" class="panel">
+        <div class="panel-title">حركات الصورة</div>
+        <div id="animateEmpty" class="empty-hint">لم تختر صورة</div>
+        <div id="animateContent" class="section-hidden">
+          <div class="option-group">
+            <label class="option-label">الحركة</label>
+            <div class="option-buttons" id="animationOptions">
+              <button class="opt-btn active" data-animation="none">بدون</button>
+              <button class="opt-btn" data-animation="zoomIn">زوم داخل</button>
+              <button class="opt-btn" data-animation="zoomOut">زوم خارج</button>
+              <button class="opt-btn" data-animation="panRight">يمين</button>
+              <button class="opt-btn" data-animation="panLeft">يسار</button>
+              <button class="opt-btn" data-animation="panUp">فوق</button>
+              <button class="opt-btn" data-animation="panDown">تحت</button>
+              <button class="opt-btn" data-animation="rotate">دوران</button>
+              <button class="opt-btn" data-animation="pulse">نبض</button>
+              <button class="opt-btn" data-animation="fadeIn">ظهور</button>
+              <button class="opt-btn" data-animation="kenRight">Ken→</button>
+              <button class="opt-btn" data-animation="kenLeft">Ken←</button>
+              <button class="opt-btn" data-animation="shake">اهتزاز</button>
+              <button class="opt-btn" data-animation="bounce">قفز</button>
+              <button class="opt-btn" data-animation="flip">انقلاب</button>
+            </div>
+          </div>
+          <div class="option-group">
+            <label class="option-label">السرعة</label>
+            <div class="option-buttons" id="speedOptions">
+              <button class="opt-btn" data-speed="1.5">بطيء</button>
+              <button class="opt-btn active" data-speed="1">عادي</button>
+              <button class="opt-btn" data-speed="0.5">سريع</button>
+            </div>
+          </div>
+          <div class="option-group">
+            <label class="option-label">المدة</label>
+            <div class="option-buttons" id="imageDurationOptions">
+              <button class="opt-btn small" data-duration="2">2 ث</button>
+              <button class="opt-btn small active" data-duration="3">3 ث</button>
+              <button class="opt-btn small" data-duration="5">5 ث</button>
+              <button class="opt-btn small" data-duration="10">10 ث</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:8px;padding:10px;background:#f8fafc;border-radius:10px;">
+              <input type="number" id="customDuration" min="1" max="60" value="3" style="width:70px;padding:8px;border:2px solid #e2e8f0;border-radius:8px;font-family:'Cairo';font-weight:700;text-align:center;">
+              <span style="font-size:12px;font-weight:700;color:#475569;">ثانية</span>
+              <button onclick="applyCustomDuration()" style="padding:8px 14px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-family:'Cairo';font-weight:700;font-size:12px;cursor:pointer;">تطبيق</button>
+            </div>
+          </div>
+          <div class="option-group">
+            <label class="option-label">تعديل</label>
+            <div class="option-buttons">
+              <button class="opt-btn" onclick="openCrop()">✂️ قص</button>
+              <button class="opt-btn" onclick="rotateImage(90)">🔄 90°</button>
+              <button class="opt-btn" onclick="rotateImage(-90)">🔄 -90°</button>
+              <button class="opt-btn" onclick="flipImage('h')">↔️ عكس</button>
+              <button class="opt-btn" onclick="flipImage('v')">↕️ عكس</button>
+              <button class="opt-btn danger" onclick="resetImageEdits()">↺ إعادة</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-transitions" class="panel">
+        <div class="panel-title">الانتقالات والأحجام</div>
+        <div class="option-group">
+          <label class="option-label">حجم الفيديو</label>
+          <div class="option-buttons" id="sizeOptions">
+            <button class="opt-btn active" data-size="1080x1080">مربع 1:1</button>
+            <button class="opt-btn" data-size="1080x1920">طولي 9:16</button>
+            <button class="opt-btn" data-size="1920x1080">عرضي 16:9</button>
+            <button class="opt-btn" data-size="1080x1350">عمودي 4:5</button>
+          </div>
+        </div>
+        <div class="option-group">
+          <label class="option-label">نوع الانتقال</label>
+          <div class="option-buttons" id="transitionOptions">
+            <button class="opt-btn active" data-transition="fade">تلاشي</button>
+            <button class="opt-btn" data-transition="slideRight">انزلاق ←</button>
+            <button class="opt-btn" data-transition="slideLeft">انزلاق →</button>
+            <button class="opt-btn" data-transition="slideUp">انزلاق ↑</button>
+            <button class="opt-btn" data-transition="zoom">تكبير</button>
+            <button class="opt-btn" data-transition="rotate">دوران</button>
+            <button class="opt-btn" data-transition="book">فتح كتاب</button>
+            <button class="opt-btn" data-transition="fold">طي</button>
+            <button class="opt-btn" data-transition="none">بدون</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-elements" class="panel">
+        <div class="panel-title">نصوص وملصقات</div>
+        <div class="option-group">
+          <label class="option-label">📝 أضف نص</label>
+          <div class="auth-field" style="margin-bottom:8px;"><textarea id="textContent" rows="2" placeholder="اكتب النص هنا..." style="resize:vertical;"></textarea></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+            <select id="textFont" class="auth-field" style="padding:10px;border:2px solid #e2e8f0;border-radius:10px;font-family:'Cairo';font-weight:700;">
+              <option value="'Cairo',sans-serif">Cairo</option>
+              <option value="'Tajawal',sans-serif">Tajawal</option>
+              <option value="'Amiri',serif">Amiri</option>
+              <option value="'Reem Kufi',sans-serif">Reem Kufi</option>
+              <option value="'Lalezar',cursive">Lalezar</option>
+            </select>
+            <input type="color" id="textColor" value="#ffffff" style="width:100%;height:44px;border:2px solid #e2e8f0;border-radius:10px;background:#f8fafc;">
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+            <label style="font-size:12px;font-weight:700;color:#475569;flex-shrink:0;">الحجم</label>
+            <input type="range" id="textSize" min="3" max="20" value="8" style="flex:1;">
+            <span id="textSizeLabel" style="font-size:12px;font-weight:800;color:var(--primary);min-width:32px;text-align:center;">8</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+            <label style="font-size:12px;font-weight:700;color:#475569;display:flex;gap:5px;align-items:center;"><input type="checkbox" id="textShadow" checked> ظل</label>
+          </div>
+          <label class="option-label">الموضع</label>
+          <div class="position-grid" id="textPositionGrid"></div>
+          <button class="btn btn-preview" style="margin-top:10px;padding:10px;font-size:13px;" onclick="addTextElement()">➕ إضافة النص</button>
+        </div>
+
+        <div class="option-group" style="margin-top:20px;">
+          <label class="option-label">😀 أضف ملصق</label>
+          <div class="emoji-grid" id="emojiGrid"></div>
+          <label class="option-label" style="margin-top:10px;">الموضع</label>
+          <div class="position-grid" id="stickerPositionGrid"></div>
+        </div>
+
+        <div class="option-group" style="margin-top:20px;">
+          <label class="option-label">📋 العناصر المضافة</label>
+          <div class="element-list" id="elementList"></div>
+          <div class="empty-hint" id="elementsEmpty">لا توجد عناصر</div>
+        </div>
+      </div>
+
+      <div id="panel-watermark" class="panel">
+        <div class="panel-title">Watermark (شعار)</div>
+        <div class="option-group">
+          <label class="option-label">تفعيل الشعار</label>
+          <div class="option-buttons">
+            <button class="opt-btn active" id="wmOff" onclick="toggleWatermark(false)">معطّل</button>
+            <button class="opt-btn" id="wmOn" onclick="toggleWatermark(true)">مفعّل</button>
+          </div>
+        </div>
+        <div id="wmContent" class="section-hidden">
+          <div class="option-group">
+            <label class="option-label">النوع</label>
+            <div class="option-buttons">
+              <button class="opt-btn active" id="wmTextBtn" onclick="setWmType('text')">نص</button>
+              <button class="opt-btn" id="wmImageBtn" onclick="setWmType('image')">صورة</button>
+            </div>
+          </div>
+          <div id="wmTextSection">
+            <div class="auth-field"><label>النص</label><input type="text" id="wmText" placeholder="مثال: @username" value="@mybrand"></div>
+            <div style="display:flex;gap:8px;margin-bottom:8px;">
+              <input type="color" id="wmColor" value="#ffffff" style="flex:1;height:44px;border:2px solid #e2e8f0;border-radius:10px;">
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+              <label style="font-size:12px;font-weight:700;color:#475569;">الحجم</label>
+              <input type="range" id="wmSize" min="2" max="15" value="5" style="flex:1;">
+            </div>
+          </div>
+          <div id="wmImageSection" class="section-hidden">
+            <div class="upload-area" onclick="document.getElementById('wmImageInput').click()">
+              <div class="upload-icon">🖼️</div>
+              <div class="upload-text">ارفع صورة الشعار</div>
+              <div class="upload-hint">PNG بخلفية شفافة يفضل</div>
+            </div>
+            <input type="file" id="wmImageInput" accept="image/*" style="display:none;">
+            <div id="wmPreviewInfo" class="music-info section-hidden">
+              <span>✅ تم رفع الشعار</span>
+              <button class="music-remove" onclick="removeWmImage()">حذف</button>
+            </div>
+          </div>
+          <div class="option-group">
+            <label class="option-label">الموضع</label>
+            <div class="option-buttons">
+              <button class="opt-btn" data-wm-pos="tl" onclick="setWmPos('tl', this)">↖ فوق يسار</button>
+              <button class="opt-btn" data-wm-pos="tr" onclick="setWmPos('tr', this)">↗ فوق يمين</button>
+              <button class="opt-btn" data-wm-pos="bl" onclick="setWmPos('bl', this)">↙ تحت يسار</button>
+              <button class="opt-btn active" data-wm-pos="br" onclick="setWmPos('br', this)">↘ تحت يمين</button>
+            </div>
+          </div>
+          <div class="option-group">
+            <label class="option-label">الشفافية</label>
+            <input type="range" id="wmOpacity" min="10" max="100" value="70" style="width:100%;">
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-templates" class="panel">
+        <div class="panel-title">القوالب الجاهزة</div>
+        <p style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">اختر تصنيفاً ثم قالباً جاهزاً.</p>
+        <div class="tabs-bar" id="templateCategories" style="padding-bottom:8px;"></div>
+        <div class="templates-grid" id="templatesGrid"></div>
+      </div>
+
+      <div id="panel-audio" class="panel">
+        <div class="panel-title">الصوت</div>
+        <div class="audio-tabs">
+          <button class="audio-tab active" onclick="switchAudioTab('record', this)">تسجيل</button>
+          <button class="audio-tab" onclick="switchAudioTab('upload', this)">رفع ملف</button>
+          <button class="audio-tab" onclick="switchAudioTab('music', this)">موسيقى</button>
+        </div>
+        <div id="audioTab-record">
+          <div class="recorder-box">
+            <div class="recorder-status"><div class="recorder-dot" id="recorderDot"></div><span id="recorderStatus">جاهز للتسجيل</span></div>
+            <div class="recorder-timer" id="recorderTimer">00:00</div>
+            <button class="recorder-btn record" id="recordBtn" onclick="toggleRecording()">بدء التسجيل</button>
+            <div class="audio-player" id="recordPlayer"><audio id="recordAudio" controls></audio></div>
+            <div class="recorder-actions section-hidden" id="recordActions">
+              <button class="primary" onclick="useRecording()">استخدام</button>
+              <button class="danger" onclick="deleteRecording()">حذف</button>
+            </div>
+          </div>
+        </div>
+        <div id="audioTab-upload" class="section-hidden">
+          <div class="upload-area" onclick="document.getElementById('audioInput').click()">
+            <div class="upload-icon">🎵</div><div class="upload-text">رفع ملف صوتي</div>
+          </div>
+          <input type="file" id="audioInput" accept="audio/*" style="display:none;">
+          <div id="audioUploadInfo" class="music-info section-hidden"><span id="audioUploadName">ملف صوتي</span><button class="music-remove" onclick="removeAudioUpload()">حذف</button></div>
+        </div>
+        <div id="audioTab-music" class="section-hidden">
+          <div class="upload-area" onclick="document.getElementById('musicInput').click()">
+            <div class="upload-icon">🎼</div><div class="upload-text">رفع موسيقى خلفية</div>
+          </div>
+          <input type="file" id="musicInput" accept="audio/*" style="display:none;">
+          <div id="musicInfo" class="music-info section-hidden"><span id="musicName">موسيقى</span><button class="music-remove" onclick="removeMusic()">حذف</button></div>
+        </div>
+      </div>
+
+      <div id="panel-info" class="panel">
+        <div class="panel-title">معلومات الفيديو</div>
+        <div class="info-row"><span>🖼️ عدد الصور</span><span class="info-row-value" id="infoImages">0</span></div>
+        <div class="info-row"><span>⏱️ المدة</span><span class="info-row-value" id="infoDuration">0 ثانية</span></div>
+        <div class="info-row"><span>📦 الحجم المتوقع</span><span class="info-row-value" id="infoSize">~0 MB</span></div>
+        <div class="info-row"><span>📐 الأبعاد</span><span class="info-row-value" id="infoDimensions">1080 × 1080</span></div>
+        <div class="info-row"><span>🎨 التخطيط</span><span class="info-row-value" id="infoLayout">صورة واحدة</span></div>
+        <div class="info-row"><span>🎞️ الانتقال</span><span class="info-row-value" id="infoTransition">تلاشي</span></div>
+        <div class="info-row"><span>✍️ النصوص</span><span class="info-row-value" id="infoTexts">0</span></div>
+        <div class="info-row"><span>😀 الملصقات</span><span class="info-row-value" id="infoStickers">0</span></div>
+        <div class="info-row"><span>💧 الشعار</span><span class="info-row-value" id="infoWatermark">معطّل</span></div>
+        <div class="info-row"><span>🎵 الصوت</span><span class="info-row-value" id="infoAudio">بدون</span></div>
+        <div style="margin-top:16px;"><button class="btn btn-reset" onclick="resetAll()" style="width:100%;">🔄 إعادة تعيين الكل</button></div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:30px 20px;">
+      <a href="index.html" style="color:#ffffff;font-family:'Cairo',sans-serif;font-weight:800;font-size:15px;text-decoration:underline;display:inline-block;padding:10px 20px;text-shadow:0 1px 4px rgba(0,0,0,.3);">العودة إلى ريشة</a>
+    </div>
+    <div class="footer">© Nibras GP</div>
+  </div>
+</div>
+
+<div class="crop-overlay" id="cropOverlay">
+  <div class="crop-header"><div class="crop-title">✂️ قص الصورة</div><button class="crop-close" onclick="closeCrop()">✕</button></div>
+  <div class="crop-canvas-wrap"><canvas id="cropCanvas"></canvas></div>
+  <div class="crop-controls"><button class="crop-btn crop-btn-cancel" onclick="closeCrop()">إلغاء</button><button class="crop-btn crop-btn-apply" onclick="applyCrop()">تطبيق</button></div>
+</div>
+
+<div class="crop-overlay" id="projectsOverlay">
+  <div class="crop-header"><div class="crop-title">📁 مشاريعي</div><button class="crop-close" onclick="closeProjects()">✕</button></div>
+  <div style="background:#fff;border-radius:16px;padding:16px;max-height:70vh;overflow-y:auto;"><div id="projectsList"><div class="empty-hint">لا توجد مشاريع</div></div></div>
+</div>
+
+<div class="crop-overlay" id="galleryOverlay">
+  <div class="crop-header"><div class="crop-title">🌐 معرض الأعمال</div><button class="crop-close" onclick="closeGallery()">✕</button></div>
+  <div style="background:#fff;border-radius:16px;padding:16px;max-height:75vh;overflow-y:auto;"><div id="galleryList"><div class="empty-hint">جاري التحميل...</div></div></div>
+</div>
+
+<div id="resetOverlay">
+  <div class="auth-card">
+    <div class="auth-logo">🔑</div>
+    <div class="auth-title">كلمة مرور جديدة</div>
+    <div class="auth-sub">اكتب كلمة المرور الجديدة</div>
+    <div class="auth-error" id="resetError"></div>
+    <form id="resetForm">
+      <div class="auth-field"><label>كلمة المرور الجديدة</label><input type="password" id="resetPassword" placeholder="••••••••" required minlength="6"></div>
+      <div class="auth-field"><label>تأكيد كلمة المرور</label><input type="password" id="resetPassword2" placeholder="••••••••" required minlength="6"></div>
+      <button type="submit" class="auth-btn" id="resetBtn">تحديث كلمة المرور</button>
+    </form>
+    <div class="auth-switch"><button type="button" onclick="document.getElementById('resetOverlay').classList.remove('active')">إلغاء</button></div>
+  </div>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><div id="loadingText">جاري التحميل...</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL='https://yleopsinexfenzfxvmlb.supabase.co';
+const SUPABASE_KEY='sb_publishable_YQhUQbXOqkk5CDmhmOB5TQ_hpy-bisu';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let currentUser=null;
+let authMode='login';
+
+function trackEvent(n){if(typeof goatcounter!=='undefined'&&goatcounter.count){goatcounter.count({path:n,title:n,event:true});}}
+function showToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('active');setTimeout(function(){t.classList.remove('active');},3000);}
+function showLoading(m){document.getElementById('loadingText').textContent=m||'جاري التحميل...';document.getElementById('loadingOverlay').classList.add('active');}
+function hideLoading(){document.getElementById('loadingOverlay').classList.remove('active');}
+
+const authOverlay=document.getElementById('authOverlay'),authForm=document.getElementById('authForm'),authEmail=document.getElementById('authEmail'),authPassword=document.getElementById('authPassword'),authSubmitBtn=document.getElementById('authSubmitBtn'),authError=document.getElementById('authError'),authSuccess=document.getElementById('authSuccess'),authSwitchEl=document.getElementById('authSwitch'),authSubtitle=document.getElementById('authSubtitle'),confirmPasswordField=document.getElementById('confirmPasswordField'),authPassword2=document.getElementById('authPassword2');
+function showAuthError(m){authError.textContent=m;authError.classList.add('show');authSuccess.classList.remove('show');}
+function showAuthSuccess(m){authSuccess.textContent=m;authSuccess.classList.add('show');authError.classList.remove('show');}
+function clearAuthMessages(){authError.classList.remove('show');authSuccess.classList.remove('show');}
+function setAuthMode(mode){
+  authMode=mode;clearAuthMessages();
+  if(mode==='signup'){
+    authSubtitle.textContent='أنشئ حسابك الجديد';authSubmitBtn.textContent='إنشاء حساب';
+    authSwitchEl.innerHTML='عندك حساب؟ <button type="button" id="authToggleMode">سجّل دخول</button>';
+    confirmPasswordField.style.display='block';authPassword2.required=true;authPassword.setAttribute('autocomplete','new-password');
+  } else {
+    authSubtitle.textContent='سجّل دخولك للبدء';authSubmitBtn.textContent='دخول';
+    authSwitchEl.innerHTML='ما عندك حساب؟ <button type="button" id="authToggleMode">أنشئ حساب</button>';
+    confirmPasswordField.style.display='none';authPassword2.required=false;authPassword2.value='';authPassword.setAttribute('autocomplete','current-password');
+  }
+  document.getElementById('authToggleMode').addEventListener('click',function(){setAuthMode(authMode==='login'?'signup':'login');});
+}
+setAuthMode('login');
+
+authForm.addEventListener('submit',async function(e){
+  e.preventDefault();clearAuthMessages();
+  const email=authEmail.value.trim();const password=authPassword.value;
+  if(!email||!password){showAuthError('عبّئ كل الحقول');return;}
+  if(password.length<6){showAuthError('كلمة المرور 6 أحرف على الأقل');return;}
+  authSubmitBtn.disabled=true;const orig=authSubmitBtn.textContent;authSubmitBtn.textContent='جاري...';
+  try{
+    if(authMode==='signup'){
+      const pass2=authPassword2.value;
+      if(password!==pass2){showAuthError('كلمتا المرور غير متطابقتين');authSubmitBtn.disabled=false;authSubmitBtn.textContent=orig;return;}
+      const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin+window.location.pathname}});
+      if(error)throw error;
+      if(data.user&&!data.session){showAuthSuccess('✅ تم إنشاء الحساب! افتح بريدك واضغط رابط التأكيد.');}
+      else if(data.session){onLoginSuccess(data.user);}
+    } else {
+      const {data,error}=await sb.auth.signInWithPassword({email,password});
+      if(error)throw error;onLoginSuccess(data.user);
+    }
+  } catch(err){
+    const msg=(err&&err.message)?err.message:'حدث خطأ';
+    if(msg.includes('Invalid login'))showAuthError('البريد أو كلمة المرور غير صحيحة');
+    else if(msg.includes('already registered')||msg.includes('User already registered'))showAuthError('هذا البريد مسجّل مسبقاً');
+    else if(msg.includes('Email not confirmed'))showAuthError('لازم تأكيد البريد أولاً');
+    else showAuthError(msg);
+  } finally{authSubmitBtn.disabled=false;authSubmitBtn.textContent=orig;}
+});
+
+document.getElementById('logoutBtn').addEventListener('click',async function(){if(!confirm('تسجيل الخروج؟'))return;await sb.auth.signOut();currentUser=null;location.reload();});
+
+function onLoginSuccess(user){
+  currentUser=user;
+  authOverlay.classList.add('hidden');
+  document.getElementById('appRoot').classList.add('ready');
+  const chip=document.getElementById('userChip');if(chip&&user)chip.textContent=user.email||'مستخدم';
+}
+
+(async function initAuth(){
+  try{
+    if(window.location.hash&&window.location.hash.includes('access_token')){await new Promise(function(r){setTimeout(r,600);});}
+    const {data:{session}}=await sb.auth.getSession();
+    if(session&&session.user){onLoginSuccess(session.user);if(window.location.hash){setTimeout(function(){history.replaceState(null,'',window.location.pathname);},500);}}
+    else{authOverlay.classList.remove('hidden');}
+  }catch(e){console.error('Auth init error:',e);authOverlay.classList.remove('hidden');}
+})();
+
+sb.auth.onAuthStateChange(function(event,session){
+  if(event==='SIGNED_OUT'){currentUser=null;authOverlay.classList.remove('hidden');document.getElementById('appRoot').classList.remove('ready');}
+  if(event==='SIGNED_IN'&&session&&session.user){onLoginSuccess(session.user);if(window.location.hash){setTimeout(function(){history.replaceState(null,'',window.location.pathname);},500);}}
+  if(event==='PASSWORD_RECOVERY'){document.getElementById('resetOverlay').classList.add('active');}
+});
+
+document.getElementById('forgotBtn').addEventListener('click',async function(){
+  const email=prompt('اكتب إيميلك لإرسال رابط إعادة التعيين:');
+  if(!email)return;if(!email.includes('@')){showToast('إيميل غير صحيح');return;}
+  try{const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+window.location.pathname});if(error)throw error;showToast('✅ تم إرسال الرابط');}
+  catch(err){console.error(err);showToast('فشل الإرسال: '+(err.message||'خطأ'));}
+});
+
+document.getElementById('resetForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const p1=document.getElementById('resetPassword').value,p2=document.getElementById('resetPassword2').value;
+  const errEl=document.getElementById('resetError');errEl.classList.remove('show');
+  if(p1.length<6){errEl.textContent='كلمة المرور 6 أحرف على الأقل';errEl.classList.add('show');return;}
+  if(p1!==p2){errEl.textContent='كلمتا المرور غير متطابقتين';errEl.classList.add('show');return;}
+  const btn=document.getElementById('resetBtn');btn.disabled=true;btn.textContent='جاري...';
+  try{
+    const {error}=await sb.auth.updateUser({password:p1});if(error)throw error;
+    showToast('✅ تم تحديث كلمة المرور');
+    document.getElementById('resetOverlay').classList.remove('active');
+    document.getElementById('resetForm').reset();
+    setTimeout(function(){window.location.hash='';window.location.reload();},1200);
+  }catch(err){errEl.textContent=err.message||'فشل';errEl.classList.add('show');}
+  finally{btn.disabled=false;btn.textContent='تحديث كلمة المرور';}
+});
+
+var images=[];
+var audioUpload=null,musicFile=null;
+var currentSize='1080x1080',currentTransition='fade',currentLayout='single';
+var selectedImageIndex=-1;
+var isExporting=false,isPreviewing=false,previewAnimationId=null;
+var mediaRecorder=null,audioChunks=[],recordedAudioBlob=null,recordingStartTime=0,recordingTimerInterval=null,recordingStream=null,selectedAudio=null;
+var cropCanvas=null,cropRect=null,cropOriginalImage=null,cropScale=1;
+var currentProjectId=null;
+var textElements=[],stickers=[],watermark=null;
+var selectedElementId=null;
+var currentTextPosition='mc',currentStickerPosition='mc';
+
+var POSITIONS={
+  'tl':{x:0.15,y:0.15},'tc':{x:0.5,y:0.15},'tr':{x:0.85,y:0.15},
+  'ml':{x:0.15,y:0.5},'mc':{x:0.5,y:0.5},'mr':{x:0.85,y:0.5},
+  'bl':{x:0.15,y:0.85},'bc':{x:0.5,y:0.85},'br':{x:0.85,y:0.85}
+};
+var POSITION_LABELS={'tl':'↖','tc':'↑','tr':'↗','ml':'←','mc':'●','mr':'→','bl':'↙','bc':'↓','br':'↘'};
+
+var LAYOUTS=[
+  {id:'single',name:'صورة واحدة',count:1,cells:[{x:0,y:0,w:1,h:1}]},
+  {id:'splitH',name:'صورتان جنب',count:2,cells:[{x:0,y:0,w:0.5,h:1},{x:0.5,y:0,w:0.5,h:1}]},
+  {id:'splitV',name:'صورتان فوق',count:2,cells:[{x:0,y:0,w:1,h:0.5},{x:0,y:0.5,w:1,h:0.5}]},
+  {id:'triple',name:'3 صور',count:3,cells:[{x:0,y:0,w:0.5,h:0.5},{x:0.5,y:0,w:0.5,h:0.5},{x:0,y:0.5,w:1,h:0.5}]},
+  {id:'grid4',name:'4 صور',count:4,cells:[{x:0,y:0,w:0.5,h:0.5},{x:0.5,y:0,w:0.5,h:0.5},{x:0,y:0.5,w:0.5,h:0.5},{x:0.5,y:0.5,w:0.5,h:0.5}]},
+  {id:'overlay',name:'تراكب',count:2,cells:[{x:0,y:0,w:1,h:1},{x:0.65,y:0.65,w:0.3,h:0.3,overlay:true}]}
+];
+
+var TEMPLATE_CATEGORIES=[
+  {id:'all',name:'الكل',emoji:'✨'},
+  {id:'religious',name:'ديني',emoji:'🕌'},
+  {id:'occasions',name:'مناسبات',emoji:'🎉'},
+  {id:'national',name:'وطني',emoji:'🇸🇦'},
+  {id:'travel',name:'سفر',emoji:'✈️'},
+  {id:'business',name:'أعمال',emoji:'💼'},
+  {id:'social',name:'سوشيال',emoji:'📱'},
+  {id:'mood',name:'مشاعر',emoji:'❤️'},
+  {id:'family',name:'عائلة',emoji:'👨‍👩‍👧'},
+  {id:'shapes',name:'أشكال',emoji:'🎨'}
+];
+var currentTemplateCategory='all';
+
+var TEMPLATES=[
+  {id:'ramadan',cat:'religious',name:'رمضان',emoji:'🌙',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'eid_fitr',cat:'religious',name:'عيد فطر',emoji:'🌙',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'eid_adha',cat:'religious',name:'عيد أضحى',emoji:'🐑',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'hajj',cat:'religious',name:'حج',emoji:'🕋',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'umrah',cat:'religious',name:'عمرة',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'mawlid',cat:'religious',name:'مولد نبوي',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'pulse'},
+  {id:'quran',cat:'religious',name:'قرآن',emoji:'📖',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'dua',cat:'religious',name:'دعاء',emoji:'🤲',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},
+  {id:'ashura',cat:'religious',name:'عاشوراء',emoji:'🕯️',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},
+  {id:'jumuah',cat:'religious',name:'جمعة',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+
+  {id:'graduation',cat:'occasions',name:'تخرج',emoji:'🎓',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'wedding',cat:'occasions',name:'زواج',emoji:'💍',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'engagement',cat:'occasions',name:'خطوبة',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'baby',cat:'occasions',name:'مولود',emoji:'👶',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
+  {id:'birthday',cat:'occasions',name:'عيد ميلاد',emoji:'🎂',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'congrats',cat:'occasions',name:'تهنئة',emoji:'🎊',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
+  {id:'condolence',cat:'occasions',name:'عزاء',emoji:'🖤',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
+  {id:'new_year',cat:'occasions',name:'سنة جديدة',emoji:'🎆',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'anniversary',cat:'occasions',name:'ذكرى سنوية',emoji:'🥂',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'thanks',cat:'occasions',name:'شكر',emoji:'🙏',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'success',cat:'occasions',name:'نجاح',emoji:'🏆',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'promotion',cat:'occasions',name:'ترقية',emoji:'📈',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+
+  {id:'national',cat:'national',name:'يوم وطني',emoji:'🇸🇦',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},
+  {id:'founding',cat:'national',name:'يوم التأسيس',emoji:'🏛️',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'flag_day',cat:'national',name:'يوم العلم',emoji:'🚩',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+
+  {id:'travel',cat:'travel',name:'سفر',emoji:'✈️',size:'1080x1080',transition:'slideRight',layout:'single',animation:'kenRight'},
+  {id:'beach',cat:'travel',name:'شاطئ',emoji:'🏖️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'panDown'},
+  {id:'mountains',cat:'travel',name:'جبال',emoji:'🏔️',size:'1080x1350',transition:'slideRight',layout:'single',animation:'kenRight'},
+  {id:'desert',cat:'travel',name:'صحراء',emoji:'🏜️',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'nature',cat:'travel',name:'طبيعة',emoji:'🌿',size:'1080x1080',transition:'fade',layout:'single',animation:'kenLeft'},
+  {id:'sunset',cat:'travel',name:'غروب',emoji:'🌅',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'city',cat:'travel',name:'مدينة',emoji:'🏙️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+
+  {id:'business',cat:'business',name:'إعلان',emoji:'📢',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+  {id:'product',cat:'business',name:'منتج',emoji:'🛍️',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
+  {id:'sale',cat:'business',name:'تخفيض',emoji:'🏷️',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'store',cat:'business',name:'متجر',emoji:'🏪',size:'1080x1080',transition:'slideRight',layout:'single',animation:'zoomIn'},
+  {id:'restaurant',cat:'business',name:'مطعم',emoji:'🍽️',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'cafe',cat:'business',name:'مقهى',emoji:'☕',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'realestate',cat:'business',name:'عقار',emoji:'🏠',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+  {id:'car',cat:'business',name:'سيارة',emoji:'🚗',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},
+  {id:'services',cat:'business',name:'خدمات',emoji:'🛠️',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+
+  {id:'story',cat:'social',name:'ستوري',emoji:'📱',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
+  {id:'reels',cat:'social',name:'ريلز',emoji:'🎞️',size:'1080x1920',transition:'zoom',layout:'single',animation:'kenRight'},
+  {id:'tiktok',cat:'social',name:'تيك توك',emoji:'🎵',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
+  {id:'youtube',cat:'social',name:'يوتيوب',emoji:'▶️',size:'1920x1080',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'instagram',cat:'social',name:'انستقرام',emoji:'📷',size:'1080x1350',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'snapchat',cat:'social',name:'سناب',emoji:'👻',size:'1080x1920',transition:'slideUp',layout:'single',animation:'pulse'},
+  {id:'twitter',cat:'social',name:'تويتر',emoji:'🐦',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'podcast',cat:'social',name:'بودكاست',emoji:'🎙️',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
+
+  {id:'love',cat:'mood',name:'حب',emoji:'❤️',size:'1080x1350',transition:'fade',layout:'single',animation:'pulse'},
+  {id:'sad',cat:'mood',name:'حزن',emoji:'💔',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
+  {id:'joy',cat:'mood',name:'فرح',emoji:'😊',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'hope',cat:'mood',name:'أمل',emoji:'🌅',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'motivation',cat:'mood',name:'تحفيز',emoji:'💪',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},
+  {id:'memory',cat:'mood',name:'ذكرى',emoji:'📸',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'friendship',cat:'mood',name:'صداقة',emoji:'🤝',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
+  {id:'peace',cat:'mood',name:'هدوء',emoji:'🕊️',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
+  {id:'miss_you',cat:'mood',name:'اشتقت',emoji:'💭',size:'1080x1350',transition:'fade',layout:'single',animation:'kenLeft'},
+  {id:'dream',cat:'mood',name:'حلم',emoji:'✨',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'football',cat:'mood',name:'كرة قدم',emoji:'⚽',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},
+  {id:'sport',cat:'mood',name:'رياضة',emoji:'🏃',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
+
+  {id:'family',cat:'family',name:'عائلة',emoji:'👨‍👩‍👧',size:'1080x1080',transition:'fade',layout:'grid4',animation:'zoomIn'},
+  {id:'kids',cat:'family',name:'أطفال',emoji:'🧒',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},
+  {id:'school',cat:'family',name:'مدرسة',emoji:'📚',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+  {id:'kindergarten',cat:'family',name:'روضة',emoji:'🧸',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},
+  {id:'mother',cat:'family',name:'أمي',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'father',cat:'family',name:'أبي',emoji:'👔',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+
+  {id:'grid',cat:'shapes',name:'شبكة',emoji:'🎨',size:'1080x1080',transition:'slideUp',layout:'grid4',animation:'zoomIn'},
+  {id:'split',cat:'shapes',name:'مقسّم',emoji:'📐',size:'1920x1080',transition:'slideLeft',layout:'splitH',animation:'panRight'},
+  {id:'triple_tpl',cat:'shapes',name:'ثلاثي',emoji:'🎯',size:'1080x1080',transition:'zoom',layout:'triple',animation:'zoomIn'},
+  {id:'overlay_tpl',cat:'shapes',name:'تراكب',emoji:'🖼️',size:'1080x1920',transition:'fade',layout:'overlay',animation:'zoomIn'},
+  {id:'collage',cat:'shapes',name:'كولاج',emoji:'✨',size:'1080x1080',transition:'zoom',layout:'grid4',animation:'pulse'},
+  {id:'vertical_split',cat:'shapes',name:'فوق وتحت',emoji:'📏',size:'1080x1080',transition:'slideUp',layout:'splitV',animation:'zoomIn'},
+  {id:'before_after',cat:'shapes',name:'قبل/بعد',emoji:'🔀',size:'1080x1080',transition:'slideRight',layout:'splitH',animation:'none'}
+];
+
+var EMOJIS=['😀','😂','😍','🥰','😎','🤩','😭','😱','🤔','🙄','😴','🤗','👍','👏','🙏','👌','✌️','🤝','💪','❤️','💕','💖','💔','✨','⭐','🌟','🔥','⚡','💫','🎉','🎊','🎈','🎁','🎂','🎓','👑','💎','🌸','🌹','🌺','🌻','🍀','🌈','☀️','🌙','⭐','🍕','🍔','☕','🍦','⚽','🏀','🎮','🎵','🎶','📱','💻','📸','💯','✅','❗','❓','💬','📍','🚀'];
+
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-btn').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
+  if(name==='animate')updateAnimateTab();
+}
+
+document.getElementById('imageInput').addEventListener('change',function(e){
+  var files=Array.from(e.target.files);
+  if(files.length===0)return;
+  if(images.length+files.length>30){showToast('الحد الأقصى 30 صورة');return;}
+  var loaded=0,total=files.length;
+  files.forEach(function(file){
+    if(!file.type.startsWith('image/'))return;
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      var img=new Image();
+      img.onload=function(){
+        images.push({img:img,originalImg:img,animation:'none',duration:3,rotation:0,flipH:false,flipV:false,src:ev.target.result,speed:1,crop:null});
+        loaded++;
+        if(loaded===total){renderImagesGrid();renderLayouts();updateButtons();updateInfo();showToast('تم إضافة '+total+' صورة');}
+      };
+      img.src=ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value='';
+});
+
+function renderImagesGrid(){
+  var grid=document.getElementById('imagesGrid');
+  var emptyHint=document.getElementById('imagesEmpty');
+  grid.innerHTML='';
+  if(images.length===0){emptyHint.style.display='block';selectedImageIndex=-1;updateAnimateTab();return;}
+  emptyHint.style.display='none';
+  images.forEach(function(item,index){
+    var el=document.createElement('div');
+    el.className='image-item'+(index===selectedImageIndex?' selected':'');
+    el.draggable=true;el.dataset.index=index;
+    var imgEl=document.createElement('img');imgEl.src=item.src;
+    var transform='rotate('+item.rotation+'deg)';
+    if(item.flipH)transform+=' scaleX(-1)';
+    if(item.flipV)transform+=' scaleY(-1)';
+    imgEl.style.transform=transform;
+    var removeBtn=document.createElement('button');removeBtn.className='image-remove';removeBtn.textContent='×';
+    removeBtn.onclick=function(e){e.stopPropagation();removeImage(index);};
+    var order=document.createElement('div');order.className='image-order';order.textContent=index+1;
+    if(item.animation!=='none'){var badge=document.createElement('div');badge.className='image-badge';badge.textContent=getAnimationLabel(item.animation);el.appendChild(badge);}
+    if(item.crop){var cb=document.createElement('div');cb.className='image-badge';cb.style.background='rgba(239,68,68,0.9)';cb.textContent='✂️';el.appendChild(cb);}
+    el.appendChild(imgEl);el.appendChild(removeBtn);el.appendChild(order);
+    el.addEventListener('click',function(){selectImage(index);});
+    el.addEventListener('dragstart',handleDragStart);
+    el.addEventListener('dragover',handleDragOver);
+    el.addEventListener('drop',handleDrop);
+    el.addEventListener('dragend',handleDragEnd);
+    grid.appendChild(el);
+  });
+}
+function getAnimationLabel(a){var l={'none':'ثابتة','zoomIn':'زوم+','zoomOut':'زوم-','panRight':'→','panLeft':'←','panUp':'↑','panDown':'↓','rotate':'↻','pulse':'◎','fadeIn':'ظهور','kenRight':'Ken→','kenLeft':'Ken←','shake':'اهتزاز','bounce':'قفز','flip':'انقلاب'};return l[a]||'';}
+
+function renderLayouts(){
+  var grid=document.getElementById('layoutsGrid');if(!grid)return;grid.innerHTML='';
+  LAYOUTS.forEach(function(layout){
+    var card=document.createElement('div');
+    card.className='layout-card'+(layout.id===currentLayout?' active':'');
+    card.onclick=function(){selectLayout(layout.id);};
+    var preview=document.createElement('div');
+    preview.className='layout-preview layout-'+getPreviewClass(layout.id);
+    layout.cells.forEach(function(){preview.appendChild(document.createElement('div'));});
+    card.appendChild(preview);grid.appendChild(card);
+  });
+}
+function getPreviewClass(id){var m={'single':'1','splitH':'2h','splitV':'2v','triple':'3','grid4':'4','overlay':'overlay'};return m[id]||'1';}
+function selectLayout(id){currentLayout=id;renderLayouts();updateInfo();var layout=LAYOUTS.find(function(l){return l.id===id;});if(layout)showToast('التخطيط: '+layout.name);}
+function selectImage(index){
+  selectedImageIndex=index;
+  document.querySelectorAll('.image-item').forEach(function(el,i){if(i===index)el.classList.add('selected');else el.classList.remove('selected');});
+  updateAnimateTab();
+  var animateBtn=document.querySelector('.tab-btn[onclick*="animate"]');
+  if(animateBtn){document.querySelectorAll('.tab-btn').forEach(function(t){t.classList.remove('active');});document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});animateBtn.classList.add('active');document.getElementById('panel-animate').classList.add('active');}
+}
+function updateAnimateTab(){
+  var emptyEl=document.getElementById('animateEmpty'),contentEl=document.getElementById('animateContent');
+  if((selectedImageIndex<0||selectedImageIndex>=images.length)&&images.length>0){selectedImageIndex=0;document.querySelectorAll('.image-item').forEach(function(el,i){if(i===0)el.classList.add('selected');});}
+  if(selectedImageIndex<0||selectedImageIndex>=images.length){emptyEl.classList.remove('section-hidden');contentEl.classList.add('section-hidden');return;}
+  emptyEl.classList.add('section-hidden');contentEl.classList.remove('section-hidden');
+  var item=images[selectedImageIndex];
+  document.querySelectorAll('#animationOptions .opt-btn').forEach(function(btn){btn.classList.toggle('active',btn.dataset.animation===item.animation);});
+  document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn){btn.classList.toggle('active',parseInt(btn.dataset.duration)===item.duration);});
+  var speed=item.speed!==undefined?item.speed:1;
+  document.querySelectorAll('#speedOptions .opt-btn').forEach(function(btn){btn.classList.toggle('active',parseFloat(btn.dataset.speed)===speed);});
+  document.getElementById('customDuration').value=item.duration;
+}
+var dragIndex=null;
+function handleDragStart(e){dragIndex=parseInt(this.dataset.index);e.dataTransfer.effectAllowed='move';}
+function handleDragOver(e){e.preventDefault();}
+function handleDrop(e){e.preventDefault();var dropIndex=parseInt(this.dataset.index);if(dragIndex===null||dragIndex===dropIndex)return;var m=images.splice(dragIndex,1)[0];images.splice(dropIndex,0,m);if(selectedImageIndex===dragIndex)selectedImageIndex=dropIndex;else if(selectedImageIndex===dropIndex)selectedImageIndex=dragIndex;renderImagesGrid();}
+function handleDragEnd(){dragIndex=null;}
+function removeImage(index){images.splice(index,1);if(selectedImageIndex===index)selectedImageIndex=-1;else if(selectedImageIndex>index)selectedImageIndex--;renderImagesGrid();updateButtons();updateInfo();updateAnimateTab();}
+function rotateImage(deg){if(selectedImageIndex<0)return;images[selectedImageIndex].rotation=(images[selectedImageIndex].rotation+deg)%360;renderImagesGrid();document.querySelectorAll('.image-item')[selectedImageIndex].classList.add('selected');}
+function flipImage(dir){if(selectedImageIndex<0)return;if(dir==='h')images[selectedImageIndex].flipH=!images[selectedImageIndex].flipH;if(dir==='v')images[selectedImageIndex].flipV=!images[selectedImageIndex].flipV;renderImagesGrid();document.querySelectorAll('.image-item')[selectedImageIndex].classList.add('selected');}
+function resetImageEdits(){if(selectedImageIndex<0)return;images[selectedImageIndex].rotation=0;images[selectedImageIndex].flipH=false;images[selectedImageIndex].flipV=false;images[selectedImageIndex].crop=null;images[selectedImageIndex].img=images[selectedImageIndex].originalImg;renderImagesGrid();document.querySelectorAll('.image-item')[selectedImageIndex].classList.add('selected');showToast('تم إعادة الصورة');}
+function applyCustomDuration(){if(selectedImageIndex<0)return;var val=parseInt(document.getElementById('customDuration').value);if(val<1||val>60){showToast('المدة: 1-60 ثانية');return;}images[selectedImageIndex].duration=val;document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn){btn.classList.remove('active');});updateInfo();showToast('تم تحديث المدة');}
+
+document.querySelectorAll('#animationOptions .opt-btn').forEach(function(btn){btn.addEventListener('click',function(){if(selectedImageIndex<0)return;images[selectedImageIndex].animation=this.dataset.animation;document.querySelectorAll('#animationOptions .opt-btn').forEach(function(b){b.classList.remove('active');});this.classList.add('active');renderImagesGrid();document.querySelectorAll('.image-item')[selectedImageIndex].classList.add('selected');});});
+document.querySelectorAll('#speedOptions .opt-btn').forEach(function(btn){btn.addEventListener('click',function(){if(selectedImageIndex<0)return;images[selectedImageIndex].speed=parseFloat(this.dataset.speed);document.querySelectorAll('#speedOptions .opt-btn').forEach(function(b){b.classList.remove('active');});this.classList.add('active');});});
+document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(btn){btn.addEventListener('click',function(){if(selectedImageIndex<0)return;var dur=parseInt(this.dataset.duration);images[selectedImageIndex].duration=dur;document.getElementById('customDuration').value=dur;document.querySelectorAll('#imageDurationOptions .opt-btn').forEach(function(b){b.classList.remove('active');});this.classList.add('active');updateInfo();});});
+document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(b){b.classList.remove('active');});this.classList.add('active');currentSize=this.dataset.size;updateInfo();});});
+document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(b){b.classList.remove('active');});this.classList.add('active');currentTransition=this.dataset.transition;updateInfo();});});
+
+function updateButtons(){var h=images.length>0;document.getElementById('previewBtn').disabled=!h;document.getElementById('exportBtn').disabled=!h;}
+function updateInfo(){
+  var td=0;images.forEach(function(i){td+=i.duration;});
+  var emb=(td*5/8).toFixed(1);var sz=currentSize.split('x');
+  var layout=LAYOUTS.find(function(l){return l.id===currentLayout;});
+  document.getElementById('infoImages').textContent=images.length;
+  document.getElementById('infoDuration').textContent=td+' ثانية';
+  document.getElementById('infoSize').textContent='~'+emb+' MB';
+  document.getElementById('infoDimensions').textContent=sz[0]+' × '+sz[1];
+  document.getElementById('infoLayout').textContent=layout?layout.name:'صورة واحدة';
+  var ln=document.getElementById('layoutName');if(ln)ln.textContent=layout?layout.name:'صورة واحدة';
+  var tL={'fade':'تلاشي','slideRight':'انزلاق يمين','slideLeft':'انزلاق يسار','slideUp':'انزلاق فوق','zoom':'تكبير','rotate':'دوران','book':'فتح كتاب','fold':'طي','none':'بدون'};
+  document.getElementById('infoTransition').textContent=tL[currentTransition]||currentTransition;
+  document.getElementById('infoTexts').textContent=textElements.length;
+  document.getElementById('infoStickers').textContent=stickers.length;
+  document.getElementById('infoWatermark').textContent=(watermark&&watermark.enabled)?'مفعّل':'معطّل';
+  var al='بدون';
+  if(selectedAudio==='record')al='تسجيل صوتي';else if(selectedAudio==='upload')al='ملف مرفوع';
+  if(musicFile)al=al==='بدون'?'موسيقى':al+' + موسيقى';
+  document.getElementById('infoAudio').textContent=al;
+}
+
+function drawImageInCell(ctx,item,x,y,w,h,opacity,animProgress){
+  if(opacity===undefined)opacity=1;if(animProgress===undefined)animProgress=0;
+  ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();
+  var img=item.img;var p=Math.min(1,Math.max(0,animProgress));
+  ctx.globalAlpha=opacity;
+  var ir=img.width/img.height,cr=w/h,dw,dh;
+  if(ir>cr){dh=h;dw=img.width*(h/img.height);}else{dw=w;dh=img.height*(w/img.width);}
+  var cx=x+w/2,cy=y+h/2;ctx.translate(cx,cy);
+  if(item.rotation)ctx.rotate(item.rotation*Math.PI/180);
+  if(item.flipH)ctx.scale(-1,1);if(item.flipV)ctx.scale(1,-1);
+  var speed=item.speed!==undefined?item.speed:1;var sp=Math.min(1,p*speed);
+  var scale=1,oX=0,oY=0,alpha=1;
+  switch(item.animation){
+    case 'zoomIn':scale=1+sp*0.3;break;
+    case 'zoomOut':scale=1.3-sp*0.3;break;
+    case 'panRight':scale=1.2;oX=(sp-0.5)*w*0.15;break;
+    case 'panLeft':scale=1.2;oX=-(sp-0.5)*w*0.15;break;
+    case 'panUp':scale=1.2;oY=-(sp-0.5)*h*0.15;break;
+    case 'panDown':scale=1.2;oY=(sp-0.5)*h*0.15;break;
+    case 'rotate':scale=1.1;ctx.rotate(sp*Math.PI*0.1);break;
+    case 'pulse':scale=1+Math.sin(sp*Math.PI*2)*0.08;break;
+    case 'fadeIn':alpha=Math.min(1,sp*1.5);break;
+    case 'kenRight':scale=1+sp*0.25;oX=(sp-0.5)*w*0.1;break;
+    case 'kenLeft':scale=1+sp*0.25;oX=-(sp-0.5)*w*0.1;break;
+    case 'shake':oX=Math.sin(sp*Math.PI*20)*w*0.02*(1-sp);break;
+    case 'bounce':oY=-Math.abs(Math.sin(sp*Math.PI*3))*h*0.05;break;
+    case 'flip':ctx.scale(Math.cos(sp*Math.PI),1);break;
+  }
+  ctx.globalAlpha=opacity*alpha;
+  ctx.scale(scale,scale);ctx.translate(oX,oY);
+  ctx.drawImage(img,-dw/2,-dh/2,dw,dh);ctx.restore();
+}
+
+function drawLayout(ctx,startIndex,canvasW,canvasH,opacity,animProgress){
+  if(opacity===undefined)opacity=1;if(animProgress===undefined)animProgress=0;
+  var layout=LAYOUTS.find(function(l){return l.id===currentLayout;});if(!layout)return;
+  ctx.fillStyle='#000';ctx.fillRect(0,0,canvasW,canvasH);
+  layout.cells.forEach(function(cell,i){
+    var imgIdx=(startIndex+i)%images.length;var item=images[imgIdx];if(!item)return;
+    var x=cell.x*canvasW,y=cell.y*canvasH,w=cell.w*canvasW,h=cell.h*canvasH;
+    if(cell.overlay){ctx.save();ctx.shadowColor='rgba(0,0,0,0.5)';ctx.shadowBlur=15;ctx.fillStyle='#fff';ctx.fillRect(x-5,y-5,w+10,h+10);ctx.restore();}
+    drawImageInCell(ctx,item,x,y,w,h,opacity,animProgress);
+  });
+}
+
+function drawTransition(ctx,prevStart,nextStart,canvasW,canvasH,progress){
+  var t=Math.min(1,Math.max(0,progress));var ease=1-Math.pow(1-t,3);
+  drawLayout(ctx,prevStart,canvasW,canvasH,1,1);
+  ctx.save();
+  switch(currentTransition){
+    case 'fade':ctx.globalAlpha=ease;drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;
+    case 'slideRight':ctx.translate(canvasW*(1-ease),0);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;
+    case 'slideLeft':ctx.translate(-canvasW*(1-ease),0);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;
+    case 'slideUp':ctx.translate(0,canvasH*(1-ease));drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;
+    case 'zoom':var zs=0.3+ease*0.7;ctx.translate(canvasW/2,canvasH/2);ctx.scale(zs,zs);ctx.globalAlpha=ease;ctx.translate(-canvasW/2,-canvasH/2);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;
+    case 'rotate':ctx.translate(canvasW/2,canvasH/2);ctx.rotate(ease*Math.PI*2);var rs=0.2+ease*0.8;ctx.scale(rs,rs);ctx.globalAlpha=ease;ctx.translate(-canvasW/2,-canvasH/2);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;
+    case 'book':var ba=ease*Math.PI;ctx.translate(canvasW,canvasH/2);ctx.rotate(-Math.PI+ba);ctx.globalAlpha=ease;ctx.translate(-canvasW,-canvasH/2);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;
+    case 'fold':var fa=ease*Math.PI/2;ctx.translate(canvasW/2,canvasH/2);ctx.scale(Math.cos(fa),1);ctx.globalAlpha=ease;ctx.translate(-canvasW/2,-canvasH/2);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;
+    default:drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;
+  }
+  ctx.restore();
+}
+
+function drawTextElement(ctx,el,cw,ch){
+  var fs=el.size*Math.min(cw,ch)/100;
+  ctx.save();
+  ctx.font='bold '+fs+'px '+el.font;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.translate(el.x*cw,el.y*ch);
+  if(el.rotation)ctx.rotate(el.rotation*Math.PI/180);
+  if(el.shadow){ctx.shadowColor='rgba(0,0,0,0.85)';ctx.shadowBlur=fs*0.15;ctx.shadowOffsetX=2;ctx.shadowOffsetY=2;}
+  ctx.fillStyle=el.color;
+  var lines=el.text.split('\n');
+  var lh=fs*1.2;var sy=-(lines.length-1)*lh/2;
+  lines.forEach(function(line,i){ctx.fillText(line,0,sy+i*lh);});
+  ctx.restore();
+}
+function drawStickerElement(ctx,el,cw,ch){
+  var fs=el.size*Math.min(cw,ch)/100;
+  ctx.save();
+  ctx.font=fs+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.translate(el.x*cw,el.y*ch);
+  if(el.rotation)ctx.rotate(el.rotation*Math.PI/180);
+  ctx.fillText(el.emoji,0,0);
+  ctx.restore();
+}
+function drawWatermark(ctx,cw,ch){
+  if(!watermark||!watermark.enabled)return;
+  var pad=Math.min(cw,ch)*0.03;
+  var pos=watermark.position||'br',x,y;
+  if(pos==='tl'){x=pad;y=pad;}
+  else if(pos==='tr'){x=cw-pad;y=pad;}
+  else if(pos==='bl'){x=pad;y=ch-pad;}
+  else{x=cw-pad;y=ch-pad;}
+  ctx.save();ctx.globalAlpha=watermark.opacity!==undefined?watermark.opacity:0.7;
+  if(watermark.type==='text'&&watermark.text){
+    var fs=(watermark.size||5)*Math.min(cw,ch)/100;
+    ctx.font='bold '+fs+'px '+(watermark.font||"'Cairo',sans-serif");
+    ctx.fillStyle=watermark.color||'#fff';
+    ctx.textBaseline=(pos==='tl'||pos==='tr')?'top':'bottom';
+    ctx.textAlign=(pos==='tl'||pos==='bl')?'left':'right';
+    ctx.shadowColor='rgba(0,0,0,0.5)';ctx.shadowBlur=6;
+    ctx.fillText(watermark.text,x,y);
+  } else if(watermark.type==='image'&&watermark.img){
+    var sz=(watermark.size||15)*Math.min(cw,ch)/100;
+    var ratio=watermark.img.width/watermark.img.height;
+    var w=sz,h=sz/ratio;
+    if(ratio<1){h=sz;w=sz*ratio;}
+    var dx=(pos==='tl'||pos==='bl')?x:x-w;
+    var dy=(pos==='tl'||pos==='tr')?y:y-h;
+    ctx.drawImage(watermark.img,dx,dy,w,h);
+  }
+  ctx.restore();
+}
+function drawOverlays(ctx,cw,ch){
+  textElements.forEach(function(el){drawTextElement(ctx,el,cw,ch);});
+  stickers.forEach(function(el){drawStickerElement(ctx,el,cw,ch);});
+  drawWatermark(ctx,cw,ch);
+}
+
+function getSceneCount(){var l=LAYOUTS.find(function(x){return x.id===currentLayout;});if(!l)return images.length;return Math.ceil(images.length/l.cells.length);}
+function getSceneDuration(si){var l=LAYOUTS.find(function(x){return x.id===currentLayout;});if(!l)return 3;var ip=l.cells.length;var md=3;for(var i=0;i<ip;i++){var idx=si*ip+i;if(images[idx])md=Math.max(md,images[idx].duration);}return md;}
+
+function previewVideo(){
+  if(images.length===0)return;
+  var pc=document.getElementById('previewCard');
+  if(pc&&!isPreviewing){setTimeout(function(){pc.scrollIntoView({behavior:'smooth',block:'start'});},100);}
+  if(isPreviewing){isPreviewing=false;if(previewAnimationId)cancelAnimationFrame(previewAnimationId);document.getElementById('previewBtn').textContent='▶ معاينة';return;}
+  isPreviewing=true;trackEvent('montage-معاينة');
+  document.getElementById('previewBtn').textContent='⏹ إيقاف';
+  var canvas=document.getElementById('previewCanvas');
+  var ph=document.getElementById('previewEmpty');
+  var sz=currentSize.split('x');var w=parseInt(sz[0]),h=parseInt(sz[1]);
+  var ps=Math.min(400/w,400/h,1);
+  canvas.width=w*ps;canvas.height=h*ps;
+  canvas.style.display='block';ph.style.display='none';
+  var ctx=canvas.getContext('2d');
+  var ts=getSceneCount(),cs=0,st=Date.now();
+  function animate(){
+    if(!isPreviewing)return;
+    var d=getSceneDuration(cs);var el=(Date.now()-st)/1000;var p=el/d;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    var l=LAYOUTS.find(function(x){return x.id===currentLayout;});
+    var ip=l?l.cells.length:1;var si=cs*ip;
+    if(p>0.75&&currentTransition!=='none'&&cs<ts-1){
+      var tp=(p-0.75)/0.25;var ns=(cs+1)*ip;
+      drawTransition(ctx,si,ns,canvas.width,canvas.height,tp);
+    } else {
+      drawLayout(ctx,si,canvas.width,canvas.height,1,p);
+    }
+    drawOverlays(ctx,canvas.width,canvas.height);
+    if(p>=1){cs++;st=Date.now();if(cs>=ts){cs=0;st=Date.now();}}
+    previewAnimationId=requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+function resetAll(){
+  if(!confirm('حذف كل شيء؟'))return;
+  images=[];audioUpload=null;musicFile=null;recordedAudioBlob=null;selectedAudio=null;
+  textElements=[];stickers=[];watermark=null;
+  isPreviewing=false;selectedImageIndex=-1;currentLayout='single';currentProjectId=null;
+  if(previewAnimationId)cancelAnimationFrame(previewAnimationId);
+  renderImagesGrid();renderLayouts();updateButtons();updateInfo();updateAnimateTab();
+  renderElementsList();
+  document.getElementById('musicInfo').classList.add('section-hidden');
+  document.getElementById('audioUploadInfo').classList.add('section-hidden');
+  document.getElementById('recordPlayer').classList.remove('active');
+  document.getElementById('recordActions').classList.add('section-hidden');
+  document.getElementById('previewCanvas').style.display='none';
+  document.getElementById('previewEmpty').style.display='block';
+  document.getElementById('progressContainer').classList.remove('active');
+  document.getElementById('shareRow').classList.add('section-hidden');
+  document.getElementById('wmPreviewInfo').classList.add('section-hidden');
+  document.getElementById('wmContent').classList.add('section-hidden');
+  document.getElementById('wmOff').classList.add('active');
+  document.getElementById('wmOn').classList.remove('active');
+  showToast('تم إعادة التعيين');
+}
+
+function openCrop(){
+  if(selectedImageIndex<0){showToast('اختر صورة أولاً');return;}
+  var item=images[selectedImageIndex];cropOriginalImage=item.img;
+  document.getElementById('cropOverlay').classList.add('active');
+  var canvas=document.getElementById('cropCanvas');cropCanvas=canvas;
+  var mW=window.innerWidth-40,mH=window.innerHeight*0.6;
+  var scale=Math.min(mW/cropOriginalImage.width,mH/cropOriginalImage.height,1);
+  cropScale=scale;canvas.width=cropOriginalImage.width*scale;canvas.height=cropOriginalImage.height*scale;
+  var ctx=canvas.getContext('2d');ctx.drawImage(cropOriginalImage,0,0,canvas.width,canvas.height);
+  initCropRect(canvas);
+}
+function initCropRect(canvas){
+  if(images[selectedImageIndex].crop){var c=images[selectedImageIndex].crop;cropRect={x:c.x*cropScale,y:c.y*cropScale,w:c.w*cropScale,h:c.h*cropScale};}
+  else{var s=Math.min(canvas.width,canvas.height)*0.6;cropRect={x:(canvas.width-s)/2,y:(canvas.height-s)/2,w:s,h:s};}
+  renderCrop();setupCropDrag(canvas);
+}
+function renderCrop(){
+  var canvas=cropCanvas,ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.drawImage(cropOriginalImage,0,0,canvas.width,canvas.height);
+  ctx.fillStyle='rgba(0,0,0,0.6)';
+  ctx.fillRect(0,0,canvas.width,cropRect.y);
+  ctx.fillRect(0,cropRect.y+cropRect.h,canvas.width,canvas.height);
+  ctx.fillRect(0,cropRect.y,cropRect.x,cropRect.h);
+  ctx.fillRect(cropRect.x+cropRect.w,cropRect.y,canvas.width-cropRect.x-cropRect.w,cropRect.h);
+  ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.strokeRect(cropRect.x,cropRect.y,cropRect.w,cropRect.h);
+}
+function setupCropDrag(canvas){
+  var isDragging=false,isResizing=false,rc=null,sx,sy,sr={};
+  function gp(e){var r=canvas.getBoundingClientRect();var cx=e.touches?e.touches[0].clientX:e.clientX;var cy=e.touches?e.touches[0].clientY:e.clientY;return{x:(cx-r.left)*(canvas.width/r.width),y:(cy-r.top)*(canvas.height/r.height)};}
+  function fc(p){var cs=['tl','tr','bl','br'];var ps=[{x:cropRect.x,y:cropRect.y},{x:cropRect.x+cropRect.w,y:cropRect.y},{x:cropRect.x,y:cropRect.y+cropRect.h},{x:cropRect.x+cropRect.w,y:cropRect.y+cropRect.h}];for(var i=0;i<ps.length;i++){var d=Math.sqrt(Math.pow(p.x-ps[i].x,2)+Math.pow(p.y-ps[i].y,2));if(d<25)return cs[i];}return null;}
+  function start(e){e.preventDefault();var p=gp(e);var c=fc(p);if(c){isResizing=true;rc=c;}else if(p.x>=cropRect.x&&p.x<=cropRect.x+cropRect.w&&p.y>=cropRect.y&&p.y<=cropRect.y+cropRect.h){isDragging=true;}else return;sx=p.x;sy=p.y;sr={x:cropRect.x,y:cropRect.y,w:cropRect.w,h:cropRect.h};}
+  function move(e){if(!isDragging&&!isResizing)return;e.preventDefault();var p=gp(e);var dx=p.x-sx,dy=p.y-sy;
+    if(isDragging){cropRect.x=Math.max(0,Math.min(canvas.width-cropRect.w,sr.x+dx));cropRect.y=Math.max(0,Math.min(canvas.height-cropRect.h,sr.y+dy));}
+    else if(isResizing){
+      if(rc==='br'){cropRect.w=Math.max(30,Math.min(canvas.width-cropRect.x,sr.w+dx));cropRect.h=Math.max(30,Math.min(canvas.height-cropRect.y,sr.h+dy));}
+      else if(rc==='tl'){var nx=Math.max(0,sr.x+dx),ny=Math.max(0,sr.y+dy);cropRect.w=sr.w+(sr.x-nx);cropRect.h=sr.h+(sr.y-ny);cropRect.x=nx;cropRect.y=ny;}
+    }
+    renderCrop();
+  }
+  function end(){isDragging=false;isResizing=false;rc=null;}
+  if(canvas._cc)canvas._cc();
+  canvas.addEventListener('mousedown',start);canvas.addEventListener('mousemove',move);canvas.addEventListener('mouseup',end);
+  canvas.addEventListener('touchstart',start,{passive:false});canvas.addEventListener('touchmove',move,{passive:false});canvas.addEventListener('touchend',end);
+  canvas._cc=function(){canvas.removeEventListener('mousedown',start);canvas.removeEventListener('mousemove',move);canvas.removeEventListener('mouseup',end);canvas.removeEventListener('touchstart',start);canvas.removeEventListener('touchmove',move);canvas.removeEventListener('touchend',end);};
+}
+function applyCrop(){
+  if(!cropRect||selectedImageIndex<0)return;
+  var item=images[selectedImageIndex],orig=item.originalImg;
+  var rx=cropRect.x/cropScale,ry=cropRect.y/cropScale,rw=cropRect.w/cropScale,rh=cropRect.h/cropScale;
+  var tc=document.createElement('canvas');tc.width=rw;tc.height=rh;
+  var tctx=tc.getContext('2d');tctx.drawImage(orig,rx,ry,rw,rh,0,0,rw,rh);
+  var ni=new Image();
+  ni.onload=function(){item.img=ni;item.crop={x:rx,y:ry,w:rw,h:rh};renderImagesGrid();updateInfo();closeCrop();showToast('تم قص الصورة');};
+  ni.src=tc.toDataURL('image/jpeg',0.95);
+}
+function closeCrop(){document.getElementById('cropOverlay').classList.remove('active');cropRect=null;cropOriginalImage=null;}
+
+function renderPositionGrid(gridId,currentVar,onSelect){
+  var grid=document.getElementById(gridId);if(!grid)return;grid.innerHTML='';
+  Object.keys(POSITIONS).forEach(function(key){
+    var cell=document.createElement('button');
+    cell.className='position-cell'+(key===currentVar?' active':'');
+    cell.textContent=POSITION_LABELS[key];
+    cell.onclick=function(){onSelect(key);};
+    grid.appendChild(cell);
+  });
+}
+renderPositionGrid('textPositionGrid','mc',function(k){currentTextPosition=k;renderPositionGrid('textPositionGrid',k,arguments.callee);});
+renderPositionGrid('stickerPositionGrid','mc',function(k){currentStickerPosition=k;renderPositionGrid('stickerPositionGrid',k,arguments.callee);});
+
+(function(){
+  var g=document.getElementById('emojiGrid');
+  EMOJIS.forEach(function(e){
+    var b=document.createElement('button');
+    b.className='emoji-btn';b.textContent=e;
+    b.onclick=function(){addSticker(e);};
+    g.appendChild(b);
+  });
+})();
+
+document.getElementById('textSize').addEventListener('input',function(){document.getElementById('textSizeLabel').textContent=this.value;});
+
+function addTextElement(){
+  var txt=document.getElementById('textContent').value.trim();
+  if(!txt){showToast('اكتب نصاً أولاً');return;}
+  var pos=POSITIONS[currentTextPosition];
+  textElements.push({
+    id:'t'+Date.now(),
+    text:txt,
+    x:pos.x,y:pos.y,
+    size:parseInt(document.getElementById('textSize').value),
+    color:document.getElementById('textColor').value,
+    font:document.getElementById('textFont').value,
+    shadow:document.getElementById('textShadow').checked,
+    rotation:0
+  });
+  document.getElementById('textContent').value='';
+  renderElementsList();updateInfo();
+  showToast('تم إضافة النص');
+}
+function addSticker(emoji){
+  var pos=POSITIONS[currentStickerPosition];
+  stickers.push({id:'s'+Date.now(),emoji:emoji,x:pos.x,y:pos.y,size:15,rotation:0});
+  renderElementsList();updateInfo();
+  showToast('تم إضافة الملصق');
+}
+function renderElementsList(){
+  var list=document.getElementById('elementList');
+  var empty=document.getElementById('elementsEmpty');
+  list.innerHTML='';
+  var all=[];
+  textElements.forEach(function(t){all.push({type:'text',data:t});});
+  stickers.forEach(function(s){all.push({type:'sticker',data:s});});
+  if(all.length===0){empty.style.display='block';return;}
+  empty.style.display='none';
+  all.forEach(function(item){
+    var el=document.createElement('div');
+    el.className='element-item';
+    var head=document.createElement('div');head.className='element-item-head';
+    var pv=document.createElement('div');pv.className='element-item-preview';
+    if(item.type==='text')pv.textContent='📝 '+item.data.text;
+    else pv.textContent=item.data.emoji+' ملصق';
+    var acts=document.createElement('div');acts.className='element-item-actions';
+    var delBtn=document.createElement('button');delBtn.className='el-del';delBtn.textContent='حذف';
+    delBtn.onclick=function(){
+      if(item.type==='text')textElements=textElements.filter(function(x){return x.id!==item.data.id;});
+      else stickers=stickers.filter(function(x){return x.id!==item.data.id;});
+      renderElementsList();updateInfo();
+    };
+    acts.appendChild(delBtn);
+    head.appendChild(pv);head.appendChild(acts);
+    el.appendChild(head);
+    var pg=document.createElement('div');pg.className='position-grid';
+    var currentPos='mc';
+    Object.keys(POSITIONS).forEach(function(key){
+      if(Math.abs(POSITIONS[key].x-item.data.x)<0.01&&Math.abs(POSITIONS[key].y-item.data.y)<0.01)currentPos=key;
+    });
+    Object.keys(POSITIONS).forEach(function(key){
+      var cell=document.createElement('button');
+      cell.className='position-cell'+(key===currentPos?' active':'');
+      cell.textContent=POSITION_LABELS[key];
+      cell.onclick=function(){
+        item.data.x=POSITIONS[key].x;item.data.y=POSITIONS[key].y;
+        renderElementsList();
+      };
+      pg.appendChild(cell);
+    });
+    el.appendChild(pg);
+    list.appendChild(el);
+  });
+}
+renderElementsList();
+
+function toggleWatermark(on){
+  if(on){
+    if(!watermark)watermark={enabled:true,type:'text',text:'@mybrand',color:'#ffffff',size:5,position:'br',opacity:0.7};
+    watermark.enabled=true;
+    document.getElementById('wmOn').classList.add('active');
+    document.getElementById('wmOff').classList.remove('active');
+    document.getElementById('wmContent').classList.remove('section-hidden');
+  } else {
+    if(watermark)watermark.enabled=false;
+    document.getElementById('wmOff').classList.add('active');
+    document.getElementById('wmOn').classList.remove('active');
+    document.getElementById('wmContent').classList.add('section-hidden');
+  }
+  updateInfo();
+}
+function setWmType(t){
+  if(!watermark)watermark={enabled:true,type:t,position:'br',opacity:0.7};
+  watermark.type=t;
+  document.getElementById('wmTextBtn').classList.toggle('active',t==='text');
+  document.getElementById('wmImageBtn').classList.toggle('active',t==='image');
+  document.getElementById('wmTextSection').classList.toggle('section-hidden',t!=='text');
+  document.getElementById('wmImageSection').classList.toggle('section-hidden',t!=='image');
+}
+function setWmPos(pos,btn){
+  if(!watermark)watermark={enabled:true,type:'text',position:pos,opacity:0.7};
+  watermark.position=pos;
+  document.querySelectorAll('[data-wm-pos]').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+}
+document.getElementById('wmImageInput').addEventListener('change',function(e){
+  var file=e.target.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var img=new Image();
+    img.onload=function(){
+      if(!watermark)watermark={enabled:true,type:'image',position:'br',opacity:0.7,size:15};
+      watermark.img=img;watermark.type='image';
+      document.getElementById('wmPreviewInfo').classList.remove('section-hidden');
+      setWmType('image');
+      updateInfo();
+      showToast('تم رفع الشعار');
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+  e.target.value='';
+});
+function removeWmImage(){
+  if(watermark)delete watermark.img;
+  document.getElementById('wmPreviewInfo').classList.add('section-hidden');
+  updateInfo();
+}
+['wmText','wmColor','wmSize','wmOpacity'].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el)el.addEventListener('input',function(){
+    if(!watermark)watermark={enabled:true,type:'text',position:'br',opacity:0.7};
+    if(id==='wmText')watermark.text=this.value;
+    if(id==='wmColor')watermark.color=this.value;
+    if(id==='wmSize')watermark.size=parseInt(this.value);
+    if(id==='wmOpacity')watermark.opacity=parseInt(this.value)/100;
+  });
+});
+
+(function(){
+  var catsBar=document.getElementById('templateCategories');
+  catsBar.innerHTML='';
+  TEMPLATE_CATEGORIES.forEach(function(cat){
+    var btn=document.createElement('button');
+    btn.className='tab-btn'+(cat.id==='all'?' active':'');
+    btn.innerHTML=cat.emoji+' '+cat.name;
+    btn.onclick=function(){
+      currentTemplateCategory=cat.id;
+      catsBar.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      renderTemplates();
+    };
+    catsBar.appendChild(btn);
+  });
+  renderTemplates();
+})();
+
+function renderTemplates(){
+  var g=document.getElementById('templatesGrid');
+  g.innerHTML='';
+  var filtered=currentTemplateCategory==='all'?TEMPLATES:TEMPLATES.filter(function(t){return t.cat===currentTemplateCategory;});
+  filtered.forEach(function(t){
+    var card=document.createElement('div');
+    card.className='template-card';
+    card.innerHTML='<div class="template-emoji">'+t.emoji+'</div><div class="template-name">'+t.name+'</div>';
+    card.onclick=function(){applyTemplate(t);};
+    g.appendChild(card);
+  });
+}
+
+function applyTemplate(t){
+  currentSize=t.size;currentTransition=t.transition;currentLayout=t.layout;
+  images.forEach(function(img){img.animation=t.animation;});
+  document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(b){b.classList.toggle('active',b.dataset.size===currentSize);});
+  document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(b){b.classList.toggle('active',b.dataset.transition===currentTransition);});
+  renderImagesGrid();renderLayouts();updateInfo();
+  showToast('تم تطبيق قالب: '+t.name);
+}
+
+function switchAudioTab(tab,btn){
+  document.querySelectorAll('.audio-tab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('#audioTab-record,#audioTab-upload,#audioTab-music').forEach(function(el){el.classList.add('section-hidden');});
+  document.getElementById('audioTab-'+tab).classList.remove('section-hidden');
+}
+function toggleRecording(){if(mediaRecorder&&mediaRecorder.state==='recording')stopRecording();else startRecording();}
+function startRecording(){
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    recordingStream=stream;
+    var mt='audio/webm;codecs=opus';
+    if(!MediaRecorder.isTypeSupported(mt))mt='audio/webm';
+    if(!MediaRecorder.isTypeSupported(mt))mt='';
+    var opts=mt?{mimeType:mt}:{};
+    mediaRecorder=new MediaRecorder(stream,opts);
+    audioChunks=[];
+    mediaRecorder.ondataavailable=function(e){if(e.data.size>0)audioChunks.push(e.data);};
+    mediaRecorder.onstop=function(){
+      recordedAudioBlob=new Blob(audioChunks,{type:'audio/webm'});
+      var url=URL.createObjectURL(recordedAudioBlob);
+      document.getElementById('recordAudio').src=url;
+      document.getElementById('recordPlayer').classList.add('active');
+      document.getElementById('recordActions').classList.remove('section-hidden');
+      document.getElementById('recorderStatus').textContent='التسجيل جاهز';
+      if(recordingStream)recordingStream.getTracks().forEach(function(t){t.stop();});
+    };
+    mediaRecorder.start();
+    recordingStartTime=Date.now();
+    document.getElementById('recorderDot').classList.add('recording');
+    document.getElementById('recorderStatus').textContent='جاري التسجيل';
+    document.getElementById('recordBtn').textContent='إيقاف التسجيل';
+    document.getElementById('recordBtn').classList.remove('record');
+    document.getElementById('recordBtn').classList.add('stop');
+    document.getElementById('recordPlayer').classList.remove('active');
+    document.getElementById('recordActions').classList.add('section-hidden');
+    recordingTimerInterval=setInterval(updateTimer,100);
+  }).catch(function(err){console.error(err);showToast('لم يتم السماح للميكروفون');});
+}
+function stopRecording(){
+  if(mediaRecorder&&mediaRecorder.state==='recording')mediaRecorder.stop();
+  if(recordingTimerInterval){clearInterval(recordingTimerInterval);recordingTimerInterval=null;}
+  document.getElementById('recorderDot').classList.remove('recording');
+  document.getElementById('recordBtn').textContent='بدء التسجيل';
+  document.getElementById('recordBtn').classList.remove('stop');
+  document.getElementById('recordBtn').classList.add('record');
+}
+function updateTimer(){
+  var el=Math.floor((Date.now()-recordingStartTime)/1000);
+  var m=Math.floor(el/60).toString().padStart(2,'0');
+  var s=(el%60).toString().padStart(2,'0');
+  document.getElementById('recorderTimer').textContent=m+':'+s;
+}
+function useRecording(){if(!recordedAudioBlob)return;selectedAudio='record';updateInfo();showToast('سيتم استخدام التسجيل');}
+function deleteRecording(){
+  recordedAudioBlob=null;selectedAudio=null;
+  document.getElementById('recordPlayer').classList.remove('active');
+  document.getElementById('recordActions').classList.add('section-hidden');
+  document.getElementById('recorderStatus').textContent='جاهز للتسجيل';
+  document.getElementById('recorderTimer').textContent='00:00';
+  document.getElementById('recordAudio').src='';updateInfo();showToast('تم حذف التسجيل');
+}
+document.getElementById('audioInput').addEventListener('change',function(e){
+  var f=e.target.files[0];if(!f)return;
+  if(!f.type.startsWith('audio/')){showToast('الرجاء اختيار ملف صوتي');return;}
+  audioUpload=f;selectedAudio='upload';
+  document.getElementById('audioUploadName').textContent=f.name;
+  document.getElementById('audioUploadInfo').classList.remove('section-hidden');
+  updateInfo();showToast('تم رفع الملف');e.target.value='';
+});
+function removeAudioUpload(){audioUpload=null;if(selectedAudio==='upload')selectedAudio=null;document.getElementById('audioUploadInfo').classList.add('section-hidden');document.getElementById('audioInput').value='';updateInfo();}
+document.getElementById('musicInput').addEventListener('change',function(e){
+  var f=e.target.files[0];if(!f)return;
+  if(!f.type.startsWith('audio/')){showToast('الرجاء اختيار ملف صوتي');return;}
+  musicFile=f;document.getElementById('musicName').textContent=f.name;
+  document.getElementById('musicInfo').classList.remove('section-hidden');
+  updateInfo();showToast('تم رفع الموسيقى');e.target.value='';
+});
+function removeMusic(){musicFile=null;document.getElementById('musicInfo').classList.add('section-hidden');document.getElementById('musicInput').value='';updateInfo();}
+
+function exportVideo(){
+  if(images.length===0||isExporting)return;
+  isExporting=true;
+  var pc=document.getElementById('progressContainer'),pf=document.getElementById('progressFill'),pt=document.getElementById('progressText');
+  var eb=document.getElementById('exportBtn'),pb=document.getElementById('previewBtn');
+  pc.classList.add('active');eb.disabled=true;pb.disabled=true;isPreviewing=false;
+  trackEvent('montage-تصدير');
+  var sz=currentSize.split('x'),w=parseInt(sz[0]),h=parseInt(sz[1]);
+  var ec=document.createElement('canvas');ec.width=w;ec.height=h;
+  var ctx=ec.getContext('2d');
+  var stream=ec.captureStream(30);
+  var ac=null,as=[],aft=null;
+  if(selectedAudio==='record'&&recordedAudioBlob)aft=recordedAudioBlob;
+  else if(selectedAudio==='upload'&&audioUpload)aft=audioUpload;
+  var sa=Promise.resolve();
+  if(aft||musicFile){
+    sa=(function(){
+      ac=new (window.AudioContext||window.webkitAudioContext)();
+      var ad=ac.createMediaStreamDestination();var ps=[];
+      if(aft){ps.push(aft.arrayBuffer().then(function(b){return ac.decodeAudioData(b);}).then(function(ab){var s=ac.createBufferSource();s.buffer=ab;s.loop=false;s.connect(ad);as.push(s);}));}
+      if(musicFile){ps.push(musicFile.arrayBuffer().then(function(b){return ac.decodeAudioData(b);}).then(function(md){var ms=ac.createBufferSource();ms.buffer=md;ms.loop=true;var g=ac.createGain();g.gain.value=aft?0.15:0.6;ms.connect(g);g.connect(ad);as.push(ms);}));}
+      return Promise.all(ps).then(function(){ad.stream.getAudioTracks().forEach(function(t){stream.addTrack(t);});});
+    })();
+  }
+  sa.then(function(){
+    var mt='video/webm;codecs=vp9';
+    if(!MediaRecorder.isTypeSupported(mt))mt='video/webm;codecs=vp8';
+    if(!MediaRecorder.isTypeSupported(mt))mt='video/webm';
+    var rec=new MediaRecorder(stream,{mimeType:mt,videoBitsPerSecond:5000000});
+    var chunks=[];
+    rec.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data);};
+    rec.onstop=function(){
+      var blob=new Blob(chunks,{type:'video/webm'});
+      var url=URL.createObjectURL(blob);
+      var link=document.createElement('a');link.href=url;link.download='resha-montage-'+Date.now()+'.webm';link.click();
+      setTimeout(function(){URL.revokeObjectURL(url);},1000);
+      as.forEach(function(s){try{s.stop();}catch(e){}});
+      if(ac)ac.close();
+      pc.classList.remove('active');eb.disabled=false;pb.disabled=false;isExporting=false;
+      document.getElementById('shareRow').classList.remove('section-hidden');
+      showToast('تم تصدير الفيديو ✅');
+    };
+    rec.start();
+    as.forEach(function(s){try{s.start(0);}catch(e){}});
+    var l=LAYOUTS.find(function(x){return x.id===currentLayout;});
+    var ip=l?l.cells.length:1;
+    var ts=Math.ceil(images.length/ip);
+    var cs=0;var fst=performance.now();
+    function rf(){
+      var now=performance.now();
+      var d=getSceneDuration(cs);
+      var el=(now-fst)/1000,p=el/d;
+      ctx.clearRect(0,0,w,h);
+      var si=cs*ip;
+      if(p>0.75&&currentTransition!=='none'&&cs<ts-1){
+        var tp=(p-0.75)/0.25;var ns=(cs+1)*ip;
+        drawTransition(ctx,si,ns,w,h,tp);
+      } else {
+        drawLayout(ctx,si,w,h,1,p);
+      }
+      drawOverlays(ctx,w,h);
+      if(p>=1){cs++;fst=now;if(cs>=ts){rec.stop();return;}}
+      var tpr=(cs+p)/ts;
+      pf.style.width=(tpr*100)+'%';
+      pt.textContent='جاري التصدير '+Math.round(tpr*100)+'%';
+      requestAnimationFrame(rf);
+    }
+    rf();
+  }).catch(function(err){
+    console.error('خطأ صوت:',err);showToast('حدث خطأ في الصوت');
+    pc.classList.remove('active');eb.disabled=false;pb.disabled=false;isExporting=false;
+  });
+}
+
+function getShareText(){return 'شاهد الفيديو الذي أنشأته من موقع ريشة للمونتاج 🎬';}
+function getShareUrl(){return window.location.origin+window.location.pathname;}
+function shareWhatsApp(){window.open('https://wa.me/?text='+encodeURIComponent(getShareText()+' '+getShareUrl()),'_blank');}
+function shareTwitter(){window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(getShareText())+'&url='+encodeURIComponent(getShareUrl()),'_blank');}
+function shareTelegram(){window.open('https://t.me/share/url?url='+encodeURIComponent(getShareUrl())+'&text='+encodeURIComponent(getShareText()),'_blank');}
+function copyShareLink(){
+  var url=getShareUrl();
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(function(){showToast('✅ تم نسخ الرابط');}).catch(function(){showToast('تعذّر النسخ');});
+  } else {
+    var ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');showToast('✅ تم نسخ الرابط');}catch(e){showToast('تعذّر النسخ');}
+    document.body.removeChild(ta);
+  }
+}
+
+async function uploadAudioToStorage(fileOrBlob,prefix){
+  if(!fileOrBlob)return null;
+  var ext='webm';
+  if(fileOrBlob.name){var parts=fileOrBlob.name.split('.');if(parts.length>1)ext=parts[parts.length-1];}
+  else if(fileOrBlob.type){var m=fileOrBlob.type.match(/\/([a-z0-9]+)/i);if(m&&m[1])ext=m[1];}
+  var fn=currentUser.id+'/'+prefix+'-'+Date.now()+'.'+ext;
+  var r=await sb.storage.from('audio').upload(fn,fileOrBlob,{contentType:fileOrBlob.type||'audio/webm',upsert:false});
+  if(r.error)throw r.error;
+  return sb.storage.from('audio').getPublicUrl(fn).data.publicUrl;
+}
+async function downloadAudioFromUrl(url){
+  if(!url)return null;
+  var r=await fetch(url);if(!r.ok)throw new Error('فشل تحميل');
+  return await r.blob();
+}
+
+function getProjectData(){
+  return {
+    images:images.map(function(i){return{src:i.src,animation:i.animation,duration:i.duration,rotation:i.rotation,flipH:i.flipH,flipV:i.flipV,speed:i.speed,crop:i.crop};}),
+    currentSize:currentSize,currentTransition:currentTransition,currentLayout:currentLayout,
+    selectedAudio:selectedAudio,
+    hasRecordedAudio:!!recordedAudioBlob,hasAudioUpload:!!audioUpload,hasMusic:!!musicFile,
+    textElements:textElements.map(function(t){return{id:t.id,text:t.text,x:t.x,y:t.y,size:t.size,color:t.color,font:t.font,shadow:t.shadow,rotation:t.rotation};}),
+    stickers:stickers.map(function(s){return{id:s.id,emoji:s.emoji,x:s.x,y:s.y,size:s.size,rotation:s.rotation};}),
+    watermark:watermark?{enabled:watermark.enabled,type:watermark.type,text:watermark.text,color:watermark.color,size:watermark.size,position:watermark.position,opacity:watermark.opacity,hasImage:!!watermark.img}:null
+  };
+}
+
+async function saveProject(){
+  if(!currentUser){showToast('سجّل دخول أولاً');return;}
+  if(images.length===0){showToast('أضف صوراً أولاً');return;}
+  var name=prompt('اسم المشروع:','مشروع '+new Date().toLocaleDateString('ar'));
+  if(!name)return;
+  var btn=document.getElementById('saveProjectBtn');btn.disabled=true;btn.textContent='⏳';
+  showLoading('جاري رفع الصوت...');
+  try{
+    var audioUrls={};
+    if(selectedAudio==='record'&&recordedAudioBlob)audioUrls.record=await uploadAudioToStorage(recordedAudioBlob,'record');
+    if(selectedAudio==='upload'&&audioUpload)audioUrls.upload=await uploadAudioToStorage(audioUpload,'voice');
+    if(musicFile)audioUrls.music=await uploadAudioToStorage(musicFile,'music');
+    var wmImgUrl=null;
+    if(watermark&&watermark.type==='image'&&watermark.img){
+      showLoading('جاري رفع الشعار...');
+      try{
+        var blob=await new Promise(function(res){watermark.img.toBlob(function(b){res(b);},'image/png');});
+        if(blob)wmImgUrl=await uploadAudioToStorage(blob,'wm');
+      }catch(e){console.error(e);}
+    }
+    document.getElementById('loadingText').textContent='جاري حفظ المشروع...';
+    var data=getProjectData();
+    data.audioUrls=audioUrls;
+    if(wmImgUrl)data.watermark.imageUrl=wmImgUrl;
+    var thumbnail=images[0]?images[0].src:null;
+    var r=await sb.from('projects').insert({user_id:currentUser.id,name:name,data:data,thumbnail:thumbnail}).select().single();
+    if(r.error)throw r.error;
+    currentProjectId=r.data.id;
+    showToast('تم حفظ المشروع ✅');
+  }catch(err){console.error(err);showToast('فشل الحفظ: '+(err.message||'خطأ'));}
+  finally{hideLoading();btn.disabled=false;btn.textContent='💾';}
+}
+
+async function openProjects(){
+  if(!currentUser)return;
+  document.getElementById('projectsOverlay').classList.add('active');
+  var list=document.getElementById('projectsList');list.innerHTML='<div class="empty-hint">جاري التحميل...</div>';
+  try{
+    var r=await sb.from('projects').select('id,name,thumbnail,created_at,is_public').order('created_at',{ascending:false});
+    if(r.error)throw r.error;
+    var data=r.data;
+    if(!data||data.length===0){list.innerHTML='<div class="empty-hint">لا توجد مشاريع محفوظة</div>';return;}
+    list.innerHTML='';
+    data.forEach(function(p){
+      var el=document.createElement('div');el.className='project-item';
+      var thumb=document.createElement('img');thumb.className='project-thumb';thumb.src=p.thumbnail||'';
+      var info=document.createElement('div');info.className='project-info';
+      info.innerHTML='<div class="project-name">'+escapeHtml(p.name)+'</div><div class="project-date">'+new Date(p.created_at).toLocaleString('ar')+'</div>';
+      var acts=document.createElement('div');acts.className='project-actions';
+      var lb=document.createElement('button');lb.className='project-load';lb.textContent='فتح';lb.onclick=function(){loadProjectById(p.id);};
+      var pubBtn=document.createElement('button');pubBtn.className='project-pub'+(p.is_public?' on':'');pubBtn.textContent=p.is_public?'🌐 عام':'نشر';pubBtn.onclick=function(){togglePublic(p.id,!p.is_public);};
+      var db=document.createElement('button');db.className='project-del';db.textContent='حذف';db.onclick=function(){deleteProjectById(p.id);};
+      acts.appendChild(lb);acts.appendChild(pubBtn);acts.appendChild(db);
+      el.appendChild(thumb);el.appendChild(info);el.appendChild(acts);
+      list.appendChild(el);
+    });
+  }catch(err){console.error(err);list.innerHTML='<div class="empty-hint">فشل التحميل: '+(err.message||'')+'</div>';}
+}
+
+async function togglePublic(id,makePublic){
+  try{
+    var r=await sb.from('projects').update({is_public:makePublic}).eq('id',id);
+    if(r.error)throw r.error;
+    showToast(makePublic?'تم نشر المشروع في المعرض 🌐':'تم إخفاؤه من المعرض');
+    openProjects();
+  }catch(err){console.error(err);showToast('فشل: '+(err.message||''));}
+}
+
+async function loadProjectById(id){
+  closeProjects();showLoading('جاري تحميل المشروع...');
+  try{
+    var r=await sb.from('projects').select('*').eq('id',id).single();
+    if(r.error)throw r.error;
+    currentProjectId=r.data.id;
+    await loadProjectData(r.data.data);
+  }catch(err){console.error(err);showToast('فشل فتح المشروع');}
+  finally{hideLoading();}
+}
+
+async function deleteProjectById(id){
+  if(!confirm('حذف المشروع نهائياً؟'))return;
+  try{
+    var r=await sb.from('projects').delete().eq('id',id);
+    if(r.error)throw r.error;
+    showToast('تم الحذف');openProjects();
+  }catch(err){console.error(err);showToast('فشل الحذف');}
+}
+
+async function loadProjectData(data){
+  if(!data)return;
+  images=[];
+  audioUpload=null;musicFile=null;recordedAudioBlob=null;selectedAudio=null;
+  textElements=[];stickers=[];watermark=null;
+  document.getElementById('musicInfo').classList.add('section-hidden');
+  document.getElementById('audioUploadInfo').classList.add('section-hidden');
+  document.getElementById('recordPlayer').classList.remove('active');
+  document.getElementById('recordActions').classList.add('section-hidden');
+  document.getElementById('wmPreviewInfo').classList.add('section-hidden');
+
+  if(data.images&&data.images.length>0){
+    var loaded=0,total=data.images.length;
+    data.images.forEach(function(saved,i){
+      var img=new Image();
+      img.onload=function(){
+        images[i]={img:img,originalImg:img,src:saved.src,animation:saved.animation||'none',duration:saved.duration||3,rotation:saved.rotation||0,flipH:!!saved.flipH,flipV:!!saved.flipV,speed:saved.speed!==undefined?saved.speed:1,crop:saved.crop||null};
+        loaded++;
+        if(loaded===total){
+          currentSize=data.currentSize||'1080x1080';
+          currentTransition=data.currentTransition||'fade';
+          currentLayout=data.currentLayout||'single';
+          document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(b){b.classList.toggle('active',b.dataset.size===currentSize);});
+          document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(b){b.classList.toggle('active',b.dataset.transition===currentTransition);});
+          renderImagesGrid();renderLayouts();updateButtons();updateInfo();
+        }
+      };
+      img.src=saved.src;
+    });
+  } else {renderImagesGrid();updateInfo();}
+
+  if(data.textElements)textElements=data.textElements;
+  if(data.stickers)stickers=data.stickers;
+  if(data.watermark){
+    watermark={enabled:data.watermark.enabled,type:data.watermark.type,text:data.watermark.text,color:data.watermark.color,size:data.watermark.size,position:data.watermark.position,opacity:data.watermark.opacity};
+    if(data.watermark.imageUrl){
+      try{
+        var img=await new Promise(function(res,rej){var im=new Image();im.crossOrigin='anonymous';im.onload=function(){res(im);};im.onerror=rej;im.src=data.watermark.imageUrl;});
+        watermark.img=img;watermark.type='image';
+        document.getElementById('wmPreviewInfo').classList.remove('section-hidden');
+      }catch(e){console.error('wm load',e);}
+    }
+    if(watermark.enabled){
+      document.getElementById('wmOn').classList.add('active');document.getElementById('wmOff').classList.remove('active');
+      document.getElementById('wmContent').classList.remove('section-hidden');
+    }
+    if(watermark.type==='text'){
+      document.getElementById('wmText').value=watermark.text||'';
+      document.getElementById('wmColor').value=watermark.color||'#ffffff';
+      document.getElementById('wmSize').value=watermark.size||5;
+    }
+    document.querySelectorAll('[data-wm-pos]').forEach(function(b){b.classList.toggle('active',b.dataset.wmPos===watermark.position);});
+    document.getElementById('wmOpacity').value=(watermark.opacity||0.7)*100;
+  }
+  renderElementsList();updateInfo();
+
+  if(data.audioUrls){
+    try{
+      if(data.audioUrls.record){
+        showLoading('جاري تحميل التسجيل...');
+        recordedAudioBlob=await downloadAudioFromUrl(data.audioUrls.record);
+        recordedAudioBlob.name='record.webm';
+        var urlR=URL.createObjectURL(recordedAudioBlob);
+        document.getElementById('recordAudio').src=urlR;
+        document.getElementById('recordPlayer').classList.add('active');
+        document.getElementById('recordActions').classList.remove('section-hidden');
+        document.getElementById('recorderStatus').textContent='التسجيل محمّل';
+        selectedAudio='record';
+      }
+      if(data.audioUrls.upload){
+        showLoading('جاري تحميل الملف الصوتي...');
+        audioUpload=await downloadAudioFromUrl(data.audioUrls.upload);
+        audioUpload.name='voice.webm';
+        document.getElementById('audioUploadName').textContent='voice.webm';
+        document.getElementById('audioUploadInfo').classList.remove('section-hidden');
+        selectedAudio='upload';
+      }
+      if(data.audioUrls.music){
+        showLoading('جاري تحميل الموسيقى...');
+        musicFile=await downloadAudioFromUrl(data.audioUrls.music);
+        musicFile.name='music.webm';
+        document.getElementById('musicName').textContent='music.webm';
+        document.getElementById('musicInfo').classList.remove('section-hidden');
+      }
+      updateInfo();
+    }catch(err){console.error('صوت:',err);showToast('تعذّر تحميل الصوت');}
+  }
+  showToast('تم تحميل المشروع ✅');
+}
+
+function closeProjects(){document.getElementById('projectsOverlay').classList.remove('active');}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
+
+async function openGallery(){
+  document.getElementById('galleryOverlay').classList.add('active');
+  var list=document.getElementById('galleryList');list.innerHTML='<div class="empty-hint">جاري التحميل...</div>';
+  try{
+    var r=await sb.from('projects').select('id,name,thumbnail,created_at,user_id').eq('is_public',true).order('created_at',{ascending:false}).limit(60);
+    if(r.error)throw r.error;
+    var data=r.data;
+    if(!data||data.length===0){list.innerHTML='<div class="empty-hint">لا توجد أعمال منشورة بعد</div>';return;}
+    var html='<div class="gallery-grid">';
+    data.forEach(function(p){
+      var author=p.user_id?p.user_id.substring(0,8):'مستخدم';
+      html+='<div class="gallery-card" onclick="openGalleryProject(\''+p.id+'\')">'+
+        '<img class="gallery-thumb" src="'+(p.thumbnail||'')+'" alt="">'+
+        '<div class="gallery-info"><div class="gallery-title">'+escapeHtml(p.name)+'</div><div class="gallery-author">👤 '+author+'</div></div></div>';
+    });
+    html+='</div>';
+    list.innerHTML=html;
+  }catch(err){console.error(err);list.innerHTML='<div class="empty-hint">فشل التحميل</div>';}
+}
+async function openGalleryProject(id){
+  if(!currentUser){showToast('سجّل دخول لفتح المشروع');return;}
+  closeGallery();
+  await loadProjectById(id);
+}
+function closeGallery(){document.getElementById('galleryOverlay').classList.remove('active');}
+
+document.getElementById('saveProjectBtn').addEventListener('click',saveProject);
+document.getElementById('myProjectsBtn').addEventListener('click',openProjects);
+document.getElementById('galleryBtn').addEventListener('click',openGallery);
+
+window.addEventListener('load',function(){
+  renderLayouts();updateInfo();
+  if(!window.MediaRecorder){showToast('متصفحك لا يدعم تصدير الفيديو');document.getElementById('exportBtn').disabled=true;}
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){var rb=document.getElementById('recordBtn');if(rb)rb.disabled=true;var rs=document.getElementById('recorderStatus');if(rs)rs.textContent='التسجيل غير مدعوم';}
+  trackEvent('montage-زيارة');
+  console.log('✅ المونتاج جاهز');
+});
+</script>
 </body>
 </html>
