@@ -156,7 +156,6 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
 .loading-overlay.active{display:flex}
 .spinner{width:44px;height:44px;border:4px solid rgba(255,255,255,.2);border-top-color:#6366f1;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-/* عناصر */
 .element-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
 .element-item{background:#f8fafc;border:2px solid var(--border);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px}
 .element-item.selected{border-color:var(--primary);background:var(--primary-light)}
@@ -172,13 +171,11 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
 .emoji-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;max-height:180px;overflow-y:auto;padding:6px;background:#f8fafc;border-radius:10px;margin-top:8px}
 .emoji-btn{aspect-ratio:1;background:#fff;border:2px solid transparent;border-radius:8px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
 .emoji-btn:hover,.emoji-btn:active{border-color:var(--primary)}
-/* قوالب */
-.templates-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.template-card{aspect-ratio:1;border:3px solid var(--border);border-radius:12px;cursor:pointer;background:linear-gradient(135deg,#f8fafc,#eef2ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px;transition:all .2s}
+.templates-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.template-card{aspect-ratio:1;border:3px solid var(--border);border-radius:12px;cursor:pointer;background:linear-gradient(135deg,#f8fafc,#eef2ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px;transition:all .2s}
 .template-card:active{transform:scale(.96);border-color:var(--primary)}
-.template-emoji{font-size:32px}
-.template-name{font-size:11px;font-weight:800;color:#0f172a;text-align:center}
-/* معرض */
+.template-emoji{font-size:26px}
+.template-name{font-size:10px;font-weight:800;color:#0f172a;text-align:center;line-height:1.2}
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:12px}
 .gallery-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);cursor:pointer;transition:all .2s}
 .gallery-card:active{transform:scale(.97)}
@@ -186,7 +183,6 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
 .gallery-info{padding:8px}
 .gallery-title{font-size:12px;font-weight:800;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gallery-author{font-size:10px;color:#64748b;font-weight:600;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* مشاركة */
 .share-row{display:flex;gap:6px;justify-content:center;margin-top:12px;flex-wrap:wrap}
 .share-btn{padding:10px 16px;border:none;border-radius:10px;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;gap:5px}
 .share-wa{background:#25d366}
@@ -204,12 +200,12 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
   .logout-btn{padding:6px 9px;font-size:11px}
   .emoji-grid{grid-template-columns:repeat(6,1fr)}
   .templates-grid{grid-template-columns:repeat(3,1fr)}
+  .template-emoji{font-size:24px}
 }
 </style>
 </head>
 <body>
 
-<!-- شاشة تسجيل الدخول -->
 <div id="authOverlay">
   <div class="auth-card">
     <div class="auth-logo">🎬</div>
@@ -241,7 +237,6 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
         <button class="logout-btn" id="myProjectsBtn" title="مشاريعي">📁</button>
         <button class="logout-btn" id="galleryBtn" title="معرض الأعمال">🌐</button>
         <button class="logout-btn" id="logoutBtn" title="خروج">خروج</button>
-        <a href="index.html" class="header-back">←</a>
       </div>
     </div>
 
@@ -279,7 +274,6 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
     </div>
 
     <div class="tab-panels">
-      <!-- الصور -->
       <div id="panel-images" class="panel active">
         <div class="panel-title">الصور</div>
         <div class="upload-area" onclick="document.getElementById('imageInput').click()">
@@ -292,7 +286,6 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
         <div class="empty-hint" id="imagesEmpty">لا توجد صور</div>
       </div>
 
-      <!-- التخطيطات -->
       <div id="panel-layouts" class="panel">
         <div class="panel-title">اختر التخطيط</div>
         <p style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">كل تخطيط يستخدم عدداً مختلفاً من الصور.</p>
@@ -300,7 +293,6 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
         <div class="info-row" style="margin-top:12px;"><span>🎨 التخطيط الحالي</span><span class="info-row-value" id="layoutName">صورة واحدة</span></div>
       </div>
 
-      <!-- الحركات -->
       <div id="panel-animate" class="panel">
         <div class="panel-title">حركات الصورة</div>
         <div id="animateEmpty" class="empty-hint">لم تختر صورة</div>
@@ -361,7 +353,6 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
         </div>
       </div>
 
-      <!-- الانتقالات -->
       <div id="panel-transitions" class="panel">
         <div class="panel-title">الانتقالات والأحجام</div>
         <div class="option-group">
@@ -389,7 +380,6 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
         </div>
       </div>
 
-      <!-- العناصر (نصوص + ملصقات) -->
       <div id="panel-elements" class="panel">
         <div class="panel-title">نصوص وملصقات</div>
         <div class="option-group">
@@ -432,7 +422,6 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
         </div>
       </div>
 
-      <!-- الشعار -->
       <div id="panel-watermark" class="panel">
         <div class="panel-title">Watermark (شعار)</div>
         <div class="option-group">
@@ -488,14 +477,13 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
         </div>
       </div>
 
-      <!-- القوالب -->
       <div id="panel-templates" class="panel">
         <div class="panel-title">القوالب الجاهزة</div>
-        <p style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">اختر قالباً جاهزاً وسيتم تطبيق الإعدادات على مشروعك.</p>
+        <p style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">اختر تصنيفاً ثم قالباً جاهزاً.</p>
+        <div class="tabs-bar" id="templateCategories" style="padding-bottom:8px;"></div>
         <div class="templates-grid" id="templatesGrid"></div>
       </div>
 
-      <!-- الصوت -->
       <div id="panel-audio" class="panel">
         <div class="panel-title">الصوت</div>
         <div class="audio-tabs">
@@ -531,7 +519,6 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
         </div>
       </div>
 
-      <!-- المعلومات -->
       <div id="panel-info" class="panel">
         <div class="panel-title">معلومات الفيديو</div>
         <div class="info-row"><span>🖼️ عدد الصور</span><span class="info-row-value" id="infoImages">0</span></div>
@@ -548,30 +535,29 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
       </div>
     </div>
 
+    <div style="text-align:center;padding:30px 20px;">
+      <a href="index.html" style="color:#6366f1;font-family:'Cairo',sans-serif;font-weight:800;font-size:15px;text-decoration:underline;display:inline-block;padding:10px 20px;">العودة إلى ريشة</a>
+    </div>
     <div class="footer">© Nibras GP</div>
   </div>
 </div>
 
-<!-- نافذة القص -->
 <div class="crop-overlay" id="cropOverlay">
   <div class="crop-header"><div class="crop-title">✂️ قص الصورة</div><button class="crop-close" onclick="closeCrop()">✕</button></div>
   <div class="crop-canvas-wrap"><canvas id="cropCanvas"></canvas></div>
   <div class="crop-controls"><button class="crop-btn crop-btn-cancel" onclick="closeCrop()">إلغاء</button><button class="crop-btn crop-btn-apply" onclick="applyCrop()">تطبيق</button></div>
 </div>
 
-<!-- نافذة المشاريع -->
 <div class="crop-overlay" id="projectsOverlay">
   <div class="crop-header"><div class="crop-title">📁 مشاريعي</div><button class="crop-close" onclick="closeProjects()">✕</button></div>
   <div style="background:#fff;border-radius:16px;padding:16px;max-height:70vh;overflow-y:auto;"><div id="projectsList"><div class="empty-hint">لا توجد مشاريع</div></div></div>
 </div>
 
-<!-- نافذة المعرض -->
 <div class="crop-overlay" id="galleryOverlay">
   <div class="crop-header"><div class="crop-title">🌐 معرض الأعمال</div><button class="crop-close" onclick="closeGallery()">✕</button></div>
   <div style="background:#fff;border-radius:16px;padding:16px;max-height:75vh;overflow-y:auto;"><div id="galleryList"><div class="empty-hint">جاري التحميل...</div></div></div>
 </div>
 
-<!-- نافذة إعادة تعيين كلمة المرور -->
 <div id="resetOverlay">
   <div class="auth-card">
     <div class="auth-logo">🔑</div>
@@ -602,7 +588,6 @@ function showToast(m){var t=document.getElementById('toast');t.textContent=m;t.c
 function showLoading(m){document.getElementById('loadingText').textContent=m||'جاري التحميل...';document.getElementById('loadingOverlay').classList.add('active');}
 function hideLoading(){document.getElementById('loadingOverlay').classList.remove('active');}
 
-// Auth
 const authOverlay=document.getElementById('authOverlay'),authForm=document.getElementById('authForm'),authEmail=document.getElementById('authEmail'),authPassword=document.getElementById('authPassword'),authSubmitBtn=document.getElementById('authSubmitBtn'),authError=document.getElementById('authError'),authSuccess=document.getElementById('authSuccess'),authSwitchEl=document.getElementById('authSwitch'),authSubtitle=document.getElementById('authSubtitle'),confirmPasswordField=document.getElementById('confirmPasswordField'),authPassword2=document.getElementById('authPassword2');
 function showAuthError(m){authError.textContent=m;authError.classList.add('show');authSuccess.classList.remove('show');}
 function showAuthSuccess(m){authSuccess.textContent=m;authSuccess.classList.add('show');authError.classList.remove('show');}
@@ -697,7 +682,6 @@ document.getElementById('resetForm').addEventListener('submit',async function(e)
   finally{btn.disabled=false;btn.textContent='تحديث كلمة المرور';}
 });
 
-// المتغيرات
 var images=[];
 var audioUpload=null,musicFile=null;
 var currentSize='1080x1080',currentTransition='fade',currentLayout='single';
@@ -706,7 +690,6 @@ var isExporting=false,isPreviewing=false,previewAnimationId=null;
 var mediaRecorder=null,audioChunks=[],recordedAudioBlob=null,recordingStartTime=0,recordingTimerInterval=null,recordingStream=null,selectedAudio=null;
 var cropCanvas=null,cropRect=null,cropOriginalImage=null,cropScale=1;
 var currentProjectId=null;
-// عناصر
 var textElements=[],stickers=[],watermark=null;
 var selectedElementId=null;
 var currentTextPosition='mc',currentStickerPosition='mc';
@@ -727,21 +710,116 @@ var LAYOUTS=[
   {id:'overlay',name:'تراكب',count:2,cells:[{x:0,y:0,w:1,h:1},{x:0.65,y:0.65,w:0.3,h:0.3,overlay:true}]}
 ];
 
+var TEMPLATE_CATEGORIES=[
+  {id:'all',name:'الكل',emoji:'✨'},
+  {id:'religious',name:'ديني',emoji:'🕌'},
+  {id:'occasions',name:'مناسبات',emoji:'🎉'},
+  {id:'national',name:'وطني',emoji:'🇸🇦'},
+  {id:'travel',name:'سفر',emoji:'✈️'},
+  {id:'business',name:'أعمال',emoji:'💼'},
+  {id:'social',name:'سوشيال',emoji:'📱'},
+  {id:'mood',name:'مشاعر',emoji:'❤️'},
+  {id:'family',name:'عائلة',emoji:'👨‍👩‍👧'},
+  {id:'shapes',name:'أشكال',emoji:'🎨'}
+];
+var currentTemplateCategory='all';
+
 var TEMPLATES=[
-  {id:'graduation',name:'تخرج',emoji:'🎓',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
-  {id:'baby',name:'مولود',emoji:'👶',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
-  {id:'ramadan',name:'رمضان',emoji:'🌙',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
-  {id:'travel',name:'سفر',emoji:'✈️',size:'1080x1080',transition:'slideRight',layout:'single',animation:'kenRight'},
-  {id:'eid',name:'عيد',emoji:'🎉',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},
-  {id:'wedding',name:'زواج',emoji:'💍',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
-  {id:'grid',name:'شبكة',emoji:'🎨',size:'1080x1080',transition:'slideUp',layout:'grid4',animation:'zoomIn'},
-  {id:'split',name:'مقسّم',emoji:'📐',size:'1920x1080',transition:'slideLeft',layout:'splitH',animation:'panRight'},
-  {id:'story',name:'ستوري',emoji:'📱',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'}
+  // ديني
+  {id:'ramadan',cat:'religious',name:'رمضان',emoji:'🌙',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'eid_fitr',cat:'religious',name:'عيد فطر',emoji:'🌙',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'eid_adha',cat:'religious',name:'عيد أضحى',emoji:'🐑',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'hajj',cat:'religious',name:'حج',emoji:'🕋',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'umrah',cat:'religious',name:'عمرة',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'mawlid',cat:'religious',name:'مولد نبوي',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'pulse'},
+  {id:'quran',cat:'religious',name:'قرآن',emoji:'📖',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'dua',cat:'religious',name:'دعاء',emoji:'🤲',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},
+  {id:'ashura',cat:'religious',name:'عاشوراء',emoji:'🕯️',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},
+  {id:'jumuah',cat:'religious',name:'جمعة',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+
+  // مناسبات
+  {id:'graduation',cat:'occasions',name:'تخرج',emoji:'🎓',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'wedding',cat:'occasions',name:'زواج',emoji:'💍',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'engagement',cat:'occasions',name:'خطوبة',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'baby',cat:'occasions',name:'مولود',emoji:'👶',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
+  {id:'birthday',cat:'occasions',name:'عيد ميلاد',emoji:'🎂',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'congrats',cat:'occasions',name:'تهنئة',emoji:'🎊',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
+  {id:'condolence',cat:'occasions',name:'عزاء',emoji:'🖤',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
+  {id:'new_year',cat:'occasions',name:'سنة جديدة',emoji:'🎆',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'anniversary',cat:'occasions',name:'ذكرى سنوية',emoji:'🥂',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'thanks',cat:'occasions',name:'شكر',emoji:'🙏',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'success',cat:'occasions',name:'نجاح',emoji:'🏆',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'promotion',cat:'occasions',name:'ترقية',emoji:'📈',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+
+  // وطني
+  {id:'national',cat:'national',name:'يوم وطني',emoji:'🇸🇦',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},
+  {id:'founding',cat:'national',name:'يوم التأسيس',emoji:'🏛️',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'flag_day',cat:'national',name:'يوم العلم',emoji:'🚩',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+
+  // سفر
+  {id:'travel',cat:'travel',name:'سفر',emoji:'✈️',size:'1080x1080',transition:'slideRight',layout:'single',animation:'kenRight'},
+  {id:'beach',cat:'travel',name:'شاطئ',emoji:'🏖️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'panDown'},
+  {id:'mountains',cat:'travel',name:'جبال',emoji:'🏔️',size:'1080x1350',transition:'slideRight',layout:'single',animation:'kenRight'},
+  {id:'desert',cat:'travel',name:'صحراء',emoji:'🏜️',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'nature',cat:'travel',name:'طبيعة',emoji:'🌿',size:'1080x1080',transition:'fade',layout:'single',animation:'kenLeft'},
+  {id:'sunset',cat:'travel',name:'غروب',emoji:'🌅',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'city',cat:'travel',name:'مدينة',emoji:'🏙️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+
+  // أعمال
+  {id:'business',cat:'business',name:'إعلان',emoji:'📢',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+  {id:'product',cat:'business',name:'منتج',emoji:'🛍️',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
+  {id:'sale',cat:'business',name:'تخفيض',emoji:'🏷️',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'store',cat:'business',name:'متجر',emoji:'🏪',size:'1080x1080',transition:'slideRight',layout:'single',animation:'zoomIn'},
+  {id:'restaurant',cat:'business',name:'مطعم',emoji:'🍽️',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'cafe',cat:'business',name:'مقهى',emoji:'☕',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'realestate',cat:'business',name:'عقار',emoji:'🏠',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+  {id:'car',cat:'business',name:'سيارة',emoji:'🚗',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},
+  {id:'services',cat:'business',name:'خدمات',emoji:'🛠️',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+
+  // سوشيال
+  {id:'story',cat:'social',name:'ستوري',emoji:'📱',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
+  {id:'reels',cat:'social',name:'ريلز',emoji:'🎞️',size:'1080x1920',transition:'zoom',layout:'single',animation:'kenRight'},
+  {id:'tiktok',cat:'social',name:'تيك توك',emoji:'🎵',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
+  {id:'youtube',cat:'social',name:'يوتيوب',emoji:'▶️',size:'1920x1080',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'instagram',cat:'social',name:'انستقرام',emoji:'📷',size:'1080x1350',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'snapchat',cat:'social',name:'سناب',emoji:'👻',size:'1080x1920',transition:'slideUp',layout:'single',animation:'pulse'},
+  {id:'twitter',cat:'social',name:'تويتر',emoji:'🐦',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+  {id:'podcast',cat:'social',name:'بودكاست',emoji:'🎙️',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
+
+  // مشاعر + رياضة
+  {id:'love',cat:'mood',name:'حب',emoji:'❤️',size:'1080x1350',transition:'fade',layout:'single',animation:'pulse'},
+  {id:'sad',cat:'mood',name:'حزن',emoji:'💔',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
+  {id:'joy',cat:'mood',name:'فرح',emoji:'😊',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'hope',cat:'mood',name:'أمل',emoji:'🌅',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'motivation',cat:'mood',name:'تحفيز',emoji:'💪',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},
+  {id:'memory',cat:'mood',name:'ذكرى',emoji:'📸',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'friendship',cat:'mood',name:'صداقة',emoji:'🤝',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
+  {id:'peace',cat:'mood',name:'هدوء',emoji:'🕊️',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
+  {id:'miss_you',cat:'mood',name:'اشتقت',emoji:'💭',size:'1080x1350',transition:'fade',layout:'single',animation:'kenLeft'},
+  {id:'dream',cat:'mood',name:'حلم',emoji:'✨',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+  {id:'football',cat:'mood',name:'كرة قدم',emoji:'⚽',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},
+  {id:'sport',cat:'mood',name:'رياضة',emoji:'🏃',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
+
+  // عائلة
+  {id:'family',cat:'family',name:'عائلة',emoji:'👨‍👩‍👧',size:'1080x1080',transition:'fade',layout:'grid4',animation:'zoomIn'},
+  {id:'kids',cat:'family',name:'أطفال',emoji:'🧒',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},
+  {id:'school',cat:'family',name:'مدرسة',emoji:'📚',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+  {id:'kindergarten',cat:'family',name:'روضة',emoji:'🧸',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},
+  {id:'mother',cat:'family',name:'أمي',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+  {id:'father',cat:'family',name:'أبي',emoji:'👔',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+
+  // أشكال
+  {id:'grid',cat:'shapes',name:'شبكة',emoji:'🎨',size:'1080x1080',transition:'slideUp',layout:'grid4',animation:'zoomIn'},
+  {id:'split',cat:'shapes',name:'مقسّم',emoji:'📐',size:'1920x1080',transition:'slideLeft',layout:'splitH',animation:'panRight'},
+  {id:'triple_tpl',cat:'shapes',name:'ثلاثي',emoji:'🎯',size:'1080x1080',transition:'zoom',layout:'triple',animation:'zoomIn'},
+  {id:'overlay_tpl',cat:'shapes',name:'تراكب',emoji:'🖼️',size:'1080x1920',transition:'fade',layout:'overlay',animation:'zoomIn'},
+  {id:'collage',cat:'shapes',name:'كولاج',emoji:'✨',size:'1080x1080',transition:'zoom',layout:'grid4',animation:'pulse'},
+  {id:'vertical_split',cat:'shapes',name:'فوق وتحت',emoji:'📏',size:'1080x1080',transition:'slideUp',layout:'splitV',animation:'zoomIn'},
+  {id:'before_after',cat:'shapes',name:'قبل/بعد',emoji:'🔀',size:'1080x1080',transition:'slideRight',layout:'splitH',animation:'none'}
 ];
 
 var EMOJIS=['😀','😂','😍','🥰','😎','🤩','😭','😱','🤔','🙄','😴','🤗','👍','👏','🙏','👌','✌️','🤝','💪','❤️','💕','💖','💔','✨','⭐','🌟','🔥','⚡','💫','🎉','🎊','🎈','🎁','🎂','🎓','👑','💎','🌸','🌹','🌺','🌻','🍀','🌈','☀️','🌙','⭐','🍕','🍔','☕','🍦','⚽','🏀','🎮','🎵','🎶','📱','💻','📸','💯','✅','❗','❓','💬','📍','🚀'];
 
-// Tabs
 function switchTab(name,btn){
   document.querySelectorAll('.tab-btn').forEach(function(t){t.classList.remove('active');});
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
@@ -750,7 +828,6 @@ function switchTab(name,btn){
   if(name==='animate')updateAnimateTab();
 }
 
-// رفع الصور
 document.getElementById('imageInput').addEventListener('change',function(e){
   var files=Array.from(e.target.files);
   if(files.length===0)return;
@@ -876,7 +953,6 @@ function updateInfo(){
   document.getElementById('infoAudio').textContent=al;
 }
 
-// رسم الصور
 function drawImageInCell(ctx,item,x,y,w,h,opacity,animProgress){
   if(opacity===undefined)opacity=1;if(animProgress===undefined)animProgress=0;
   ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();
@@ -940,7 +1016,6 @@ function drawTransition(ctx,prevStart,nextStart,canvasW,canvasH,progress){
   ctx.restore();
 }
 
-// رسم العناصر
 function drawTextElement(ctx,el,cw,ch){
   var fs=el.size*Math.min(cw,ch)/100;
   ctx.save();
@@ -998,7 +1073,6 @@ function drawOverlays(ctx,cw,ch){
   drawWatermark(ctx,cw,ch);
 }
 
-// Preview
 function getSceneCount(){var l=LAYOUTS.find(function(x){return x.id===currentLayout;});if(!l)return images.length;return Math.ceil(images.length/l.cells.length);}
 function getSceneDuration(si){var l=LAYOUTS.find(function(x){return x.id===currentLayout;});if(!l)return 3;var ip=l.cells.length;var md=3;for(var i=0;i<ip;i++){var idx=si*ip+i;if(images[idx])md=Math.max(md,images[idx].duration);}return md;}
 
@@ -1059,7 +1133,6 @@ function resetAll(){
   showToast('تم إعادة التعيين');
 }
 
-// القص
 function openCrop(){
   if(selectedImageIndex<0){showToast('اختر صورة أولاً');return;}
   var item=images[selectedImageIndex];cropOriginalImage=item.img;
@@ -1118,7 +1191,6 @@ function applyCrop(){
 }
 function closeCrop(){document.getElementById('cropOverlay').classList.remove('active');cropRect=null;cropOriginalImage=null;}
 
-// العناصر
 function renderPositionGrid(gridId,currentVar,onSelect){
   var grid=document.getElementById(gridId);if(!grid)return;grid.innerHTML='';
   Object.keys(POSITIONS).forEach(function(key){
@@ -1132,7 +1204,6 @@ function renderPositionGrid(gridId,currentVar,onSelect){
 renderPositionGrid('textPositionGrid','mc',function(k){currentTextPosition=k;renderPositionGrid('textPositionGrid',k,arguments.callee);});
 renderPositionGrid('stickerPositionGrid','mc',function(k){currentStickerPosition=k;renderPositionGrid('stickerPositionGrid',k,arguments.callee);});
 
-// Emoji grid
 (function(){
   var g=document.getElementById('emojiGrid');
   EMOJIS.forEach(function(e){
@@ -1195,7 +1266,6 @@ function renderElementsList(){
     acts.appendChild(delBtn);
     head.appendChild(pv);head.appendChild(acts);
     el.appendChild(head);
-    // Position grid
     var pg=document.createElement('div');pg.className='position-grid';
     var currentPos='mc';
     Object.keys(POSITIONS).forEach(function(key){
@@ -1217,7 +1287,6 @@ function renderElementsList(){
 }
 renderElementsList();
 
-// Watermark
 function toggleWatermark(on){
   if(on){
     if(!watermark)watermark={enabled:true,type:'text',text:'@mybrand',color:'#ffffff',size:5,position:'br',opacity:0.7};
@@ -1281,17 +1350,37 @@ function removeWmImage(){
   });
 });
 
-// القوالب
 (function(){
+  var catsBar=document.getElementById('templateCategories');
+  catsBar.innerHTML='';
+  TEMPLATE_CATEGORIES.forEach(function(cat){
+    var btn=document.createElement('button');
+    btn.className='tab-btn'+(cat.id==='all'?' active':'');
+    btn.innerHTML=cat.emoji+' '+cat.name;
+    btn.onclick=function(){
+      currentTemplateCategory=cat.id;
+      catsBar.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      renderTemplates();
+    };
+    catsBar.appendChild(btn);
+  });
+  renderTemplates();
+})();
+
+function renderTemplates(){
   var g=document.getElementById('templatesGrid');
-  TEMPLATES.forEach(function(t){
+  g.innerHTML='';
+  var filtered=currentTemplateCategory==='all'?TEMPLATES:TEMPLATES.filter(function(t){return t.cat===currentTemplateCategory;});
+  filtered.forEach(function(t){
     var card=document.createElement('div');
     card.className='template-card';
     card.innerHTML='<div class="template-emoji">'+t.emoji+'</div><div class="template-name">'+t.name+'</div>';
     card.onclick=function(){applyTemplate(t);};
     g.appendChild(card);
   });
-})();
+}
+
 function applyTemplate(t){
   currentSize=t.size;currentTransition=t.transition;currentLayout=t.layout;
   images.forEach(function(img){img.animation=t.animation;});
@@ -1301,7 +1390,6 @@ function applyTemplate(t){
   showToast('تم تطبيق قالب: '+t.name);
 }
 
-// الصوت
 function switchAudioTab(tab,btn){
   document.querySelectorAll('.audio-tab').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
@@ -1381,7 +1469,6 @@ document.getElementById('musicInput').addEventListener('change',function(e){
 });
 function removeMusic(){musicFile=null;document.getElementById('musicInfo').classList.add('section-hidden');document.getElementById('musicInput').value='';updateInfo();}
 
-// تصدير
 function exportVideo(){
   if(images.length===0||isExporting)return;
   isExporting=true;
@@ -1456,10 +1543,7 @@ function exportVideo(){
   });
 }
 
-// مشاركة
-function getShareText(){
-  return 'شاهد الفيديو الذي أنشأته من موقع ريشة للمونتاج 🎬';
-}
+function getShareText(){return 'شاهد الفيديو الذي أنشأته من موقع ريشة للمونتاج 🎬';}
 function getShareUrl(){return window.location.origin+window.location.pathname;}
 function shareWhatsApp(){window.open('https://wa.me/?text='+encodeURIComponent(getShareText()+' '+getShareUrl()),'_blank');}
 function shareTwitter(){window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(getShareText())+'&url='+encodeURIComponent(getShareUrl()),'_blank');}
@@ -1475,7 +1559,6 @@ function copyShareLink(){
   }
 }
 
-// Storage
 async function uploadAudioToStorage(fileOrBlob,prefix){
   if(!fileOrBlob)return null;
   var ext='webm';
@@ -1492,7 +1575,6 @@ async function downloadAudioFromUrl(url){
   return await r.blob();
 }
 
-// حفظ المشروع
 function getProjectData(){
   return {
     images:images.map(function(i){return{src:i.src,animation:i.animation,duration:i.duration,rotation:i.rotation,flipH:i.flipH,flipV:i.flipV,speed:i.speed,crop:i.crop};}),
@@ -1604,7 +1686,6 @@ async function loadProjectData(data){
   document.getElementById('recordActions').classList.add('section-hidden');
   document.getElementById('wmPreviewInfo').classList.add('section-hidden');
 
-  // الصور
   if(data.images&&data.images.length>0){
     var loaded=0,total=data.images.length;
     data.images.forEach(function(saved,i){
@@ -1625,7 +1706,6 @@ async function loadProjectData(data){
     });
   } else {renderImagesGrid();updateInfo();}
 
-  // العناصر
   if(data.textElements)textElements=data.textElements;
   if(data.stickers)stickers=data.stickers;
   if(data.watermark){
@@ -1651,7 +1731,6 @@ async function loadProjectData(data){
   }
   renderElementsList();updateInfo();
 
-  // الصوت
   if(data.audioUrls){
     try{
       if(data.audioUrls.record){
@@ -1689,7 +1768,6 @@ async function loadProjectData(data){
 function closeProjects(){document.getElementById('projectsOverlay').classList.remove('active');}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
 
-// المعرض العام
 async function openGallery(){
   document.getElementById('galleryOverlay').classList.add('active');
   var list=document.getElementById('galleryList');list.innerHTML='<div class="empty-hint">جاري التحميل...</div>';
@@ -1720,7 +1798,6 @@ document.getElementById('saveProjectBtn').addEventListener('click',saveProject);
 document.getElementById('myProjectsBtn').addEventListener('click',openProjects);
 document.getElementById('galleryBtn').addEventListener('click',openGallery);
 
-// تهيئة
 window.addEventListener('load',function(){
   renderLayouts();updateInfo();
   if(!window.MediaRecorder){showToast('متصفحك لا يدعم تصدير الفيديو');document.getElementById('exportBtn').disabled=true;}
