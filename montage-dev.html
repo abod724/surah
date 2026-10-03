@@ -536,7 +536,7 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
     </div>
 
     <div style="text-align:center;padding:30px 20px;">
-      <a href="index.html" style="color:#6366f1;font-family:'Cairo',sans-serif;font-weight:800;font-size:15px;text-decoration:underline;display:inline-block;padding:10px 20px;">العودة إلى ريشة</a>
+      <a href="index.html" style="color:#ffffff;font-family:'Cairo',sans-serif;font-weight:800;font-size:15px;text-decoration:underline;display:inline-block;padding:10px 20px;text-shadow:0 1px 4px rgba(0,0,0,.3);">العودة إلى ريشة</a>
     </div>
     <div class="footer">© Nibras GP</div>
   </div>
@@ -725,7 +725,6 @@ var TEMPLATE_CATEGORIES=[
 var currentTemplateCategory='all';
 
 var TEMPLATES=[
-  // ديني
   {id:'ramadan',cat:'religious',name:'رمضان',emoji:'🌙',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
   {id:'eid_fitr',cat:'religious',name:'عيد فطر',emoji:'🌙',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
   {id:'eid_adha',cat:'religious',name:'عيد أضحى',emoji:'🐑',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
@@ -737,7 +736,6 @@ var TEMPLATES=[
   {id:'ashura',cat:'religious',name:'عاشوراء',emoji:'🕯️',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},
   {id:'jumuah',cat:'religious',name:'جمعة',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
 
-  // مناسبات
   {id:'graduation',cat:'occasions',name:'تخرج',emoji:'🎓',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
   {id:'wedding',cat:'occasions',name:'زواج',emoji:'💍',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
   {id:'engagement',cat:'occasions',name:'خطوبة',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
@@ -751,12 +749,10 @@ var TEMPLATES=[
   {id:'success',cat:'occasions',name:'نجاح',emoji:'🏆',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
   {id:'promotion',cat:'occasions',name:'ترقية',emoji:'📈',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
 
-  // وطني
   {id:'national',cat:'national',name:'يوم وطني',emoji:'🇸🇦',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},
   {id:'founding',cat:'national',name:'يوم التأسيس',emoji:'🏛️',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
   {id:'flag_day',cat:'national',name:'يوم العلم',emoji:'🚩',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
 
-  // سفر
   {id:'travel',cat:'travel',name:'سفر',emoji:'✈️',size:'1080x1080',transition:'slideRight',layout:'single',animation:'kenRight'},
   {id:'beach',cat:'travel',name:'شاطئ',emoji:'🏖️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'panDown'},
   {id:'mountains',cat:'travel',name:'جبال',emoji:'🏔️',size:'1080x1350',transition:'slideRight',layout:'single',animation:'kenRight'},
@@ -765,7 +761,6 @@ var TEMPLATES=[
   {id:'sunset',cat:'travel',name:'غروب',emoji:'🌅',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
   {id:'city',cat:'travel',name:'مدينة',emoji:'🏙️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
 
-  // أعمال
   {id:'business',cat:'business',name:'إعلان',emoji:'📢',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
   {id:'product',cat:'business',name:'منتج',emoji:'🛍️',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
   {id:'sale',cat:'business',name:'تخفيض',emoji:'🏷️',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
@@ -776,7 +771,6 @@ var TEMPLATES=[
   {id:'car',cat:'business',name:'سيارة',emoji:'🚗',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},
   {id:'services',cat:'business',name:'خدمات',emoji:'🛠️',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
 
-  // سوشيال
   {id:'story',cat:'social',name:'ستوري',emoji:'📱',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
   {id:'reels',cat:'social',name:'ريلز',emoji:'🎞️',size:'1080x1920',transition:'zoom',layout:'single',animation:'kenRight'},
   {id:'tiktok',cat:'social',name:'تيك توك',emoji:'🎵',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
@@ -786,7 +780,6 @@ var TEMPLATES=[
   {id:'twitter',cat:'social',name:'تويتر',emoji:'🐦',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
   {id:'podcast',cat:'social',name:'بودكاست',emoji:'🎙️',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
 
-  // مشاعر + رياضة
   {id:'love',cat:'mood',name:'حب',emoji:'❤️',size:'1080x1350',transition:'fade',layout:'single',animation:'pulse'},
   {id:'sad',cat:'mood',name:'حزن',emoji:'💔',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
   {id:'joy',cat:'mood',name:'فرح',emoji:'😊',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
@@ -800,7 +793,6 @@ var TEMPLATES=[
   {id:'football',cat:'mood',name:'كرة قدم',emoji:'⚽',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},
   {id:'sport',cat:'mood',name:'رياضة',emoji:'🏃',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
 
-  // عائلة
   {id:'family',cat:'family',name:'عائلة',emoji:'👨‍👩‍👧',size:'1080x1080',transition:'fade',layout:'grid4',animation:'zoomIn'},
   {id:'kids',cat:'family',name:'أطفال',emoji:'🧒',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},
   {id:'school',cat:'family',name:'مدرسة',emoji:'📚',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
@@ -808,7 +800,6 @@ var TEMPLATES=[
   {id:'mother',cat:'family',name:'أمي',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
   {id:'father',cat:'family',name:'أبي',emoji:'👔',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
 
-  // أشكال
   {id:'grid',cat:'shapes',name:'شبكة',emoji:'🎨',size:'1080x1080',transition:'slideUp',layout:'grid4',animation:'zoomIn'},
   {id:'split',cat:'shapes',name:'مقسّم',emoji:'📐',size:'1920x1080',transition:'slideLeft',layout:'splitH',animation:'panRight'},
   {id:'triple_tpl',cat:'shapes',name:'ثلاثي',emoji:'🎯',size:'1080x1080',transition:'zoom',layout:'triple',animation:'zoomIn'},
