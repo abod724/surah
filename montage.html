@@ -189,6 +189,9 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
 .share-tw{background:#1da1f2}
 .share-cp{background:#6366f1}
 .share-tg{background:#0088cc}
+.google-btn{width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:12px;background:#fff;font-family:'Cairo',sans-serif;font-weight:700;font-size:14px;color:#0f172a;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px}
+.google-btn:active{transform:scale(.98)}
+.divider-or{text-align:center;margin:15px 0;color:#94a3b8;font-size:12px;font-weight:700;position:relative}
 @media (max-width:480px){
   .container{padding:0}
   .card{padding:14px}
@@ -218,6 +221,11 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
       <div class="auth-field"><label>كلمة المرور</label><input type="password" id="authPassword" placeholder="••••••••" required minlength="6" autocomplete="current-password"></div>
       <div class="auth-field" id="confirmPasswordField" style="display:none;"><label>تأكيد كلمة المرور</label><input type="password" id="authPassword2" placeholder="••••••••" minlength="6" autocomplete="new-password"></div>
       <button type="submit" class="auth-btn" id="authSubmitBtn">دخول</button>
+      <div class="divider-or">— أو —</div>
+      <button type="button" class="google-btn" id="googleLoginBtn">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:20px;height:20px;" alt="Google">
+        تسجيل الدخول بـ Google
+      </button>
       <div style="text-align:center;margin-top:10px;"><button type="button" id="forgotBtn" style="background:none;border:none;color:#6366f1;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;text-decoration:underline;">نسيت كلمة المرور؟</button></div>
     </form>
     <div class="auth-switch" id="authSwitch">ما عندك حساب؟ <button type="button" id="authToggleMode">أنشئ حساب</button></div>
@@ -634,6 +642,21 @@ authForm.addEventListener('submit',async function(e){
   } finally{authSubmitBtn.disabled=false;authSubmitBtn.textContent=orig;}
 });
 
+document.getElementById('googleLoginBtn').addEventListener('click', async function(){
+  var btn=this;btn.disabled=true;
+  try{
+    const {error}=await sb.auth.signInWithOAuth({
+      provider:'google',
+      options:{redirectTo:window.location.origin+window.location.pathname}
+    });
+    if(error)throw error;
+  }catch(err){
+    console.error(err);
+    showToast('فشل تسجيل Google: '+(err.message||'خطأ'));
+    btn.disabled=false;
+  }
+});
+
 document.getElementById('logoutBtn').addEventListener('click',async function(){if(!confirm('تسجيل الخروج؟'))return;await sb.auth.signOut();currentUser=null;location.reload();});
 
 function onLoginSuccess(user){
@@ -735,7 +758,6 @@ var TEMPLATES=[
   {id:'dua',cat:'religious',name:'دعاء',emoji:'🤲',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},
   {id:'ashura',cat:'religious',name:'عاشوراء',emoji:'🕯️',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},
   {id:'jumuah',cat:'religious',name:'جمعة',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
-
   {id:'graduation',cat:'occasions',name:'تخرج',emoji:'🎓',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
   {id:'wedding',cat:'occasions',name:'زواج',emoji:'💍',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
   {id:'engagement',cat:'occasions',name:'خطوبة',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
@@ -748,11 +770,9 @@ var TEMPLATES=[
   {id:'thanks',cat:'occasions',name:'شكر',emoji:'🙏',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
   {id:'success',cat:'occasions',name:'نجاح',emoji:'🏆',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
   {id:'promotion',cat:'occasions',name:'ترقية',emoji:'📈',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
-
   {id:'national',cat:'national',name:'يوم وطني',emoji:'🇸🇦',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},
   {id:'founding',cat:'national',name:'يوم التأسيس',emoji:'🏛️',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
   {id:'flag_day',cat:'national',name:'يوم العلم',emoji:'🚩',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
-
   {id:'travel',cat:'travel',name:'سفر',emoji:'✈️',size:'1080x1080',transition:'slideRight',layout:'single',animation:'kenRight'},
   {id:'beach',cat:'travel',name:'شاطئ',emoji:'🏖️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'panDown'},
   {id:'mountains',cat:'travel',name:'جبال',emoji:'🏔️',size:'1080x1350',transition:'slideRight',layout:'single',animation:'kenRight'},
@@ -760,7 +780,6 @@ var TEMPLATES=[
   {id:'nature',cat:'travel',name:'طبيعة',emoji:'🌿',size:'1080x1080',transition:'fade',layout:'single',animation:'kenLeft'},
   {id:'sunset',cat:'travel',name:'غروب',emoji:'🌅',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
   {id:'city',cat:'travel',name:'مدينة',emoji:'🏙️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
-
   {id:'business',cat:'business',name:'إعلان',emoji:'📢',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
   {id:'product',cat:'business',name:'منتج',emoji:'🛍️',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
   {id:'sale',cat:'business',name:'تخفيض',emoji:'🏷️',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
@@ -770,7 +789,6 @@ var TEMPLATES=[
   {id:'realestate',cat:'business',name:'عقار',emoji:'🏠',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
   {id:'car',cat:'business',name:'سيارة',emoji:'🚗',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},
   {id:'services',cat:'business',name:'خدمات',emoji:'🛠️',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
-
   {id:'story',cat:'social',name:'ستوري',emoji:'📱',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
   {id:'reels',cat:'social',name:'ريلز',emoji:'🎞️',size:'1080x1920',transition:'zoom',layout:'single',animation:'kenRight'},
   {id:'tiktok',cat:'social',name:'تيك توك',emoji:'🎵',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
@@ -779,7 +797,6 @@ var TEMPLATES=[
   {id:'snapchat',cat:'social',name:'سناب',emoji:'👻',size:'1080x1920',transition:'slideUp',layout:'single',animation:'pulse'},
   {id:'twitter',cat:'social',name:'تويتر',emoji:'🐦',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
   {id:'podcast',cat:'social',name:'بودكاست',emoji:'🎙️',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
-
   {id:'love',cat:'mood',name:'حب',emoji:'❤️',size:'1080x1350',transition:'fade',layout:'single',animation:'pulse'},
   {id:'sad',cat:'mood',name:'حزن',emoji:'💔',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
   {id:'joy',cat:'mood',name:'فرح',emoji:'😊',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
@@ -792,14 +809,12 @@ var TEMPLATES=[
   {id:'dream',cat:'mood',name:'حلم',emoji:'✨',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
   {id:'football',cat:'mood',name:'كرة قدم',emoji:'⚽',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},
   {id:'sport',cat:'mood',name:'رياضة',emoji:'🏃',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
-
   {id:'family',cat:'family',name:'عائلة',emoji:'👨‍👩‍👧',size:'1080x1080',transition:'fade',layout:'grid4',animation:'zoomIn'},
   {id:'kids',cat:'family',name:'أطفال',emoji:'🧒',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},
   {id:'school',cat:'family',name:'مدرسة',emoji:'📚',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
   {id:'kindergarten',cat:'family',name:'روضة',emoji:'🧸',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},
   {id:'mother',cat:'family',name:'أمي',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
   {id:'father',cat:'family',name:'أبي',emoji:'👔',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
-
   {id:'grid',cat:'shapes',name:'شبكة',emoji:'🎨',size:'1080x1080',transition:'slideUp',layout:'grid4',animation:'zoomIn'},
   {id:'split',cat:'shapes',name:'مقسّم',emoji:'📐',size:'1920x1080',transition:'slideLeft',layout:'splitH',animation:'panRight'},
   {id:'triple_tpl',cat:'shapes',name:'ثلاثي',emoji:'🎯',size:'1080x1080',transition:'zoom',layout:'triple',animation:'zoomIn'},
