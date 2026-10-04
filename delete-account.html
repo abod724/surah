@@ -5,38 +5,95 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>حذف الحساب — ريشة | Delete Account — Resha</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
+  * { box-sizing: border-box; }
   body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 12px; margin: 0; }
   .container { max-width: 700px; margin: 0 auto; }
   .card { background: #fff; border-radius: 20px; padding: 28px; margin-bottom: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
-  h1 { color: #4338ca; font-size: 24px; text-align: center; margin: 0 0 8px; }
+  .header { color: #fff; text-align: center; margin-bottom: 20px; }
+  .header .logo { width: 60px; height: 60px; margin: 0 auto 10px; display: block; border-radius: 16px; }
+  .header h1 { font-size: 24px; font-weight: 800; margin: 0 0 6px; color: #fff; }
+  .header p { font-size: 14px; opacity: 0.9; margin: 0; }
   h2 { color: #4338ca; font-size: 18px; margin: 20px 0 12px; padding-right: 10px; border-right: 4px solid #667eea; }
   p { line-height: 1.9; color: #374151; font-size: 15px; }
   ol, ul { padding-right: 24px; line-height: 2; color: #374151; }
   a { color: #4338ca; font-weight: 700; }
   .danger { background: #fef2f2; padding: 16px; border-radius: 12px; border: 2px solid #ef4444; margin: 16px 0; }
-  .danger h3 { color: #dc2626; margin: 0 0 10px; }
-  .btn { display: inline-block; padding: 14px 28px; background: #ef4444; color: #fff; text-decoration: none; border-radius: 12px; font-weight: 800; font-size: 15px; margin: 10px 0; }
+  .danger h3 { color: #dc2626; margin: 0 0 10px; font-size: 16px; }
+  .danger ul { margin: 8px 0 0 0; padding-right: 20px; }
+  .danger li { color: #7f1d1d; font-size: 14px; }
+  .success-box { background: #f0fdf4; padding: 20px; border-radius: 12px; border: 2px solid #10b981; margin: 16px 0; text-align: center; }
+  .success-box h3 { color: #065f46; margin: 0 0 10px; }
+  .success-box p { color: #047857; margin: 0; }
+  .info-box { background: #eef2ff; padding: 16px; border-radius: 12px; border-right: 4px solid #667eea; margin: 16px 0; color: #3730a3; font-weight: 700; line-height: 1.8; }
+  .user-card { background: #f8fafc; padding: 16px; border-radius: 12px; border: 2px solid #e5e7eb; margin: 16px 0; }
+  .user-card .label { font-size: 12px; color: #64748b; font-weight: 700; margin-bottom: 4px; }
+  .user-card .value { font-size: 15px; color: #0f172a; font-weight: 800; word-break: break-all; }
+  .btn { display: inline-block; padding: 14px 28px; border: none; border-radius: 12px; font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 15px; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s; }
+  .btn-danger { background: #ef4444; color: #fff; }
+  .btn-danger:hover { background: #dc2626; transform: translateY(-2px); }
+  .btn-danger:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
+  .btn-primary { background: #667eea; color: #fff; }
+  .btn-primary:hover { background: #5568d3; transform: translateY(-2px); }
+  .btn-github { background: #0f172a; color: #fff; }
+  .btn-google { background: #fff; color: #0f172a; border: 2px solid #e2e8f0; }
   .back { display: inline-block; padding: 12px 24px; background: #667eea; color: #fff; text-decoration: none; border-radius: 12px; font-weight: 800; margin-top: 20px; }
-  .header { color: #fff; text-align: center; margin-bottom: 20px; }
-  .header h1 { color: #fff; }
+  .checkbox-row { display: flex; align-items: flex-start; gap: 10px; padding: 12px; background: #fef2f2; border-radius: 10px; border: 2px solid #fecaca; margin: 16px 0; }
+  .checkbox-row input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; cursor: pointer; flex-shrink: 0; }
+  .checkbox-row label { font-size: 14px; font-weight: 700; color: #7f1d1d; cursor: pointer; line-height: 1.6; }
+  .auth-buttons { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+  .auth-buttons .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; }
+  .spinner { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle; margin-left: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .hidden { display: none !important; }
+  .footer { text-align: center; color: #fff; font-size: 13px; padding: 16px; background: rgba(0,0,0,0.15); border-radius: 14px; font-weight: 700; }
+  .footer small { display: block; margin-top: 4px; opacity: 0.85; font-weight: 400; }
 </style>
 </head>
 <body>
+
 <div class="container">
   <div class="header">
+    <img src="resha-512.png" alt="ريشة" class="logo">
     <h1>🗑️ حذف الحساب</h1>
     <p>حذف حسابك من تطبيق ريشة</p>
   </div>
 
-  <div class="card">
-    <h2>كيفية حذف الحساب</h2>
-    <p>لحذف حسابك في ريشة وجميع البيانات المرتبطة به (المشاريع، الصور، التسجيلات الصوتية)، اتبع إحدى الطريقتين التاليتين:</p>
+  <!-- شاشة التحميل -->
+  <div class="card" id="loadingCard">
+    <p style="text-align:center;padding:20px;">⏳ جاري التحقق من حالة تسجيل الدخول...</p>
+  </div>
+
+  <!-- شاشة تسجيل الدخول -->
+  <div class="card hidden" id="loginCard">
+    <h2>الخطوة 1: سجّل دخولك</h2>
+    <p>لحذف حسابك، يجب أولاً تسجيل الدخول للتأكد من هويتك.</p>
+    <div class="auth-buttons">
+      <button class="btn btn-google" onclick="loginWithGoogle()">
+        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+        الدخول عبر Google
+      </button>
+      <button class="btn btn-github" onclick="loginWithGitHub()">
+        <svg height="20" viewBox="0 0 16 16" width="20" fill="#fff"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+        الدخول عبر GitHub
+      </button>
+    </div>
+    <p style="font-size:13px;color:#64748b;text-align:center;">سجّل دخولك بنفس الحساب الذي استخدمته في تطبيق ريشة.</p>
+  </div>
+
+  <!-- شاشة تأكيد الحذف -->
+  <div class="card hidden" id="deleteCard">
+    <h2>الخطوة 2: تأكيد حذف الحساب</h2>
+
+    <div class="user-card">
+      <div class="label">الحساب المسجل:</div>
+      <div class="value" id="userEmail">—</div>
+    </div>
 
     <div class="danger">
-      <h3>⚠️ تحذير</h3>
-      <p style="margin:0;">عند حذف الحساب، سيتم حذف جميع بياناتك نهائياً ولا يمكن استرجاعها. يشمل ذلك:
-      </p>
+      <h3>⚠️ تحذير نهائي</h3>
+      <p style="margin:0 0 8px 0;">عند حذف حسابك، سيتم حذف جميع البيانات المرتبطة به <strong>نهائياً</strong> ولا يمكن استرجاعها:</p>
       <ul>
         <li>جميع مشاريع المونتاج المحفوظة</li>
         <li>جميع الصور والملفات الصوتية المرفوعة</li>
@@ -44,43 +101,206 @@
       </ul>
     </div>
 
-    <h2>الطريقة الأولى: عبر البريد الإلكتروني</h2>
+    <div class="checkbox-row">
+      <input type="checkbox" id="confirmCheck" onchange="toggleDeleteBtn()">
+      <label for="confirmCheck">
+        أؤكد أنني أريد حذف حسابي وجميع بياناتي نهائياً، وأفهم أن هذا الإجراء لا يمكن التراجع عنه.
+      </label>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="btn btn-danger" id="deleteBtn" onclick="deleteMyAccount()" disabled>
+        🗑️ حذف حسابي نهائياً
+      </button>
+    </div>
+
+    <p style="font-size:13px;color:#64748b;text-align:center;margin-top:16px;">
+      سيتم تسجيل خروجك تلقائياً بعد الحذف.
+    </p>
+  </div>
+
+  <!-- شاشة نجاح الحذف -->
+  <div class="card hidden" id="successCard">
+    <div class="success-box">
+      <h3>✅ تم حذف حسابك بنجاح</h3>
+      <p>شكراً لاستخدامك ريشة. تم حذف جميع بياناتك نهائياً.</p>
+    </div>
+    <p style="text-align:center;">
+      يمكنك الآن إنشاء حساب جديد في أي وقت من قسم المونتاج.
+    </p>
+  </div>
+
+  <!-- شاشة الخطأ -->
+  <div class="card hidden" id="errorCard">
+    <h2 style="color:#dc2626;border-color:#dc2626;">⚠️ حدث خطأ</h2>
+    <p id="errorMsg" style="color:#7f1d1d;"></p>
+    <p>يمكنك المحاولة مرة أخرى، أو التواصل معنا عبر:</p>
+    <p>📧 <a href="mailto:nibrasalsd@gmail.com">nibrasalsd@gmail.com</a> | 📱 <a href="tel:0569361182">0569361182</a></p>
+  </div>
+
+  <!-- قسم التعليمات -->
+  <div class="card" id="infoCard">
+    <h2>لا يمكنك تسجيل الدخول؟</h2>
+    <p>إذا لم تستطع تسجيل الدخول لحسابك (نسيت كلمة المرور، أو تم حذف حساب Google)، يمكنك طلب الحذف عبر البريد الإلكتروني:</p>
     <ol>
       <li>أرسل رسالة إلى: <a href="mailto:nibrasalsd@gmail.com?subject=طلب حذف حساب ريشة">nibrasalsd@gmail.com</a></li>
       <li>العنوان: "طلب حذف حساب ريشة"</li>
-      <li>اذكر البريد الإلكتروني المسجل به في التطبيق.</li>
-      <li>سيتم حذف حسابك وجميع بياناتك خلال <strong>30 يوماً كحد أقصى</strong> من تاريخ الطلب.</li>
+      <li>اذكر البريد الإلكتروني المسجل به.</li>
+      <li>سيتم الحذف خلال <strong>30 يوماً</strong> كحد أقصى.</li>
     </ol>
-
-    <h2>الطريقة الثانية: عبر التطبيق</h2>
-    <ol>
-      <li>افتح تطبيق ريشة.</li>
-      <li>سجّل دخولك في قسم المونتاج.</li>
-      <li>احذف جميع مشاريعك يدوياً من قائمة "مشاريعي".</li>
-      <li>أرسل طلب حذف الحساب من خلال: <a href="mailto:nibrasalsd@gmail.com?subject=طلب حذف حساب ريشة">nibrasalsd@gmail.com</a></li>
-    </ol>
-
-    <h2>ما البيانات التي سيتم حذفها؟</h2>
-    <ul>
-      <li>✅ البريد الإلكتروني والاسم</li>
-      <li>✅ جميع المشاريع المحفوظة</li>
-      <li>✅ جميع الصور والملفات الصوتية</li>
-      <li>✅ جميع الإعدادات والتخصيصات</li>
-    </ul>
-
-    <h2>البيانات التي لا يمكن حذفها</h2>
-    <p>لا توجد بيانات محفوظة خارج حسابك. الأقسام الأخرى (الصور، الفيديوهات، المحرر) لا تحتفظ بأي بيانات أساساً.</p>
-
-    <h2>المدة الزمنية</h2>
-    <p>سيتم معالجة طلب الحذف خلال <strong>30 يوماً كحد أقصى</strong> من تاريخ استلام الطلب.</p>
-
-    <h2>التواصل</h2>
-    <p>للاستفسار: <a href="mailto:nibrasalsd@gmail.com">nibrasalsd@gmail.com</a> | <a href="tel:0569361182">0569361182</a></p>
   </div>
 
   <div class="card" style="text-align:center;">
+    <a href="privacy.html" class="back">📜 سياسة الخصوصية</a>
     <a href="index.html" class="back">← العودة للرئيسية</a>
   </div>
+
+  <div class="footer">
+    جميع الحقوق محفوظة © Nibras GP 2026
+    <small>🖌️ ريشة — استوديو الصور والفيديوهات</small>
+  </div>
 </div>
+
+<script>
+const SUPABASE_URL='https://yleopsinexfenzfxvmlb.supabase.co';
+const SUPABASE_KEY='sb_publishable_YQhUQbXOqkk5CDmhmOB5TQ_hpy-bisu';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+
+// تبديل الشاشات
+function showScreen(id) {
+  ['loadingCard','loginCard','deleteCard','successCard','errorCard'].forEach(s => {
+    document.getElementById(s).classList.add('hidden');
+  });
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function showError(msg) {
+  document.getElementById('errorMsg').textContent = msg;
+  showScreen('errorCard');
+}
+
+// تسجيل الدخول
+async function loginWithGoogle() {
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { 
+      redirectTo: window.location.href,
+      scopes: 'email profile openid'
+    }
+  });
+  if (error) alert('خطأ: ' + error.message);
+}
+
+async function loginWithGitHub() {
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: 'github',
+    options: { redirectTo: window.location.href }
+  });
+  if (error) alert('خطأ: ' + error.message);
+}
+
+// فحص حالة الدخول
+async function init() {
+  try {
+    if (window.location.hash && window.location.hash.includes('access_token')) {
+      await new Promise(r => setTimeout(r, 800));
+    }
+    const { data: { session } } = await sb.auth.getSession();
+    
+    if (session && session.user) {
+      currentUser = session.user;
+      document.getElementById('userEmail').textContent = currentUser.email || '—';
+      showScreen('deleteCard');
+      if (window.location.hash) {
+        setTimeout(() => history.replaceState(null, '', window.location.pathname), 500);
+      }
+    } else {
+      showScreen('loginCard');
+    }
+  } catch (e) {
+    console.error('Init error:', e);
+    showScreen('loginCard');
+  }
+}
+
+function toggleDeleteBtn() {
+  const checked = document.getElementById('confirmCheck').checked;
+  document.getElementById('deleteBtn').disabled = !checked;
+}
+
+// الحذف الفعلي
+async function deleteMyAccount() {
+  if (!currentUser) {
+    showError('يجب تسجيل الدخول أولاً.');
+    return;
+  }
+  if (!document.getElementById('confirmCheck').checked) return;
+
+  const btn = document.getElementById('deleteBtn');
+  btn.disabled = true;
+  btn.innerHTML = 'جاري حذف المشاريع... <span class="spinner"></span>';
+
+  try {
+    // 1) احذف كل مشاريع المستخدم
+    const { error: projErr } = await sb.from('projects').delete().eq('user_id', currentUser.id);
+    if (projErr) console.warn('Projects delete:', projErr);
+
+    // 2) احذف كل ملفات المستخدم من Storage
+    btn.innerHTML = 'جاري حذف الملفات... <span class="spinner"></span>';
+    try {
+      const { data: folders } = await sb.storage.from('audio').list(currentUser.id);
+      if (folders && folders.length > 0) {
+        // احذف بشكل متداخل لأن بعض الملفات قد تكون داخل مجلدات
+        const pathsToDelete = [];
+        for (const f of folders) {
+          if (f.id === null) {
+            // مجلد فرعي
+            const { data: innerFiles } = await sb.storage.from('audio').list(currentUser.id + '/' + f.name);
+            if (innerFiles) {
+              innerFiles.forEach(inf => pathsToDelete.push(currentUser.id + '/' + f.name + '/' + inf.name));
+            }
+          } else {
+            pathsToDelete.push(currentUser.id + '/' + f.name);
+          }
+        }
+        if (pathsToDelete.length > 0) {
+          await sb.storage.from('audio').remove(pathsToDelete);
+        }
+      }
+    } catch (storageErr) {
+      console.warn('Storage delete warning:', storageErr);
+    }
+
+    // 3) احذف الحساب نفسه باستخدام دالة SQL
+    btn.innerHTML = 'جاري حذف الحساب... <span class="spinner"></span>';
+    const { error: delErr } = await sb.rpc('delete_user');
+    if (delErr) {
+      // إذا فشل الحذف عبر RPC، نحاول الطريقة البديلة
+      console.warn('RPC delete_user failed:', delErr);
+      throw new Error('فشل حذف الحساب: ' + delErr.message);
+    }
+
+    // 4) سجل خروج المستخدم
+    await sb.auth.signOut();
+
+    // 5) اعرض شاشة النجاح
+    showScreen('successCard');
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 5000);
+
+  } catch (err) {
+    console.error('Delete error:', err);
+    btn.disabled = false;
+    btn.innerHTML = '🗑️ حذف حسابي نهائياً';
+    showError(err.message || 'حدث خطأ غير معروف');
+  }
+}
+
+init();
+</script>
+
 </body>
 </html>
