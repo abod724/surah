@@ -108,6 +108,19 @@
   }
   .delete-box h3 { color: #dc2626; margin-top: 0; }
   .delete-box ol { margin-bottom: 0; }
+  .delete-link-btn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: #ef4444;
+    color: #fff !important;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 15px;
+    margin: 10px 0;
+    transition: all 0.2s;
+  }
+  .delete-link-btn:hover { background: #dc2626; transform: translateY(-2px); }
   .contact-item {
     display: flex;
     align-items: center;
@@ -260,8 +273,10 @@
 
       <h2>5. مشاركة البيانات</h2>
       <p>
-        نحن <strong>لا نبيع بياناتك ولا نشاركها مع أي طرف ثالث لأغراض تجارية أو إعلانية</strong>. 
-        نستعين بمزودي خدمات تقنيين موثوقين (مثل خدمات الاستضافة السحابية الآمنة) <strong>فقط لتشغيل التطبيق</strong>، وهم ملتزمون بحماية بياناتك ولا يحق لهم استخدامها لأي غرض آخر.
+        نحن <strong>لا نبيع بياناتك ولا نشاركها مع أي طرف ثالث لأغراض تجارية أو إعلانية</strong>.
+      </p>
+      <p>
+        نستعين بمزودي خدمات تقنيين موثوقين (مثل خدمات الاستضافة السحابية الآمنة، ومزودي خدمات تسجيل الدخول الآمن) <strong>فقط لتشغيل التطبيق بشكل طبيعي</strong>. هؤلاء المزودون ملتزمون بحماية بياناتك، ولا يحق لهم استخدامها لأي غرض آخر غير تشغيل الخدمة.
       </p>
 
       <h2>6. نقل البيانات دولياً</h2>
@@ -283,17 +298,22 @@
         <li><strong>حق الاعتراض:</strong> الاعتراض على أي معالجة لبياناتك.</li>
       </ul>
 
+      <h2>9. حذف الحساب والبيانات</h2>
       <div class="delete-box">
         <h3>🗑️ كيف تحذف حسابك وبياناتك؟</h3>
-        <p>لحذف حسابك وجميع بياناتك (الخاصة بقسم المونتاج فقط)، اتبع إحدى الطريقتين:</p>
+        <p>لحذف حسابك وجميع بياناتك (الخاصة بقسم المونتاج فقط)، يمكنك استخدام أي من الطرق التالية:</p>
         <ol>
-          <li><strong>عبر التطبيق:</strong> افتح قسم المونتاج، احذف كل مشاريعك يدوياً، ثم أرسل طلب حذف الحساب.</li>
+          <li><strong>عبر صفحة حذف الحساب:</strong> زر صفحة <a href="delete-account.html">حذف الحساب</a> المخصصة للحصول على التعليمات الكاملة.</li>
           <li><strong>عبر البريد الإلكتروني:</strong> أرسل رسالة إلى <a href="mailto:nibrasalsd@gmail.com?subject=طلب حذف حساب ريشة">nibrasalsd@gmail.com</a> بعنوان "طلب حذف حساب ريشة" مع ذكر البريد المسجل به، وسيتم الحذف خلال 30 يوماً كحد أقصى.</li>
+          <li><strong>عبر التطبيق:</strong> افتح قسم المونتاج، احذف كل مشاريعك يدوياً، ثم أرسل طلب حذف الحساب عبر البريد.</li>
         </ol>
-        <p style="margin-top:12px;margin-bottom:0;"><strong>ملاحظة:</strong> الأقسام الثلاثة الأخرى لا تحتفظ بأي بيانات، فلا يوجد ما يُحذف منها.</p>
+        <p style="margin-top:12px;"><strong>ملاحظة:</strong> الأقسام الثلاثة الأخرى لا تحتفظ بأي بيانات، فلا يوجد ما يُحذف منها.</p>
+        <div style="text-align:center; margin-top:14px;">
+          <a href="delete-account.html" class="delete-link-btn">🗑️ صفحة حذف الحساب</a>
+        </div>
       </div>
 
-      <h2>9. الأذونات</h2>
+      <h2>10. الأذونات</h2>
       <ul>
         <li><strong>الصور:</strong> لاختيار الصور ودمجها في المشاريع.</li>
         <li><strong>الميكروفون:</strong> لتسجيل الصوت (اختياري، في المونتاج فقط).</li>
@@ -301,16 +321,19 @@
       </ul>
       <p>جميع الأذونات اختيارية، ويمكنك رفضها.</p>
 
-      <h2>10. الإعلانات</h2>
+      <h2>11. ملفات تعريف الارتباط (Cookies)</h2>
+      <p>لا نستخدم ملفات تعريف الارتباط (Cookies) للتتبع أو الإعلانات. نستخدم فقط <strong>التخزين المحلي (LocalStorage)</strong> في متصفحك لحفظ جلستك وإعداداتك المؤقتة في قسم المونتاج. هذه البيانات تبقى على جهازك فقط ولا تُرسل لأي طرف ثالث.</p>
+
+      <h2>12. الإعلانات</h2>
       <p>التطبيق لا يحتوي على أي إعلانات، ولا نشارك بياناتك مع أي شبكات إعلانية.</p>
 
-      <h2>11. خصوصية الأطفال</h2>
+      <h2>13. خصوصية الأطفال</h2>
       <p>التطبيق آمن للاستخدام العائلي. لا نجمع بيانات من الأطفال دون 13 عاماً بشكل متعمد. إذا اكتشفت أن طفلاً أنشأ حساباً دون موافقة والديه، يرجى التواصل معنا لحذفه فوراً.</p>
 
-      <h2>12. التغييرات على السياسة</h2>
+      <h2>14. التغييرات على السياسة</h2>
       <p>قد نحدّث هذه السياسة من وقت لآخر، وسنقوم بإشعارك بأي تغييرات جوهرية داخل التطبيق.</p>
 
-      <h2>13. التواصل معنا</h2>
+      <h2>15. التواصل معنا</h2>
       <p>لأي استفسار حول سياسة الخصوصية، أو لطلب حذف حسابك:</p>
 
       <a href="mailto:nibrasalsd@gmail.com" class="contact-item">
@@ -409,8 +432,10 @@
 
       <h2>5. Data Sharing</h2>
       <p>
-        We <strong>never sell or share your data with any third party for commercial or advertising purposes</strong>. 
-        We rely on trusted technical service providers (such as secure cloud hosting services) <strong>solely to operate the app</strong>, and they are committed to protecting your data and may not use it for any other purpose.
+        We <strong>never sell or share your data with any third party for commercial or advertising purposes</strong>.
+      </p>
+      <p>
+        We rely on trusted technical service providers (such as secure cloud hosting services and secure login providers) <strong>solely to operate the app</strong>. These providers are committed to protecting your data and may not use it for any purpose other than operating the service.
       </p>
 
       <h2>6. International Data Transfer</h2>
@@ -432,17 +457,22 @@
         <li><strong>Right to Object:</strong> Object to any processing of your data.</li>
       </ul>
 
+      <h2>9. Account and Data Deletion</h2>
       <div class="delete-box">
         <h3>🗑️ How to Delete Your Account and Data</h3>
-        <p>To delete your account and all data (Montage section only), use one of the following methods:</p>
+        <p>To delete your account and all data (Montage section only), you can use any of the following methods:</p>
         <ol>
-          <li><strong>Through the App:</strong> Open the Montage section, delete all your projects manually, then request account deletion.</li>
+          <li><strong>Via the deletion page:</strong> Visit our dedicated <a href="delete-account.html">Delete Account page</a> for full instructions.</li>
           <li><strong>By Email:</strong> Send a message to <a href="mailto:nibrasalsd@gmail.com?subject=Delete my Resha account">nibrasalsd@gmail.com</a> with the subject "Delete my Resha account" including your registered email, and your data will be deleted within 30 days maximum.</li>
+          <li><strong>Through the App:</strong> Open the Montage section, delete all your projects manually, then send a deletion request via email.</li>
         </ol>
-        <p style="margin-top:12px;margin-bottom:0;"><strong>Note:</strong> The other three sections do not retain any data, so there is nothing to delete from them.</p>
+        <p style="margin-top:12px;"><strong>Note:</strong> The other three sections do not retain any data, so there is nothing to delete from them.</p>
+        <div style="text-align:center; margin-top:14px;">
+          <a href="delete-account.html" class="delete-link-btn">🗑️ Delete Account Page</a>
+        </div>
       </div>
 
-      <h2>9. Permissions</h2>
+      <h2>10. Permissions</h2>
       <ul>
         <li><strong>Photos:</strong> To select images and merge them into projects.</li>
         <li><strong>Microphone:</strong> To record audio (optional, Montage only).</li>
@@ -450,16 +480,19 @@
       </ul>
       <p>All permissions are optional and can be denied.</p>
 
-      <h2>10. Advertising</h2>
+      <h2>11. Cookies</h2>
+      <p>We do not use cookies for tracking or advertising. We only use <strong>LocalStorage</strong> in your browser to save your session and temporary settings in the Montage section. This data stays on your device only and is not sent to any third party.</p>
+
+      <h2>12. Advertising</h2>
       <p>The app contains no advertisements, and we do not share your data with any advertising networks.</p>
 
-      <h2>11. Children's Privacy</h2>
+      <h2>13. Children's Privacy</h2>
       <p>The app is safe for family use. We do not knowingly collect personal information from children under 13. If you discover that a child has created an account without parental consent, please contact us to delete it immediately.</p>
 
-      <h2>12. Changes to This Policy</h2>
+      <h2>14. Changes to This Policy</h2>
       <p>We may update this policy from time to time, and we will notify you of any material changes within the app.</p>
 
-      <h2>13. Contact Us</h2>
+      <h2>15. Contact Us</h2>
       <p>For any inquiry about this privacy policy, or to request deletion of your account:</p>
 
       <a href="mailto:nibrasalsd@gmail.com" class="contact-item">
