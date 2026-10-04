@@ -1,14 +1,418 @@
-<h2>المسؤولية عن المحتوى</h2>
-<ul>
-  <li>المستخدم مسؤول بالكامل عن المحتوى الذي ينشره.</li>
-  <li>يُمنع نشر أي محتوى مخالف للقوانين أو مسيء.</li>
-  <li>نحتفظ بحق حذف أي محتوى مخالف دون إشعار مسبق.</li>
-  <li>نحتفظ بحق تعليق أو حظر أي حساب مخالف.</li>
-  <li>المستخدم يعوّضنا عن أي خسائر ناتجة عن محتواه المخالف.</li>
-</ul>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Nibras GP">
+<title>شروط الاستخدام — ريشة | Terms of Service — Resha</title>
 
-<h2>حقوق الملكية الفكرية</h2>
-<ul>
-  <li>يجب أن يكون المستخدم مالكاً للصور التي يرفعها، أو لديه ترخيص لاستخدامها.</li>
-  <li>لا نتحمل مسؤولية استخدام المستخدم لصور محمية بحقوق النشر.</li>
-</ul>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="resha-192.png">
+<meta name="theme-color" content="#667eea">
+<meta name="description" content="شروط الاستخدام لتطبيق ريشة | Terms of Service for Resha App">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { 
+    font-family: 'Cairo', sans-serif; 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 12px;
+    margin: 0;
+  }
+  body.en { direction: ltr; }
+  .container { max-width: 800px; margin: 0 auto; }
+  .card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  }
+  .header-title { color: #fff; text-align: center; margin-bottom: 20px; }
+  .header-title .logo {
+    width: 60px; height: 60px;
+    margin: 0 auto 10px;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    display: block;
+  }
+  .header-title h1 { font-size: 24px; font-weight: 800; margin: 0 0 6px; }
+  .header-title p { font-size: 14px; opacity: 0.9; margin: 0; }
+  .lang-toggle {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 9999;
+    background: #fff;
+    color: #667eea;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  }
+  body.en .lang-toggle { left: auto; right: 16px; }
+  h2 {
+    color: #4338ca;
+    font-size: 18px;
+    margin: 20px 0 12px;
+    padding-right: 10px;
+    border-right: 4px solid #667eea;
+  }
+  body.en h2 {
+    padding-right: 0; padding-left: 10px;
+    border-right: none; border-left: 4px solid #667eea;
+  }
+  p { line-height: 1.9; color: #374151; font-size: 15px; margin: 0 0 14px; }
+  ul, ol { padding-right: 24px; margin: 0 0 14px; }
+  body.en ul, body.en ol { padding-right: 0; padding-left: 24px; }
+  li { line-height: 2; color: #374151; font-size: 15px; }
+  a { color: #4338ca; text-decoration: none; font-weight: 700; }
+  a:hover { text-decoration: underline; }
+  .highlight {
+    background: #eef2ff;
+    padding: 16px;
+    border-radius: 12px;
+    border-right: 4px solid #667eea;
+    margin: 16px 0;
+    color: #3730a3;
+    font-weight: 700;
+    line-height: 1.8;
+  }
+  body.en .highlight { border-right: none; border-left: 4px solid #667eea; }
+  .warning {
+    background: #fef3c7;
+    padding: 16px;
+    border-radius: 12px;
+    border-right: 4px solid #f59e0b;
+    margin: 16px 0;
+    color: #78350f;
+    font-weight: 700;
+    line-height: 1.8;
+  }
+  body.en .warning { border-right: none; border-left: 4px solid #f59e0b; }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #374151;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .contact-icon { font-size: 22px; min-width: 30px; text-align: center; }
+  .back-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #667eea;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 15px;
+    margin: 4px;
+  }
+  .footer {
+    text-align: center; color: #fff;
+    font-size: 13px; padding: 16px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 14px;
+    font-weight: 700;
+  }
+  .footer small { display: block; margin-top: 4px; opacity: 0.85; font-weight: 400; }
+  .lang-ar, .lang-en { display: block; }
+  body.en .lang-ar { display: none; }
+  body:not(.en) .lang-en { display: none; }
+</style>
+</head>
+<body>
+
+<button class="lang-toggle" onclick="toggleLang()" id="langBtn">🌐 English</button>
+
+<div class="container">
+
+  <!-- ARABIC -->
+  <div class="lang-ar">
+    <div class="header-title">
+      <img src="resha-512.png" alt="ريشة" class="logo">
+      <h1>شروط الاستخدام</h1>
+      <p>آخر تحديث: أكتوبر 2026</p>
+    </div>
+
+    <div class="card">
+
+      <div class="highlight">
+        <strong>ملخص سريع:</strong>
+        باستخدامك تطبيق ريشة، فإنك توافق على هذه الشروط. يلتزم المستخدم بعدم نشر أي محتوى مخالف للقوانين، ويتحمل كامل المسؤولية عن المحتوى الذي ينشره في المعرض العام.
+      </div>
+
+      <p>مرحباً بك في <strong>ريشة</strong>. تحدد هذه الشروط قواعد استخدام التطبيق والمسؤوليات المترتبة على المستخدم. يرجى قراءتها بعناية قبل الاستخدام.</p>
+
+      <h2>1. قبول الشروط</h2>
+      <p>باستخدامك تطبيق ريشة بأي شكل من الأشكال، فإنك تقر بأنك قرأت هذه الشروط وفهمتها ووافقت عليها بالكامل. إذا كنت لا توافق على أي بند من هذه الشروط، يرجى التوقف عن استخدام التطبيق.</p>
+
+      <h2>2. وصف الخدمة</h2>
+      <p>ريشة هو تطبيق يتكون من أربعة أقسام:</p>
+      <ul>
+        <li><strong>قسم الصور:</strong> أدوات مجانية لمعالجة الصور (بدون تسجيل دخول).</li>
+        <li><strong>قسم الفيديوهات:</strong> أدوات مجانية لمعالجة الفيديو (بدون تسجيل دخول).</li>
+        <li><strong>قسم المحرر:</strong> أدوات تحرير مجانية (بدون تسجيل دخول).</li>
+        <li><strong>قسم المونتاج:</strong> إنشاء مشاريع فيديو وحفظها سحابياً (يتطلب تسجيل دخول).</li>
+      </ul>
+
+      <h2>3. حساب المستخدم</h2>
+      <ul>
+        <li>يلتزم المستخدم بتقديم معلومات صحيحة عند التسجيل.</li>
+        <li>المستخدم مسؤول بالكامل عن الحفاظ على سرية بيانات حسابه.</li>
+        <li>يُمنع استخدام حساب شخص آخر دون إذن.</li>
+        <li>يُمنع إنشاء حسابات لأغراض مسيئة أو تجارية دون ترخيص.</li>
+      </ul>
+
+      <h2>4. المسؤولية عن المحتوى</h2>
+      <div class="warning">
+        <strong>⚠️ تنبيه مهم:</strong> المستخدم مسؤول بالكامل عن أي محتوى يرفعه أو ينشره عبر التطبيق.
+      </div>
+      <ul>
+        <li>يلتزم المستخدم بأنه يملك حقوق جميع الصور والملفات التي يرفعها، أو لديه ترخيص قانوني لاستخدامها.</li>
+        <li>يُمنع نشر أي محتوى مخالف للقوانين، أو مسيء، أو يحرض على العنف، أو يحتوي على محتوى إباحي، أو يمس بالأديان والرموز الوطنية.</li>
+        <li>يُمنع نشر محتوى ينتهك حقوق الملكية الفكرية لأي طرف ثالث.</li>
+        <li>يُمنع انتحال شخصية الآخرين.</li>
+        <li>نحتفظ بحق حذف أي محتوى مخالف دون إشعار مسبق.</li>
+        <li>نحتفظ بحق تعليق أو حظر أي حساب مخالف دون إشعار مسبق.</li>
+        <li>المستخدم يعوّضنا عن أي خسائر أو مطالبات ناتجة عن محتواه المخالف.</li>
+      </ul>
+
+      <h2>5. حقوق الملكية الفكرية</h2>
+      <ul>
+        <li>جميع حقوق التطبيق والتصميم والشعار محفوظة لـ Nibras GP.</li>
+        <li>يُمنع نسخ التطبيق أو تعديله أو إعادة توزيعه دون إذن كتابي.</li>
+        <li>المستخدم يحتفظ بحقوق المحتوى الذي ينشئه بنفسه.</li>
+        <li>بنشر مشروع في المعرض العام، يمنحنا المستخدم ترخيصاً غير حصري لعرضه داخل التطبيق.</li>
+      </ul>
+
+      <h2>6. استخدامات محظورة</h2>
+      <p>يُمنع على المستخدم:</p>
+      <ul>
+        <li>استخدام التطبيق لأي غرض غير قانوني.</li>
+        <li>محاولة اختراق أو تعطيل التطبيق أو خدماته.</li>
+        <li>استخدام برامج آلية (Bots) للتفاعل مع التطبيق.</li>
+        <li>إعادة بيع خدمات التطبيق دون ترخيص.</li>
+        <li>نشر محتوى يحتوي على فيروسات أو أكواد ضارة.</li>
+      </ul>
+
+      <h2>7. المحتوى العام (المعرض)</h2>
+      <ul>
+        <li>المعرض العام مخصص لعرض المشاريع التي يختار المستخدم نشرها بنفسه.</li>
+        <li>لا نتحمل مسؤولية المحتوى الذي ينشره المستخدمون في المعرض العام.</li>
+        <li>عند الإبلاغ عن أي محتوى مخالف، سنتخذ إجراءً فورياً بحذفه.</li>
+        <li>للإبلاغ عن محتوى مخالف، يرجى التواصل معنا عبر البريد الموضح أدناه.</li>
+      </ul>
+
+      <h2>8. حدود المسؤولية</h2>
+      <p>يُقدَّم التطبيق "كما هو" دون أي ضمانات صريحة أو ضمنية. لا نتحمل أي مسؤولية عن:</p>
+      <ul>
+        <li>فقدان البيانات نتيجة ظروف خارجة عن إرادتنا.</li>
+        <li>انقطاع الخدمة المؤقت لأسباب تقنية.</li>
+        <li>أي أضرار مباشرة أو غير مباشرة ناتجة عن استخدام التطبيق.</li>
+      </ul>
+
+      <h2>9. تعديل الخدمة</h2>
+      <p>نحتفظ بحق تعديل التطبيق أو إضافة أو حذف ميزات، أو إيقاف الخدمة كلياً أو جزئياً، دون إشعار مسبق.</p>
+
+      <h2>10. تعديل الشروط</h2>
+      <p>قد نحدّث هذه الشروط من وقت لآخر. أي تغييرات جوهرية ستُعلن داخل التطبيق. استمرارك في استخدام التطبيق بعد التعديلات يعني موافقتك عليها.</p>
+
+      <h2>11. إنهاء الحساب</h2>
+      <ul>
+        <li>يمكنك حذف حسابك في أي وقت عبر <a href="delete-account.html">صفحة حذف الحساب</a>.</li>
+        <li>يمكننا تعليق أو إنهاء حسابك في حال مخالفة هذه الشروط.</li>
+        <li>عند إنهاء الحساب، يتم حذف بياناتك نهائياً خلال 30 يوماً.</li>
+      </ul>
+
+      <h2>12. القانون المطبق</h2>
+      <p>تخضع هذه الشروط للأنظمة والقوانين المعمول بها في المملكة العربية السعودية. أي نزاع يُحل عبر الجهات المختصة في المملكة.</p>
+
+      <h2>13. التواصل معنا</h2>
+      <p>لأي استفسار حول شروط الاستخدام:</p>
+
+      <a href="mailto:nibrasalsd@gmail.com" class="contact-item">
+        <span class="contact-icon">📧</span>
+        <span>nibrasalsd@gmail.com</span>
+      </a>
+
+      <a href="tel:0569361182" class="contact-item">
+        <span class="contact-icon">📱</span>
+        <span>0569361182</span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ENGLISH -->
+  <div class="lang-en">
+    <div class="header-title">
+      <img src="resha-512.png" alt="Resha" class="logo">
+      <h1>Terms of Service</h1>
+      <p>Last Updated: October 2026</p>
+    </div>
+
+    <div class="card">
+
+      <div class="highlight">
+        <strong>Quick Summary:</strong>
+        By using the Resha app, you agree to these terms. Users must not publish content that violates laws and bear full responsibility for content they publish in the public gallery.
+      </div>
+
+      <p>Welcome to <strong>Resha</strong>. These terms define the rules for using the app and the user's responsibilities. Please read them carefully before use.</p>
+
+      <h2>1. Acceptance of Terms</h2>
+      <p>By using the Resha app in any way, you acknowledge that you have read, understood, and fully agreed to these terms. If you do not agree with any part of these terms, please stop using the app.</p>
+
+      <h2>2. Service Description</h2>
+      <p>Resha consists of four sections:</p>
+      <ul>
+        <li><strong>Images:</strong> Free image processing tools (no login).</li>
+        <li><strong>Videos:</strong> Free video processing tools (no login).</li>
+        <li><strong>Editor:</strong> Free editing tools (no login).</li>
+        <li><strong>Montage:</strong> Create and save video projects in the cloud (login required).</li>
+      </ul>
+
+      <h2>3. User Account</h2>
+      <ul>
+        <li>Users must provide accurate information at registration.</li>
+        <li>Users are fully responsible for keeping their account credentials secure.</li>
+        <li>Using another person's account without permission is prohibited.</li>
+        <li>Creating accounts for abusive or unlicensed commercial purposes is prohibited.</li>
+      </ul>
+
+      <h2>4. Content Responsibility</h2>
+      <div class="warning">
+        <strong>⚠️ Important:</strong> Users are fully responsible for any content they upload or publish through the app.
+      </div>
+      <ul>
+        <li>Users confirm they own the rights to all images and files they upload, or have legal permission to use them.</li>
+        <li>Publishing illegal, offensive, violence-inciting, pornographic, or religion/national-symbol-offending content is prohibited.</li>
+        <li>Publishing content infringing on third-party intellectual property rights is prohibited.</li>
+        <li>Impersonating others is prohibited.</li>
+        <li>We reserve the right to delete violating content without prior notice.</li>
+        <li>We reserve the right to suspend or ban violating accounts without prior notice.</li>
+        <li>Users indemnify us against any losses or claims arising from their violating content.</li>
+      </ul>
+
+      <h2>5. Intellectual Property Rights</h2>
+      <ul>
+        <li>All rights to the app, design, and logo are reserved by Nibras GP.</li>
+        <li>Copying, modifying, or redistributing the app without written permission is prohibited.</li>
+        <li>Users retain the rights to content they create.</li>
+        <li>By publishing a project to the public gallery, users grant us a non-exclusive license to display it within the app.</li>
+      </ul>
+
+      <h2>6. Prohibited Uses</h2>
+      <p>Users are prohibited from:</p>
+      <ul>
+        <li>Using the app for any illegal purpose.</li>
+        <li>Attempting to hack or disrupt the app or its services.</li>
+        <li>Using bots to interact with the app.</li>
+        <li>Reselling the app's services without a license.</li>
+        <li>Publishing content containing viruses or malicious code.</li>
+      </ul>
+
+      <h2>7. Public Content (Gallery)</h2>
+      <ul>
+        <li>The public gallery is for displaying projects users choose to publish themselves.</li>
+        <li>We are not responsible for content published by users in the public gallery.</li>
+        <li>When content is reported, we will promptly remove it.</li>
+        <li>To report violating content, please contact us via the email below.</li>
+      </ul>
+
+      <h2>8. Limitation of Liability</h2>
+      <p>The app is provided "as is" without any express or implied warranties. We are not responsible for:</p>
+      <ul>
+        <li>Data loss due to circumstances beyond our control.</li>
+        <li>Temporary service interruptions for technical reasons.</li>
+        <li>Any direct or indirect damages resulting from app use.</li>
+      </ul>
+
+      <h2>9. Service Modifications</h2>
+      <p>We reserve the right to modify the app, add or remove features, or stop the service, in whole or in part, without prior notice.</p>
+
+      <h2>10. Changes to Terms</h2>
+      <p>We may update these terms from time to time. Any material changes will be announced within the app. Your continued use after changes means you accept them.</p>
+
+      <h2>11. Account Termination</h2>
+      <ul>
+        <li>You can delete your account anytime via the <a href="delete-account.html">Delete Account page</a>.</li>
+        <li>We may suspend or terminate your account if these terms are violated.</li>
+        <li>Upon account termination, your data is permanently deleted within 30 days.</li>
+      </ul>
+
+      <h2>12. Governing Law</h2>
+      <p>These terms are governed by the laws of the Kingdom of Saudi Arabia. Any disputes are resolved through the competent authorities in the Kingdom.</p>
+
+      <h2>13. Contact Us</h2>
+      <p>For any inquiry about these terms:</p>
+
+      <a href="mailto:nibrasalsd@gmail.com" class="contact-item">
+        <span class="contact-icon">📧</span>
+        <span>nibrasalsd@gmail.com</span>
+      </a>
+
+      <a href="tel:0569361182" class="contact-item">
+        <span class="contact-icon">📱</span>
+        <span>0569361182</span>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="card" style="text-align:center;">
+    <a href="privacy.html" class="back-btn lang-ar">📜 سياسة الخصوصية</a>
+    <a href="index.html" class="back-btn lang-ar">← العودة للرئيسية</a>
+    <a href="privacy.html" class="back-btn lang-en">📜 Privacy Policy</a>
+    <a href="index.html" class="back-btn lang-en">← Back to Home</a>
+  </div>
+
+  <div class="footer lang-ar">
+    جميع الحقوق محفوظة © Nibras GP 2026
+    <small>🖌️ ريشة — استوديو الصور والفيديوهات</small>
+  </div>
+
+  <div class="footer lang-en">
+    All Rights Reserved © Nibras GP 2026
+    <small>🖌️ Resha — Photo & Video Studio</small>
+  </div>
+
+</div>
+
+<script>
+function toggleLang() {
+  document.body.classList.toggle('en');
+  var isEn = document.body.classList.contains('en');
+  document.documentElement.lang = isEn ? 'en' : 'ar';
+  document.documentElement.dir = isEn ? 'ltr' : 'rtl';
+  document.getElementById('langBtn').textContent = isEn ? '🌐 العربية' : '🌐 English';
+  localStorage.setItem('reshaLang', isEn ? 'en' : 'ar');
+}
+(function(){
+  var saved = localStorage.getItem('reshaLang');
+  if (saved === 'en') {
+    document.body.classList.add('en');
+    document.documentElement.lang = 'en';
+    document.documentElement.dir = 'ltr';
+    document.getElementById('langBtn').textContent = '🌐 العربية';
+  }
+})();
+</script>
+
+</body>
+</html>
