@@ -226,7 +226,6 @@
       <button type="submit" class="auth-btn" id="authSubmitBtn">دخول</button>
       <div style="text-align:center;margin-top:10px;"><button type="button" id="forgotBtn" style="background:none;border:none;color:#6366f1;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;text-decoration:underline;">نسيت كلمة المرور؟</button></div>
 
-      <!-- أزرار الدخول الاجتماعي -->
       <div class="social-divider"><span>أو</span></div>
 
       <button type="button" onclick="loginWithGoogle()" class="social-btn">
@@ -241,9 +240,12 @@
     </form>
     <div class="auth-switch" id="authSwitch">ما عندك حساب؟ <button type="button" id="authToggleMode">أنشئ حساب</button></div>
     
-    <div style="text-align:center; margin-top:14px; font-size:11px; color:#94a3b8; line-height:1.6;">
+    <!-- ✅ سياسة الخصوصية + شروط الاستخدام -->
+    <div style="text-align:center; margin-top:14px; font-size:11px; color:#94a3b8; line-height:1.8;">
       بالتسجيل أو الدخول فأنت توافق على<br>
       <a href="privacy.html" style="color:#6366f1; font-weight:800; text-decoration:underline;">سياسة الخصوصية</a>
+      <span style="color:#94a3b8;"> و </span>
+      <a href="terms.html" style="color:#6366f1; font-weight:800; text-decoration:underline;">شروط الاستخدام</a>
     </div>
   </div>
 </div>
@@ -549,10 +551,15 @@
       <a href="index.html" style="color:#ffffff;font-family:'Cairo',sans-serif;font-weight:800;font-size:15px;text-decoration:underline;display:inline-block;padding:10px 20px;text-shadow:0 1px 4px rgba(0,0,0,.3);">العودة إلى ريشة</a>
     </div>
 
+    <!-- ✅ الفوتر مع سياسة الخصوصية + شروط الاستخدام + حذف الحساب -->
     <div class="footer" style="text-align:center; padding:20px; color:#fff; font-size:12px; line-height:1.8;">
       © Nibras GP 2026
       <div style="margin-top:8px;">
         <a href="privacy.html" style="color:#fff; text-decoration:underline; font-weight:700; opacity:0.9;">سياسة الخصوصية</a>
+        <span style="opacity:0.5; margin:0 8px;">|</span>
+        <a href="terms.html" style="color:#fff; text-decoration:underline; font-weight:700; opacity:0.9;">شروط الاستخدام</a>
+        <span style="opacity:0.5; margin:0 8px;">|</span>
+        <a href="delete-account.html" style="color:#fff; text-decoration:underline; font-weight:700; opacity:0.9;">حذف الحساب</a>
         <span style="opacity:0.5; margin:0 8px;">|</span>
         <a href="index.html" style="color:#fff; text-decoration:underline; font-weight:700; opacity:0.9;">العودة للرئيسية</a>
       </div>
@@ -604,7 +611,6 @@ function showAuthError(m){authError.textContent=m;authError.classList.add('show'
 function showAuthSuccess(m){authSuccess.textContent=m;authSuccess.classList.add('show');authError.classList.remove('show');}
 function clearAuthMessages(){authError.classList.remove('show');authSuccess.classList.remove('show');}
 
-// ✅ تسجيل الدخول عبر GitHub
 async function loginWithGitHub() {
     const { data, error } = await sb.auth.signInWithOAuth({
         provider: 'github',
@@ -613,11 +619,13 @@ async function loginWithGitHub() {
     if (error) showToast('حدث خطأ: ' + error.message);
 }
 
-// ✅ تسجيل الدخول عبر Google
 async function loginWithGoogle() {
     const { data, error } = await sb.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: 'https://abod724.github.io/surah/montage.html' }
+        options: { 
+            redirectTo: 'https://abod724.github.io/surah/montage.html',
+            scopes: 'email profile openid'
+        }
     });
     if (error) showToast('حدث خطأ: ' + error.message);
 }
