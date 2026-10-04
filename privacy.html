@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="author" content="نبراس GP">
-<title>سياسة الخصوصية — ريشة</title>
+<meta name="author" content="Nibras GP">
+<title>سياسة الخصوصية — ريشة | Privacy Policy — Resha</title>
 
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="resha-192.png">
 <meta name="theme-color" content="#667eea">
-<meta name="description" content="سياسة الخصوصية لتطبيق ريشة — استوديو الصور والفيديوهات">
+<meta name="description" content="سياسة الخصوصية لتطبيق ريشة | Privacy Policy for Resha App">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
@@ -20,7 +20,9 @@
     min-height: 100vh;
     padding: 12px;
     margin: 0;
+    transition: direction 0.3s;
   }
+  body.en { direction: ltr; }
   .container { max-width: 800px; margin: 0 auto; }
   .card {
     background: #fff;
@@ -29,7 +31,7 @@
     margin-bottom: 16px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.15);
   }
-  .header-title { color: #fff; text-align: center; margin-bottom: 20px; }
+  .header-title { color: #fff; text-align: center; margin-bottom: 20px; position: relative; }
   .header-title .logo {
     width: 60px; height: 60px;
     margin: 0 auto 10px;
@@ -40,12 +42,38 @@
   .header-title h1 { font-size: 24px; font-weight: 800; margin: 0 0 6px; }
   .header-title p { font-size: 14px; opacity: 0.9; margin: 0; }
 
+  .lang-toggle {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 9999;
+    background: #fff;
+    color: #667eea;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+  }
+  body.en .lang-toggle { left: auto; right: 16px; }
+  .lang-toggle:hover { transform: scale(1.05); background: #f0f4ff; }
+
   h2 {
     color: #4338ca;
     font-size: 18px;
     margin: 20px 0 12px;
     padding-right: 10px;
     border-right: 4px solid #667eea;
+  }
+  body.en h2 {
+    padding-right: 0;
+    padding-left: 10px;
+    border-right: none;
+    border-left: 4px solid #667eea;
   }
   h3 {
     color: #4f46e5;
@@ -58,10 +86,11 @@
     font-size: 15px;
     margin: 0 0 14px;
   }
-  ul {
+  ul, ol {
     padding-right: 24px;
     margin: 0 0 14px;
   }
+  body.en ul, body.en ol { padding-right: 0; padding-left: 24px; }
   li {
     line-height: 2;
     color: #374151;
@@ -83,6 +112,38 @@
     font-weight: 700;
     line-height: 1.8;
   }
+  body.en .highlight { border-right: none; border-left: 4px solid #667eea; }
+  .warning {
+    background: #fef3c7;
+    padding: 16px;
+    border-radius: 12px;
+    border-right: 4px solid #f59e0b;
+    margin: 16px 0;
+    color: #78350f;
+    font-weight: 700;
+    line-height: 1.8;
+  }
+  body.en .warning { border-right: none; border-left: 4px solid #f59e0b; }
+  .green-box {
+    background: #f0fdf4;
+    padding: 16px;
+    border-radius: 12px;
+    border-right: 4px solid #10b981;
+    margin: 16px 0;
+    color: #065f46;
+    font-weight: 700;
+    line-height: 1.8;
+  }
+  body.en .green-box { border-right: none; border-left: 4px solid #10b981; }
+  .delete-box {
+    background: #fef2f2;
+    padding: 16px;
+    border-radius: 12px;
+    border: 2px solid #ef4444;
+    margin: 16px 0;
+  }
+  .delete-box h3 { color: #dc2626; margin-top: 0; }
+  .delete-box ol { margin-bottom: 0; }
   .contact-item {
     display: flex;
     align-items: center;
@@ -103,6 +164,7 @@
     background: #eef2ff;
     transform: translateX(-4px);
   }
+  body.en .contact-item:hover { transform: translateX(4px); }
   .contact-icon {
     font-size: 22px;
     min-width: 30px;
@@ -131,104 +193,442 @@
     display: block; margin-top: 4px;
     opacity: 0.85; font-weight: 400;
   }
+  .table-data {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .table-data th, .table-data td {
+    padding: 10px;
+    text-align: right;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+  }
+  body.en .table-data th, body.en .table-data td { text-align: left; }
+  .table-data th {
+    background: #eef2ff;
+    color: #4338ca;
+    font-weight: 800;
+  }
+  .table-data tr:nth-child(even) { background: #f9fafb; }
+
+  .sections-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .section-card {
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+    text-align: center;
+    background: #f9fafb;
+  }
+  .section-card .icon { font-size: 26px; margin-bottom: 4px; }
+  .section-card .name { font-size: 14px; font-weight: 800; color: #0f172a; }
+  .section-card .status { font-size: 12px; font-weight: 700; margin-top: 4px; }
+  .section-card .status.free { color: #10b981; }
+  .section-card .status.login { color: #f59e0b; }
+
+  .lang-ar, .lang-en { display: block; }
+  body.en .lang-ar { display: none; }
+  body:not(.en) .lang-en { display: none; }
 </style>
 </head>
 <body>
 
+<button class="lang-toggle" onclick="toggleLang()" id="langBtn">🌐 English</button>
+
 <div class="container">
 
-  <div class="header-title">
-    <img src="resha-512.png" alt="ريشة" class="logo">
-    <h1>سياسة الخصوصية</h1>
-    <p>آخر تحديث: أكتوبر 2026</p>
-  </div>
-
-  <div class="card">
-
-    <div class="highlight">
-      <strong>ملخص:</strong>
-      ريشة تتكون من قسمين: <strong>أدوات مجانية</strong> (الصور، الفيديو، المحرر) تعمل بالكامل في متصفحك دون تسجيل دخول، و<strong>قسم المونتاج</strong> الذي يتطلب إنشاء حساب لحفظ مشاريعك في مساحتك السحابية الخاصة.
+  <!-- ==================== ARABIC ==================== -->
+  <div class="lang-ar">
+    <div class="header-title">
+      <img src="resha-512.png" alt="ريشة" class="logo">
+      <h1>سياسة الخصوصية</h1>
+      <p>آخر تحديث: أكتوبر 2026</p>
     </div>
 
-    <h2>1. المعلومات التي نجمعها</h2>
-    <p>نحن نجمع الحد الأدنى من المعلومات، ويعتمد ذلك على القسم الذي تستخدمه:</p>
-    
-    <h3>أ) أدوات الصور والفيديو والمحرر (بدون تسجيل دخول):</h3>
-    <ul>
-      <li>لا نطلب أي معلومات شخصية.</li>
-      <li>الصور والملفات التي ترفعها تُعالج في جهازك فقط ولا تُرسل لأي خادم.</li>
-    </ul>
+    <div class="card">
 
-    <h3>ب) قسم المونتاج (يتطلب تسجيل دخول):</h3>
-    <ul>
-      <li><strong>البريد الإلكتروني:</strong> لإنشاء الحساب وتسجيل الدخول.</li>
-      <li><strong>المحتوى الذي تنشئه:</strong> (الصور، التسجيلات الصوتية، النصوص) لحفظ مشاريعك.</li>
-      <li><strong>لا نتتبع موقعك الجغرافي، ولا نطلب رقم هاتفك، ولا نبيع بياناتك لأي طرف ثالث.</strong></li>
-    </ul>
+      <div class="highlight">
+        <strong>ملخص سريع:</strong>
+        تطبيق <strong>ريشة</strong> يحتوي على <strong>4 أقسام</strong>، ثلاثة منها (الصور، الفيديوهات، المحرر) تعمل بالكامل داخل جهازك <strong>دون أي تسجيل دخول ولا تجمع أي بيانات على الإطلاق</strong>. القسم الرابع فقط (المونتاج) يتطلب إنشاء حساب لحفظ مشاريعك في مساحتك السحابية الخاصة.
+      </div>
 
-    <h2>2. كيف يعمل التطبيق</h2>
-    
-    <h3>أدوات الصور والفيديو والمحرر:</h3>
-    <p>جميع العمليات تحدث <strong>محلياً في متصفحك</strong>. النصوص، الصور، والتعديلات لا تغادر جهازك إطلاقاً.</p>
+      <p>
+        مرحباً بك في <strong>ريشة</strong>. نحن نأخذ خصوصيتك على محمل الجد. توضح هذه السياسة كيفية تعاملنا مع بياناتك في كل قسم من أقسام التطبيق. باستخدامك للتطبيق، فإنك توافق على الممارسات الموضحة أدناه.
+      </p>
 
-    <h3>قسم المونتاج:</h3>
-    <p>عند حفظ مشروع، يتم نقل بياناتك وملفاتك بشكل مشفر إلى مساحتك السحابية الخاصة لتتمكن من العودة إليها لاحقاً من أي جهاز. لا يمكن لأي مستخدم آخر الوصول لمشاريعك إلا إذا قمت أنت بنشرها في المعرض العام.</p>
+      <h2>1. أقسام التطبيق</h2>
+      <p>يتكون تطبيق ريشة من أربعة أقسام مستقلة، كل قسم له طريقة تعامل مختلفة مع بياناتك:</p>
 
-    <h2>3. تخزين البيانات</h2>
-    <p>
-      يستخدم التطبيق <strong>التخزين المحلي (LocalStorage)</strong> في متصفحك لحفظ إعداداتك المؤقتة في الأدوات المجانية. 
-      أما مشاريع المونتاج المحفوظة، فتُخزن بشكل آمن في <strong>خوادم سحابية</strong> ولا يمكن حذفها إلا بناءً على طلبك.
-    </p>
+      <div class="sections-grid">
+        <div class="section-card">
+          <div class="icon">🖼️</div>
+          <div class="name">قسم الصور</div>
+          <div class="status free">بدون تسجيل دخول</div>
+        </div>
+        <div class="section-card">
+          <div class="icon">🎥</div>
+          <div class="name">قسم الفيديوهات</div>
+          <div class="status free">بدون تسجيل دخول</div>
+        </div>
+        <div class="section-card">
+          <div class="icon">✏️</div>
+          <div class="name">قسم المحرر</div>
+          <div class="status free">بدون تسجيل دخول</div>
+        </div>
+        <div class="section-card">
+          <div class="icon">🎬</div>
+          <div class="name">قسم المونتاج</div>
+          <div class="status login">يتطلب تسجيل دخول</div>
+        </div>
+      </div>
 
-    <h2>4. الأذونات</h2>
-    <p>قد يطلب التطبيق الأذونات التالية لتشغيل الميزات:</p>
-    <ul>
-      <li><strong>الوصول للصور:</strong> لاختيار الصور ودمجها (في كل الأقسام).</li>
-      <li><strong>الوصول للميكروفون:</strong> لتسجيل الصوت وإضافته للمشروع (في قسم المونتاج فقط، واختياري تماماً).</li>
-    </ul>
+      <h2>2. المعلومات التي نجمعها</h2>
 
-    <h2>5. الإعلانات</h2>
-    <p>التطبيق لا يحتوي على أي إعلانات مزعجة.</p>
+      <h3>أ) أقسام الصور والفيديوهات والمحرر (بدون تسجيل دخول):</h3>
+      <div class="green-box">
+        🔒 <strong>لا نجمع أي بيانات إطلاقاً.</strong><br>
+        هذه الأقسام تعمل بالكامل داخل متصفحك (جهازك)، ولا تُرسل أي صورة أو ملف أو معلومة إلى أي خادم. لا نطلب بريدك، ولا اسمك، ولا رقمك، ولا موقعك.
+      </div>
 
-    <h2>6. خدمات الطرف الثالث</h2>
-    <p>نستخدم خدمات موثوقة لتشغيل التطبيق بشكل آمن:</p>
-    <ul>
-      <li><strong>خدمات استضافة سحابية:</strong> لتخزين الحسابات ومشاريع المونتاج بشكل مشفر.</li>
-      <li><strong>Google Fonts:</strong> لتحميل الخطوط العربية.</li>
-      <li><strong>GoatCounter:</strong> لعداد زوار مجهول الهوية (لا يتتبع بياناتك الشخصية).</li>
-    </ul>
+      <h3>ب) قسم المونتاج (يتطلب تسجيل دخول):</h3>
+      <p>هذا القسم الوحيد الذي يجمع بيانات، وذلك لتتمكن من حفظ مشاريعك واستعادتها لاحقاً من أي جهاز:</p>
 
-    <h2>7. خصوصية الأطفال</h2>
-    <p>التطبيق آمن للاستخدام العائلي، ونحن لا نجمع بيانات شخصية من الأطفال دون سن 13 عاماً دون موافقة الوالدين.</p>
+      <table class="table-data">
+        <tr><th>نوع البيانات</th><th>الغرض من الجمع</th></tr>
+        <tr><td>البريد الإلكتروني</td><td>إنشاء الحساب وتسجيل الدخول والتحقق</td></tr>
+        <tr><td>الاسم (من حساب Google/GitHub)</td><td>عرضه في واجهة التطبيق للترحيب بالمستخدم</td></tr>
+        <tr><td>الصور والملفات الصوتية</td><td>إنشاء مشاريع المونتاج وحفظها</td></tr>
+        <tr><td>النصوص والملصقات والإعدادات</td><td>تخصيص مشاريع المونتاج الخاصة بك</td></tr>
+      </table>
 
-    <h2>8. التغييرات على السياسة</h2>
-    <p>قد نحدّث هذه السياسة من وقت لآخر. أي تغييرات جوهرية ستُعلن داخل التطبيق.</p>
+      <div class="warning">
+        <strong>لا نجمع أبداً (في كل الأقسام):</strong> رقم هاتفك، موقعك الجغرافي، جهات الاتصال، الرسائل، أو أي بيانات حساسة أخرى.
+      </div>
 
-    <h2>9. التواصل</h2>
-    <p>لأي استفسار حول سياسة الخصوصية أو لطلب حذف حسابك وبياناتك (الخاصة بقسم المونتاج):</p>
+      <h2>3. كيف يعمل التطبيق</h2>
 
-    <a href="mailto:nibrasalsd@gmail.com" class="contact-item">
-      <span class="contact-icon">📧</span>
-      <span>nibrasalsd@gmail.com</span>
-    </a>
+      <h3>أقسام الصور والفيديوهات والمحرر:</h3>
+      <p>
+        جميع العمليات تحدث <strong>محلياً في متصفحك</strong>. النصوص، الصور، الفيديوهات، والتعديلات <strong>لا تغادر جهازك إطلاقاً</strong>. حتى عند إغلاق الصفحة، لا نحتفظ بأي شيء على خوادمنا.
+      </p>
 
-    <a href="tel:0569361182" class="contact-item">
-      <span class="contact-icon">📱</span>
-      <span>0569361182</span>
-    </a>
+      <h3>قسم المونتاج:</h3>
+      <p>
+        عند حفظ مشروع، يتم نقل بياناتك وملفاتك بشكل <strong>مشفر</strong> إلى مساحتك السحابية الخاصة لتتمكن من العودة إليها لاحقاً من أي جهاز. لا يمكن لأي مستخدم آخر الوصول لمشاريعك إلا إذا قمت أنت بنشرها في المعرض العام.
+      </p>
 
+      <h2>4. تخزين البيانات وحمايتها</h2>
+      <ul>
+        <li><strong>التخزين المحلي (LocalStorage):</strong> يُستخدم فقط لحفظ إعداداتك المؤقتة داخل متصفحك.</li>
+        <li><strong>التخزين السحابي المشفر:</strong> مشاريع المونتاج تُخزن في خوادم آمنة مع تشفير أثناء النقل (HTTPS) وأثناء التخزين.</li>
+        <li><strong>عزل البيانات:</strong> لا يمكن لأي مستخدم آخر الوصول لمشاريعك الخاصة، إلا إذا قمت أنت بنشرها في المعرض العام.</li>
+        <li><strong>التحقق الآمن:</strong> نستخدم بروتوكول OAuth 2.0 للمصادقة عبر Google و GitHub.</li>
+      </ul>
+
+      <h2>5. مشاركة البيانات مع أطراف ثالثة</h2>
+      <p>نحن لا نبيع بياناتك أبداً. نشاركها فقط مع الخدمات الأساسية التالية في قسم المونتاج فقط:</p>
+
+      <table class="table-data">
+        <tr><th>الخدمة</th><th>الغرض</th></tr>
+        <tr><td>Supabase</td><td>تخزين قاعدة البيانات والملفات بشكل مشفر</td></tr>
+        <tr><td>Google OAuth</td><td>تسجيل الدخول عبر Google (اختياري)</td></tr>
+        <tr><td>GitHub OAuth</td><td>تسجيل الدخول عبر GitHub (اختياري)</td></tr>
+        <tr><td>Google Fonts</td><td>تحميل الخطوط العربية</td></tr>
+        <tr><td>GoatCounter</td><td>إحصائيات زوار مجهولة الهوية (بدون تتبع شخصي)</td></tr>
+      </table>
+
+      <h2>6. نقل البيانات دولياً</h2>
+      <p>قد يتم تخزين بيانات مشاريع المونتاج على خوادم موجودة خارج بلدك. باستخدامك للقسم، فإنك توافق على نقل بياناتك ومعالجتها في هذه الخوادم مع ضمان نفس مستوى الحماية.</p>
+
+      <h2>7. مدة الاحتفاظ بالبيانات</h2>
+      <ul>
+        <li><strong>أقسام الصور والفيديوهات والمحرر:</strong> لا يتم الاحتفاظ بأي بيانات إطلاقاً.</li>
+        <li><strong>بيانات حساب المونتاج:</strong> تبقى محفوظة طالما حسابك نشط.</li>
+        <li><strong>المشاريع المحفوظة:</strong> تبقى محفوظة حتى تقوم بحذفها يدوياً.</li>
+        <li><strong>بعد حذف الحساب:</strong> يتم حذف جميع بياناتك نهائياً من خوادمنا خلال 30 يوماً.</li>
+      </ul>
+
+      <h2>8. حقوقك</h2>
+      <ul>
+        <li><strong>حق الوصول:</strong> يمكنك طلب نسخة من بياناتك المخزنة.</li>
+        <li><strong>حق التصحيح:</strong> يمكنك تعديل بياناتك في أي وقت.</li>
+        <li><strong>حق الحذف:</strong> يمكنك حذف حسابك وبياناتك نهائياً.</li>
+        <li><strong>حق الاعتراض:</strong> يمكنك الاعتراض على أي معالجة لبياناتك.</li>
+        <li><strong>حق نقل البيانات:</strong> يمكنك طلب استخراج بياناتك بصيغة مقروءة.</li>
+      </ul>
+
+      <div class="delete-box">
+        <h3>🗑️ كيف تحذف حسابك وبياناتك؟</h3>
+        <p>لحذف حسابك وجميع بياناتك (الخاصة بقسم المونتاج فقط)، اتبع إحدى الطريقتين:</p>
+        <ol>
+          <li><strong>عبر التطبيق:</strong> افتح قسم المونتاج، احذف كل مشاريعك يدوياً، ثم أرسل طلب حذف الحساب.</li>
+          <li><strong>عبر البريد الإلكتروني:</strong> أرسل رسالة إلى <a href="mailto:nibrasalsd@gmail.com?subject=طلب حذف حساب ريشة">nibrasalsd@gmail.com</a> بعنوان "طلب حذف حساب ريشة" مع ذكر البريد الإلكتروني المسجل به، وسيتم حذف بياناتك خلال 30 يوماً كحد أقصى.</li>
+        </ol>
+        <p style="margin-top:12px;margin-bottom:0;"><strong>ملاحظة:</strong> الأقسام الثلاثة الأخرى لا تحتفظ بأي بيانات أساساً، فلا يوجد ما يُحذف منها.</p>
+      </div>
+
+      <h2>9. أذونات التطبيق</h2>
+      <ul>
+        <li><strong>الوصول للصور:</strong> لاختيار الصور ودمجها في المشاريع (في كل الأقسام).</li>
+        <li><strong>الوصول للميكروفون:</strong> لتسجيل الصوت (في قسم المونتاج فقط، واختياري).</li>
+        <li><strong>الوصول للإنترنت:</strong> لمزامنة مشاريع المونتاج مع الخادم السحابي.</li>
+      </ul>
+      <p>جميع الأذونات اختيارية، ويمكنك رفضها، لكن بعض الميزات قد لا تعمل بدونها.</p>
+
+      <h2>10. ملفات تعريف الارتباط (Cookies)</h2>
+      <p>لا نستخدم ملفات تعريف الارتباط للتتبع. نستخدم فقط <strong>التخزين المحلي (LocalStorage)</strong> في متصفحك لحفظ جلستك وإعداداتك المؤقتة في قسم المونتاج. الأقسام الثلاثة الأخرى لا تستخدم أي تخزين دائم.</p>
+
+      <h2>11. الإعلانات</h2>
+      <p>التطبيق لا يحتوي على أي إعلانات، ولا نشارك بياناتك مع أي شبكات إعلانية.</p>
+
+      <h2>12. خصوصية الأطفال</h2>
+      <p>التطبيق آمن للاستخدام العائلي. الأقسام الثلاثة المجانية لا تجمع أي بيانات من أي فئة عمرية. قسم المونتاج لا يجمع بيانات من الأطفال دون سن 13 عاماً بشكل متعمد. إذا اكتشفت أن طفلاً أنشأ حساباً دون موافقة والديه، يرجى التواصل معنا لحذف الحساب فوراً.</p>
+
+      <h2>13. التغييرات على السياسة</h2>
+      <p>قد نحدّث هذه السياسة من وقت لآخر. سنقوم بإشعارك بأي تغييرات جوهرية عبر إشعار داخل التطبيق. استمرارك في استخدام التطبيق بعد التغييرات يعني موافقتك على السياسة المحدثة.</p>
+
+      <h2>14. الشكاوى والجهات الرقابية</h2>
+      <p>إذا كنت تعتقد أننا انتهكنا حقوقك في الخصوصية، يمكنك تقديم شكوى إلى الجهة الرقابية المختصة في بلدك. في المملكة العربية السعودية، يمكنك التواصل مع <strong>الهيئة السعودية للبيانات والذكاء الاصطناعي (SDAIA)</strong>.</p>
+
+      <h2>15. التواصل معنا</h2>
+      <p>لأي استفسار حول سياسة الخصوصية، أو لطلب حذف حساب المونتاج وبياناته:</p>
+
+      <a href="mailto:nibrasalsd@gmail.com" class="contact-item">
+        <span class="contact-icon">📧</span>
+        <span>nibrasalsd@gmail.com</span>
+      </a>
+
+      <a href="tel:0569361182" class="contact-item">
+        <span class="contact-icon">📱</span>
+        <span>0569361182</span>
+      </a>
+
+      <div class="highlight" style="margin-top:20px;">
+        <strong>الجهة المسؤولة عن البيانات:</strong><br>
+        Nibras GP — المملكة العربية السعودية<br>
+        للتواصل بخصوص الخصوصية: nibrasalsd@gmail.com
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== ENGLISH ==================== -->
+  <div class="lang-en">
+    <div class="header-title">
+      <img src="resha-512.png" alt="Resha" class="logo">
+      <h1>Privacy Policy</h1>
+      <p>Last Updated: October 2026</p>
+    </div>
+
+    <div class="card">
+
+      <div class="highlight">
+        <strong>Quick Summary:</strong>
+        <strong>Resha</strong> contains <strong>4 sections</strong>, three of which (Images, Videos, Editor) run entirely on your device <strong>without any login and collect zero data</strong>. Only the fourth section (Montage) requires an account to save your projects in your private cloud space.
+      </div>
+
+      <p>
+        Welcome to <strong>Resha</strong>. We take your privacy seriously. This policy explains how we handle your data in each section of the app. By using the app, you agree to the practices described below.
+      </p>
+
+      <h2>1. App Sections</h2>
+      <p>Resha consists of four independent sections, each with a different approach to your data:</p>
+
+      <div class="sections-grid">
+        <div class="section-card">
+          <div class="icon">🖼️</div>
+          <div class="name">Images</div>
+          <div class="status free">No Login</div>
+        </div>
+        <div class="section-card">
+          <div class="icon">🎥</div>
+          <div class="name">Videos</div>
+          <div class="status free">No Login</div>
+        </div>
+        <div class="section-card">
+          <div class="icon">✏️</div>
+          <div class="name">Editor</div>
+          <div class="status free">No Login</div>
+        </div>
+        <div class="section-card">
+          <div class="icon">🎬</div>
+          <div class="name">Montage</div>
+          <div class="status login">Login Required</div>
+        </div>
+      </div>
+
+      <h2>2. Information We Collect</h2>
+
+      <h3>A) Images, Videos, and Editor Sections (No Login):</h3>
+      <div class="green-box">
+        🔒 <strong>We collect absolutely no data.</strong><br>
+        These sections run entirely in your browser (your device). No image, file, or information is sent to any server. We don't request your email, name, phone number, or location.
+      </div>
+
+      <h3>B) Montage Section (Login Required):</h3>
+      <p>This is the only section that collects data, in order to save your projects and restore them later from any device:</p>
+
+      <table class="table-data">
+        <tr><th>Data Type</th><th>Purpose</th></tr>
+        <tr><td>Email Address</td><td>Account creation, login, and verification</td></tr>
+        <tr><td>Name (from Google/GitHub)</td><td>Displayed in the app to welcome the user</td></tr>
+        <tr><td>Images and Audio Files</td><td>Creating and saving montage projects</td></tr>
+        <tr><td>Text, Stickers, and Settings</td><td>Customizing your montage projects</td></tr>
+      </table>
+
+      <div class="warning">
+        <strong>We NEVER collect (in any section):</strong> Your phone number, geographic location, contacts, messages, or any other sensitive data.
+      </div>
+
+      <h2>3. How the App Works</h2>
+
+      <h3>Images, Videos, and Editor Sections:</h3>
+      <p>
+        All operations happen <strong>locally in your browser</strong>. Text, images, videos, and edits <strong>never leave your device</strong>. Even when you close the page, we retain nothing on our servers.
+      </p>
+
+      <h3>Montage Section:</h3>
+      <p>
+        When you save a project, your data and files are <strong>encrypted</strong> and transferred to your private cloud space so you can access them later from any device. No other user can access your projects unless you publish them to the public gallery.
+      </p>
+
+      <h2>4. Data Storage and Security</h2>
+      <ul>
+        <li><strong>Local Storage:</strong> Used only to save your temporary settings within your browser.</li>
+        <li><strong>Encrypted Cloud Storage:</strong> Montage projects are stored on secure servers with encryption in transit (HTTPS) and at rest.</li>
+        <li><strong>Data Isolation:</strong> No other user can access your private projects, unless you publish them to the public gallery.</li>
+        <li><strong>Secure Authentication:</strong> We use OAuth 2.0 for authentication via Google and GitHub.</li>
+      </ul>
+
+      <h2>5. Third-Party Data Sharing</h2>
+      <p>We never sell your data. We only share it with the following essential services in the Montage section:</p>
+
+      <table class="table-data">
+        <tr><th>Service</th><th>Purpose</th></tr>
+        <tr><td>Supabase</td><td>Encrypted database and file storage</td></tr>
+        <tr><td>Google OAuth</td><td>Sign in with Google (optional)</td></tr>
+        <tr><td>GitHub OAuth</td><td>Sign in with GitHub (optional)</td></tr>
+        <tr><td>Google Fonts</td><td>Loading Arabic fonts</td></tr>
+        <tr><td>GoatCounter</td><td>Anonymous visitor statistics (no personal tracking)</td></tr>
+      </table>
+
+      <h2>6. International Data Transfer</h2>
+      <p>Montage project data may be stored on servers located outside your country. By using the section, you consent to the transfer and processing of your data on these servers with the same level of protection.</p>
+
+      <h2>7. Data Retention Period</h2>
+      <ul>
+        <li><strong>Images, Videos, and Editor Sections:</strong> No data is retained at all.</li>
+        <li><strong>Montage Account Data:</strong> Retained as long as your account is active.</li>
+        <li><strong>Saved Projects:</strong> Retained until you manually delete them.</li>
+        <li><strong>After Account Deletion:</strong> All your data will be permanently deleted from our servers within 30 days.</li>
+      </ul>
+
+      <h2>8. Your Rights</h2>
+      <ul>
+        <li><strong>Right of Access:</strong> You can request a copy of your stored data.</li>
+        <li><strong>Right to Rectification:</strong> You can modify your data at any time.</li>
+        <li><strong>Right to Erasure:</strong> You can delete your account and data permanently.</li>
+        <li><strong>Right to Object:</strong> You can object to any processing of your data.</li>
+        <li><strong>Right to Data Portability:</strong> You can request your data in a readable format.</li>
+      </ul>
+
+      <div class="delete-box">
+        <h3>🗑️ How to Delete Your Account and Data</h3>
+        <p>To delete your account and all data (Montage section only), use one of the following methods:</p>
+        <ol>
+          <li><strong>Through the App:</strong> Open the Montage section, delete all your projects manually, then request account deletion.</li>
+          <li><strong>By Email:</strong> Send a message to <a href="mailto:nibrasalsd@gmail.com?subject=Delete my Resha account">nibrasalsd@gmail.com</a> with the subject "Delete my Resha account" including your registered email, and your data will be deleted within 30 days maximum.</li>
+        </ol>
+        <p style="margin-top:12px;margin-bottom:0;"><strong>Note:</strong> The other three sections do not retain any data at all, so there is nothing to delete from them.</p>
+      </div>
+
+      <h2>9. App Permissions</h2>
+      <ul>
+        <li><strong>Photo Access:</strong> To select images and merge them into projects (in all sections).</li>
+        <li><strong>Microphone Access:</strong> To record audio (Montage section only, optional).</li>
+        <li><strong>Internet Access:</strong> To sync Montage projects with the cloud server.</li>
+      </ul>
+      <p>All permissions are optional. You can deny them, but some features may not work.</p>
+
+      <h2>10. Cookies</h2>
+      <p>We do not use cookies for tracking. We only use <strong>LocalStorage</strong> in your browser to save your session and temporary settings in the Montage section. The other three sections do not use any persistent storage.</p>
+
+      <h2>11. Advertising</h2>
+      <p>The app contains no advertisements, and we do not share your data with any advertising networks.</p>
+
+      <h2>12. Children's Privacy</h2>
+      <p>The app is safe for family use. The three free sections do not collect any data from any age group. The Montage section does not knowingly collect personal information from children under 13. If you discover that a child has created an account without parental consent, please contact us to delete it immediately.</p>
+
+      <h2>13. Changes to This Policy</h2>
+      <p>We may update this policy from time to time. We will notify you of any material changes through in-app notifications. Your continued use of the app after changes means you accept the updated policy.</p>
+
+      <h2>14. Complaints and Regulatory Bodies</h2>
+      <p>If you believe we have violated your privacy rights, you may file a complaint with the relevant regulatory body in your country. In Saudi Arabia, you can contact the <strong>Saudi Data & AI Authority (SDAIA)</strong>.</p>
+
+      <h2>15. Contact Us</h2>
+      <p>For any inquiry about this privacy policy, or to request deletion of your Montage account and data:</p>
+
+      <a href="mailto:nibrasalsd@gmail.com" class="contact-item">
+        <span class="contact-icon">📧</span>
+        <span>nibrasalsd@gmail.com</span>
+      </a>
+
+      <a href="tel:0569361182" class="contact-item">
+        <span class="contact-icon">📱</span>
+        <span>0569361182</span>
+      </a>
+
+      <div class="highlight" style="margin-top:20px;">
+        <strong>Data Controller:</strong><br>
+        Nibras GP — Saudi Arabia<br>
+        Privacy Contact: nibrasalsd@gmail.com
+      </div>
+
+    </div>
   </div>
 
   <div class="card" style="text-align:center;">
-    <a href="index.html" class="back-btn">← العودة للرئيسية</a>
+    <a href="index.html" class="back-btn lang-ar">← العودة للرئيسية</a>
+    <a href="index.html" class="back-btn lang-en">← Back to Home</a>
   </div>
 
-  <div class="footer">
-    جميع الحقوق محفوظة © نبراس GP 2026
+  <div class="footer lang-ar">
+    جميع الحقوق محفوظة © Nibras GP 2026
     <small>🖌️ ريشة — استوديو الصور والفيديوهات</small>
   </div>
 
+  <div class="footer lang-en">
+    All Rights Reserved © Nibras GP 2026
+    <small>🖌️ Resha — Photo & Video Studio</small>
+  </div>
+
 </div>
+
+<script>
+function toggleLang() {
+  document.body.classList.toggle('en');
+  var isEn = document.body.classList.contains('en');
+  document.documentElement.lang = isEn ? 'en' : 'ar';
+  document.documentElement.dir = isEn ? 'ltr' : 'rtl';
+  document.getElementById('langBtn').textContent = isEn ? '🌐 العربية' : '🌐 English';
+  localStorage.setItem('reshaLang', isEn ? 'en' : 'ar');
+}
+(function(){
+  var saved = localStorage.getItem('reshaLang');
+  if (saved === 'en') {
+    document.body.classList.add('en');
+    document.documentElement.lang = 'en';
+    document.documentElement.dir = 'ltr';
+    document.getElementById('langBtn').textContent = '🌐 العربية';
+  }
+})();
+</script>
 
 </body>
 </html>
