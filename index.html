@@ -5,673 +5,608 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="نبراس GP">
 <title>🖌️ ريشة — استوديو الصور والفيديوهات | نبراس GP</title>
-
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="resha-192.png">
-<meta name="theme-color" content="#667eea">
+<meta name="theme-color" content="#0f172a">
 <meta name="description" content="ريشة — استوديو الصور والفيديوهات العربية">
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Amiri:wght@700&family=Tajawal:wght@700&family=Rubik:wght@700&family=Almarai:wght@700&family=El+Messiri:wght@700&family=Reem+Kufi:wght@700&family=Lateef&family=Scheherazade+New:wght@700&family=Noto+Naskh+Arabic:wght@700&family=Noto+Kufi+Arabic:wght@700&family=Harmattan:wght@700&family=Mada:wght@700&family=Changa:wght@700&family=Lemonada:wght@700&family=Rakkas&family=Lalezar&family=Jomhuria&family=Aref+Ruqaa:wght@700&family=Gulzar&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@700&family=Tajawal:wght@700&family=Rubik:wght@700&family=Almarai:wght@700&family=El+Messiri:wght@700&family=Reem+Kufi:wght@700&family=Lateef&family=Scheherazade+New:wght@700&family=Noto+Naskh+Arabic:wght@700&family=Noto+Kufi+Arabic:wght@700&family=Harmattan:wght@700&family=Mada:wght@700&family=Changa:wght@700&family=Lemonada:wght@700&family=Rakkas&family=Lalezar&family=Jomhuria&family=Aref+Ruqaa:wght@700&family=Gulzar&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; }
-  body { 
-    font-family: 'Cairo', sans-serif; 
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    padding: 12px;
-    margin: 0;
+* { box-sizing: border-box; }
+body {
+  font-family: 'Cairo', sans-serif;
+  background: #f1f5f9;
+  min-height: 100vh;
+  padding: 12px;
+  margin: 0;
+  color: #0f172a;
+}
+.container { max-width: 900px; margin: 0 auto; }
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border: 1px solid #e2e8f0;
+}
+.header-title {
+  color: #0f172a;
+  text-align: center;
+  margin-bottom: 14px;
+  padding: 8px 0;
+}
+.header-title .logo {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 8px;
+  border-radius: 12px;
+  background: #0f172a;
+  padding: 8px;
+  display: block;
+  box-shadow: 0 4px 14px rgba(15,23,42,0.15);
+  object-fit: contain;
+}
+.header-title p {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+  font-weight: 600;
+}
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  background: #fff;
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.tab {
+  flex: 1;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  background: transparent;
+  color: #64748b;
+  transition: all 0.15s;
+}
+.tab.active {
+  background: #0f172a;
+  color: #fff;
+}
+.view { display: none; }
+.view.active { display: block; }
+canvas {
+  max-width: 100%;
+  max-height: 60vh;
+  width: auto;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
+  background: #fff;
+}
+input[type="color"] {
+  height: 44px;
+  width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1.5px solid #e2e8f0;
+  padding: 2px;
+  background: #f8fafc;
+}
+input[type="text"], textarea, select, input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 15px;
+  background: #f8fafc;
+  color: #0f172a;
+  font-weight: 600;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #0f172a;
+  background: #fff;
+}
+textarea { resize: vertical; min-height: 60px; }
+label {
+  display: block;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+.field { margin-bottom: 12px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.palette-dropdown, .templates-dropdown, .fonts-dropdown, .library-dropdown {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.palette-dropdown summary, .templates-dropdown summary, .fonts-dropdown summary, .library-dropdown summary {
+  padding: 14px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 14px;
+  color: #334155;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.palette-dropdown summary::-webkit-details-marker,
+.templates-dropdown summary::-webkit-details-marker,
+.fonts-dropdown summary::-webkit-details-marker,
+.library-dropdown summary::-webkit-details-marker { display: none; }
+.palette-dropdown summary::after,
+.templates-dropdown summary::after,
+.fonts-dropdown summary::after,
+.library-dropdown summary::after {
+  content: '▼';
+  font-size: 12px;
+  color: #64748b;
+  transition: transform 0.2s;
+}
+.palette-dropdown[open] summary::after,
+.templates-dropdown[open] summary::after,
+.fonts-dropdown[open] summary::after,
+.library-dropdown[open] summary::after { transform: rotate(180deg); }
+.palette-dropdown[open], .templates-dropdown[open], .fonts-dropdown[open], .library-dropdown[open] {
+  border-color: #0f172a;
+}
+.dropdown-content {
+  padding: 12px;
+  border-top: 1.5px solid #e2e8f0;
+  background: #fff;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.dropdown-category {
+  font-size: 12px;
+  font-weight: 800;
+  color: #0f172a;
+  padding: 8px 4px 6px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 8px;
+}
+.palette { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; }
+.palette-color {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: transform 0.2s;
+}
+.palette-color:hover { transform: scale(1.1); }
+.palette-color.active { border-color: #0f172a; }
+.template-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.template-card {
+  padding: 12px 8px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  transition: all 0.15s;
+}
+.template-card:hover {
+  border-color: #0f172a;
+  background: #f1f5f9;
+  color: #0f172a;
+  transform: translateY(-2px);
+}
+.template-card.active {
+  border-color: #0f172a;
+  background: #f1f5f9;
+  color: #0f172a;
+}
+.template-preview {
+  width: 100%;
+  height: 50px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  background: #f1f5f9;
+  position: relative;
+  overflow: hidden;
+}
+.font-list { display: flex; flex-direction: column; gap: 6px; }
+.font-item {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  color: #334155;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.font-item:hover { border-color: #0f172a; background: #f1f5f9; }
+.font-item.active { border-color: #0f172a; background: #f1f5f9; }
+.font-item .font-name { font-size: 18px; }
+.font-item .font-desc { font-size: 11px; color: #64748b; }
+.library-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.library-item {
+  aspect-ratio: 1;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: all 0.15s;
+  background-size: cover;
+  background-position: center;
+}
+.library-item:hover { transform: scale(1.05); border-color: #0f172a; }
+.library-item.active { border-color: #0f172a; }
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  font-weight: 700;
+  color: #334155;
+}
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #0f172a;
+}
+.btn {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.15s;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: #0f172a; flex: 1; }
+.btn-green { background: #10b981; flex: 1; }
+.btn-purple { background: #475569; }
+.btn-red { background: #ef4444; }
+.btn-small {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #ef4444;
+  color: #fff;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.pos-btn {
+  padding: 12px 0;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  color: #334155;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex: 1;
+}
+.pos-btn:hover { border-color: #0f172a; background: #f1f5f9; }
+.pos-btn:active { transform: scale(0.95); }
+.size-btn {
+  padding: 12px 0;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex: 1;
+}
+.size-btn:hover { border-color: #0f172a; background: #f1f5f9; }
+.size-btn:active { transform: scale(0.95); }
+.slide-item {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.slide-item .slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.slide-item .slide-num {
+  font-weight: 800;
+  color: #0f172a;
+  font-size: 14px;
+}
+.duration-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.dur-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: #64748b;
+}
+.dur-btn.active { border-color: #10b981; background: #ecfdf5; color: #047857; }
+.anim-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: #64748b;
+}
+.anim-btn.active { border-color: #0f172a; background: #f1f5f9; color: #0f172a; }
+.animations { display: flex; flex-wrap: wrap; gap: 6px; }
+.add-slide-btn {
+  width: 100%;
+  padding: 16px;
+  border: 1.5px dashed #cbd5e1;
+  background: #f8fafc;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 800;
+  color: #64748b;
+  font-size: 14px;
+}
+.add-slide-btn:hover { border-color: #0f172a; color: #0f172a; }
+.audio-box {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px;
+}
+.audio-info {
+  font-size: 13px;
+  color: #047857;
+  margin-top: 8px;
+  padding: 8px;
+  background: #ecfdf5;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 700;
+}
+.convert-box { margin-top: 12px; }
+.convert-box a {
+  display: block;
+  padding: 14px;
+  background: #0f172a;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 15px;
+  text-align: center;
+  transition: all 0.15s;
+}
+.convert-box a:hover { background: #1e293b; transform: scale(1.02); }
+#slideshow-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 99999;
+  display: none;
+  flex-direction: column;
+}
+#slideshow-overlay.active { display: flex; }
+.progress-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.2);
+  position: relative;
+}
+.progress-fill { height: 100%; background: #fff; width: 0%; }
+.slide-canvas-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+#slideshow-canvas { max-width: 100%; max-height: 100%; border-radius: 12px; }
+.slide-controls { padding: 16px; display: flex; gap: 10px; justify-content: center; }
+.slide-dots { display: flex; gap: 6px; justify-content: center; padding: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+.dot.active { background: #fff; }
+.footer {
+  text-align: center;
+  color: #64748b;
+  font-size: 13px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 14px;
+  margin-top: 16px;
+  font-weight: 700;
+  border: 1px solid #e2e8f0;
+}
+.footer small { display: block; margin-top: 4px; opacity: 0.85; font-weight: 400; }
+.footer-links {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.footer-links a {
+  color: #0f172a;
+  text-decoration: none;
+  font-size: 11px;
+  padding: 5px 12px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: all 0.15s;
+  border: 1px solid #e2e8f0;
+}
+.footer-links a:hover { background: #e2e8f0; transform: translateY(-1px); }
+@media (max-width: 480px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .card { padding: 16px; }
+  .palette { grid-template-columns: repeat(6, 1fr); }
+  .template-grid { grid-template-columns: repeat(2, 1fr); }
+  .library-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  body { padding: 20px; }
+  .container { max-width: 1400px; }
+  #view-single.active {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+    align-items: start;
   }
-  .container { max-width: 900px; margin: 0 auto; }
-  .card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 16px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-  }
-  .header-title { color: #fff; text-align: center; margin-bottom: 14px; }
-  .header-title .logo {
-    width: 45px; height: 45px;
-    margin: 0 auto 6px;
-    border-radius: 12px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
-    display: block;
-  }
-  .header-title p { font-size: 13px; opacity: 0.9; margin: 0; }
-
-  .tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-    background: #fff;
-    padding: 8px;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-  }
-  .tab {
-    flex: 1;
-    padding: 14px;
-    border-radius: 12px;
-    border: none;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 800;
-    font-size: 15px;
-    cursor: pointer;
-    background: transparent;
-    color: #6b7280;
-    transition: all 0.3s;
-  }
-  .tab.active {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(102,126,234,0.4);
-  }
-
-  .view { display: none; }
-  .view.active { display: block; }
-
-  canvas { 
-    max-width: 100%; 
-    max-height: 60vh;
-    width: auto;
-    height: auto;
-    border-radius: 14px; 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    display: block;
-    margin: 0 auto;
-    object-fit: contain;
-  }
-  input[type="color"] { 
-    height: 44px; width: 100%;
-    border-radius: 10px; cursor: pointer;
-    border: 2px solid #e5e7eb; padding: 2px;
-  }
-  input[type="text"], textarea, select, input[type="file"] {
-    width: 100%; padding: 12px;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    font-family: 'Cairo', sans-serif;
-    font-size: 15px;
-    background: #fafafa;
-  }
-  input:focus, textarea:focus, select:focus {
-    outline: none; border-color: #667eea; background: #fff;
-  }
-  textarea { resize: vertical; min-height: 60px; }
-  label {
-    display: block; font-weight: 700;
-    color: #374151; margin-bottom: 6px; font-size: 13px;
-  }
-  .field { margin-bottom: 12px; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-  .palette-dropdown, .templates-dropdown, .fonts-dropdown, .library-dropdown {
-    background: #f8fafc;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.2s;
-  }
-  .palette-dropdown summary, .templates-dropdown summary, .fonts-dropdown summary, .library-dropdown summary {
-    padding: 14px;
-    cursor: pointer;
-    font-weight: 800;
-    font-size: 14px;
-    color: #374151;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .palette-dropdown summary::-webkit-details-marker,
-  .templates-dropdown summary::-webkit-details-marker,
-  .fonts-dropdown summary::-webkit-details-marker,
-  .library-dropdown summary::-webkit-details-marker { display: none; }
-  .palette-dropdown summary::after,
-  .templates-dropdown summary::after,
-  .fonts-dropdown summary::after,
-  .library-dropdown summary::after {
-    content: '▼';
-    font-size: 12px;
-    color: #6b7280;
-    transition: transform 0.2s;
-  }
-  .palette-dropdown[open] summary::after,
-  .templates-dropdown[open] summary::after,
-  .fonts-dropdown[open] summary::after,
-  .library-dropdown[open] summary::after {
-    transform: rotate(180deg);
-  }
-  .palette-dropdown[open], .templates-dropdown[open], .fonts-dropdown[open], .library-dropdown[open] {
-    border-color: #667eea;
-  }
-  .dropdown-content {
-    padding: 12px;
-    border-top: 2px solid #e5e7eb;
-    background: #fff;
-    max-height: 400px;
+  #view-single .card:first-child { position: sticky; top: 20px; grid-column: 1; }
+  #view-single .card:nth-child(2) {
+    grid-column: 2;
+    max-height: 80vh;
     overflow-y: auto;
+    padding-left: 10px;
   }
-  .dropdown-category {
-    font-size: 12px;
-    font-weight: 800;
-    color: #4338ca;
-    padding: 8px 4px 6px;
-    border-bottom: 1px solid #e5e7eb;
-    margin-bottom: 8px;
-  }
-
-  .palette {
+  #view-single .card:nth-child(2)::-webkit-scrollbar { width: 6px; }
+  #view-single .card:nth-child(2)::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+  canvas { max-height: 70vh; width: 100%; height: auto; object-fit: contain; background: #fff; border-radius: 12px; }
+  .btn-row { flex-wrap: nowrap; }
+  .btn-small { flex: 1; white-space: nowrap; }
+  .tabs { max-width: 600px; margin-left: auto; margin-right: auto; }
+  .footer { max-width: 1400px; margin-left: auto; margin-right: auto; }
+  #view-slides.active {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 6px;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
   }
-  .palette-color {
-    aspect-ratio: 1;
-    border-radius: 8px;
-    cursor: pointer;
-    border: 3px solid transparent;
-    transition: transform 0.2s;
-  }
-  .palette-color:hover { transform: scale(1.1); }
-  .palette-color.active { border-color: #111; }
-
-  .template-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  .template-card {
-    padding: 12px 8px;
-    border-radius: 10px;
-    border: 2px solid #e5e7eb;
-    background: #fff;
-    cursor: pointer;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 700;
-    color: #6b7280;
-    transition: all 0.2s;
-  }
-  .template-card:hover {
-    border-color: #667eea;
-    background: #eef2ff;
-    color: #4338ca;
-    transform: translateY(-2px);
-  }
-  .template-card.active {
-    border-color: #667eea;
-    background: #eef2ff;
-    color: #4338ca;
-  }
-  .template-preview {
-    width: 100%;
-    height: 50px;
-    border-radius: 6px;
-    margin-bottom: 6px;
-    background: #f1f5f9;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .font-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .font-item {
-    padding: 12px 14px;
-    border-radius: 10px;
-    border: 2px solid #e5e7eb;
-    background: #fff;
-    cursor: pointer;
-    font-size: 18px;
-    color: #374151;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .font-item:hover {
-    border-color: #667eea;
-    background: #eef2ff;
-  }
-  .font-item.active {
-    border-color: #667eea;
-    background: #eef2ff;
-  }
-  .font-item .font-name {
-    font-size: 18px;
-  }
-  .font-item .font-desc {
-    font-size: 11px;
-    color: #6b7280;
-  }
-
-  .library-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  .library-item {
-    aspect-ratio: 1;
-    border-radius: 10px;
-    cursor: pointer;
-    border: 3px solid transparent;
-    transition: all 0.2s;
-    background-size: cover;
-    background-position: center;
-  }
-  .library-item:hover {
-    transform: scale(1.05);
-    border-color: #667eea;
-  }
-  .library-item.active {
-    border-color: #4338ca;
-  }
-
-  .checkbox-label {
-    display: flex; align-items: center; gap: 10px;
-    cursor: pointer; padding: 12px;
-    background: #f8fafc; border-radius: 12px;
-    border: 2px solid #e5e7eb; font-weight: 700;
-    color: #374151;
-  }
-  .checkbox-label input[type="checkbox"] {
-    width: 20px; height: 20px;
-    accent-color: #667eea;
-  }
-  .btn {
-    padding: 12px 18px; border-radius: 12px; border: none;
-    font-family: 'Cairo', sans-serif; font-weight: 800;
-    font-size: 14px; cursor: pointer; color: white;
-    transition: all 0.2s;
-  }
-  .btn:active { transform: scale(0.97); }
-  .btn-primary { background: #667eea; flex: 1; }
-  .btn-green { background: #10b981; flex: 1; }
-  .btn-purple { background: #8b5cf6; }
-  .btn-red { background: #ef4444; }
-  .btn-small {
-    padding: 8px 14px; border-radius: 8px; border: none;
-    background: #ef4444; color: #fff;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700; font-size: 12px; cursor: pointer;
-  }
-  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
-
-  .pos-btn {
-    padding: 12px 0;
-    border-radius: 10px;
-    border: 2px solid #e5e7eb;
-    background: #fff;
-    color: #374151;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.2s;
-    flex: 1;
-  }
-  .pos-btn:hover {
-    border-color: #c7d2fe;
-    background: #f5f3ff;
-  }
-  .pos-btn:active { transform: scale(0.95); }
-
-  .size-btn {
-    padding: 12px 0;
-    border-radius: 10px;
-    border: 2px solid #e5e7eb;
-    background: #fff;
-    color: #374151;
-    font-size: 13px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.2s;
-    flex: 1;
-  }
-  .size-btn:hover {
-    border-color: #c7d2fe;
-    background: #f5f3ff;
-  }
-  .size-btn:active { transform: scale(0.95); }
-
-  .slide-item {
-    background: #f8fafc;
-    border: 2px solid #e5e7eb;
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 16px;
-  }
-  .slide-item .slide-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  .slide-item .slide-num {
-    font-weight: 800;
-    color: #4338ca;
-    font-size: 14px;
-  }
-  .duration-row {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .dur-btn {
-    padding: 6px 12px;
-    border-radius: 8px;
-    border: 2px solid #e5e7eb;
-    background: #fff;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
-    color: #6b7280;
-  }
-  .dur-btn.active {
-    border-color: #10b981; background: #ecfdf5; color: #047857;
-  }
-  .anim-btn {
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 2px solid #e5e7eb;
-    background: #fff;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
-    color: #6b7280;
-  }
-  .anim-btn.active {
-    border-color: #8b5cf6; background: #f5f3ff; color: #6d28d9;
-  }
-  .animations { display: flex; flex-wrap: wrap; gap: 6px; }
-
-  .add-slide-btn {
-    width: 100%;
-    padding: 16px;
-    border: 2px dashed #cbd5e1;
-    background: #f8fafc;
-    border-radius: 12px;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 800;
-    color: #64748b;
-    font-size: 14px;
-  }
-  .add-slide-btn:hover { border-color: #667eea; color: #4338ca; }
-
-  .audio-box {
-    background: #f0f9ff;
-    border: 2px solid #bae6fd;
-    border-radius: 14px;
-    padding: 16px;
-  }
-  .audio-info {
-    font-size: 13px;
-    color: #0369a1;
-    margin-top: 8px;
-    padding: 8px;
-    background: #e0f2fe;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: 700;
-  }
-
-  .convert-box {
-    margin-top: 12px;
-  }
-  .convert-box a {
-    display: block;
-    padding: 14px;
-    background: #ea580c;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: 800;
-    font-size: 15px;
-    text-align: center;
-    transition: all 0.2s;
-  }
-  .convert-box a:hover {
-    background: #c2410c;
-    transform: scale(1.02);
-  }
-
-  #slideshow-overlay {
-    position: fixed;
-    inset: 0;
-    background: #000;
-    z-index: 99999;
-    display: none;
-    flex-direction: column;
-  }
-  #slideshow-overlay.active { display: flex; }
-  .progress-bar {
-    height: 4px;
-    background: rgba(255,255,255,0.2);
-    position: relative;
-  }
-  .progress-fill {
-    height: 100%;
-    background: #fff;
-    width: 0%;
-  }
-  .slide-canvas-wrap {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  #slideshow-canvas {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 12px;
-  }
-  .slide-controls {
-    padding: 16px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
-  .slide-dots {
-    display: flex;
-    gap: 6px;
-    justify-content: center;
-    padding: 8px;
-  }
-  .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-  }
-  .dot.active { background: #fff; }
-
-  .footer {
-    text-align: center; color: #fff;
-    font-size: 13px; padding: 16px;
-    background: rgba(0,0,0,0.15);
-    border-radius: 14px; margin-top: 16px;
-    font-weight: 700;
-  }
-  .footer small {
-    display: block; margin-top: 4px;
-    opacity: 0.85; font-weight: 400;
-  }
-  .footer-links {
-    margin-top: 10px;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .footer-links a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 11px;
-    padding: 5px 12px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 8px;
-    font-weight: 700;
-    transition: all 0.2s;
-  }
-  .footer-links a:hover {
-    background: rgba(255,255,255,0.28);
-    transform: translateY(-1px);
-  }
-
-  @media (max-width: 480px) {
-    .grid-2 { grid-template-columns: 1fr; }
-    .card { padding: 16px; }
-    .palette { grid-template-columns: repeat(6, 1fr); }
-    .template-grid { grid-template-columns: repeat(2, 1fr); }
-    .library-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (min-width: 1024px) {
-    body { padding: 20px; }
-    .container { max-width: 1400px; }
-
-    #view-single.active {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    #view-single .card:first-child {
-      position: sticky;
-      top: 20px;
-      grid-column: 1;
-    }
-
-    #view-single .card:nth-child(2) {
-      grid-column: 2;
-      max-height: 80vh;
-      overflow-y: auto;
-      padding-left: 10px;
-    }
-
-    #view-single .card:nth-child(2)::-webkit-scrollbar {
-      width: 6px;
-    }
-    #view-single .card:nth-child(2)::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 3px;
-    }
-
-    canvas {
-      max-height: 70vh;
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      background: #fff;
-      border-radius: 12px;
-    }
-
-    .btn-row { flex-wrap: nowrap; }
-    .btn-small { flex: 1; white-space: nowrap; }
-
-    .tabs {
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .footer {
-      max-width: 1400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    #view-slides.active {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-    #view-slides .card { grid-column: span 1; }
-    #view-slides .card:nth-child(3) { grid-column: span 2; }
-  }
-
-  @media (min-width: 1600px) {
-    .container { max-width: 1600px; }
-    canvas { max-height: 65vh; }
-  }
-
+  #view-slides .card { grid-column: span 1; }
+  #view-slides .card:nth-child(3) { grid-column: span 2; }
+}
+@media (min-width: 1600px) {
+  .container { max-width: 1600px; }
+  canvas { max-height: 65vh; }
+}
+#nibras-bubble {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  height: 44px;
+  padding: 0 18px 0 14px;
+  border-radius: 22px;
+  background: #0f172a;
+  color: white;
+  border: none;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(15,23,42,0.3);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+#editor-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  height: 44px;
+  padding: 0 18px 0 14px;
+  border-radius: 22px;
+  background: #10b981;
+  color: white;
+  border: none;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(16,185,129,0.3);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+#montage-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 200px;
+  height: 44px;
+  padding: 0 18px 0 14px;
+  border-radius: 22px;
+  background: #475569;
+  color: white;
+  border: none;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(71,85,105,0.3);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+@media (max-width: 480px) {
   #nibras-bubble {
-    position: fixed; bottom: 20px; right: 20px;
-    height: 44px; padding: 0 18px 0 14px;
-    border-radius: 22px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white; border: none;
-    font-family: 'Cairo', sans-serif;
-    font-size: 13px; font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(102,126,234,0.45);
-    z-index: 9998;
-    display: flex; align-items: center; gap: 6px;
-    transition: all 0.2s;
+    height: 40px;
+    padding: 0 14px 0 10px;
+    font-size: 12px;
+    bottom: 14px;
+    right: 14px;
+    gap: 5px;
   }
-
   #editor-btn {
-    position: fixed; bottom: 20px; left: 20px;
-    height: 44px; padding: 0 18px 0 14px;
-    border-radius: 22px;
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white; border: none;
-    font-family: 'Cairo', sans-serif;
-    font-size: 13px; font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(16,185,129,0.45);
-    z-index: 9998;
-    display: flex; align-items: center; gap: 6px;
-    transition: all 0.2s;
+    height: 40px;
+    padding: 0 14px 0 10px;
+    font-size: 12px;
+    bottom: 14px;
+    left: 14px;
+    gap: 5px;
   }
-
-  /* ✅ زر المونتاج الجديد */
   #montage-btn {
-    position: fixed; bottom: 20px; left: 200px;
-    height: 44px; padding: 0 18px 0 14px;
-    border-radius: 22px;
-    background: linear-gradient(135deg, #ec4899, #8b5cf6);
-    color: white; border: none;
-    font-family: 'Cairo', sans-serif;
-    font-size: 13px; font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(236,72,153,0.45);
-    z-index: 9998;
-    display: flex; align-items: center; gap: 6px;
-    transition: all 0.2s;
+    height: 40px;
+    padding: 0 14px 0 10px;
+    font-size: 12px;
+    bottom: 60px;
+    left: 14px;
+    gap: 5px;
   }
-
-  @media (max-width: 480px) {
-    #nibras-bubble {
-      height: 40px; padding: 0 14px 0 10px;
-      font-size: 12px; bottom: 14px; right: 14px;
-      gap: 5px;
-    }
-    #editor-btn {
-      height: 40px; padding: 0 14px 0 10px;
-      font-size: 12px; bottom: 14px; left: 14px;
-      gap: 5px;
-    }
-    #montage-btn {
-      height: 40px; padding: 0 14px 0 10px;
-      font-size: 12px; bottom: 60px; left: 14px;
-      gap: 5px;
-    }
-  }
+}
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
   <div class="header-title">
     <img src="resha-512.png" alt="ريشة" class="logo">
     <p>استوديو الصور والفيديوهات</p>
@@ -684,32 +619,26 @@
 
   <!-- تبويب الصور -->
   <div id="view-single" class="view active">
-
     <div class="card">
       <canvas id="canvas" width="1080" height="1080"></canvas>
-
-      <div style="margin-top:16px; padding-top:16px; border-top:2px solid #f1f5f9;">
-        <label style="text-align:center; display:block; margin-bottom:8px; color:#4338ca;">📍 موضع النص وحجمه</label>
-        
+      <div style="margin-top:16px; padding-top:16px; border-top:1.5px solid #f1f5f9;">
+        <label style="text-align:center; display:block; margin-bottom:8px; color:#0f172a;">📍 موضع النص وحجمه</label>
         <div class="btn-row" style="justify-content:center; margin-bottom:8px;">
           <button class="pos-btn" onclick="setTextPos('right', 'v')" title="يمين">➡️</button>
           <button class="pos-btn" onclick="setTextPos('center', 'v')" title="وسط">↔️</button>
           <button class="pos-btn" onclick="setTextPos('left', 'v')" title="يسار">⬅️</button>
         </div>
-
         <div class="btn-row" style="justify-content:center; margin-bottom:8px;">
           <button class="pos-btn" onclick="setTextPos('top', 'h')" title="فوق">⬆️</button>
           <button class="pos-btn" onclick="setTextPos('middle', 'h')" title="وسط">↕️</button>
           <button class="pos-btn" onclick="setTextPos('bottom', 'h')" title="تحت">⬇️</button>
         </div>
-
         <div class="btn-row" style="justify-content:center; margin-bottom:8px;">
           <button class="size-btn" onclick="setTextSize('small')">صغير</button>
           <button class="size-btn" onclick="setTextSize('medium')">متوسط</button>
           <button class="size-btn" onclick="setTextSize('large')">كبير</button>
         </div>
-
-        <button class="btn btn-small" style="width:100%; background:#64748b;" onclick="resetTextPos()">🎯 إرجاع النص للمنتصف</button>
+        <button class="btn btn-small" style="width:100%; background:#475569;" onclick="resetTextPos()">🎯 إرجاع النص للمنتصف</button>
       </div>
     </div>
 
@@ -727,112 +656,85 @@
             <div class="dropdown-category">📄 الأساسية</div>
             <div class="template-grid">
               <div class="template-card active" data-tpl="quote" onclick="setTemplate('quote', this)">
-                <div class="template-preview" style="background:#fff;border:1px solid #e5e7eb;"></div>
-                اقتباس
+                <div class="template-preview" style="background:#fff;border:1px solid #e5e7eb;"></div>اقتباس
               </div>
               <div class="template-card" data-tpl="gradient" onclick="setTemplate('gradient', this)">
-                <div class="template-preview" style="background:linear-gradient(135deg,#667eea,#764ba2);"></div>
-                تدرج
+                <div class="template-preview" style="background:linear-gradient(135deg,#0f172a,#475569);"></div>تدرج
               </div>
               <div class="template-card" data-tpl="solid" onclick="setTemplate('solid', this)">
-                <div class="template-preview" style="background:#667eea;"></div>
-                لون صلب
+                <div class="template-preview" style="background:#0f172a;"></div>لون صلب
               </div>
               <div class="template-card" data-tpl="frame" onclick="setTemplate('frame', this)">
-                <div class="template-preview" style="background:#fff;border:3px solid #667eea;"></div>
-                إطار
+                <div class="template-preview" style="background:#fff;border:3px solid #0f172a;"></div>إطار
               </div>
             </div>
-
             <div class="dropdown-category">🎨 الأشكال</div>
             <div class="template-grid">
               <div class="template-card" data-tpl="circles" onclick="setTemplate('circles', this)">
-                <div class="template-preview" style="background:radial-gradient(circle,#667eea 30%,#fff 30%);"></div>
-                دوائر
+                <div class="template-preview" style="background:radial-gradient(circle,#0f172a 30%,#fff 30%);"></div>دوائر
               </div>
               <div class="template-card" data-tpl="squares" onclick="setTemplate('squares', this)">
-                <div class="template-preview" style="background:repeating-linear-gradient(45deg,#667eea,#667eea 5px,#fff 5px,#fff 10px);"></div>
-                مربعات
+                <div class="template-preview" style="background:repeating-linear-gradient(45deg,#0f172a,#0f172a 5px,#fff 5px,#fff 10px);"></div>مربعات
               </div>
               <div class="template-card" data-tpl="triangles" onclick="setTemplate('triangles', this)">
-                <div class="template-preview" style="background:#fff;clip-path:polygon(50% 0,100% 100%,0 100%);"></div>
-                مثلثات
+                <div class="template-preview" style="background:#fff;clip-path:polygon(50% 0,100% 100%,0 100%);"></div>مثلثات
               </div>
               <div class="template-card" data-tpl="dots" onclick="setTemplate('dots', this)">
-                <div class="template-preview" style="background:radial-gradient(circle,#667eea 1px,transparent 1px);background-size:8px 8px;"></div>
-                نقاط
+                <div class="template-preview" style="background:radial-gradient(circle,#0f172a 1px,transparent 1px);background-size:8px 8px;"></div>نقاط
               </div>
               <div class="template-card" data-tpl="stripes" onclick="setTemplate('stripes', this)">
-                <div class="template-preview" style="background:repeating-linear-gradient(0deg,#667eea,#667eea 3px,#fff 3px,#fff 8px);"></div>
-                خطوط
+                <div class="template-preview" style="background:repeating-linear-gradient(0deg,#0f172a,#0f172a 3px,#fff 3px,#fff 8px);"></div>خطوط
               </div>
               <div class="template-card" data-tpl="wave" onclick="setTemplate('wave', this)">
-                <div class="template-preview" style="background:#fff;border-bottom:15px solid #667eea;border-radius:0 0 50% 50%;"></div>
-                موجة
+                <div class="template-preview" style="background:#fff;border-bottom:15px solid #0f172a;border-radius:0 0 50% 50%;"></div>موجة
               </div>
             </div>
-
             <div class="dropdown-category">🌟 الزخارف</div>
             <div class="template-grid">
               <div class="template-card" data-tpl="islamic" onclick="setTemplate('islamic', this)">
-                <div class="template-preview" style="background:#fef3c7;border:2px solid #d97706;"></div>
-                زخرفة إسلامية
+                <div class="template-preview" style="background:#fef3c7;border:2px solid #d97706;"></div>زخرفة إسلامية
               </div>
               <div class="template-card" data-tpl="double-frame" onclick="setTemplate('double-frame', this)">
-                <div class="template-preview" style="background:#fff;border:3px double #667eea;"></div>
-                إطار مزدوج
+                <div class="template-preview" style="background:#fff;border:3px double #0f172a;"></div>إطار مزدوج
               </div>
               <div class="template-card" data-tpl="side-bar" onclick="setTemplate('side-bar', this)">
-                <div class="template-preview" style="background:#fff;border-right:8px solid #667eea;"></div>
-                شريط جانبي
+                <div class="template-preview" style="background:#fff;border-right:8px solid #0f172a;"></div>شريط جانبي
               </div>
               <div class="template-card" data-tpl="corner" onclick="setTemplate('corner', this)">
-                <div class="template-preview" style="background:#fff;border-top-left-radius:50px;border:2px solid #667eea;"></div>
-                زاوية مزخرفة
+                <div class="template-preview" style="background:#fff;border-top-left-radius:50px;border:2px solid #0f172a;"></div>زاوية مزخرفة
               </div>
               <div class="template-card" data-tpl="half-circle" onclick="setTemplate('half-circle', this)">
-                <div class="template-preview" style="background:#fff;border-radius:50% 50% 0 0;background:#667eea;"></div>
-                نصف دائرة
+                <div class="template-preview" style="background:#fff;border-radius:50% 50% 0 0;background:#0f172a;"></div>نصف دائرة
               </div>
               <div class="template-card" data-tpl="stars" onclick="setTemplate('stars', this)">
-                <div class="template-preview" style="background:#0f172a;color:#fbbf24;">★ ★</div>
-                نجوم
+                <div class="template-preview" style="background:#0f172a;color:#fbbf24;">★ ★</div>نجوم
               </div>
             </div>
-
             <div class="dropdown-category">📖 المناسبات</div>
             <div class="template-grid">
               <div class="template-card" data-tpl="ayah" onclick="setTemplate('ayah', this)">
-                <div class="template-preview" style="background:#064e3b;color:#fbbf24;">﷽</div>
-                آية قرآنية
+                <div class="template-preview" style="background:#064e3b;color:#fbbf24;">﷽</div>آية قرآنية
               </div>
               <div class="template-card" data-tpl="hadith" onclick="setTemplate('hadith', this)">
-                <div class="template-preview" style="background:#fff;border:2px solid #10b981;"></div>
-                حديث شريف
+                <div class="template-preview" style="background:#fff;border:2px solid #10b981;"></div>حديث شريف
               </div>
               <div class="template-card" data-tpl="poetry" onclick="setTemplate('poetry', this)">
-                <div class="template-preview" style="background:#fef3c7;border-top:3px solid #d97706;border-bottom:3px solid #d97706;"></div>
-                شعر
+                <div class="template-preview" style="background:#fef3c7;border-top:3px solid #d97706;border-bottom:3px solid #d97706;"></div>شعر
               </div>
               <div class="template-card" data-tpl="news" onclick="setTemplate('news', this)">
-                <div class="template-preview" style="background:#fff;border-top:15px solid #dc2626;"></div>
-                عنوان صحفي
+                <div class="template-preview" style="background:#fff;border-top:15px solid #dc2626;"></div>عنوان صحفي
               </div>
               <div class="template-card" data-tpl="marketing" onclick="setTemplate('marketing', this)">
-                <div class="template-preview" style="background:#fff7ed;border:2px solid #ea580c;"></div>
-                تسويقي
+                <div class="template-preview" style="background:#fff7ed;border:2px solid #ea580c;"></div>تسويقي
               </div>
               <div class="template-card" data-tpl="celebration" onclick="setTemplate('celebration', this)">
-                <div class="template-preview" style="background:#fdf4ff;border:2px dashed #d946ef;"></div>
-                تهنئة
+                <div class="template-preview" style="background:#fdf4ff;border:2px dashed #d946ef;"></div>تهنئة
               </div>
               <div class="template-card" data-tpl="classic-quote" onclick="setTemplate('classic-quote', this)">
-                <div class="template-preview" style="background:#f5f5f4;border:1px solid #78716c;"></div>
-                اقتباس كلاسيكي
+                <div class="template-preview" style="background:#f5f5f4;border:1px solid #78716c;"></div>اقتباس كلاسيكي
               </div>
               <div class="template-card" data-tpl="ad" onclick="setTemplate('ad', this)">
-                <div class="template-preview" style="background:#1e40af;color:#fbbf24;">AD</div>
-                إعلان
+                <div class="template-preview" style="background:#1e40af;color:#fbbf24;">AD</div>إعلان
               </div>
             </div>
           </div>
@@ -920,12 +822,10 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- تبويب الفيديو -->
   <div id="view-slides" class="view">
-
     <div class="card">
       <div class="field">
         <label>📐 القياس</label>
@@ -936,12 +836,10 @@
           <option value="1080x1350">عمودي (Instagram)</option>
         </select>
       </div>
-
       <div class="field">
         <label>🏷️ التوقيع</label>
         <input type="text" id="slidesSig" value="@username">
       </div>
-
       <div class="field">
         <label class="checkbox-label">
           <input type="checkbox" id="slidesCopy" checked>
@@ -958,7 +856,6 @@
           <div id="audioInfo" class="audio-info" style="display:none;"></div>
           <button class="btn-small" style="margin-top:8px;" onclick="clearAudio()">🗑️ حذف الصوت</button>
         </div>
-
         <div class="field">
           <label class="checkbox-label">
             <input type="checkbox" id="audioLoop" checked>
@@ -982,27 +879,21 @@
         <button class="btn btn-purple" onclick="exportAllImages()">🖼️ تصدير صور</button>
         <button class="btn btn-red" onclick="clearAllSlides()">🗑️ حذف الكل</button>
       </div>
-      
       <div class="convert-box">
-        <a href="https://cloudconvert.com/webm-to-mp4" target="_blank">
-          🔄 تحويل إلى MP4
-        </a>
+        <a href="https://cloudconvert.com/webm-to-mp4" target="_blank">🔄 تحويل إلى MP4</a>
       </div>
-      
       <div id="slideStatus" style="margin-top:12px;padding:10px;background:#f1f5f9;border-radius:10px;text-align:center;font-weight:700;color:#475569;display:none;"></div>
     </div>
-
   </div>
 
   <div class="footer">
-      © 2026 فريق نبراس GP · سان فرانسيسكو
+    © 2026 فريق نبراس GP · سان فرانسيسكو
     <small>🖌️ ريشة — استوديو الصور والفيديوهات</small>
     <div class="footer-links">
       <a href="about.html">حول ريشة</a>
       <a href="privacy.html">سياسة الخصوصية</a>
     </div>
   </div>
-
 </div>
 
 <div id="slideshow-overlay">
@@ -1022,7 +913,6 @@
 <button id="montage-btn" onclick="window.open('montage.html','_blank')">🎬 المونتاج</button>
 
 <script data-goatcounter="https://resha.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-
 <script>
 // ═══════════════════════════════════════
 // تسجيل الأحداث
@@ -1093,17 +983,14 @@ function switchTab(tab, btn) {
 let audioFile = null;
 let audioURL = null;
 let audioElement = null;
-
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let currentTemplate = 'quote';
 let currentFont = 'Cairo';
 let bgImage = null;
-
 let textAlignV = 'center';
 let textAlignH = 'middle';
 let textSize = 'medium';
-
 let history = [];
 const MAX_HISTORY = 20;
 
@@ -1172,15 +1059,8 @@ function setTextPos(pos, type) {
   if (type === 'h') textAlignH = pos;
   drawSingle();
 }
-
 function setTextSize(size) { textSize = size; drawSingle(); }
-
-function resetTextPos() {
-  textAlignV = 'center';
-  textAlignH = 'middle';
-  textSize = 'medium';
-  drawSingle();
-}
+function resetTextPos() { textAlignV = 'center'; textAlignH = 'middle'; textSize = 'medium'; drawSingle(); }
 
 const PALETTE = [
   '#dc2626','#ea580c','#f59e0b','#facc15','#84cc16','#16a34a','#10b981','#14b8a6',
@@ -1278,9 +1158,15 @@ function setTemplate(tpl, el) {
 // الحركات
 // ═══════════════════════════════════════
 const ANIMATIONS = {
-  none: { label: 'بدون' }, fade: { label: 'تلاشي' }, pulse: { label: 'وميض' },
-  typewriter: { label: 'كتابة' }, slide: { label: 'انزلاق يمين' }, slideLeft: { label: 'انزلاق يسار' },
-  slideUp: { label: 'انزلاق فوق' }, zoom: { label: 'تكبير' }, shake: { label: 'اهتزاز' }
+  none: { label: 'بدون' },
+  fade: { label: 'تلاشي' },
+  pulse: { label: 'وميض' },
+  typewriter: { label: 'كتابة' },
+  slide: { label: 'انزلاق يمين' },
+  slideLeft: { label: 'انزلاق يسار' },
+  slideUp: { label: 'انزلاق فوق' },
+  zoom: { label: 'تكبير' },
+  shake: { label: 'اهتزاز' }
 };
 
 function getAnimState(type, progress, fullText) {
@@ -1307,101 +1193,156 @@ function drawTemplate(c, w, h, bg, fg, template) {
   switch(template) {
     case 'gradient':
       const grad = c.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, bg); grad.addColorStop(1, shadeColor(bg, 50));
-      c.fillStyle = grad; c.fillRect(0, 0, w, h); break;
+      grad.addColorStop(0, bg);
+      grad.addColorStop(1, shadeColor(bg, 50));
+      c.fillStyle = grad;
+      c.fillRect(0, 0, w, h);
+      break;
     case 'frame':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
-      c.strokeStyle = fg; c.lineWidth = 10; c.strokeRect(50, 50, w - 100, h - 100); break;
+      c.strokeStyle = fg; c.lineWidth = 10;
+      c.strokeRect(50, 50, w - 100, h - 100);
+      break;
     case 'circles':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
       c.globalAlpha = 0.15; c.fillStyle = fg;
-      for (let i = 0; i < 8; i++) { c.beginPath(); c.arc(Math.random()*w, Math.random()*h, 80+Math.random()*150, 0, Math.PI*2); c.fill(); }
-      c.globalAlpha = 1; break;
+      for (let i = 0; i < 8; i++) {
+        c.beginPath();
+        c.arc(Math.random()*w, Math.random()*h, 80+Math.random()*150, 0, Math.PI*2);
+        c.fill();
+      }
+      c.globalAlpha = 1;
+      break;
     case 'squares':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
       c.globalAlpha = 0.1; c.fillStyle = fg;
       const size = w / 10;
-      for (let i = 0; i < 10; i++) for (let j = 0; j < 10; j++) if (Math.random() > 0.5) c.fillRect(i*size, j*size, size, size);
-      c.globalAlpha = 1; break;
+      for (let i = 0; i < 10; i++)
+        for (let j = 0; j < 10; j++)
+          if (Math.random() > 0.5) c.fillRect(i*size, j*size, size, size);
+      c.globalAlpha = 1;
+      break;
     case 'triangles':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
       c.globalAlpha = 0.1; c.fillStyle = fg;
       for (let i = 0; i < 15; i++) {
-        c.beginPath(); const x = Math.random()*w, y = Math.random()*h, s = 50+Math.random()*100;
-        c.moveTo(x, y); c.lineTo(x+s, y+s); c.lineTo(x-s, y+s); c.closePath(); c.fill();
+        c.beginPath();
+        const x = Math.random()*w, y = Math.random()*h, s = 50+Math.random()*100;
+        c.moveTo(x, y); c.lineTo(x+s, y+s); c.lineTo(x-s, y+s);
+        c.closePath(); c.fill();
       }
-      c.globalAlpha = 1; break;
+      c.globalAlpha = 1;
+      break;
     case 'dots':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
       c.fillStyle = fg; c.globalAlpha = 0.15;
       const dotSize = w / 30;
-      for (let i = 0; i < 30; i++) for (let j = 0; j < 30; j++) { c.beginPath(); c.arc(i*dotSize, j*dotSize, dotSize/4, 0, Math.PI*2); c.fill(); }
-      c.globalAlpha = 1; break;
+      for (let i = 0; i < 30; i++)
+        for (let j = 0; j < 30; j++) {
+          c.beginPath();
+          c.arc(i*dotSize, j*dotSize, dotSize/4, 0, Math.PI*2);
+          c.fill();
+        }
+      c.globalAlpha = 1;
+      break;
     case 'stripes':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
       c.globalAlpha = 0.1; c.fillStyle = fg;
       const stripeHeight = h / 20;
       for (let i = 0; i < 20; i += 2) c.fillRect(0, i*stripeHeight, w, stripeHeight);
-      c.globalAlpha = 1; break;
+      c.globalAlpha = 1;
+      break;
     case 'wave':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
       c.fillStyle = fg; c.globalAlpha = 0.15;
       c.beginPath(); c.moveTo(0, h);
       for (let x = 0; x <= w; x += 10) c.lineTo(x, h - 100 - Math.sin(x/100)*50);
-      c.lineTo(w, h); c.closePath(); c.fill(); c.globalAlpha = 1; break;
+      c.lineTo(w, h); c.closePath(); c.fill();
+      c.globalAlpha = 1;
+      break;
     case 'islamic':
       c.fillStyle = '#fef3c7'; c.fillRect(0, 0, w, h);
-      c.strokeStyle = '#d97706'; c.lineWidth = 6; c.strokeRect(40, 40, w-80, h-80);
-      c.lineWidth = 2; c.strokeRect(60, 60, w-120, h-120); break;
+      c.strokeStyle = '#d97706'; c.lineWidth = 6;
+      c.strokeRect(40, 40, w-80, h-80);
+      c.lineWidth = 2; c.strokeRect(60, 60, w-120, h-120);
+      break;
     case 'double-frame':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
-      c.strokeStyle = fg; c.lineWidth = 4; c.strokeRect(40, 40, w-80, h-80); c.strokeRect(55, 55, w-110, h-110); break;
+      c.strokeStyle = fg; c.lineWidth = 4;
+      c.strokeRect(40, 40, w-80, h-80);
+      c.strokeRect(55, 55, w-110, h-110);
+      break;
     case 'side-bar':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
-      c.fillStyle = fg; c.fillRect(w-30, 0, 30, h); break;
+      c.fillStyle = fg; c.fillRect(w-30, 0, 30, h);
+      break;
     case 'corner':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
       c.fillStyle = fg; c.globalAlpha = 0.2;
-      c.beginPath(); c.moveTo(0, 0); c.lineTo(300, 0); c.lineTo(0, 300); c.closePath(); c.fill();
-      c.globalAlpha = 1; break;
+      c.beginPath(); c.moveTo(0, 0); c.lineTo(300, 0); c.lineTo(0, 300);
+      c.closePath(); c.fill();
+      c.globalAlpha = 1;
+      break;
     case 'half-circle':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
       c.fillStyle = fg; c.globalAlpha = 0.15;
-      c.beginPath(); c.arc(w/2, h, w/2, Math.PI, 0); c.fill(); c.globalAlpha = 1; break;
+      c.beginPath(); c.arc(w/2, h, w/2, Math.PI, 0); c.fill();
+      c.globalAlpha = 1;
+      break;
     case 'stars':
       c.fillStyle = '#0f172a'; c.fillRect(0, 0, w, h);
       c.fillStyle = '#fbbf24';
-      for (let i = 0; i < 30; i++) { c.globalAlpha = 0.3+Math.random()*0.7; c.font = `${20+Math.random()*30}px Arial`; c.fillText('★', Math.random()*w, Math.random()*h); }
-      c.globalAlpha = 1; break;
+      for (let i = 0; i < 30; i++) {
+        c.globalAlpha = 0.3+Math.random()*0.7;
+        c.font = `${20+Math.random()*30}px Arial`;
+        c.fillText('★', Math.random()*w, Math.random()*h);
+      }
+      c.globalAlpha = 1;
+      break;
     case 'ayah':
       c.fillStyle = '#064e3b'; c.fillRect(0, 0, w, h);
-      c.strokeStyle = '#fbbf24'; c.lineWidth = 8; c.strokeRect(40, 40, w-80, h-80);
-      c.lineWidth = 3; c.strokeRect(60, 60, w-120, h-120); break;
+      c.strokeStyle = '#fbbf24'; c.lineWidth = 8;
+      c.strokeRect(40, 40, w-80, h-80);
+      c.lineWidth = 3; c.strokeRect(60, 60, w-120, h-120);
+      break;
     case 'hadith':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
-      c.strokeStyle = '#10b981'; c.lineWidth = 6; c.strokeRect(50, 50, w-100, h-100); break;
+      c.strokeStyle = '#10b981'; c.lineWidth = 6;
+      c.strokeRect(50, 50, w-100, h-100);
+      break;
     case 'poetry':
       c.fillStyle = '#fef3c7'; c.fillRect(0, 0, w, h);
-      c.fillStyle = '#d97706'; c.fillRect(0, 60, w, 8); c.fillRect(0, h-68, w, 8); break;
+      c.fillStyle = '#d97706'; c.fillRect(0, 60, w, 8); c.fillRect(0, h-68, w, 8);
+      break;
     case 'news':
       c.fillStyle = bg; c.fillRect(0, 0, w, h);
-      c.fillStyle = '#dc2626'; c.fillRect(0, 0, w, 120); break;
+      c.fillStyle = '#dc2626'; c.fillRect(0, 0, w, 120);
+      break;
     case 'marketing':
       c.fillStyle = '#fff7ed'; c.fillRect(0, 0, w, h);
-      c.strokeStyle = '#ea580c'; c.lineWidth = 10; c.strokeRect(30, 30, w-60, h-60); break;
+      c.strokeStyle = '#ea580c'; c.lineWidth = 10;
+      c.strokeRect(30, 30, w-60, h-60);
+      break;
     case 'celebration':
       c.fillStyle = '#fdf4ff'; c.fillRect(0, 0, w, h);
-      c.strokeStyle = '#d946ef'; c.lineWidth = 6; c.setLineDash([20, 15]); c.strokeRect(40, 40, w-80, h-80); c.setLineDash([]); break;
+      c.strokeStyle = '#d946ef'; c.lineWidth = 6;
+      c.setLineDash([20, 15]); c.strokeRect(40, 40, w-80, h-80);
+      c.setLineDash([]);
+      break;
     case 'classic-quote':
       c.fillStyle = '#f5f5f4'; c.fillRect(0, 0, w, h);
-      c.strokeStyle = '#78716c'; c.lineWidth = 2; c.strokeRect(50, 50, w-100, h-100); break;
+      c.strokeStyle = '#78716c'; c.lineWidth = 2;
+      c.strokeRect(50, 50, w-100, h-100);
+      break;
     case 'ad':
       c.fillStyle = '#1e40af'; c.fillRect(0, 0, w, h);
-      c.fillStyle = '#fbbf24'; c.fillRect(0, h-200, w, 200); break;
+      c.fillStyle = '#fbbf24'; c.fillRect(0, h-200, w, 200);
+      break;
     case 'quote':
     case 'solid':
     default:
-      c.fillStyle = bg; c.fillRect(0, 0, w, h); break;
+      c.fillStyle = bg; c.fillRect(0, 0, w, h);
+      break;
   }
 }
 
@@ -1425,7 +1366,6 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
   c.globalAlpha = anim.opacity;
   c.fillStyle = fg;
   c.font = `bold ${fontSize}px "${font}", sans-serif`;
-
   if (textAlignV === 'right') c.textAlign = 'right';
   else if (textAlignV === 'left') c.textAlign = 'left';
   else c.textAlign = 'center';
@@ -1452,7 +1392,9 @@ function drawOnCanvas(c, w, h, text, bg, fg, font, sig, showCopy, template, img,
     c.translate(-w / 2, -h / 2);
   }
 
-  lines.forEach((line, i) => { if (line.trim() !== '') c.fillText(line, textX, startY + i * lineHeight); });
+  lines.forEach((line, i) => {
+    if (line.trim() !== '') c.fillText(line, textX, startY + i * lineHeight);
+  });
 
   if (sig.trim()) {
     const sigSize = w / 28;
@@ -1479,8 +1421,10 @@ function wrapText(c, text, maxWidth) {
     let current = '';
     words.forEach(word => {
       const test = current ? current + ' ' + word : word;
-      if (c.measureText(test).width > maxWidth && current) { lines.push(current); current = word; }
-      else current = test;
+      if (c.measureText(test).width > maxWidth && current) {
+        lines.push(current);
+        current = word;
+      } else current = test;
     });
     if (current) lines.push(current);
   });
@@ -1527,14 +1471,17 @@ function drawSingle() {
   const [w, h] = document.getElementById('sizeSelect').value.split('x').map(Number);
   canvas.width = w;
   canvas.height = h;
-  drawOnCanvas(ctx, w, h,
+  drawOnCanvas(
+    ctx, w, h,
     document.getElementById('textInput').value || ' ',
     document.getElementById('bgColor').value,
     document.getElementById('textColor').value,
     currentFont,
     document.getElementById('signature').value,
     document.getElementById('showCopyright').checked,
-    currentTemplate, bgImage, null
+    currentTemplate,
+    bgImage,
+    null
   );
 }
 
@@ -1591,7 +1538,6 @@ let slides = [];
 let currentSlideIndex = 0;
 let slideshowInterval = null;
 let slideshowTimeout = null;
-
 const DURATIONS = [5, 10, 15, 20, 30];
 const ANIMATION_LIST = ['none','fade','pulse','typewriter','slide','slideLeft','slideUp','zoom','shake'];
 
@@ -1600,11 +1546,22 @@ function loadSlides() {
     const saved = localStorage.getItem('resha_slides');
     if (saved) slides = JSON.parse(saved);
     else slides = [createSlide(), createSlide()];
-  } catch(e) { slides = [createSlide(), createSlide()]; }
+  } catch(e) {
+    slides = [createSlide(), createSlide()];
+  }
 }
 
 function createSlide() {
-  return { id: Date.now() + Math.random(), text: 'النص', template: 'quote', bg: '#ffffff', fg: '#000000', font: 'Cairo', duration: 5, animation: 'fade' };
+  return {
+    id: Date.now() + Math.random(),
+    text: 'النص',
+    template: 'quote',
+    bg: '#ffffff',
+    fg: '#000000',
+    font: 'Cairo',
+    duration: 5,
+    animation: 'fade'
+  };
 }
 
 function saveSlides() {
@@ -1616,7 +1573,8 @@ function addSlide() { slides.push(createSlide()); saveSlides(); renderSlides(); 
 function deleteSlide(id) {
   if (slides.length <= 1) { alert('لا يمكن حذف هذا المقطع'); return; }
   slides = slides.filter(s => s.id !== id);
-  saveSlides(); renderSlides();
+  saveSlides();
+  renderSlides();
 }
 
 function updateSlide(id, field, value) {
@@ -1685,7 +1643,8 @@ function escapeHtml(text) {
 function clearAllSlides() {
   if (!confirm('تأكيد الحذف')) return;
   slides = [createSlide(), createSlide()];
-  saveSlides(); renderSlides();
+  saveSlides();
+  renderSlides();
 }
 
 function drawSlideOnCanvas(c, slide, w, h, sig, showCopy, progress) {
@@ -1716,7 +1675,8 @@ function showSlide(index) {
   const showCopy = document.getElementById('slidesCopy').checked;
   const [w, h] = document.getElementById('slidesSize').value.split('x').map(Number);
   const canvas = document.getElementById('slideshow-canvas');
-  canvas.width = w; canvas.height = h;
+  canvas.width = w;
+  canvas.height = h;
   const c = canvas.getContext('2d');
   document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === index));
   const fill = document.getElementById('progressFill');
@@ -1766,7 +1726,8 @@ async function exportSlidesVideo() {
     const showCopy = document.getElementById('slidesCopy').checked;
     const [w, h] = document.getElementById('slidesSize').value.split('x').map(Number);
     const tempCanvas = document.createElement('canvas');
-    tempCanvas.width = w; tempCanvas.height = h;
+    tempCanvas.width = w;
+    tempCanvas.height = h;
     const tempCtx = tempCanvas.getContext('2d');
     drawSlideOnCanvas(tempCtx, slides[0], w, h, sig, showCopy, 0);
     await new Promise(r => setTimeout(r, 100));
@@ -1785,7 +1746,10 @@ async function exportSlidesVideo() {
         localAudioSource.loop = document.getElementById('audioLoop').checked;
         localAudioSource.connect(dest);
         combinedStream = new MediaStream([...videoStream.getVideoTracks(), ...dest.stream.getAudioTracks()]);
-      } catch(e) { console.warn('تعذر دمج الصوت:', e); combinedStream = videoStream; }
+      } catch(e) {
+        console.warn('تعذر دمج الصوت:', e);
+        combinedStream = videoStream;
+      }
     }
     let recorder;
     const options = { mimeType: 'video/webm;codecs=vp9,opus', videoBitsPerSecond: 6000000 };
@@ -1800,7 +1764,9 @@ async function exportSlidesVideo() {
       const blob = new Blob(chunks, { type: 'video/webm' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url; a.download = `resha-video-${Date.now()}.webm`; a.click();
+      a.href = url;
+      a.download = `resha-video-${Date.now()}.webm`;
+      a.click();
       URL.revokeObjectURL(url);
       if (localAudioSource) { try { localAudioSource.stop(); } catch(e) {} }
       if (localAudioCtx) { try { localAudioCtx.close(); } catch(e) {} }
@@ -1824,7 +1790,10 @@ async function exportSlidesVideo() {
       });
     }
     recorder.stop();
-  } catch(e) { console.error(e); status.textContent = '❌ خطأ'; }
+  } catch(e) {
+    console.error(e);
+    status.textContent = '❌ خطأ';
+  }
 }
 
 async function exportAllImages() {
@@ -1834,7 +1803,8 @@ async function exportAllImages() {
   const showCopy = document.getElementById('slidesCopy').checked;
   const [w, h] = document.getElementById('slidesSize').value.split('x').map(Number);
   const tempCanvas = document.createElement('canvas');
-  tempCanvas.width = w; tempCanvas.height = h;
+  tempCanvas.width = w;
+  tempCanvas.height = h;
   const c = tempCanvas.getContext('2d');
   for (let i = 0; i < slides.length; i++) {
     drawSlideOnCanvas(c, slides[i], w, h, sig, showCopy, 1);
@@ -1859,6 +1829,5 @@ window.addEventListener('load', () => {
   drawSingle();
 });
 </script>
-
 </body>
 </html>
