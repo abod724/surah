@@ -272,8 +272,8 @@ body{font-family:'Cairo',sans-serif;background:#f1f5f9;min-height:100vh;color:va
     <div class="tab-panels">
       <div id="panel-images" class="panel active">
         <div class="panel-title">الوسائط</div>
-        <button class="camera-open-btn" onclick="document.getElementById('nativeCam').click()">كاميرا الجوال - جودة عالية</button>
-        <button class="camera-open-btn secondary" onclick="openCamera()">داخل التطبيق - 720p</button>
+        <button class="camera-open-btn" onclick="document.getElementById('nativeCam').click()">كاميرا ١</button>
+        <button class="camera-open-btn secondary" onclick="openCamera()">كاميرا ٢</button>
         <input type="file" id="nativeCam" accept="video/*" capture="environment" style="display:none;" onchange="handleNativeCam(event)">
         <div class="upload-area" onclick="document.getElementById('imageInput').click()">
           <div class="upload-text">اختر صوراً أو فيديوهات</div>
@@ -1036,7 +1036,6 @@ window.previewVideo=function(){
   isPreviewing=true;trackEvent('montage-معاينة');
   document.getElementById('previewBtn').textContent='إيقاف';
   setupPreviewAudio();
-  images.forEach(function(it){if(it.type==='video'&&it.media){try{it.media.muted=true;}catch(e){}}});
   var canvas=document.getElementById('previewCanvas');
   var ph=document.getElementById('previewEmpty');
   var sz=currentSize.split('x');var w=parseInt(sz[0]),h=parseInt(sz[1]);
@@ -1056,7 +1055,8 @@ window.previewVideo=function(){
           it.media.currentTime=0;
           var sp=it.speed!==undefined?it.speed:1;
           it.media.playbackRate=Math.max(0.25,Math.min(4,1/sp));
-          it.media.muted=true;
+          it.media.muted=false;
+          it.media.volume=1;
           var pr=it.media.play();if(pr&&pr.catch)pr.catch(function(){});
         }catch(e){}
       }
