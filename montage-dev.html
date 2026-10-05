@@ -27,6 +27,7 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
 .panel.active{display:block}
 .panel-title{font-size:14px;font-weight:900;margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .panel-title::before{content:'';width:4px;height:16px;background:linear-gradient(135deg,var(--primary),#8b5cf6);border-radius:2px}
+.panel-subtitle{font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .preview-wrapper{background:#0a0a0a;border-radius:var(--radius-sm);min-height:220px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:12px;position:relative}
 #previewCanvas{display:none;max-width:100%;max-height:400px}
 .preview-empty{color:#475569;font-size:14px;padding:40px 20px;text-align:center;line-height:1.8}
@@ -190,7 +191,33 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
 .camera-record-btn.recording{background:#ef4444;border-color:#fff}
 .camera-record-btn.recording::after{content:'';position:absolute;inset:20px;background:#fff;border-radius:4px}
 .camera-side-btn{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;border:none;font-size:24px;cursor:pointer}
-@media (max-width:480px){.container{padding:0}.card{padding:14px}.panel{padding:14px}.actions{grid-template-columns:1fr}.images-grid{grid-template-columns:repeat(auto-fill,minmax(85px,1fr))}.tab-btn{padding:9px 11px;font-size:11px}.user-chip{max-width:80px;font-size:10px;padding:6px 8px}.logout-btn{padding:6px 9px;font-size:11px}.emoji-grid{grid-template-columns:repeat(6,1fr)}.templates-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* مكتبة الموسيقى */
+.music-library{margin-top:6px}
+.music-cat-tabs{display:flex;gap:4px;overflow-x:auto;padding:8px 0;scrollbar-width:none;border-bottom:1px solid var(--border);margin-bottom:14px}
+.music-cat-tabs::-webkit-scrollbar{display:none}
+.music-cat-btn{flex-shrink:0;padding:8px 14px;background:transparent;border:none;border-bottom:2px solid transparent;color:#64748b;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;transition:all .2s}
+.music-cat-btn.active{color:var(--primary);border-bottom-color:var(--primary)}
+.music-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.music-card{background:#fff;border:2px solid var(--border);border-radius:12px;padding:12px;transition:all .2s;position:relative}
+.music-card.active{border-color:var(--primary);background:var(--primary-light)}
+.music-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:8px}
+.music-card-title{font-size:13px;font-weight:800;color:#0f172a;line-height:1.3}
+.music-card-duration{font-size:11px;font-weight:600;color:#94a3b8;white-space:nowrap;background:#f1f5f9;padding:2px 8px;border-radius:6px}
+.music-card-actions{display:flex;gap:6px}
+.music-btn{flex:1;padding:8px;border:1.5px solid var(--border);background:#fff;border-radius:8px;font-family:'Cairo',sans-serif;font-weight:700;font-size:11px;color:#475569;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .2s}
+.music-btn:hover{border-color:var(--primary);color:var(--primary)}
+.music-btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.music-btn.primary:hover{background:var(--primary-dark)}
+.music-btn svg{width:12px;height:12px;flex-shrink:0}
+.music-selected-badge{position:absolute;top:8px;left:8px;background:var(--primary);color:#fff;font-size:9px;font-weight:800;padding:3px 8px;border-radius:6px;font-family:'Cairo',sans-serif}
+.music-empty{text-align:center;padding:30px 20px;color:#94a3b8;font-size:13px;font-weight:600}
+.music-custom-note{padding:12px;background:#f8fafc;border-radius:10px;font-size:11px;color:#64748b;font-weight:600;margin-bottom:12px;line-height:1.7;border-right:3px solid var(--primary)}
+.music-divider{display:flex;align-items:center;gap:10px;margin:20px 0 14px}
+.music-divider span{font-size:12px;font-weight:800;color:#94a3b8;background:#fff;padding:0 10px}
+.music-divider::before,.music-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+@media (max-width:480px){.container{padding:0}.card{padding:14px}.panel{padding:14px}.actions{grid-template-columns:1fr}.images-grid{grid-template-columns:repeat(auto-fill,minmax(85px,1fr))}.tab-btn{padding:9px 11px;font-size:11px}.user-chip{max-width:80px;font-size:10px;padding:6px 8px}.logout-btn{padding:6px 9px;font-size:11px}.emoji-grid{grid-template-columns:repeat(6,1fr)}.templates-grid{grid-template-columns:repeat(3,1fr)}.music-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -413,7 +440,23 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
           <div id="audioUploadInfo" class="music-info section-hidden"><span id="audioUploadName">ملف صوتي</span><button class="music-remove" onclick="removeAudioUpload()">حذف</button></div>
         </div>
         <div id="audioTab-music" class="section-hidden">
-          <div class="upload-area" onclick="document.getElementById('musicInput').click()"><div class="upload-icon">🎼</div><div class="upload-text">رفع موسيقى خلفية</div></div>
+          <div class="panel-subtitle">مكتبة الموسيقى الجاهزة</div>
+          <div class="music-custom-note">
+            اختر مقطوعة من المكتبة الجاهزة، وسيتم دمجها مع الفيديو تلقائياً عند التصدير.
+          </div>
+          <div class="music-library">
+            <div class="music-cat-tabs" id="musicCatTabs"></div>
+            <div class="music-grid" id="musicGrid"></div>
+          </div>
+          <div class="music-divider"><span>أو</span></div>
+          <div class="panel-subtitle">ارفع موسيقاك الخاصة</div>
+          <div class="upload-area" onclick="document.getElementById('musicInput').click()">
+            <div class="upload-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            </div>
+            <div class="upload-text">رفع موسيقى من الجهاز</div>
+            <div class="upload-hint">MP3, WAV, OGG</div>
+          </div>
           <input type="file" id="musicInput" accept="audio/*" style="display:none;">
           <div id="musicInfo" class="music-info section-hidden"><span id="musicName">موسيقى</span><button class="music-remove" onclick="removeMusic()">حذف</button></div>
         </div>
@@ -542,82 +585,149 @@ var LAYOUTS=[{id:'single',name:'صورة واحدة',count:1,cells:[{x:0,y:0,w:1
 var TEMPLATE_CATEGORIES=[{id:'all',name:'الكل',emoji:'✨'},{id:'religious',name:'ديني',emoji:'🕌'},{id:'occasions',name:'مناسبات',emoji:'🎉'},{id:'national',name:'وطني',emoji:'🇸🇦'},{id:'travel',name:'سفر',emoji:'✈️'},{id:'business',name:'أعمال',emoji:'💼'},{id:'social',name:'سوشيال',emoji:'📱'},{id:'mood',name:'مشاعر',emoji:'❤️'},{id:'family',name:'عائلة',emoji:'👨‍👩‍👧'},{id:'shapes',name:'أشكال',emoji:'🎨'}];
 var currentTemplateCategory='all';
 var TEMPLATES=[
-{id:'ramadan',cat:'religious',name:'رمضان',emoji:'🌙',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
-{id:'eid_fitr',cat:'religious',name:'عيد فطر',emoji:'🌙',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
-{id:'eid_adha',cat:'religious',name:'عيد أضحى',emoji:'🐑',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
-{id:'hajj',cat:'religious',name:'حج',emoji:'🕋',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'umrah',cat:'religious',name:'عمرة',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'mawlid',cat:'religious',name:'مولد نبوي',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'pulse'},
-{id:'quran',cat:'religious',name:'قرآن',emoji:'📖',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'dua',cat:'religious',name:'دعاء',emoji:'🤲',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},
-{id:'ashura',cat:'religious',name:'عاشوراء',emoji:'🕯️',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},
-{id:'jumuah',cat:'religious',name:'جمعة',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'graduation',cat:'occasions',name:'تخرج',emoji:'🎓',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
-{id:'wedding',cat:'occasions',name:'زواج',emoji:'💍',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'engagement',cat:'occasions',name:'خطوبة',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'baby',cat:'occasions',name:'مولود',emoji:'👶',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
-{id:'birthday',cat:'occasions',name:'عيد ميلاد',emoji:'🎂',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
-{id:'congrats',cat:'occasions',name:'تهنئة',emoji:'🎊',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
-{id:'condolence',cat:'occasions',name:'عزاء',emoji:'🖤',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
-{id:'new_year',cat:'occasions',name:'سنة جديدة',emoji:'🎆',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
-{id:'anniversary',cat:'occasions',name:'ذكرى سنوية',emoji:'🥂',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
-{id:'thanks',cat:'occasions',name:'شكر',emoji:'🙏',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
-{id:'success',cat:'occasions',name:'نجاح',emoji:'🏆',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
-{id:'promotion',cat:'occasions',name:'ترقية',emoji:'📈',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
-{id:'national',cat:'national',name:'يوم وطني',emoji:'🇸🇦',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},
-{id:'founding',cat:'national',name:'يوم التأسيس',emoji:'🏛️',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'flag_day',cat:'national',name:'يوم العلم',emoji:'🚩',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
-{id:'travel',cat:'travel',name:'سفر',emoji:'✈️',size:'1080x1080',transition:'slideRight',layout:'single',animation:'kenRight'},
-{id:'beach',cat:'travel',name:'شاطئ',emoji:'🏖️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'panDown'},
-{id:'mountains',cat:'travel',name:'جبال',emoji:'🏔️',size:'1080x1350',transition:'slideRight',layout:'single',animation:'kenRight'},
-{id:'desert',cat:'travel',name:'صحراء',emoji:'🏜️',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'nature',cat:'travel',name:'طبيعة',emoji:'🌿',size:'1080x1080',transition:'fade',layout:'single',animation:'kenLeft'},
-{id:'sunset',cat:'travel',name:'غروب',emoji:'🌅',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
-{id:'city',cat:'travel',name:'مدينة',emoji:'🏙️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
-{id:'business',cat:'business',name:'إعلان',emoji:'📢',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
-{id:'product',cat:'business',name:'منتج',emoji:'🛍️',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
-{id:'sale',cat:'business',name:'تخفيض',emoji:'🏷️',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
-{id:'store',cat:'business',name:'متجر',emoji:'🏪',size:'1080x1080',transition:'slideRight',layout:'single',animation:'zoomIn'},
-{id:'restaurant',cat:'business',name:'مطعم',emoji:'🍽️',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'cafe',cat:'business',name:'مقهى',emoji:'☕',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
-{id:'realestate',cat:'business',name:'عقار',emoji:'🏠',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
-{id:'car',cat:'business',name:'سيارة',emoji:'🚗',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},
-{id:'services',cat:'business',name:'خدمات',emoji:'🛠️',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
-{id:'story',cat:'social',name:'ستوري',emoji:'📱',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
-{id:'reels',cat:'social',name:'ريلز',emoji:'🎞️',size:'1080x1920',transition:'zoom',layout:'single',animation:'kenRight'},
-{id:'tiktok',cat:'social',name:'تيك توك',emoji:'🎵',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
-{id:'youtube',cat:'social',name:'يوتيوب',emoji:'▶️',size:'1920x1080',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'instagram',cat:'social',name:'انستقرام',emoji:'📷',size:'1080x1350',transition:'fade',layout:'single',animation:'zoomIn'},
-{id:'snapchat',cat:'social',name:'سناب',emoji:'👻',size:'1080x1920',transition:'slideUp',layout:'single',animation:'pulse'},
-{id:'twitter',cat:'social',name:'تويتر',emoji:'🐦',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
-{id:'podcast',cat:'social',name:'بودكاست',emoji:'🎙️',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'love',cat:'mood',name:'حب',emoji:'❤️',size:'1080x1350',transition:'fade',layout:'single',animation:'pulse'},
-{id:'sad',cat:'mood',name:'حزن',emoji:'💔',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
-{id:'joy',cat:'mood',name:'فرح',emoji:'😊',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
-{id:'hope',cat:'mood',name:'أمل',emoji:'🌅',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'motivation',cat:'mood',name:'تحفيز',emoji:'💪',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},
-{id:'memory',cat:'mood',name:'ذكرى',emoji:'📸',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'friendship',cat:'mood',name:'صداقة',emoji:'🤝',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
-{id:'peace',cat:'mood',name:'هدوء',emoji:'🕊️',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
-{id:'miss_you',cat:'mood',name:'اشتقت',emoji:'💭',size:'1080x1350',transition:'fade',layout:'single',animation:'kenLeft'},
-{id:'dream',cat:'mood',name:'حلم',emoji:'✨',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
-{id:'football',cat:'mood',name:'كرة قدم',emoji:'⚽',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},
-{id:'sport',cat:'mood',name:'رياضة',emoji:'🏃',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
-{id:'family',cat:'family',name:'عائلة',emoji:'👨‍👩‍👧',size:'1080x1080',transition:'fade',layout:'grid4',animation:'zoomIn'},
-{id:'kids',cat:'family',name:'أطفال',emoji:'🧒',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},
-{id:'school',cat:'family',name:'مدرسة',emoji:'📚',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
-{id:'kindergarten',cat:'family',name:'روضة',emoji:'🧸',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},
-{id:'mother',cat:'family',name:'أمي',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'father',cat:'family',name:'أبي',emoji:'👔',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
-{id:'grid',cat:'shapes',name:'شبكة',emoji:'🎨',size:'1080x1080',transition:'slideUp',layout:'grid4',animation:'zoomIn'},
-{id:'split',cat:'shapes',name:'مقسّم',emoji:'📐',size:'1920x1080',transition:'slideLeft',layout:'splitH',animation:'panRight'},
-{id:'triple_tpl',cat:'shapes',name:'ثلاثي',emoji:'🎯',size:'1080x1080',transition:'zoom',layout:'triple',animation:'zoomIn'},
-{id:'overlay_tpl',cat:'shapes',name:'تراكب',emoji:'🖼️',size:'1080x1920',transition:'fade',layout:'overlay',animation:'zoomIn'},
-{id:'collage',cat:'shapes',name:'كولاج',emoji:'✨',size:'1080x1080',transition:'zoom',layout:'grid4',animation:'pulse'},
-{id:'vertical_split',cat:'shapes',name:'فوق وتحت',emoji:'📏',size:'1080x1080',transition:'slideUp',layout:'splitV',animation:'zoomIn'},
-{id:'before_after',cat:'shapes',name:'قبل/بعد',emoji:'🔀',size:'1080x1080',transition:'slideRight',layout:'splitH',animation:'none'}
+{id:'ramadan',cat:'religious',name:'رمضان',emoji:'🌙',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},{id:'eid_fitr',cat:'religious',name:'عيد فطر',emoji:'🌙',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},{id:'eid_adha',cat:'religious',name:'عيد أضحى',emoji:'🐑',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},{id:'hajj',cat:'religious',name:'حج',emoji:'🕋',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},{id:'umrah',cat:'religious',name:'عمرة',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},{id:'mawlid',cat:'religious',name:'مولد نبوي',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'pulse'},{id:'quran',cat:'religious',name:'قرآن',emoji:'📖',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},{id:'dua',cat:'religious',name:'دعاء',emoji:'🤲',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},{id:'ashura',cat:'religious',name:'عاشوراء',emoji:'🕯️',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},{id:'jumuah',cat:'religious',name:'جمعة',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},{id:'graduation',cat:'occasions',name:'تخرج',emoji:'🎓',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},{id:'wedding',cat:'occasions',name:'زواج',emoji:'💍',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},{id:'engagement',cat:'occasions',name:'خطوبة',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},{id:'baby',cat:'occasions',name:'مولود',emoji:'👶',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},{id:'birthday',cat:'occasions',name:'عيد ميلاد',emoji:'🎂',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},{id:'congrats',cat:'occasions',name:'تهنئة',emoji:'🎊',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},{id:'condolence',cat:'occasions',name:'عزاء',emoji:'🖤',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},{id:'new_year',cat:'occasions',name:'سنة جديدة',emoji:'🎆',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},{id:'anniversary',cat:'occasions',name:'ذكرى سنوية',emoji:'🥂',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},{id:'thanks',cat:'occasions',name:'شكر',emoji:'🙏',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},{id:'success',cat:'occasions',name:'نجاح',emoji:'🏆',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},{id:'promotion',cat:'occasions',name:'ترقية',emoji:'📈',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},{id:'national',cat:'national',name:'يوم وطني',emoji:'🇸🇦',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},{id:'founding',cat:'national',name:'يوم التأسيس',emoji:'🏛️',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},{id:'flag_day',cat:'national',name:'يوم العلم',emoji:'🚩',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},{id:'travel',cat:'travel',name:'سفر',emoji:'✈️',size:'1080x1080',transition:'slideRight',layout:'single',animation:'kenRight'},{id:'beach',cat:'travel',name:'شاطئ',emoji:'🏖️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'panDown'},{id:'mountains',cat:'travel',name:'جبال',emoji:'🏔️',size:'1080x1350',transition:'slideRight',layout:'single',animation:'kenRight'},{id:'desert',cat:'travel',name:'صحراء',emoji:'🏜️',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},{id:'nature',cat:'travel',name:'طبيعة',emoji:'🌿',size:'1080x1080',transition:'fade',layout:'single',animation:'kenLeft'},{id:'sunset',cat:'travel',name:'غروب',emoji:'🌅',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},{id:'city',cat:'travel',name:'مدينة',emoji:'🏙️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},{id:'business',cat:'business',name:'إعلان',emoji:'📢',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},{id:'product',cat:'business',name:'منتج',emoji:'🛍️',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},{id:'sale',cat:'business',name:'تخفيض',emoji:'🏷️',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},{id:'store',cat:'business',name:'متجر',emoji:'🏪',size:'1080x1080',transition:'slideRight',layout:'single',animation:'zoomIn'},{id:'restaurant',cat:'business',name:'مطعم',emoji:'🍽️',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},{id:'cafe',cat:'business',name:'مقهى',emoji:'☕',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},{id:'realestate',cat:'business',name:'عقار',emoji:'🏠',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},{id:'car',cat:'business',name:'سيارة',emoji:'🚗',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},{id:'services',cat:'business',name:'خدمات',emoji:'🛠️',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},{id:'story',cat:'social',name:'ستوري',emoji:'📱',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},{id:'reels',cat:'social',name:'ريلز',emoji:'🎞️',size:'1080x1920',transition:'zoom',layout:'single',animation:'kenRight'},{id:'tiktok',cat:'social',name:'تيك توك',emoji:'🎵',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},{id:'youtube',cat:'social',name:'يوتيوب',emoji:'▶️',size:'1920x1080',transition:'fade',layout:'single',animation:'kenRight'},{id:'instagram',cat:'social',name:'انستقرام',emoji:'📷',size:'1080x1350',transition:'fade',layout:'single',animation:'zoomIn'},{id:'snapchat',cat:'social',name:'سناب',emoji:'👻',size:'1080x1920',transition:'slideUp',layout:'single',animation:'pulse'},{id:'twitter',cat:'social',name:'تويتر',emoji:'🐦',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},{id:'podcast',cat:'social',name:'بودكاست',emoji:'🎙️',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},{id:'love',cat:'mood',name:'حب',emoji:'❤️',size:'1080x1350',transition:'fade',layout:'single',animation:'pulse'},{id:'sad',cat:'mood',name:'حزن',emoji:'💔',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},{id:'joy',cat:'mood',name:'فرح',emoji:'😊',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},{id:'hope',cat:'mood',name:'أمل',emoji:'🌅',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},{id:'motivation',cat:'mood',name:'تحفيز',emoji:'💪',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},{id:'memory',cat:'mood',name:'ذكرى',emoji:'📸',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},{id:'friendship',cat:'mood',name:'صداقة',emoji:'🤝',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},{id:'peace',cat:'mood',name:'هدوء',emoji:'🕊️',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},{id:'miss_you',cat:'mood',name:'اشتقت',emoji:'💭',size:'1080x1350',transition:'fade',layout:'single',animation:'kenLeft'},{id:'dream',cat:'mood',name:'حلم',emoji:'✨',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},{id:'football',cat:'mood',name:'كرة قدم',emoji:'⚽',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},{id:'sport',cat:'mood',name:'رياضة',emoji:'🏃',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},{id:'family',cat:'family',name:'عائلة',emoji:'👨‍👩‍👧',size:'1080x1080',transition:'fade',layout:'grid4',animation:'zoomIn'},{id:'kids',cat:'family',name:'أطفال',emoji:'🧒',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},{id:'school',cat:'family',name:'مدرسة',emoji:'📚',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},{id:'kindergarten',cat:'family',name:'روضة',emoji:'🧸',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},{id:'mother',cat:'family',name:'أمي',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},{id:'father',cat:'family',name:'أبي',emoji:'👔',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},{id:'grid',cat:'shapes',name:'شبكة',emoji:'🎨',size:'1080x1080',transition:'slideUp',layout:'grid4',animation:'zoomIn'},{id:'split',cat:'shapes',name:'مقسّم',emoji:'📐',size:'1920x1080',transition:'slideLeft',layout:'splitH',animation:'panRight'},{id:'triple_tpl',cat:'shapes',name:'ثلاثي',emoji:'🎯',size:'1080x1080',transition:'zoom',layout:'triple',animation:'zoomIn'},{id:'overlay_tpl',cat:'shapes',name:'تراكب',emoji:'🖼️',size:'1080x1920',transition:'fade',layout:'overlay',animation:'zoomIn'},{id:'collage',cat:'shapes',name:'كولاج',emoji:'✨',size:'1080x1080',transition:'zoom',layout:'grid4',animation:'pulse'},{id:'vertical_split',cat:'shapes',name:'فوق وتحت',emoji:'📏',size:'1080x1080',transition:'slideUp',layout:'splitV',animation:'zoomIn'},{id:'before_after',cat:'shapes',name:'قبل/بعد',emoji:'🔀',size:'1080x1080',transition:'slideRight',layout:'splitH',animation:'none'}
 ];
 var EMOJIS=['😀','😂','😍','🥰','😎','🤩','😭','😱','🤔','🙄','😴','🤗','👍','👏','🙏','👌','✌️','🤝','💪','❤️','💕','💖','💔','✨','⭐','🌟','🔥','⚡','💫','🎉','🎊','🎈','🎁','🎂','🎓','👑','💎','🌸','🌹','🌺','🌻','🍀','🌈','☀️','🌙','⭐','🍕','🍔','☕','🍦','⚽','🏀','🎮','🎵','🎶','📱','💻','📸','💯','✅','❗','❓','💬','📍','🚀'];
+
+// ============ مكتبة الموسيقى ============
+var MUSIC_CATEGORIES = [
+  {id:'all', name:'الكل'},
+  {id:'religious', name:'ديني'},
+  {id:'celebration', name:'مناسبات'},
+  {id:'motivational', name:'تحفيزي'},
+  {id:'calm', name:'هادئ'},
+  {id:'romantic', name:'رومانسي'},
+  {id:'family', name:'عائلي'},
+  {id:'corporate', name:'أعمال'}
+];
+
+var MUSIC_LIBRARY = [
+  {id:'adv-1', cat:'corporate', name:'Advertime', duration:'0:30', url:'https://freepd.com/music/Advertime.mp3'},
+  {id:'adv-2', cat:'corporate', name:'Corporate Success', duration:'1:00', url:'https://freepd.com/music/Corporate.mp3'},
+  {id:'adv-3', cat:'corporate', name:'Inspiring', duration:'1:00', url:'https://freepd.com/music/Inspiring.mp3'},
+  {id:'mot-1', cat:'motivational', name:'Energetic', duration:'1:00', url:'https://freepd.com/music/Energetic.mp3'},
+  {id:'mot-2', cat:'motivational', name:'Epic', duration:'1:00', url:'https://freepd.com/music/Epic.mp3'},
+  {id:'mot-3', cat:'motivational', name:'Hopeful', duration:'1:00', url:'https://freepd.com/music/Hopeful.mp3'},
+  {id:'cal-1', cat:'calm', name:'Calm', duration:'1:00', url:'https://freepd.com/music/Calm.mp3'},
+  {id:'cal-2', cat:'calm', name:'Ambient', duration:'1:00', url:'https://freepd.com/music/Ambient.mp3'},
+  {id:'cal-3', cat:'calm', name:'Dreamy', duration:'1:00', url:'https://freepd.com/music/Dreamy.mp3'},
+  {id:'rom-1', cat:'romantic', name:'Romantic', duration:'1:00', url:'https://freepd.com/music/Romantic.mp3'},
+  {id:'rom-2', cat:'romantic', name:'Beautiful', duration:'1:00', url:'https://freepd.com/music/Beautiful.mp3'},
+  {id:'rom-3', cat:'romantic', name:'Sad', duration:'1:00', url:'https://freepd.com/music/Sad.mp3'},
+  {id:'fam-1', cat:'family', name:'Happy', duration:'1:00', url:'https://freepd.com/music/Happy.mp3'},
+  {id:'fam-2', cat:'family', name:'Acoustic', duration:'1:00', url:'https://freepd.com/music/Acoustic.mp3'},
+  {id:'fam-3', cat:'family', name:'Guitar', duration:'1:00', url:'https://freepd.com/music/Guitar.mp3'},
+  {id:'rel-1', cat:'religious', name:'Piano', duration:'1:00', url:'https://freepd.com/music/Piano.mp3'},
+  {id:'rel-2', cat:'religious', name:'Folk', duration:'1:00', url:'https://freepd.com/music/Folk.mp3'},
+  {id:'cel-1', cat:'celebration', name:'Electronic', duration:'1:00', url:'https://freepd.com/music/Electronic.mp3'},
+  {id:'cel-2', cat:'celebration', name:'Rock', duration:'1:00', url:'https://freepd.com/music/Rock.mp3'},
+  {id:'cel-3', cat:'celebration', name:'Jazz', duration:'1:00', url:'https://freepd.com/music/Jazz.mp3'}
+];
+
+var currentMusicCategory = 'all';
+var selectedLibraryMusic = null;
+var musicPreviewAudio = null;
+
+function renderMusicCategories() {
+  var container = document.getElementById('musicCatTabs');
+  if (!container) return;
+  container.innerHTML = '';
+  MUSIC_CATEGORIES.forEach(function(cat) {
+    var btn = document.createElement('button');
+    btn.className = 'music-cat-btn' + (cat.id === currentMusicCategory ? ' active' : '');
+    btn.textContent = cat.name;
+    btn.onclick = function() {
+      currentMusicCategory = cat.id;
+      renderMusicCategories();
+      renderMusicLibrary();
+    };
+    container.appendChild(btn);
+  });
+}
+
+function renderMusicLibrary() {
+  var grid = document.getElementById('musicGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  var filtered = currentMusicCategory === 'all' ? MUSIC_LIBRARY : MUSIC_LIBRARY.filter(function(m) { return m.cat === currentMusicCategory; });
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="music-empty">لا توجد مقطوعات في هذا التصنيف</div>';
+    return;
+  }
+  filtered.forEach(function(music) {
+    var card = document.createElement('div');
+    card.className = 'music-card' + (selectedLibraryMusic && selectedLibraryMusic.id === music.id ? ' active' : '');
+    if (selectedLibraryMusic && selectedLibraryMusic.id === music.id) {
+      var badge = document.createElement('div');
+      badge.className = 'music-selected-badge';
+      badge.textContent = 'مختار';
+      card.appendChild(badge);
+    }
+    var header = document.createElement('div');
+    header.className = 'music-card-header';
+    var title = document.createElement('div');
+    title.className = 'music-card-title';
+    title.textContent = music.name;
+    var duration = document.createElement('div');
+    duration.className = 'music-card-duration';
+    duration.textContent = music.duration;
+    header.appendChild(title);
+    header.appendChild(duration);
+    card.appendChild(header);
+    var actions = document.createElement('div');
+    actions.className = 'music-card-actions';
+    var playBtn = document.createElement('button');
+    playBtn.className = 'music-btn';
+    playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>معاينة';
+    playBtn.onclick = function(e) { e.stopPropagation(); previewMusic(music); };
+    var selectBtn = document.createElement('button');
+    selectBtn.className = 'music-btn primary';
+    selectBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>اختيار';
+    selectBtn.onclick = function(e) { e.stopPropagation(); selectLibraryMusic(music); };
+    actions.appendChild(playBtn);
+    actions.appendChild(selectBtn);
+    card.appendChild(actions);
+    grid.appendChild(card);
+  });
+}
+
+function previewMusic(music) {
+  if (musicPreviewAudio) { musicPreviewAudio.pause(); musicPreviewAudio = null; }
+  musicPreviewAudio = new Audio(music.url);
+  musicPreviewAudio.volume = 0.5;
+  musicPreviewAudio.play().catch(function(err) {
+    console.error('Preview error:', err);
+    showToast('تعذّر تشغيل المعاينة');
+  });
+  musicPreviewAudio.onended = function() { musicPreviewAudio = null; };
+  showToast('جاري تشغيل: ' + music.name);
+}
+
+async function selectLibraryMusic(music) {
+  if (musicPreviewAudio) { musicPreviewAudio.pause(); musicPreviewAudio = null; }
+  selectedLibraryMusic = music;
+  renderMusicLibrary();
+  showLoading('جاري تحميل المقطوعة...');
+  try {
+    var response = await fetch(music.url);
+    if (!response.ok) throw new Error('فشل التحميل');
+    var blob = await response.blob();
+    var fileName = 'library-music-' + music.id + '.mp3';
+    var file = new File([blob], fileName, {type: blob.type || 'audio/mpeg'});
+    musicFile = file;
+    document.getElementById('musicName').textContent = music.name;
+    document.getElementById('musicInfo').classList.remove('section-hidden');
+    hideLoading();
+    updateInfo();
+    showToast('تم اختيار: ' + music.name);
+  } catch (err) {
+    console.error(err);
+    hideLoading();
+    showToast('فشل تحميل المقطوعة، تحقق من الاتصال');
+    selectedLibraryMusic = null;
+    renderMusicLibrary();
+  }
+}
 
 function switchTab(name,btn){document.querySelectorAll('.tab-btn').forEach(function(t){t.classList.remove('active');});document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});btn.classList.add('active');document.getElementById('panel-'+name).classList.add('active');if(name==='animate')updateAnimateTab();}
 
@@ -670,7 +780,7 @@ playSceneVideos(0);
 function animate(){if(!isPreviewing)return;var d=getSceneDuration(cs);var el=(Date.now()-st)/1000;var p=el/d;ctx.clearRect(0,0,canvas.width,canvas.height);var l=LAYOUTS.find(function(x){return x.id===currentLayout;});var ip=l?l.cells.length:1;var si=cs*ip;if(p>0.75&&currentTransition!=='none'&&cs<ts-1){var tp=(p-0.75)/0.25;var ns=(cs+1)*ip;drawTransition(ctx,si,ns,canvas.width,canvas.height,tp);}else{drawLayout(ctx,si,canvas.width,canvas.height,1,p);}drawOverlays(ctx,canvas.width,canvas.height);if(p>=1){cs++;st=Date.now();if(cs>=ts){cs=0;st=Date.now();playSceneVideos(0);}else{playSceneVideos(cs);}}previewAnimationId=requestAnimationFrame(animate);}
 animate();}
 
-function resetAll(){if(!confirm('حذف كل شيء؟'))return;images=[];audioUpload=null;musicFile=null;recordedAudioBlob=null;selectedAudio=null;textElements=[];stickers=[];watermark=null;isPreviewing=false;selectedImageIndex=-1;currentLayout='single';currentProjectId=null;if(previewAnimationId)cancelAnimationFrame(previewAnimationId);renderImagesGrid();renderLayouts();updateButtons();updateInfo();updateAnimateTab();renderElementsList();document.getElementById('musicInfo').classList.add('section-hidden');document.getElementById('audioUploadInfo').classList.add('section-hidden');document.getElementById('recordPlayer').classList.remove('active');document.getElementById('recordActions').classList.add('section-hidden');document.getElementById('previewCanvas').style.display='none';document.getElementById('previewEmpty').style.display='block';document.getElementById('progressContainer').classList.remove('active');document.getElementById('shareRow').classList.add('section-hidden');document.getElementById('wmPreviewInfo').classList.add('section-hidden');document.getElementById('wmContent').classList.add('section-hidden');document.getElementById('wmOff').classList.add('active');document.getElementById('wmOn').classList.remove('active');showToast('تم إعادة التعيين');}
+function resetAll(){if(!confirm('حذف كل شيء؟'))return;images=[];audioUpload=null;musicFile=null;recordedAudioBlob=null;selectedAudio=null;textElements=[];stickers=[];watermark=null;isPreviewing=false;selectedImageIndex=-1;currentLayout='single';currentProjectId=null;selectedLibraryMusic=null;if(previewAnimationId)cancelAnimationFrame(previewAnimationId);renderImagesGrid();renderLayouts();updateButtons();updateInfo();updateAnimateTab();renderElementsList();document.getElementById('musicInfo').classList.add('section-hidden');document.getElementById('audioUploadInfo').classList.add('section-hidden');document.getElementById('recordPlayer').classList.remove('active');document.getElementById('recordActions').classList.add('section-hidden');document.getElementById('previewCanvas').style.display='none';document.getElementById('previewEmpty').style.display='block';document.getElementById('progressContainer').classList.remove('active');document.getElementById('shareRow').classList.add('section-hidden');document.getElementById('wmPreviewInfo').classList.add('section-hidden');document.getElementById('wmContent').classList.add('section-hidden');document.getElementById('wmOff').classList.add('active');document.getElementById('wmOn').classList.remove('active');renderMusicLibrary();showToast('تم إعادة التعيين');}
 
 function openCrop(){if(selectedImageIndex<0){showToast('اختر عنصراً أولاً');return;}var item=images[selectedImageIndex];if(item.type==='video'){showToast('القص غير متاح للفيديو حالياً');return;}cropOriginalImage=item.img;document.getElementById('cropOverlay').classList.add('active');var canvas=document.getElementById('cropCanvas');cropCanvas=canvas;var mW=window.innerWidth-40,mH=window.innerHeight*0.6;var scale=Math.min(mW/cropOriginalImage.width,mH/cropOriginalImage.height,1);cropScale=scale;canvas.width=cropOriginalImage.width*scale;canvas.height=cropOriginalImage.height*scale;var ctx=canvas.getContext('2d');ctx.drawImage(cropOriginalImage,0,0,canvas.width,canvas.height);initCropRect(canvas);}
 function initCropRect(canvas){if(images[selectedImageIndex].crop){var c=images[selectedImageIndex].crop;cropRect={x:c.x*cropScale,y:c.y*cropScale,w:c.w*cropScale,h:c.h*cropScale};}else{var s=Math.min(canvas.width,canvas.height)*0.6;cropRect={x:(canvas.width-s)/2,y:(canvas.height-s)/2,w:s,h:s};}renderCrop();setupCropDrag(canvas);}
@@ -700,7 +810,7 @@ function removeWmImage(){if(watermark)delete watermark.img;document.getElementBy
 function renderTemplates(){var g=document.getElementById('templatesGrid');g.innerHTML='';var filtered=currentTemplateCategory==='all'?TEMPLATES:TEMPLATES.filter(function(t){return t.cat===currentTemplateCategory;});filtered.forEach(function(t){var card=document.createElement('div');card.className='template-card';card.innerHTML='<div class="template-emoji">'+t.emoji+'</div><div class="template-name">'+t.name+'</div>';card.onclick=function(){applyTemplate(t);};g.appendChild(card);});}
 function applyTemplate(t){currentSize=t.size;currentTransition=t.transition;currentLayout=t.layout;images.forEach(function(img){img.animation=t.animation;});document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(b){b.classList.toggle('active',b.dataset.size===currentSize);});document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(b){b.classList.toggle('active',b.dataset.transition===currentTransition);});renderImagesGrid();renderLayouts();updateInfo();showToast('تم تطبيق قالب: '+t.name);}
 
-function switchAudioTab(tab,btn){document.querySelectorAll('.audio-tab').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');document.querySelectorAll('#audioTab-record,#audioTab-upload,#audioTab-music').forEach(function(el){el.classList.add('section-hidden');});document.getElementById('audioTab-'+tab).classList.remove('section-hidden');}
+function switchAudioTab(tab,btn){document.querySelectorAll('.audio-tab').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');document.querySelectorAll('#audioTab-record,#audioTab-upload,#audioTab-music').forEach(function(el){el.classList.add('section-hidden');});document.getElementById('audioTab-'+tab).classList.remove('section-hidden');if(tab==='music'){renderMusicCategories();renderMusicLibrary();}}
 function toggleRecording(){if(mediaRecorder&&mediaRecorder.state==='recording')stopRecording();else startRecording();}
 function startRecording(){navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){recordingStream=stream;var mt='audio/webm;codecs=opus';if(!MediaRecorder.isTypeSupported(mt))mt='audio/webm';if(!MediaRecorder.isTypeSupported(mt))mt='';var opts=mt?{mimeType:mt}:{};mediaRecorder=new MediaRecorder(stream,opts);audioChunks=[];mediaRecorder.ondataavailable=function(e){if(e.data.size>0)audioChunks.push(e.data);};mediaRecorder.onstop=function(){recordedAudioBlob=new Blob(audioChunks,{type:'audio/webm'});var url=URL.createObjectURL(recordedAudioBlob);document.getElementById('recordAudio').src=url;document.getElementById('recordPlayer').classList.add('active');document.getElementById('recordActions').classList.remove('section-hidden');document.getElementById('recorderStatus').textContent='التسجيل جاهز';if(recordingStream)recordingStream.getTracks().forEach(function(t){t.stop();});};mediaRecorder.start();recordingStartTime=Date.now();document.getElementById('recorderDot').classList.add('recording');document.getElementById('recorderStatus').textContent='جاري التسجيل';document.getElementById('recordBtn').textContent='إيقاف التسجيل';document.getElementById('recordBtn').classList.remove('record');document.getElementById('recordBtn').classList.add('stop');recordingTimerInterval=setInterval(updateTimer,100);}).catch(function(err){console.error(err);showToast('لم يتم السماح للميكروفون');});}
 function stopRecording(){if(mediaRecorder&&mediaRecorder.state==='recording')mediaRecorder.stop();if(recordingTimerInterval){clearInterval(recordingTimerInterval);recordingTimerInterval=null;}document.getElementById('recorderDot').classList.remove('recording');document.getElementById('recordBtn').textContent='بدء التسجيل';document.getElementById('recordBtn').classList.remove('stop');document.getElementById('recordBtn').classList.add('record');}
@@ -709,8 +819,8 @@ function useRecording(){if(!recordedAudioBlob)return;selectedAudio='record';upda
 function deleteRecording(){recordedAudioBlob=null;selectedAudio=null;document.getElementById('recordPlayer').classList.remove('active');document.getElementById('recordActions').classList.add('section-hidden');document.getElementById('recorderStatus').textContent='جاهز للتسجيل';document.getElementById('recorderTimer').textContent='00:00';document.getElementById('recordAudio').src='';updateInfo();showToast('تم حذف التسجيل');}
 document.getElementById('audioInput').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;if(!f.type.startsWith('audio/')){showToast('الرجاء اختيار ملف صوتي');return;}audioUpload=f;selectedAudio='upload';document.getElementById('audioUploadName').textContent=f.name;document.getElementById('audioUploadInfo').classList.remove('section-hidden');updateInfo();showToast('تم رفع الملف');e.target.value='';});
 function removeAudioUpload(){audioUpload=null;if(selectedAudio==='upload')selectedAudio=null;document.getElementById('audioUploadInfo').classList.add('section-hidden');document.getElementById('audioInput').value='';updateInfo();}
-document.getElementById('musicInput').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;if(!f.type.startsWith('audio/')){showToast('الرجاء اختيار ملف صوتي');return;}musicFile=f;document.getElementById('musicName').textContent=f.name;document.getElementById('musicInfo').classList.remove('section-hidden');updateInfo();showToast('تم رفع الموسيقى');e.target.value='';});
-function removeMusic(){musicFile=null;document.getElementById('musicInfo').classList.add('section-hidden');document.getElementById('musicInput').value='';updateInfo();}
+document.getElementById('musicInput').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;if(!f.type.startsWith('audio/')){showToast('الرجاء اختيار ملف صوتي');return;}musicFile=f;selectedLibraryMusic=null;renderMusicLibrary();document.getElementById('musicName').textContent=f.name;document.getElementById('musicInfo').classList.remove('section-hidden');updateInfo();showToast('تم رفع الموسيقى');e.target.value='';});
+function removeMusic(){musicFile=null;selectedLibraryMusic=null;renderMusicLibrary();document.getElementById('musicInfo').classList.add('section-hidden');document.getElementById('musicInput').value='';updateInfo();}
 
 function exportVideo(){
 if(images.length===0||isExporting)return;isExporting=true;
@@ -728,26 +838,26 @@ else if(selectedAudio==='upload'&&audioUpload)aft=audioUpload;
 var hasVideoAudio=images.some(function(it){return it.type==='video';});
 var sa=Promise.resolve();
 if(aft||musicFile||hasVideoAudio){
-  sa=(function(){
-    ac=new (window.AudioContext||window.webkitAudioContext)();
-    var ad=ac.createMediaStreamDestination();
-    var ps=[];
-    if(aft){ps.push(aft.arrayBuffer().then(function(b){return ac.decodeAudioData(b);}).then(function(ab){var s=ac.createBufferSource();s.buffer=ab;s.loop=false;s.connect(ad);as.push(s);}));}
-    if(musicFile){ps.push(musicFile.arrayBuffer().then(function(b){return ac.decodeAudioData(b);}).then(function(md){var ms=ac.createBufferSource();ms.buffer=md;ms.loop=true;var g=ac.createGain();g.gain.value=aft?0.15:0.6;ms.connect(g);g.connect(ad);as.push(ms);}));}
-    return Promise.all(ps).then(function(){
-      images.forEach(function(it){
-        if(it.type==='video'&&it.media){
-          try{
-            it.media.muted=false;it.media.volume=1;
-            if(!it._audioSource){it._audioSource=ac.createMediaElementSource(it.media);}
-            try{it._audioSource.disconnect();}catch(e){}
-            it._audioSource.connect(ad);
-          }catch(e){console.warn('Video audio:',e);}
-        }
-      });
-      ad.stream.getAudioTracks().forEach(function(t){stream.addTrack(t);});
-    });
-  })();
+sa=(function(){
+ac=new (window.AudioContext||window.webkitAudioContext)();
+var ad=ac.createMediaStreamDestination();
+var ps=[];
+if(aft){ps.push(aft.arrayBuffer().then(function(b){return ac.decodeAudioData(b);}).then(function(ab){var s=ac.createBufferSource();s.buffer=ab;s.loop=false;s.connect(ad);as.push(s);}));}
+if(musicFile){ps.push(musicFile.arrayBuffer().then(function(b){return ac.decodeAudioData(b);}).then(function(md){var ms=ac.createBufferSource();ms.buffer=md;ms.loop=true;var g=ac.createGain();g.gain.value=aft?0.15:0.6;ms.connect(g);g.connect(ad);as.push(ms);}));}
+return Promise.all(ps).then(function(){
+images.forEach(function(it){
+if(it.type==='video'&&it.media){
+try{
+it.media.muted=false;it.media.volume=1;
+if(!it._audioSource){it._audioSource=ac.createMediaElementSource(it.media);}
+try{it._audioSource.disconnect();}catch(e){}
+it._audioSource.connect(ad);
+}catch(e){console.warn('Video audio:',e);}
+}
+});
+ad.stream.getAudioTracks().forEach(function(t){stream.addTrack(t);});
+});
+})();
 }
 sa.then(function(){
 var mt='video/mp4;codecs=avc1.42E01E,mp4a.40.2';
@@ -761,55 +871,55 @@ var isMP4=mt.indexOf('mp4')>-1;var fileExt=isMP4?'mp4':'webm';
 var rec=new MediaRecorder(stream,{mimeType:mt,videoBitsPerSecond:5000000});
 var chunks=[];rec.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data);};
 rec.onstop=function(){
-  var outType=isMP4?'video/mp4':'video/webm';
-  var blob=new Blob(chunks,{type:outType});
-  var url=URL.createObjectURL(blob);
-  var link=document.createElement('a');link.href=url;link.download='resha-montage-'+Date.now()+'.'+fileExt;link.click();
-  setTimeout(function(){URL.revokeObjectURL(url);},1000);
-  images.forEach(function(it){if(it.type==='video'&&it.media){try{it.media.pause();it.media.muted=true;}catch(e){}}});
-  as.forEach(function(s){try{s.stop();}catch(e){}});
-  if(ac)ac.close();
-  pc.classList.remove('active');eb.disabled=false;pb.disabled=false;isExporting=false;
-  document.getElementById('shareRow').classList.remove('section-hidden');
-  showToast('تم التصدير بصيغة '+fileExt.toUpperCase()+' ✅');
+var outType=isMP4?'video/mp4':'video/webm';
+var blob=new Blob(chunks,{type:outType});
+var url=URL.createObjectURL(blob);
+var link=document.createElement('a');link.href=url;link.download='resha-montage-'+Date.now()+'.'+fileExt;link.click();
+setTimeout(function(){URL.revokeObjectURL(url);},1000);
+images.forEach(function(it){if(it.type==='video'&&it.media){try{it.media.pause();it.media.muted=true;}catch(e){}}});
+as.forEach(function(s){try{s.stop();}catch(e){}});
+if(ac)ac.close();
+pc.classList.remove('active');eb.disabled=false;pb.disabled=false;isExporting=false;
+document.getElementById('shareRow').classList.remove('section-hidden');
+showToast('تم التصدير بصيغة '+fileExt.toUpperCase()+' ✅');
 };
 rec.start();as.forEach(function(s){try{s.start(0);}catch(e){}});
 var l=LAYOUTS.find(function(x){return x.id===currentLayout;});
 var ip=l?l.cells.length:1;var ts=Math.ceil(images.length/ip);
 var cs=0;var fst=performance.now();var lastExpScene=-1;
 function playSceneVideosForExport(sceneIdx){
-  if(lastExpScene===sceneIdx)return;lastExpScene=sceneIdx;
-  var si=sceneIdx*ip;
-  images.forEach(function(it){if(it.type==='video'&&it.media){try{it.media.pause();it.media.currentTime=0;}catch(e){}}});
-  for(var k=0;k<ip;k++){
-    var idx=(si+k)%images.length;var it=images[idx];
-    if(it&&it.type==='video'&&it.media){
-      try{it.media.currentTime=0;var pr=it.media.play();if(pr&&pr.catch)pr.catch(function(){});}catch(e){}
-    }
-  }
+if(lastExpScene===sceneIdx)return;lastExpScene=sceneIdx;
+var si=sceneIdx*ip;
+images.forEach(function(it){if(it.type==='video'&&it.media){try{it.media.pause();it.media.currentTime=0;}catch(e){}}});
+for(var k=0;k<ip;k++){
+var idx=(si+k)%images.length;var it=images[idx];
+if(it&&it.type==='video'&&it.media){
+try{it.media.currentTime=0;var pr=it.media.play();if(pr&&pr.catch)pr.catch(function(){});}catch(e){}
+}
+}
 }
 playSceneVideosForExport(0);
 function rf(){
-  var now=performance.now();var d=getSceneDuration(cs);
-  var el=(now-fst)/1000,p=el/d;
-  ctx.clearRect(0,0,w,h);var si=cs*ip;
-  if(p>0.75&&currentTransition!=='none'&&cs<ts-1){
-    var tp=(p-0.75)/0.25;var ns=(cs+1)*ip;
-    drawTransition(ctx,si,ns,w,h,tp);
-  }else{drawLayout(ctx,si,w,h,1,p);}
-  drawOverlays(ctx,w,h);
-  if(p>=1){cs++;fst=now;if(cs>=ts){
-    images.forEach(function(it){if(it.type==='video'&&it.media){try{it.media.pause();}catch(e){}}});
-    rec.stop();return;
-  }else{playSceneVideosForExport(cs);}}
-  var tpr=(cs+p)/ts;
-  pf.style.width=(tpr*100)+'%';
-  pt.textContent='جاري التصدير '+Math.round(tpr*100)+'% ('+fileExt+')';
-  requestAnimationFrame(rf);
+var now=performance.now();var d=getSceneDuration(cs);
+var el=(now-fst)/1000,p=el/d;
+ctx.clearRect(0,0,w,h);var si=cs*ip;
+if(p>0.75&&currentTransition!=='none'&&cs<ts-1){
+var tp=(p-0.75)/0.25;var ns=(cs+1)*ip;
+drawTransition(ctx,si,ns,w,h,tp);
+}else{drawLayout(ctx,si,w,h,1,p);}
+drawOverlays(ctx,w,h);
+if(p>=1){cs++;fst=now;if(cs>=ts){
+images.forEach(function(it){if(it.type==='video'&&it.media){try{it.media.pause();}catch(e){}}});
+rec.stop();return;
+}else{playSceneVideosForExport(cs);}}
+var tpr=(cs+p)/ts;
+pf.style.width=(tpr*100)+'%';
+pt.textContent='جاري التصدير '+Math.round(tpr*100)+'% ('+fileExt+')';
+requestAnimationFrame(rf);
 }
 rf();}).catch(function(err){
-  console.error('خطأ:',err);showToast('حدث خطأ');
-  pc.classList.remove('active');eb.disabled=false;pb.disabled=false;isExporting=false;
+console.error('خطأ:',err);showToast('حدث خطأ');
+pc.classList.remove('active');eb.disabled=false;pb.disabled=false;isExporting=false;
 });}
 
 function getShareText(){return 'شاهد الفيديو الذي أنشأته من موقع ريشة 🎬';}
@@ -831,7 +941,7 @@ async function togglePublic(id,makePublic){try{var r=await sb.from('projects').u
 async function loadProjectById(id){closeProjects();showLoading('جاري تحميل المشروع...');try{var r=await sb.from('projects').select('*').eq('id',id).single();if(r.error)throw r.error;currentProjectId=r.data.id;await loadProjectData(r.data.data);}catch(err){console.error(err);showToast('فشل فتح المشروع');}finally{hideLoading();}}
 async function deleteProjectById(id){if(!confirm('حذف المشروع؟'))return;try{var r=await sb.from('projects').delete().eq('id',id);if(r.error)throw r.error;showToast('تم الحذف');openProjects();}catch(err){showToast('فشل');}}
 
-async function loadProjectData(data){if(!data)return;images=[];audioUpload=null;musicFile=null;recordedAudioBlob=null;selectedAudio=null;textElements=[];stickers=[];watermark=null;document.getElementById('musicInfo').classList.add('section-hidden');document.getElementById('audioUploadInfo').classList.add('section-hidden');document.getElementById('recordPlayer').classList.remove('active');document.getElementById('recordActions').classList.add('section-hidden');document.getElementById('wmPreviewInfo').classList.add('section-hidden');
+async function loadProjectData(data){if(!data)return;images=[];audioUpload=null;musicFile=null;recordedAudioBlob=null;selectedAudio=null;textElements=[];stickers=[];watermark=null;selectedLibraryMusic=null;document.getElementById('musicInfo').classList.add('section-hidden');document.getElementById('audioUploadInfo').classList.add('section-hidden');document.getElementById('recordPlayer').classList.remove('active');document.getElementById('recordActions').classList.add('section-hidden');document.getElementById('wmPreviewInfo').classList.add('section-hidden');
 if(data.images&&data.images.length>0){var loaded=0,total=data.images.length;data.images.forEach(function(saved,i){if(saved.type==='video'&&data.videoUrls&&data.videoUrls[i]){fetch(data.videoUrls[i]).then(function(r){return r.blob();}).then(function(blob){var url=URL.createObjectURL(blob);var video=document.createElement('video');video.src=url;video.muted=true;video.playsInline=true;video.preload='metadata';video.onloadedmetadata=function(){video.currentTime=0.1;images[i]={type:'video',img:video,media:video,originalImg:video,blob:blob,src:url,animation:saved.animation||'fadeIn',duration:saved.duration||5,rotation:saved.rotation||0,flipH:!!saved.flipH,flipV:!!saved.flipV,speed:saved.speed!==undefined?saved.speed:1,crop:saved.crop||null};loaded++;if(loaded===total)finalize(data);};});}else{var img=new Image();img.onload=function(){images[i]={type:'image',img:img,media:img,originalImg:img,src:saved.src,animation:saved.animation||'none',duration:saved.duration||3,rotation:saved.rotation||0,flipH:!!saved.flipH,flipV:!!saved.flipV,speed:saved.speed!==undefined?saved.speed:1,crop:saved.crop||null};loaded++;if(loaded===total)finalize(data);};img.src=saved.src;}});}else{renderImagesGrid();updateInfo();}
 function finalize(data){currentSize=data.currentSize||'1080x1080';currentTransition=data.currentTransition||'fade';currentLayout=data.currentLayout||'single';document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(b){b.classList.toggle('active',b.dataset.size===currentSize);});document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(b){b.classList.toggle('active',b.dataset.transition===currentTransition);});if(data.textElements)textElements=data.textElements;if(data.stickers)stickers=data.stickers;if(data.watermark){watermark={enabled:data.watermark.enabled,type:data.watermark.type,text:data.watermark.text,color:data.watermark.color,size:data.watermark.size,position:data.watermark.position,opacity:data.watermark.opacity};if(data.watermark.imageUrl){new Image().onload=function(){watermark.img=this;watermark.type='image';};}if(watermark.enabled){document.getElementById('wmOn').classList.add('active');document.getElementById('wmOff').classList.remove('active');document.getElementById('wmContent').classList.remove('section-hidden');}}renderImagesGrid();renderLayouts();updateButtons();updateInfo();renderElementsList();showToast('تم تحميل المشروع ✅');}
 }
@@ -894,7 +1004,7 @@ closeCamera();
 }
 async function handleCameraFileUpload(event){var file=event.target.files[0];if(!file)return;if(!file.type.startsWith('video/')){showToast('الرجاء اختيار ملف فيديو');return;}await addVideoToProject(file,file.type);event.target.value='';}
 
-window.addEventListener('load',function(){renderLayouts();updateInfo();if(!window.MediaRecorder){showToast('متصفحك لا يدعم تصدير الفيديو');document.getElementById('exportBtn').disabled=true;}if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){var rb=document.getElementById('recordBtn');if(rb)rb.disabled=true;}trackEvent('montage-زيارة');console.log('✅ المونتاج + الكاميرا MP4 + صوت الفيديو جاهز');});
+window.addEventListener('load',function(){renderLayouts();updateInfo();renderMusicCategories();renderMusicLibrary();if(!window.MediaRecorder){showToast('متصفحك لا يدعم تصدير الفيديو');document.getElementById('exportBtn').disabled=true;}if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){var rb=document.getElementById('recordBtn');if(rb)rb.disabled=true;}trackEvent('montage-زيارة');console.log('✅ المونتاج + الكاميرا MP4 + صوت الفيديو + مكتبة الموسيقى جاهز');});
 </script>
 </body>
 </html>
