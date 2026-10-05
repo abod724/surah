@@ -404,6 +404,43 @@ label {
   border-radius: 8px;
 }
 
+/* ═══ Voice Input ═══ */
+.btn-voice {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  background: #10b981;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s;
+}
+.btn-voice:active { transform: scale(0.97); }
+.btn-voice.recording {
+  background: #ef4444;
+  animation: pulse-rec 1.5s infinite;
+}
+@keyframes pulse-rec {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+  50% { box-shadow: 0 0 0 12px rgba(239,68,68,0); }
+}
+.voice-pulse {
+  display: inline-block;
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
 /* ═══ Footer ═══ */
 .footer {
   text-align: center;
@@ -473,6 +510,13 @@ label {
           <div class="panel-title">النص</div>
           <div class="field">
             <textarea id="textInput" rows="3" placeholder="اكتب رسالتك هنا..."></textarea>
+            <button type="button" id="voiceBtn" class="btn-voice" onclick="toggleVoiceInput()">
+              <span id="voiceBtnIcon">🎤</span>
+              <span id="voiceBtnText">تكلم لتحويل الكلام</span>
+            </button>
+            <div id="voiceStatus" style="display:none; margin-top:8px; padding:10px; background:#ecfdf5; border:1.5px solid #10b981; border-radius:10px; font-size:13px; font-weight:700; color:#047857; text-align:center;">
+              <span class="voice-pulse">🔴</span> جاري الاستماع... تحدث الآن
+            </div>
           </div>
           <div class="field">
             <label>حجم الخط: <span class="field-value" id="fontSizeValue">80</span></label>
@@ -1211,6 +1255,107 @@ window.addEventListener('load', function() {
       if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
         deleteSelected();
       }
+    }
+  });
+
+  /* ═══════════════════════════════════════
+     تحويل الكلام إلى نص
+     ═══════════════════════════════════════ */
+  var isRecordingVoice = false;
+  var voiceRecognition = null;
+  var voiceFinalText = '';
+  var voiceBaseText = '';
+
+  function initVoiceRecognition() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert('⚠️ متصفحك لا يدعم تحويل الكلام إلى نص\nجرب Chrome أو Safari');
+      return false;
+    }
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    voiceRecognition = new SR();
+    voiceRecognition.lang = 'ar-SA';
+    voiceRecognition.continuous = true;
+    voiceRecognition.interimResults = true;
+
+    voiceRecognition.onresult = function(event) {
+      var interim = '';
+      for (var i = event.resultIndex; i < event.results.length; i++) {
+        var transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          voiceFinalText += transcript + ' ';
+        } else {
+          interim += transcript;
+        }
+      }
+      document.getElementById('textInput').value = voiceBaseText + voiceFinalText + interim;
+    };
+
+    voiceRecognition.onerror = function(event) {
+      console.error('Voice error:', event.error);
+      if (event.error === 'not-allowed') {
+        alert('⚠️ الرجاء السماح للميكروفون من إعدادات المتصفح');
+      }
+      if (event.error !== 'no-speech') {
+        stopVoiceInput();
+      }
+    };
+
+    voiceRecognition.onend = function() {
+      if (isRecordingVoice) {
+        try { voiceRecognition.start(); } catch(e) {}
+      }
+    };
+
+    return true;
+  }
+
+  window.toggleVoiceInput = function() {
+    if (isRecordingVoice) stopVoiceInput();
+    else startVoiceInput();
+  };
+
+  function startVoiceInput() {
+    if (!voiceRecognition) {
+      if (!initVoiceRecognition()) return;
+    }
+    voiceFinalText = '';
+    voiceBaseText = document.getElementById('textInput').value;
+    if (voiceBaseText && !voiceBaseText.endsWith(' ') && !voiceBaseText.endsWith('\n')) {
+      voiceBaseText += ' ';
+    }
+    try {
+      voiceRecognition.start();
+      isRecordingVoice = true;
+      var btn = document.getElementById('voiceBtn');
+      btn.classList.add('recording');
+      document.getElementById('voiceBtnIcon').textContent = '⏹️';
+      document.getElementById('voiceBtnText').textContent = 'إيقاف التسجيل';
+      document.getElementById('voiceStatus').style.display = 'block';
+      if (window.goatcounter && window.goatcounter.count) {
+        window.goatcounter.count({ path: 'editor-تسجيل-صوتي', title: 'تسجيل صوتي', event: true });
+      }
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  function stopVoiceInput() {
+    isRecordingVoice = false;
+    if (voiceRecognition) {
+      try { voiceRecognition.stop(); } catch(e) {}
+    }
+    var btn = document.getElementById('voiceBtn');
+    if (btn) {
+      btn.classList.remove('recording');
+      document.getElementById('voiceBtnIcon').textContent = '🎤';
+      document.getElementById('voiceBtnText').textContent = 'تكلم لتحويل الكلام';
+      document.getElementById('voiceStatus').style.display = 'none';
+    }
+  }
+
+  window.addEventListener('beforeunload', function() {
+    if (voiceRecognition && isRecordingVoice) {
+      try { voiceRecognition.stop(); } catch(e) {}
     }
   });
 
