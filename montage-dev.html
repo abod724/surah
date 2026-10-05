@@ -331,6 +331,8 @@ body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#6366f1 0%
           <button class="opt-btn" data-transition="slideUp">انزلاق ↑</button>
           <button class="opt-btn" data-transition="zoom">تكبير</button>
           <button class="opt-btn" data-transition="rotate">دوران</button>
+          <button class="opt-btn" data-transition="book">فتح كتاب</button>
+          <button class="opt-btn" data-transition="fold">طي</button>
           <button class="opt-btn" data-transition="none">بدون</button>
         </div></div>
       </div>
@@ -545,24 +547,75 @@ var TEMPLATES=[
 {id:'eid_adha',cat:'religious',name:'عيد أضحى',emoji:'🐑',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
 {id:'hajj',cat:'religious',name:'حج',emoji:'🕋',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
 {id:'umrah',cat:'religious',name:'عمرة',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+{id:'mawlid',cat:'religious',name:'مولد نبوي',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'pulse'},
 {id:'quran',cat:'religious',name:'قرآن',emoji:'📖',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
 {id:'dua',cat:'religious',name:'دعاء',emoji:'🤲',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},
+{id:'ashura',cat:'religious',name:'عاشوراء',emoji:'🕯️',size:'1080x1920',transition:'fade',layout:'single',animation:'fadeIn'},
+{id:'jumuah',cat:'religious',name:'جمعة',emoji:'🕌',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
 {id:'graduation',cat:'occasions',name:'تخرج',emoji:'🎓',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
 {id:'wedding',cat:'occasions',name:'زواج',emoji:'💍',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+{id:'engagement',cat:'occasions',name:'خطوبة',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
 {id:'baby',cat:'occasions',name:'مولود',emoji:'👶',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
 {id:'birthday',cat:'occasions',name:'عيد ميلاد',emoji:'🎂',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
+{id:'congrats',cat:'occasions',name:'تهنئة',emoji:'🎊',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
 {id:'condolence',cat:'occasions',name:'عزاء',emoji:'🖤',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
+{id:'new_year',cat:'occasions',name:'سنة جديدة',emoji:'🎆',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+{id:'anniversary',cat:'occasions',name:'ذكرى سنوية',emoji:'🥂',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+{id:'thanks',cat:'occasions',name:'شكر',emoji:'🙏',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+{id:'success',cat:'occasions',name:'نجاح',emoji:'🏆',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
+{id:'promotion',cat:'occasions',name:'ترقية',emoji:'📈',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
 {id:'national',cat:'national',name:'يوم وطني',emoji:'🇸🇦',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},
 {id:'founding',cat:'national',name:'يوم التأسيس',emoji:'🏛️',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+{id:'flag_day',cat:'national',name:'يوم العلم',emoji:'🚩',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
 {id:'travel',cat:'travel',name:'سفر',emoji:'✈️',size:'1080x1080',transition:'slideRight',layout:'single',animation:'kenRight'},
+{id:'beach',cat:'travel',name:'شاطئ',emoji:'🏖️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'panDown'},
+{id:'mountains',cat:'travel',name:'جبال',emoji:'🏔️',size:'1080x1350',transition:'slideRight',layout:'single',animation:'kenRight'},
+{id:'desert',cat:'travel',name:'صحراء',emoji:'🏜️',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
 {id:'nature',cat:'travel',name:'طبيعة',emoji:'🌿',size:'1080x1080',transition:'fade',layout:'single',animation:'kenLeft'},
+{id:'sunset',cat:'travel',name:'غروب',emoji:'🌅',size:'1080x1920',transition:'fade',layout:'single',animation:'zoomIn'},
+{id:'city',cat:'travel',name:'مدينة',emoji:'🏙️',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+{id:'business',cat:'business',name:'إعلان',emoji:'📢',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
 {id:'product',cat:'business',name:'منتج',emoji:'🛍️',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
 {id:'sale',cat:'business',name:'تخفيض',emoji:'🏷️',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
+{id:'store',cat:'business',name:'متجر',emoji:'🏪',size:'1080x1080',transition:'slideRight',layout:'single',animation:'zoomIn'},
+{id:'restaurant',cat:'business',name:'مطعم',emoji:'🍽️',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+{id:'cafe',cat:'business',name:'مقهى',emoji:'☕',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+{id:'realestate',cat:'business',name:'عقار',emoji:'🏠',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+{id:'car',cat:'business',name:'سيارة',emoji:'🚗',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},
+{id:'services',cat:'business',name:'خدمات',emoji:'🛠️',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
 {id:'story',cat:'social',name:'ستوري',emoji:'📱',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
 {id:'reels',cat:'social',name:'ريلز',emoji:'🎞️',size:'1080x1920',transition:'zoom',layout:'single',animation:'kenRight'},
+{id:'tiktok',cat:'social',name:'تيك توك',emoji:'🎵',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
+{id:'youtube',cat:'social',name:'يوتيوب',emoji:'▶️',size:'1920x1080',transition:'fade',layout:'single',animation:'kenRight'},
+{id:'instagram',cat:'social',name:'انستقرام',emoji:'📷',size:'1080x1350',transition:'fade',layout:'single',animation:'zoomIn'},
+{id:'snapchat',cat:'social',name:'سناب',emoji:'👻',size:'1080x1920',transition:'slideUp',layout:'single',animation:'pulse'},
+{id:'twitter',cat:'social',name:'تويتر',emoji:'🐦',size:'1080x1080',transition:'fade',layout:'single',animation:'zoomIn'},
+{id:'podcast',cat:'social',name:'بودكاست',emoji:'🎙️',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
 {id:'love',cat:'mood',name:'حب',emoji:'❤️',size:'1080x1350',transition:'fade',layout:'single',animation:'pulse'},
+{id:'sad',cat:'mood',name:'حزن',emoji:'💔',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
+{id:'joy',cat:'mood',name:'فرح',emoji:'😊',size:'1080x1080',transition:'zoom',layout:'single',animation:'pulse'},
+{id:'hope',cat:'mood',name:'أمل',emoji:'🌅',size:'1080x1920',transition:'fade',layout:'single',animation:'kenRight'},
+{id:'motivation',cat:'mood',name:'تحفيز',emoji:'💪',size:'1080x1920',transition:'zoom',layout:'single',animation:'zoomIn'},
+{id:'memory',cat:'mood',name:'ذكرى',emoji:'📸',size:'1080x1080',transition:'fade',layout:'single',animation:'kenRight'},
+{id:'friendship',cat:'mood',name:'صداقة',emoji:'🤝',size:'1080x1080',transition:'zoom',layout:'single',animation:'zoomIn'},
+{id:'peace',cat:'mood',name:'هدوء',emoji:'🕊️',size:'1080x1350',transition:'fade',layout:'single',animation:'fadeIn'},
+{id:'miss_you',cat:'mood',name:'اشتقت',emoji:'💭',size:'1080x1350',transition:'fade',layout:'single',animation:'kenLeft'},
+{id:'dream',cat:'mood',name:'حلم',emoji:'✨',size:'1080x1920',transition:'zoom',layout:'single',animation:'pulse'},
+{id:'football',cat:'mood',name:'كرة قدم',emoji:'⚽',size:'1080x1080',transition:'slideLeft',layout:'single',animation:'kenRight'},
+{id:'sport',cat:'mood',name:'رياضة',emoji:'🏃',size:'1080x1920',transition:'slideUp',layout:'single',animation:'zoomIn'},
 {id:'family',cat:'family',name:'عائلة',emoji:'👨‍👩‍👧',size:'1080x1080',transition:'fade',layout:'grid4',animation:'zoomIn'},
-{id:'collage',cat:'shapes',name:'كولاج',emoji:'✨',size:'1080x1080',transition:'zoom',layout:'grid4',animation:'pulse'}
+{id:'kids',cat:'family',name:'أطفال',emoji:'🧒',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},
+{id:'school',cat:'family',name:'مدرسة',emoji:'📚',size:'1080x1080',transition:'slideUp',layout:'single',animation:'zoomIn'},
+{id:'kindergarten',cat:'family',name:'روضة',emoji:'🧸',size:'1080x1080',transition:'zoom',layout:'single',animation:'bounce'},
+{id:'mother',cat:'family',name:'أمي',emoji:'💐',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+{id:'father',cat:'family',name:'أبي',emoji:'👔',size:'1080x1350',transition:'fade',layout:'single',animation:'kenRight'},
+{id:'grid',cat:'shapes',name:'شبكة',emoji:'🎨',size:'1080x1080',transition:'slideUp',layout:'grid4',animation:'zoomIn'},
+{id:'split',cat:'shapes',name:'مقسّم',emoji:'📐',size:'1920x1080',transition:'slideLeft',layout:'splitH',animation:'panRight'},
+{id:'triple_tpl',cat:'shapes',name:'ثلاثي',emoji:'🎯',size:'1080x1080',transition:'zoom',layout:'triple',animation:'zoomIn'},
+{id:'overlay_tpl',cat:'shapes',name:'تراكب',emoji:'🖼️',size:'1080x1920',transition:'fade',layout:'overlay',animation:'zoomIn'},
+{id:'collage',cat:'shapes',name:'كولاج',emoji:'✨',size:'1080x1080',transition:'zoom',layout:'grid4',animation:'pulse'},
+{id:'vertical_split',cat:'shapes',name:'فوق وتحت',emoji:'📏',size:'1080x1080',transition:'slideUp',layout:'splitV',animation:'zoomIn'},
+{id:'before_after',cat:'shapes',name:'قبل/بعد',emoji:'🔀',size:'1080x1080',transition:'slideRight',layout:'splitH',animation:'none'}
 ];
 var EMOJIS=['😀','😂','😍','🥰','😎','🤩','😭','😱','🤔','🙄','😴','🤗','👍','👏','🙏','👌','✌️','🤝','💪','❤️','💕','💖','💔','✨','⭐','🌟','🔥','⚡','💫','🎉','🎊','🎈','🎁','🎂','🎓','👑','💎','🌸','🌹','🌺','🌻','🍀','🌈','☀️','🌙','⭐','🍕','🍔','☕','🍦','⚽','🏀','🎮','🎵','🎶','📱','💻','📸','💯','✅','❗','❓','💬','📍','🚀'];
 
@@ -597,13 +650,13 @@ document.querySelectorAll('#sizeOptions .opt-btn').forEach(function(btn){btn.add
 document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('#transitionOptions .opt-btn').forEach(function(b){b.classList.remove('active');});this.classList.add('active');currentTransition=this.dataset.transition;updateInfo();});});
 
 function updateButtons(){var h=images.length>0;document.getElementById('previewBtn').disabled=!h;document.getElementById('exportBtn').disabled=!h;}
-function updateInfo(){var td=0;images.forEach(function(i){td+=i.duration;});var emb=(td*5/8).toFixed(1);var sz=currentSize.split('x');var layout=LAYOUTS.find(function(l){return l.id===currentLayout;});document.getElementById('infoImages').textContent=images.length;document.getElementById('infoDuration').textContent=td+' ثانية';document.getElementById('infoSize').textContent='~'+emb+' MB';document.getElementById('infoDimensions').textContent=sz[0]+' × '+sz[1];document.getElementById('infoLayout').textContent=layout?layout.name:'صورة واحدة';var ln=document.getElementById('layoutName');if(ln)ln.textContent=layout?layout.name:'صورة واحدة';var tL={'fade':'تلاشي','slideRight':'انزلاق يمين','slideLeft':'انزلاق يسار','slideUp':'انزلاق فوق','zoom':'تكبير','rotate':'دوران','none':'بدون'};document.getElementById('infoTransition').textContent=tL[currentTransition]||currentTransition;document.getElementById('infoTexts').textContent=textElements.length;document.getElementById('infoStickers').textContent=stickers.length;document.getElementById('infoWatermark').textContent=(watermark&&watermark.enabled)?'مفعّل':'معطّل';var al='بدون';if(selectedAudio==='record')al='تسجيل صوتي';else if(selectedAudio==='upload')al='ملف مرفوع';if(musicFile)al=al==='بدون'?'موسيقى':al+' + موسيقى';document.getElementById('infoAudio').textContent=al;}
+function updateInfo(){var td=0;images.forEach(function(i){td+=i.duration;});var emb=(td*5/8).toFixed(1);var sz=currentSize.split('x');var layout=LAYOUTS.find(function(l){return l.id===currentLayout;});document.getElementById('infoImages').textContent=images.length;document.getElementById('infoDuration').textContent=td+' ثانية';document.getElementById('infoSize').textContent='~'+emb+' MB';document.getElementById('infoDimensions').textContent=sz[0]+' × '+sz[1];document.getElementById('infoLayout').textContent=layout?layout.name:'صورة واحدة';var ln=document.getElementById('layoutName');if(ln)ln.textContent=layout?layout.name:'صورة واحدة';var tL={'fade':'تلاشي','slideRight':'انزلاق يمين','slideLeft':'انزلاق يسار','slideUp':'انزلاق فوق','zoom':'تكبير','rotate':'دوران','book':'فتح كتاب','fold':'طي','none':'بدون'};document.getElementById('infoTransition').textContent=tL[currentTransition]||currentTransition;document.getElementById('infoTexts').textContent=textElements.length;document.getElementById('infoStickers').textContent=stickers.length;document.getElementById('infoWatermark').textContent=(watermark&&watermark.enabled)?'مفعّل':'معطّل';var al='بدون';if(selectedAudio==='record')al='تسجيل صوتي';else if(selectedAudio==='upload')al='ملف مرفوع';if(musicFile)al=al==='بدون'?'موسيقى':al+' + موسيقى';document.getElementById('infoAudio').textContent=al;}
 
 function drawImageInCell(ctx,item,x,y,w,h,opacity,animProgress){if(opacity===undefined)opacity=1;if(animProgress===undefined)animProgress=0;ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();var img=item.media||item.img;if(!img)return;var p=Math.min(1,Math.max(0,animProgress));ctx.globalAlpha=opacity;var iw=img.videoWidth||img.width||1;var ih=img.videoHeight||img.height||1;var ir=iw/ih,cr=w/h,dw,dh;if(ir>cr){dh=h;dw=iw*(h/ih);}else{dw=w;dh=ih*(w/iw);}var cx=x+w/2,cy=y+h/2;ctx.translate(cx,cy);if(item.rotation)ctx.rotate(item.rotation*Math.PI/180);if(item.flipH)ctx.scale(-1,1);if(item.flipV)ctx.scale(1,-1);var speed=item.speed!==undefined?item.speed:1;var sp=Math.min(1,p*speed);var scale=1,oX=0,oY=0,alpha=1;switch(item.animation){case 'zoomIn':scale=1+sp*0.3;break;case 'zoomOut':scale=1.3-sp*0.3;break;case 'panRight':scale=1.2;oX=(sp-0.5)*w*0.15;break;case 'panLeft':scale=1.2;oX=-(sp-0.5)*w*0.15;break;case 'panUp':scale=1.2;oY=-(sp-0.5)*h*0.15;break;case 'panDown':scale=1.2;oY=(sp-0.5)*h*0.15;break;case 'rotate':scale=1.1;ctx.rotate(sp*Math.PI*0.1);break;case 'pulse':scale=1+Math.sin(sp*Math.PI*2)*0.08;break;case 'fadeIn':alpha=Math.min(1,sp*1.5);break;case 'kenRight':scale=1+sp*0.25;oX=(sp-0.5)*w*0.1;break;case 'kenLeft':scale=1+sp*0.25;oX=-(sp-0.5)*w*0.1;break;case 'shake':oX=Math.sin(sp*Math.PI*20)*w*0.02*(1-sp);break;case 'bounce':oY=-Math.abs(Math.sin(sp*Math.PI*3))*h*0.05;break;case 'flip':ctx.scale(Math.cos(sp*Math.PI),1);break;}ctx.globalAlpha=opacity*alpha;ctx.scale(scale,scale);ctx.translate(oX,oY);try{ctx.drawImage(img,-dw/2,-dh/2,dw,dh);}catch(e){}ctx.restore();}
 
 function drawLayout(ctx,startIndex,canvasW,canvasH,opacity,animProgress){if(opacity===undefined)opacity=1;if(animProgress===undefined)animProgress=0;var layout=LAYOUTS.find(function(l){return l.id===currentLayout;});if(!layout)return;ctx.fillStyle='#000';ctx.fillRect(0,0,canvasW,canvasH);layout.cells.forEach(function(cell,i){var imgIdx=(startIndex+i)%images.length;var item=images[imgIdx];if(!item)return;var x=cell.x*canvasW,y=cell.y*canvasH,w=cell.w*canvasW,h=cell.h*canvasH;if(cell.overlay){ctx.save();ctx.shadowColor='rgba(0,0,0,0.5)';ctx.shadowBlur=15;ctx.fillStyle='#fff';ctx.fillRect(x-5,y-5,w+10,h+10);ctx.restore();}drawImageInCell(ctx,item,x,y,w,h,opacity,animProgress);});}
 
-function drawTransition(ctx,prevStart,nextStart,canvasW,canvasH,progress){var t=Math.min(1,Math.max(0,progress));var ease=1-Math.pow(1-t,3);drawLayout(ctx,prevStart,canvasW,canvasH,1,1);ctx.save();switch(currentTransition){case 'fade':ctx.globalAlpha=ease;drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;case 'slideRight':ctx.translate(canvasW*(1-ease),0);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;case 'slideLeft':ctx.translate(-canvasW*(1-ease),0);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;case 'slideUp':ctx.translate(0,canvasH*(1-ease));drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;case 'zoom':var zs=0.3+ease*0.7;ctx.translate(canvasW/2,canvasH/2);ctx.scale(zs,zs);ctx.globalAlpha=ease;ctx.translate(-canvasW/2,-canvasH/2);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;default:drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;}ctx.restore();}
+function drawTransition(ctx,prevStart,nextStart,canvasW,canvasH,progress){var t=Math.min(1,Math.max(0,progress));var ease=1-Math.pow(1-t,3);drawLayout(ctx,prevStart,canvasW,canvasH,1,1);ctx.save();switch(currentTransition){case 'fade':ctx.globalAlpha=ease;drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;case 'slideRight':ctx.translate(canvasW*(1-ease),0);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;case 'slideLeft':ctx.translate(-canvasW*(1-ease),0);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;case 'slideUp':ctx.translate(0,canvasH*(1-ease));drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;case 'zoom':var zs=0.3+ease*0.7;ctx.translate(canvasW/2,canvasH/2);ctx.scale(zs,zs);ctx.globalAlpha=ease;ctx.translate(-canvasW/2,-canvasH/2);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;case 'rotate':ctx.translate(canvasW/2,canvasH/2);ctx.rotate(ease*Math.PI*2);var rs=0.2+ease*0.8;ctx.scale(rs,rs);ctx.globalAlpha=ease;ctx.translate(-canvasW/2,-canvasH/2);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;case 'book':var ba=ease*Math.PI;ctx.translate(canvasW,canvasH/2);ctx.rotate(-Math.PI+ba);ctx.globalAlpha=ease;ctx.translate(-canvasW,-canvasH/2);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;case 'fold':var fa=ease*Math.PI/2;ctx.translate(canvasW/2,canvasH/2);ctx.scale(Math.cos(fa),1);ctx.globalAlpha=ease;ctx.translate(-canvasW/2,-canvasH/2);drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;default:drawLayout(ctx,nextStart,canvasW,canvasH,1,0);break;}ctx.restore();}
 function drawTextElement(ctx,el,cw,ch){var fs=el.size*Math.min(cw,ch)/100;ctx.save();ctx.font='bold '+fs+'px '+el.font;ctx.textAlign='center';ctx.textBaseline='middle';ctx.translate(el.x*cw,el.y*ch);if(el.shadow){ctx.shadowColor='rgba(0,0,0,0.85)';ctx.shadowBlur=fs*0.15;ctx.shadowOffsetX=2;ctx.shadowOffsetY=2;}ctx.fillStyle=el.color;var lines=el.text.split('\n');var lh=fs*1.2;var sy=-(lines.length-1)*lh/2;lines.forEach(function(line,i){ctx.fillText(line,0,sy+i*lh);});ctx.restore();}
 function drawStickerElement(ctx,el,cw,ch){var fs=el.size*Math.min(cw,ch)/100;ctx.save();ctx.font=fs+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.translate(el.x*cw,el.y*ch);ctx.fillText(el.emoji,0,0);ctx.restore();}
 function drawWatermark(ctx,cw,ch){if(!watermark||!watermark.enabled)return;var pad=Math.min(cw,ch)*0.03;var pos=watermark.position||'br',x,y;if(pos==='tl'){x=pad;y=pad;}else if(pos==='tr'){x=cw-pad;y=pad;}else if(pos==='bl'){x=pad;y=ch-pad;}else{x=cw-pad;y=ch-pad;}ctx.save();ctx.globalAlpha=watermark.opacity!==undefined?watermark.opacity:0.7;if(watermark.type==='text'&&watermark.text){var fs=(watermark.size||5)*Math.min(cw,ch)/100;ctx.font='bold '+fs+'px '+(watermark.font||"'Cairo',sans-serif");ctx.fillStyle=watermark.color||'#fff';ctx.textBaseline=(pos==='tl'||pos==='tr')?'top':'bottom';ctx.textAlign=(pos==='tl'||pos==='bl')?'left':'right';ctx.shadowColor='rgba(0,0,0,0.5)';ctx.shadowBlur=6;ctx.fillText(watermark.text,x,y);}else if(watermark.type==='image'&&watermark.img){var sz=(watermark.size||15)*Math.min(cw,ch)/100;var ratio=watermark.img.width/watermark.img.height;var w=sz,h=sz/ratio;if(ratio<1){h=sz;w=sz*ratio;}var dx=(pos==='tl'||pos==='bl')?x:x-w;var dy=(pos==='tl'||pos==='tr')?y:y-h;try{ctx.drawImage(watermark.img,dx,dy,w,h);}catch(e){}}ctx.restore();}
@@ -724,7 +777,6 @@ function toggleCameraRecording(){if(cameraRecorder&&cameraRecorder.state==='reco
 function startCameraRecording(){
 if(!cameraStream)return;
 cameraChunks=[];
-// 🎬 محاولة MP4 أولاً، ثم WebM
 var mimeOptions=[
   'video/mp4;codecs=avc1.42E01E,mp4a.40.2',
   'video/mp4;codecs=avc1',
