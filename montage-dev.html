@@ -164,7 +164,8 @@ body{font-family:'Cairo',sans-serif;background:#f1f5f9;min-height:100vh;color:va
 .template-emoji{font-size:26px}
 .template-name{font-size:10px;font-weight:800;text-align:center}
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:12px}
-.gallery-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;border:1px solid var(--border)}
+.gallery-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;border:1px solid var(--border);transition:all .15s}
+.gallery-card:active{transform:scale(.98)}
 .gallery-thumb{width:100%;aspect-ratio:1;object-fit:cover;background:#f1f5f9}
 .gallery-info{padding:8px}
 .gallery-title{font-size:12px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -479,10 +480,35 @@ body{font-family:'Cairo',sans-serif;background:#f1f5f9;min-height:100vh;color:va
 <div class="crop-header"><div class="crop-title">📁 مشاريعي</div><button class="crop-close" onclick="closeProjects()">✕</button></div>
 <div style="background:#fff;border-radius:16px;padding:16px;max-height:70vh;overflow-y:auto;"><div id="projectsList"><div class="empty-hint">لا توجد مشاريع</div></div></div>
 </div>
+
 <div class="crop-overlay" id="galleryOverlay">
 <div class="crop-header"><div class="crop-title">🌐 معرض الأعمال</div><button class="crop-close" onclick="closeGallery()">✕</button></div>
-<div style="background:#fff;border-radius:16px;padding:16px;max-height:75vh;overflow-y:auto;"><div id="galleryList"><div class="empty-hint">جاري التحميل...</div></div></div>
+<div style="background:#fff;border-radius:16px;padding:16px;max-height:80vh;overflow-y:auto;">
+<div style="display:flex;gap:8px;margin-bottom:12px;">
+<input type="text" id="gallerySearch" placeholder="ابحث بالاسم..." style="flex:1;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:'Cairo',sans-serif;font-weight:600;">
+<select id="gallerySort" style="padding:10px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:'Cairo',sans-serif;font-weight:700;">
+<option value="new">الأحدث</option>
+<option value="likes">الأكثر إعجاباً</option>
+<option value="views">الأكثر مشاهدة</option>
+</select>
 </div>
+<div class="tabs-bar" id="galleryCategories" style="padding-bottom:8px;"></div>
+<div id="galleryList"><div class="empty-hint">جاري التحميل...</div></div>
+</div>
+</div>
+
+<div class="crop-overlay" id="viewProjectOverlay">
+<div class="crop-header"><div class="crop-title" id="viewProjectTitle">المشروع</div><button class="crop-close" onclick="closeViewProject()">✕</button></div>
+<div style="background:#fff;border-radius:16px;padding:16px;max-height:85vh;overflow-y:auto;">
+<div id="viewProjectPreview" style="background:#0a0a0a;border-radius:12px;min-height:250px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"></div>
+<div id="viewProjectInfo" style="margin-bottom:16px;"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;">
+<button class="btn btn-export" style="flex:1;padding:12px;" onclick="likeCurrentProject()">❤️ إعجاب</button>
+<button class="btn btn-preview" style="flex:1;padding:12px;" onclick="copyCurrentProject()">📋 نسخ للتعديل</button>
+</div>
+</div>
+</div>
+
 <div id="resetOverlay"><div class="auth-card">
 <div class="auth-logo">🔑</div>
 <div class="auth-title">كلمة مرور جديدة</div>
@@ -930,7 +956,7 @@ async function downloadBlobFromUrl(url){if(!url)return null;var r=await fetch(ur
 
 function getProjectData(){return{images:images.map(function(i){return{src:i.src,type:i.type||'image',animation:i.animation,duration:i.duration,rotation:i.rotation,flipH:i.flipH,flipV:i.flipV,speed:i.speed,crop:i.crop};}),currentSize:currentSize,currentTransition:currentTransition,currentLayout:currentLayout,selectedAudio:selectedAudio,hasRecordedAudio:!!recordedAudioBlob,hasAudioUpload:!!audioUpload,hasMusic:!!musicFile,textElements:textElements.map(function(t){return{id:t.id,text:t.text,x:t.x,y:t.y,size:t.size,color:t.color,font:t.font,shadow:t.shadow,rotation:t.rotation};}),stickers:stickers.map(function(s){return{id:s.id,emoji:s.emoji,x:s.x,y:s.y,size:s.size,rotation:s.rotation};}),watermark:watermark?{enabled:watermark.enabled,type:watermark.type,text:watermark.text,color:watermark.color,size:watermark.size,position:watermark.position,opacity:watermark.opacity,hasImage:!!watermark.img}:null};}
 
-async function saveProject(){if(!currentUser){showToast('سجّل دخول أولاً');return;}if(images.length===0){showToast('أضف وسائط أولاً');return;}var name=prompt('اسم المشروع:','مشروع '+new Date().toLocaleDateString('ar'));if(!name)return;var btn=document.getElementById('saveProjectBtn');btn.disabled=true;btn.textContent='⏳';showLoading('جاري رفع الملفات...');try{var audioUrls={};if(selectedAudio==='record'&&recordedAudioBlob)audioUrls.record=await uploadFileToStorage(recordedAudioBlob,'record');if(selectedAudio==='upload'&&audioUpload)audioUrls.upload=await uploadFileToStorage(audioUpload,'voice');if(musicFile)audioUrls.music=await uploadFileToStorage(musicFile,'music');var videoUrls={};for(var i=0;i<images.length;i++){var it=images[i];if(it.type==='video'&&it.blob){try{showLoading('رفع فيديو '+(i+1)+'...');videoUrls[i]=await uploadFileToStorage(it.blob,'video-'+i);}catch(e){console.error(e);}}}var wmImgUrl=null;if(watermark&&watermark.type==='image'&&watermark.img){showLoading('جاري رفع الشعار...');try{var blob=await new Promise(function(res){watermark.img.toBlob(function(b){res(b);},'image/png');});if(blob)wmImgUrl=await uploadFileToStorage(blob,'wm');}catch(e){console.error(e);}}document.getElementById('loadingText').textContent='جاري حفظ المشروع...';var data=getProjectData();data.audioUrls=audioUrls;data.videoUrls=videoUrls;if(wmImgUrl)data.watermark.imageUrl=wmImgUrl;var thumbnail=(images[0]&&images[0].type!=='video')?images[0].src:null;var r=await sb.from('projects').insert({user_id:currentUser.id,name:name,data:data,thumbnail:thumbnail}).select().single();if(r.error)throw r.error;currentProjectId=r.data.id;showToast('تم حفظ المشروع ✅');}catch(err){console.error(err);showToast('فشل الحفظ: '+(err.message||'خطأ'));}finally{hideLoading();btn.disabled=false;btn.textContent='💾';}}
+async function saveProject(){if(!currentUser){showToast('سجّل دخول أولاً');return;}if(images.length===0){showToast('أضف وسائط أولاً');return;}var name=prompt('اسم المشروع:','مشروع '+new Date().toLocaleDateString('ar'));if(!name)return;var category=prompt('التصنيف (عام / ريلز / ستوري / منشور / إعلان / مناسبات):','عام');if(!category)category='عام';var btn=document.getElementById('saveProjectBtn');btn.disabled=true;btn.textContent='⏳';showLoading('جاري رفع الملفات...');try{var audioUrls={};if(selectedAudio==='record'&&recordedAudioBlob)audioUrls.record=await uploadFileToStorage(recordedAudioBlob,'record');if(selectedAudio==='upload'&&audioUpload)audioUrls.upload=await uploadFileToStorage(audioUpload,'voice');if(musicFile)audioUrls.music=await uploadFileToStorage(musicFile,'music');var videoUrls={};for(var i=0;i<images.length;i++){var it=images[i];if(it.type==='video'&&it.blob){try{showLoading('رفع فيديو '+(i+1)+'...');videoUrls[i]=await uploadFileToStorage(it.blob,'video-'+i);}catch(e){console.error(e);}}}var wmImgUrl=null;if(watermark&&watermark.type==='image'&&watermark.img){showLoading('جاري رفع الشعار...');try{var blob=await new Promise(function(res){watermark.img.toBlob(function(b){res(b);},'image/png');});if(blob)wmImgUrl=await uploadFileToStorage(blob,'wm');}catch(e){console.error(e);}}document.getElementById('loadingText').textContent='جاري حفظ المشروع...';var data=getProjectData();data.audioUrls=audioUrls;data.videoUrls=videoUrls;if(wmImgUrl)data.watermark.imageUrl=wmImgUrl;var thumbnail=(images[0]&&images[0].type!=='video')?images[0].src:null;var r=await sb.from('projects').insert({user_id:currentUser.id,name:name,data:data,thumbnail:thumbnail,category:category}).select().single();if(r.error)throw r.error;currentProjectId=r.data.id;showToast('تم حفظ المشروع ✅');}catch(err){console.error(err);showToast('فشل الحفظ: '+(err.message||'خطأ'));}finally{hideLoading();btn.disabled=false;btn.textContent='💾';}}
 
 async function openProjects(){if(!currentUser)return;document.getElementById('projectsOverlay').classList.add('active');var list=document.getElementById('projectsList');list.innerHTML='<div class="empty-hint">جاري التحميل...</div>';try{var r=await sb.from('projects').select('id,name,thumbnail,created_at,is_public').order('created_at',{ascending:false});if(r.error)throw r.error;var data=r.data;if(!data||data.length===0){list.innerHTML='<div class="empty-hint">لا توجد مشاريع محفوظة</div>';return;}list.innerHTML='';data.forEach(function(p){var el=document.createElement('div');el.className='project-item';var thumb=document.createElement('img');thumb.className='project-thumb';thumb.src=p.thumbnail||'';var info=document.createElement('div');info.className='project-info';info.innerHTML='<div class="project-name">'+escapeHtml(p.name)+'</div><div class="project-date">'+new Date(p.created_at).toLocaleString('ar')+'</div>';var acts=document.createElement('div');acts.className='project-actions';var lb=document.createElement('button');lb.className='project-load';lb.textContent='فتح';lb.onclick=function(){loadProjectById(p.id);};var pubBtn=document.createElement('button');pubBtn.className='project-pub'+(p.is_public?' on':'');pubBtn.textContent=p.is_public?'🌐 عام':'نشر';pubBtn.onclick=function(){togglePublic(p.id,!p.is_public);};var db=document.createElement('button');db.className='project-del';db.textContent='حذف';db.onclick=function(){deleteProjectById(p.id);};acts.appendChild(lb);acts.appendChild(pubBtn);acts.appendChild(db);el.appendChild(thumb);el.appendChild(info);el.appendChild(acts);list.appendChild(el);});}catch(err){console.error(err);list.innerHTML='<div class="empty-hint">فشل التحميل</div>';}}
 async function togglePublic(id,makePublic){try{var r=await sb.from('projects').update({is_public:makePublic}).eq('id',id);if(r.error)throw r.error;showToast(makePublic?'تم نشر المشروع 🌐':'تم إخفاؤه');openProjects();}catch(err){showToast('فشل');}}
@@ -945,8 +971,165 @@ function finalize(data){currentSize=data.currentSize||'1080x1080';currentTransit
 function closeProjects(){document.getElementById('projectsOverlay').classList.remove('active');}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
 
-async function openGallery(){document.getElementById('galleryOverlay').classList.add('active');var list=document.getElementById('galleryList');list.innerHTML='<div class="empty-hint">جاري التحميل...</div>';try{var r=await sb.from('projects').select('id,name,thumbnail,created_at,user_id').eq('is_public',true).order('created_at',{ascending:false}).limit(60);if(r.error)throw r.error;var data=r.data;if(!data||data.length===0){list.innerHTML='<div class="empty-hint">لا توجد أعمال منشورة بعد</div>';return;}var html='<div class="gallery-grid">';data.forEach(function(p){var author=p.user_id?p.user_id.substring(0,8):'مستخدم';html+='<div class="gallery-card" onclick="openGalleryProject(\''+p.id+'\')"><img class="gallery-thumb" src="'+(p.thumbnail||'')+'" alt=""><div class="gallery-info"><div class="gallery-title">'+escapeHtml(p.name)+'</div><div class="gallery-author">👤 '+author+'</div></div></div>';});html+='</div>';list.innerHTML=html;}catch(err){console.error(err);list.innerHTML='<div class="empty-hint">فشل التحميل</div>';}}
-async function openGalleryProject(id){if(!currentUser){showToast('سجّل دخول');return;}closeGallery();await loadProjectById(id);}
+/* ========== المعرض الاحترافي ========== */
+var currentGalleryFilter='all';
+var currentGalleryProject=null;
+var currentViewProjectId=null;
+
+var GALLERY_CATEGORIES=[
+  {id:'all',name:'الكل'},
+  {id:'عام',name:'عام'},
+  {id:'ريلز',name:'ريلز'},
+  {id:'ستوري',name:'ستوري'},
+  {id:'منشور',name:'منشور'},
+  {id:'إعلان',name:'إعلان'},
+  {id:'مناسبات',name:'مناسبات'}
+];
+
+async function openGallery(){
+  if(!currentUser){showToast('سجّل دخول');return;}
+  document.getElementById('galleryOverlay').classList.add('active');
+  buildGalleryCategories();
+  await loadGallery();
+  document.getElementById('gallerySearch').oninput=debounce(loadGallery,400);
+  document.getElementById('gallerySort').onchange=loadGallery;
+}
+
+function buildGalleryCategories(){
+  var bar=document.getElementById('galleryCategories');
+  bar.innerHTML='';
+  GALLERY_CATEGORIES.forEach(function(cat){
+    var btn=document.createElement('button');
+    btn.className='tab-btn'+(cat.id===currentGalleryFilter?' active':'');
+    btn.textContent=cat.name;
+    btn.onclick=function(){
+      currentGalleryFilter=cat.id;
+      bar.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      loadGallery();
+    };
+    bar.appendChild(btn);
+  });
+}
+
+function debounce(fn,delay){
+  var t;
+  return function(){
+    clearTimeout(t);
+    var args=arguments,ctx=this;
+    t=setTimeout(function(){fn.apply(ctx,args);},delay);
+  };
+}
+
+async function loadGallery(){
+  var list=document.getElementById('galleryList');
+  list.innerHTML='<div class="empty-hint">جاري التحميل...</div>';
+  try{
+    var search=document.getElementById('gallerySearch').value.trim();
+    var sortBy=document.getElementById('gallerySort').value;
+    var query=sb.from('projects').select('id,name,thumbnail,created_at,user_id,views,likes_count,category').eq('is_public',true);
+    if(currentGalleryFilter!=='all')query=query.eq('category',currentGalleryFilter);
+    if(search)query=query.ilike('name','%'+search+'%');
+    if(sortBy==='likes')query=query.order('likes_count',{ascending:false});
+    else if(sortBy==='views')query=query.order('views',{ascending:false});
+    else query=query.order('created_at',{ascending:false});
+    query=query.limit(60);
+    var r=await query;
+    if(r.error)throw r.error;
+    var data=r.data;
+    if(!data||data.length===0){list.innerHTML='<div class="empty-hint">لا توجد نتائج</div>';return;}
+    var html='<div class="gallery-grid">';
+    data.forEach(function(p){
+      var author=p.user_id?p.user_id.substring(0,8):'مستخدم';
+      html+='<div class="gallery-card" onclick="viewProject(\''+p.id+'\')">';
+      html+='<img class="gallery-thumb" src="'+(p.thumbnail||'')+'" alt="">';
+      html+='<div class="gallery-info">';
+      html+='<div class="gallery-title">'+escapeHtml(p.name)+'</div>';
+      html+='<div class="gallery-author">👤 '+author+'</div>';
+      html+='<div style="display:flex;gap:8px;margin-top:6px;font-size:10px;color:#64748b;font-weight:700;">';
+      html+='<span>❤️ '+(p.likes_count||0)+'</span>';
+      html+='<span>👁️ '+(p.views||0)+'</span>';
+      if(p.category)html+='<span style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">'+escapeHtml(p.category)+'</span>';
+      html+='</div></div></div>';
+    });
+    html+='</div>';
+    list.innerHTML=html;
+  }catch(err){console.error(err);list.innerHTML='<div class="empty-hint">فشل التحميل</div>';}
+}
+
+async function viewProject(id){
+  if(!currentUser){showToast('سجّل دخول');return;}
+  currentViewProjectId=id;
+  document.getElementById('viewProjectOverlay').classList.add('active');
+  document.getElementById('viewProjectPreview').innerHTML='<div style="color:#64748b;font-weight:700;">جاري التحميل...</div>';
+  document.getElementById('viewProjectInfo').innerHTML='';
+  try{
+    await sb.rpc('increment_views',{pid:id});
+    var r=await sb.from('projects').select('*').eq('id',id).single();
+    if(r.error)throw r.error;
+    var p=r.data;
+    currentGalleryProject=p;
+    document.getElementById('viewProjectTitle').textContent=p.name;
+    var author=p.user_id?p.user_id.substring(0,8):'مستخدم';
+    var likeR=await sb.from('likes').select('id').eq('project_id',id).eq('user_id',currentUser.id).maybeSingle();
+    var isLiked=likeR.data!=null;
+    var preview=document.getElementById('viewProjectPreview');
+    if(p.thumbnail){
+      preview.innerHTML='<img src="'+p.thumbnail+'" style="max-width:100%;max-height:300px;border-radius:8px;">';
+    }else{
+      preview.innerHTML='<div style="color:#64748b;">لا توجد معاينة</div>';
+    }
+    document.getElementById('viewProjectInfo').innerHTML=
+      '<div class="info-row"><span>المبدع</span><span class="info-row-value">👤 '+author+'</span></div>'+
+      '<div class="info-row"><span>الإعجابات</span><span class="info-row-value">❤️ '+(p.likes_count||0)+'</span></div>'+
+      '<div class="info-row"><span>المشاهدات</span><span class="info-row-value">👁️ '+(p.views||0)+'</span></div>'+
+      '<div class="info-row"><span>التصنيف</span><span class="info-row-value">'+(p.category||'عام')+'</span></div>';
+    var likeBtn=document.querySelector('#viewProjectOverlay .btn-export');
+    if(likeBtn){
+      if(isLiked){likeBtn.textContent='💔 إزالة الإعجاب';likeBtn.style.background='#64748b';}
+      else{likeBtn.textContent='❤️ إعجاب';likeBtn.style.background='#10b981';}
+      likeBtn.dataset.liked=isLiked?'1':'0';
+    }
+  }catch(err){console.error(err);showToast('فشل التحميل');}
+}
+
+async function likeCurrentProject(){
+  if(!currentUser||!currentViewProjectId)return;
+  var btn=document.querySelector('#viewProjectOverlay .btn-export');
+  var isLiked=btn.dataset.liked==='1';
+  try{
+    if(isLiked){
+      var r=await sb.from('likes').delete().eq('project_id',currentViewProjectId).eq('user_id',currentUser.id);
+      if(r.error)throw r.error;
+      showToast('تم إزالة الإعجاب');
+    }else{
+      var r=await sb.from('likes').insert({project_id:currentViewProjectId,user_id:currentUser.id});
+      if(r.error)throw r.error;
+      showToast('❤️ تم الإعجاب');
+    }
+    viewProject(currentViewProjectId);
+    loadGallery();
+  }catch(err){console.error(err);showToast('فشل');}
+}
+
+async function copyCurrentProject(){
+  if(!currentGalleryProject)return;
+  if(!confirm('نسخ هذا المشروع للتعديل عليه؟'))return;
+  closeViewProject();
+  showLoading('جاري النسخ...');
+  try{
+    await loadProjectData(currentGalleryProject.data);
+    showToast('✅ تم نسخ المشروع');
+  }catch(err){console.error(err);showToast('فشل النسخ');}
+  finally{hideLoading();}
+}
+
+function closeViewProject(){
+  document.getElementById('viewProjectOverlay').classList.remove('active');
+  currentViewProjectId=null;
+  currentGalleryProject=null;
+}
+
 function closeGallery(){document.getElementById('galleryOverlay').classList.remove('active');}
 
 document.getElementById('saveProjectBtn').addEventListener('click',saveProject);
@@ -1032,7 +1215,7 @@ closeCamera();
 }
 async function handleCameraFileUpload(event){var file=event.target.files[0];if(!file)return;if(!file.type.startsWith('video/')){showToast('الرجاء اختيار ملف فيديو');return;}await addVideoToProject(file,file.type);event.target.value='';}
 
-window.addEventListener('load',function(){renderLayouts();updateInfo();if(!window.MediaRecorder){showToast('متصفحك لا يدعم تصدير الفيديو');document.getElementById('exportBtn').disabled=true;}if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){var rb=document.getElementById('recordBtn');if(rb)rb.disabled=true;}trackEvent('montage-زيارة');setTimeout(function(){pushHistory();},500);console.log('✅ المونتاج + التراجع/الإعادة جاهز');});
+window.addEventListener('load',function(){renderLayouts();updateInfo();if(!window.MediaRecorder){showToast('متصفحك لا يدعم تصدير الفيديو');document.getElementById('exportBtn').disabled=true;}if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){var rb=document.getElementById('recordBtn');if(rb)rb.disabled=true;}trackEvent('montage-زيارة');setTimeout(function(){pushHistory();},500);console.log('✅ المونتاج + التراجع/الإعادة + المعرض الاحترافي جاهز');});
 </script>
 </body>
 </html>
