@@ -191,6 +191,8 @@ body{font-family:'Cairo',sans-serif;background:#f1f5f9;min-height:100vh;color:va
 .camera-record-btn.recording{background:#ef4444;border-color:#fff}
 .camera-record-btn.recording::after{content:'';position:absolute;inset:20px;background:#fff;border-radius:4px}
 .camera-side-btn{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;border:none;font-size:24px;cursor:pointer}
+.camera-mute-btn{position:absolute;top:14px;left:14px;z-index:10;background:rgba(0,0,0,.6);color:#fff;border:1px solid rgba(255,255,255,.2);padding:10px 14px;border-radius:50px;font-family:'Cairo',sans-serif;font-weight:800;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.camera-mute-btn.muted{background:rgba(239,68,68,.9);border-color:#ef4444}
 @media (max-width:480px){.container{padding:0}.card{padding:14px}.panel{padding:14px}.actions{grid-template-columns:1fr}.images-grid{grid-template-columns:repeat(auto-fill,minmax(85px,1fr))}.tab-btn{padding:9px 11px;font-size:11px}.user-chip{max-width:80px;font-size:10px;padding:6px 8px}.logout-btn{padding:6px 9px;font-size:11px}.emoji-grid{grid-template-columns:repeat(6,1fr)}.templates-grid{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
@@ -453,7 +455,10 @@ body{font-family:'Cairo',sans-serif;background:#f1f5f9;min-height:100vh;color:va
 <span class="camera-timer" id="cameraTimer">00:00</span>
 <button onclick="switchCamera()">🔄 تبديل</button>
 </div>
-<div class="camera-preview-wrap"><video id="cameraPreview" autoplay playsinline muted></video></div>
+<div class="camera-preview-wrap">
+<button class="camera-mute-btn" id="cameraMuteBtn" onclick="toggleCameraMute()">🔊 الصوت مفعّل</button>
+<video id="cameraPreview" autoplay playsinline muted></video>
+</div>
 <div class="camera-bottom-bar">
 <button class="camera-side-btn" onclick="document.getElementById('cameraFileInput').click()">📁</button>
 <button class="camera-record-btn" id="cameraRecordBtn" onclick="toggleCameraRecording()"></button>
@@ -845,25 +850,58 @@ document.getElementById('saveProjectBtn').addEventListener('click',saveProject);
 document.getElementById('myProjectsBtn').addEventListener('click',openProjects);
 document.getElementById('galleryBtn').addEventListener('click',openGallery);
 
-var cameraStream=null,cameraRecorder=null,cameraChunks=[],cameraTimerInterval=null,cameraStartTime=0,cameraFacing='environment',cameraMaxDuration=30,cameraFlashOn=false;
+/* ========== الكاميرا ========== */
+var cameraStream=null,cameraRecorder=null,cameraChunks=[],cameraTimerInterval=null,cameraStartTime=0,cameraFacing='environment',cameraMaxDuration=30,cameraFlashOn=false,cameraMuted=false;
+
 async function openCamera(){try{await startCameraStream();document.getElementById('cameraOverlay').classList.add('active');document.body.style.overflow='hidden';}catch(err){console.error(err);showToast('لم يتم السماح بالكاميرا');}}
-async function startCameraStream(){if(cameraStream)cameraStream.getTracks().forEach(t=>t.stop());const constraints={video:{facingMode:cameraFacing,width:{ideal:1280},height:{ideal:720}},audio:true};cameraStream=await navigator.mediaDevices.getUserMedia(constraints);const preview=document.getElementById('cameraPreview');preview.srcObject=cameraStream;await preview.play();}
+
+async function startCameraStream(){
+  if(cameraStream)cameraStream.getTracks().forEach(t=>t.stop());
+  const constraints={video:{facingMode:cameraFacing,width:{ideal:1280},height:{ideal:720}},audio:true};
+  cameraStream=await navigator.mediaDevices.getUserMedia(constraints);
+  const preview=document.getElementById('cameraPreview');
+  preview.srcObject=cameraStream;
+  await preview.play();
+  // طبّق حالة الكتم الحالية
+  applyCameraMuteState();
+}
+
+function applyCameraMuteState(){
+  if(!cameraStream)return;
+  cameraStream.getAudioTracks().forEach(function(t){t.enabled=!cameraMuted;});
+  var btn=document.getElementById('cameraMuteBtn');
+  if(btn){
+    if(cameraMuted){btn.textContent='🔇 الصوت مكتوم';btn.classList.add('muted');}
+    else{btn.textContent='🔊 الصوت مفعّل';btn.classList.remove('muted');}
+  }
+}
+
+function toggleCameraMute(){
+  cameraMuted=!cameraMuted;
+  applyCameraMuteState();
+  showToast(cameraMuted?'تم كتم الصوت أثناء التسجيل':'تم تفعيل الصوت');
+}
+
 function closeCamera(){if(cameraRecorder&&cameraRecorder.state==='recording')stopCameraRecording();if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;}document.getElementById('cameraPreview').srcObject=null;document.getElementById('cameraOverlay').classList.remove('active');document.body.style.overflow='';if(cameraTimerInterval){clearInterval(cameraTimerInterval);cameraTimerInterval=null;}document.getElementById('cameraTimer').textContent='00:00';document.getElementById('cameraRecordBtn').classList.remove('recording');}
 async function switchCamera(){cameraFacing=cameraFacing==='environment'?'user':'environment';try{await startCameraStream();}catch(err){cameraFacing=cameraFacing==='environment'?'user':'environment';showToast('لم يتم تبديل الكاميرا');}}
 function toggleCameraFlash(){if(!cameraStream)return;const track=cameraStream.getVideoTracks()[0];const cap=track.getCapabilities?track.getCapabilities():{};if(!cap.torch){showToast('الفلاش غير متاح');return;}cameraFlashOn=!cameraFlashOn;track.applyConstraints({advanced:[{torch:cameraFlashOn}]}).catch(()=>{});document.getElementById('cameraFlashBtn').style.background=cameraFlashOn?'#fbbf24':'rgba(255,255,255,.15)';}
 function toggleCameraRecording(){if(cameraRecorder&&cameraRecorder.state==='recording')stopCameraRecording();else startCameraRecording();}
+
 function startCameraRecording(){
-if(!cameraStream)return;cameraChunks=[];
-var mimeOptions=['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4;codecs=avc1','video/mp4','video/webm;codecs=h264','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'];
-var mimeType='';
-for(var i=0;i<mimeOptions.length;i++){if(MediaRecorder.isTypeSupported(mimeOptions[i])){mimeType=mimeOptions[i];break;}}
-var options=mimeType?{mimeType:mimeType}:{};
-try{cameraRecorder=new MediaRecorder(cameraStream,options);}catch(err){showToast('التسجيل غير مدعوم');return;}
-cameraRecorder.ondataavailable=function(e){if(e.data.size>0)cameraChunks.push(e.data);};
-cameraRecorder.onstop=async function(){var actualType=cameraRecorder.mimeType||mimeType||'video/webm';var blob=new Blob(cameraChunks,{type:actualType});await addVideoToProject(blob,actualType);};
-cameraRecorder.start();cameraStartTime=Date.now();
-document.getElementById('cameraRecordBtn').classList.add('recording');
-cameraTimerInterval=setInterval(updateCameraTimer,100);
+  if(!cameraStream)return;
+  cameraChunks=[];
+  // طبّق حالة الكتم قبل بدء التسجيل
+  applyCameraMuteState();
+  var mimeOptions=['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4;codecs=avc1','video/mp4','video/webm;codecs=h264','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'];
+  var mimeType='';
+  for(var i=0;i<mimeOptions.length;i++){if(MediaRecorder.isTypeSupported(mimeOptions[i])){mimeType=mimeOptions[i];break;}}
+  var options=mimeType?{mimeType:mimeType}:{};
+  try{cameraRecorder=new MediaRecorder(cameraStream,options);}catch(err){showToast('التسجيل غير مدعوم');return;}
+  cameraRecorder.ondataavailable=function(e){if(e.data.size>0)cameraChunks.push(e.data);};
+  cameraRecorder.onstop=async function(){var actualType=cameraRecorder.mimeType||mimeType||'video/webm';var blob=new Blob(cameraChunks,{type:actualType});await addVideoToProject(blob,actualType);};
+  cameraRecorder.start();cameraStartTime=Date.now();
+  document.getElementById('cameraRecordBtn').classList.add('recording');
+  cameraTimerInterval=setInterval(updateCameraTimer,100);
 }
 function stopCameraRecording(){if(cameraRecorder&&cameraRecorder.state==='recording')cameraRecorder.stop();if(cameraTimerInterval){clearInterval(cameraTimerInterval);cameraTimerInterval=null;}document.getElementById('cameraRecordBtn').classList.remove('recording');}
 function updateCameraTimer(){const elapsed=Math.floor((Date.now()-cameraStartTime)/1000);const m=Math.floor(elapsed/60).toString().padStart(2,'0');const s=(elapsed%60).toString().padStart(2,'0');document.getElementById('cameraTimer').textContent=m+':'+s;if(elapsed>=cameraMaxDuration){stopCameraRecording();showToast('وصلت للحد الأقصى ('+cameraMaxDuration+' ث)');}}
@@ -893,7 +931,7 @@ closeCamera();
 }
 async function handleCameraFileUpload(event){var file=event.target.files[0];if(!file)return;if(!file.type.startsWith('video/')){showToast('الرجاء اختيار ملف فيديو');return;}await addVideoToProject(file,file.type);event.target.value='';}
 
-window.addEventListener('load',function(){renderLayouts();updateInfo();if(!window.MediaRecorder){showToast('متصفحك لا يدعم تصدير الفيديو');document.getElementById('exportBtn').disabled=true;}if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){var rb=document.getElementById('recordBtn');if(rb)rb.disabled=true;}trackEvent('montage-زيارة');console.log('✅ المونتاج + الكاميرا MP4 + صوت الفيديو جاهز');});
+window.addEventListener('load',function(){renderLayouts();updateInfo();if(!window.MediaRecorder){showToast('متصفحك لا يدعم تصدير الفيديو');document.getElementById('exportBtn').disabled=true;}if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){var rb=document.getElementById('recordBtn');if(rb)rb.disabled=true;}trackEvent('montage-زيارة');console.log('✅ المونتاج + زر كتم الصوت جاهز');});
 </script>
 </body>
 </html>
