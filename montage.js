@@ -3032,3 +3032,25 @@ window.addEventListener('load',function(){
   setTimeout(function(){pushHistory();},500);
   console.log('✅ ريشة المونتاج v7.0 — كل المميزات');
 });
+
+// ============ THEME TOGGLE (قمر ⇄ شمس) ============
+(function initTheme(){
+  var saved=localStorage.getItem('resha-theme')||'light';
+  if(saved==='dark'){
+    document.body.classList.add('dark-mode');
+  }
+})();
+
+window.addEventListener('load',function(){
+  var btn=document.getElementById('themeBtn');
+  if(!btn)return;
+  btn.addEventListener('click',function(){
+    var isDark=document.body.classList.toggle('dark-mode');
+    localStorage.setItem('resha-theme',isDark?'dark':'light');
+    btn.style.transform='scale(0.9)';
+    setTimeout(function(){btn.style.transform='';},150);
+    if(typeof showToast==='function'){
+      showToast(isDark?'🌙 الوضع الليلي':'☀️ الوضع النهاري');
+    }
+  });
+});
