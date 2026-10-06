@@ -14,10 +14,15 @@
 <link rel="stylesheet" href="montage.css">
 
 <style>
-/* أيقونات SVG تتأثر بحجم الزر */
-.logout-btn svg{display:block;pointer-events:none}
-.btn svg{display:block}
-.tab-btn svg{display:block}
+svg{display:inline-block;vertical-align:middle;flex-shrink:0}
+.logout-btn{display:inline-flex;align-items:center;justify-content:center;min-width:38px}
+.logout-btn svg{pointer-events:none}
+.btn{gap:8px}
+.tab-btn{gap:6px}
+.opt-btn{display:inline-flex;align-items:center;gap:6px}
+.camera-open-btn{display:flex!important;align-items:center;justify-content:center;gap:8px}
+.upload-icon svg{color:#94a3b8}
+.info-row svg{color:#64748b;margin-left:6px}
 </style>
 </head>
 <body>
@@ -37,8 +42,21 @@
       <button type="submit" class="auth-btn" id="authSubmitBtn">دخول</button>
       <div style="text-align:center;margin-top:10px;"><button type="button" id="forgotBtn" style="background:none;border:none;color:#0f172a;font-weight:700;font-size:12px;cursor:pointer;text-decoration:underline;">نسيت كلمة المرور؟</button></div>
       <div class="social-divider"><span>أو</span></div>
-      <button type="button" onclick="loginWithGoogle()" class="social-btn">الدخول عبر Google</button>
-      <button type="button" onclick="loginWithGitHub()" class="social-btn social-btn-github">الدخول عبر GitHub</button>
+      <button type="button" onclick="loginWithGoogle()" class="social-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+          <path d="M2 12h20"/>
+        </svg>
+        الدخول عبر Google
+      </button>
+      <button type="button" onclick="loginWithGitHub()" class="social-btn social-btn-github">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+          <path d="M9 18c-4.51 2-5-2-7-2"/>
+        </svg>
+        الدخول عبر GitHub
+      </button>
     </form>
     <div class="auth-switch" id="authSwitch">ما عندك حساب؟ <button type="button" id="authToggleMode">أنشئ حساب</button></div>
   </div>
@@ -53,55 +71,23 @@
     <div class="header-logo"><div class="header-icon">🎬</div><div><div class="header-text">المونتاج</div><div class="header-sub">صور → فيديو</div></div></div>
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
       <span class="user-chip" id="userChip">—</span>
-
-      <!-- زر تراجع -->
       <button class="logout-btn" id="undoBtn" disabled title="تراجع">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 14 4 9l5-5"/>
-          <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
       </button>
-
-      <!-- زر إعادة -->
       <button class="logout-btn" id="redoBtn" disabled title="إعادة">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m15 14 5-5-5-5"/>
-          <path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13"/></svg>
       </button>
-
-      <!-- زر حفظ -->
       <button class="logout-btn" id="saveProjectBtn" title="حفظ">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/>
-          <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/>
-          <path d="M7 3v4a1 1 0 0 0 1 1h7"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
       </button>
-
-      <!-- زر مشاريعي -->
       <button class="logout-btn" id="myProjectsBtn" title="مشاريعي">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
       </button>
-
-      <!-- زر المعرض -->
       <button class="logout-btn" id="galleryBtn" title="المعرض">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
-          <path d="M2 12h20"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
       </button>
-
-      <!-- زر خروج -->
       <button class="logout-btn" id="logoutBtn" title="خروج">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-          <polyline points="16 17 21 12 16 7"/>
-          <line x1="21" x2="9" y1="12" y2="12"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
       </button>
     </div>
   </div>
@@ -116,25 +102,31 @@
     </div>
     <div class="actions">
       <button class="btn btn-preview" id="previewBtn" onclick="previewVideo()" disabled>
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="6 3 20 12 6 21 6 3"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
         <span>معاينة</span>
       </button>
       <button class="btn btn-export" id="exportBtn" onclick="exportVideo()" disabled>
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="7 10 12 15 17 10"/>
-          <line x1="12" x2="12" y1="15" y2="3"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
         <span>تصدير</span>
       </button>
     </div>
     <div class="share-row section-hidden" id="shareRow">
-      <button class="share-btn share-wa" onclick="shareWhatsApp()">واتساب</button>
-      <button class="share-btn share-tw" onclick="shareTwitter()">تويتر</button>
-      <button class="share-btn share-tg" onclick="shareTelegram()">تلغرام</button>
-      <button class="share-btn share-cp" onclick="copyShareLink()">📋 نسخ</button>
+      <button class="share-btn share-wa" onclick="shareWhatsApp()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+        واتساب
+      </button>
+      <button class="share-btn share-tw" onclick="shareTwitter()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+        تويتر
+      </button>
+      <button class="share-btn share-tg" onclick="shareTelegram()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+        تلغرام
+      </button>
+      <button class="share-btn share-cp" onclick="copyShareLink()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        نسخ
+      </button>
     </div>
     <div class="progress" id="progressContainer"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText">جاري التحضير</div></div>
   </div>
@@ -142,80 +134,39 @@
   <!-- Tabs Bar -->
   <div class="tabs-bar">
     <button class="tab-btn active" onclick="switchTab('images', this)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
-        <circle cx="9" cy="9" r="2"/>
-        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
       <span>الوسائط</span>
     </button>
     <button class="tab-btn" onclick="switchTab('layouts', this)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect width="7" height="9" x="3" y="3" rx="1"/>
-        <rect width="7" height="5" x="14" y="3" rx="1"/>
-        <rect width="7" height="9" x="14" y="12" rx="1"/>
-        <rect width="7" height="5" x="3" y="16" rx="1"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
       <span>تخطيطات</span>
     </button>
     <button class="tab-btn" onclick="switchTab('animate', this)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m3 21 9-9"/>
-        <path d="M15 4V2"/>
-        <path d="M15 16v-2"/>
-        <path d="M8 9h2"/>
-        <path d="M20 9h2"/>
-        <path d="M17.8 11.8 19 13"/>
-        <path d="M15 9h.01"/>
-        <path d="M17.8 6.2 19 5"/>
-        <path d="m3 3 9 9"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
       <span>حركات</span>
     </button>
     <button class="tab-btn" onclick="switchTab('transitions', this)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect width="18" height="18" x="3" y="3" rx="2"/>
-        <path d="M7 3v18"/>
-        <path d="M17 3v18"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M17 3v18"/></svg>
       <span>انتقالات</span>
     </button>
     <button class="tab-btn" onclick="switchTab('elements', this)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="4 7 4 4 20 4 20 7"/>
-        <line x1="9" x2="15" y1="20" y2="20"/>
-        <line x1="12" x2="12" y1="4" y2="20"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>
       <span>عناصر</span>
     </button>
     <button class="tab-btn" onclick="switchTab('watermark', this)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>
       <span>شعار</span>
     </button>
     <button class="tab-btn" onclick="switchTab('templates', this)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect width="18" height="7" x="3" y="3" rx="1"/>
-        <rect width="9" height="7" x="3" y="14" rx="1"/>
-        <rect width="5" height="7" x="16" y="14" rx="1"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/></svg>
       <span>قوالب</span>
     </button>
     <button class="tab-btn" onclick="switchTab('audio', this)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 18V5l12-2v13"/>
-        <circle cx="6" cy="18" r="3"/>
-        <circle cx="18" cy="16" r="3"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
       <span>صوت</span>
     </button>
     <button class="tab-btn" onclick="switchTab('info', this)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 16v-4"/>
-        <path d="M12 8h.01"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
       <span>معلومات</span>
     </button>
   </div>
@@ -225,9 +176,14 @@
     <!-- ===== Panel: Images ===== -->
     <div id="panel-images" class="panel active">
       <div class="panel-title">الوسائط (صور + فيديو)</div>
-      <button class="camera-open-btn" onclick="openCamera()">📷 افتح الكاميرا وسجّل MP4</button>
+      <button class="camera-open-btn" onclick="openCamera()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+        <span>افتح الكاميرا وسجّل MP4</span>
+      </button>
       <div class="upload-area" onclick="document.getElementById('imageInput').click()">
-        <div class="upload-icon">🖼️</div>
+        <div class="upload-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+        </div>
         <div class="upload-text">اضغط لاختيار الصور أو الفيديوهات</div>
         <div class="upload-hint">حتى 30 عنصر</div>
       </div>
@@ -282,12 +238,30 @@
           <button onclick="applyCustomDuration()" style="padding:8px 14px;background:#0f172a;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">تطبيق</button>
         </div></div>
         <div class="option-group"><label class="option-label">تعديل</label><div class="option-buttons">
-          <button class="opt-btn" onclick="openCrop()">✂️ قص الصورة</button>
-          <button class="opt-btn" onclick="rotateImage(90)">🔄 90°</button>
-          <button class="opt-btn" onclick="rotateImage(-90)">🔄 -90°</button>
-          <button class="opt-btn" onclick="flipImage('h')">↔️ عكس</button>
-          <button class="opt-btn" onclick="flipImage('v')">↕️ عكس</button>
-          <button class="opt-btn danger" onclick="resetImageEdits()">↺ إعادة</button>
+          <button class="opt-btn" onclick="openCrop()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><path d="M20 4 8.12 15.88"/><circle cx="6" cy="18" r="3"/><path d="M14.8 14.8 20 20"/></svg>
+            قص
+          </button>
+          <button class="opt-btn" onclick="rotateImage(90)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+            90°
+          </button>
+          <button class="opt-btn" onclick="rotateImage(-90)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:scaleX(-1)"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+            -90°
+          </button>
+          <button class="opt-btn" onclick="flipImage('h')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="m16 7 4 5-4 5"/><path d="m8 7-4 5 4 5"/></svg>
+            عكس أفقي
+          </button>
+          <button class="opt-btn" onclick="flipImage('v')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="m7 8 5-4 5 4"/><path d="m7 16 5 4 5-4"/></svg>
+            عكس عمودي
+          </button>
+          <button class="opt-btn danger" onclick="resetImageEdits()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            إعادة
+          </button>
         </div></div>
       </div>
     </div>
@@ -298,10 +272,10 @@
       <div class="option-group">
         <label class="option-label">🎚️ جودة التصدير</label>
         <div class="option-buttons" id="qualityOptions">
-          <button class="opt-btn" data-quality="low">💾 منخفضة (3 Mbps)</button>
-          <button class="opt-btn active" data-quality="medium">⚖️ متوسطة (8 Mbps)</button>
-          <button class="opt-btn" data-quality="high">🎬 عالية (15 Mbps)</button>
-          <button class="opt-btn" data-quality="ultra">🔥 فائقة (25 Mbps)</button>
+          <button class="opt-btn" data-quality="low">منخفضة (3 Mbps)</button>
+          <button class="opt-btn active" data-quality="medium">متوسطة (8 Mbps)</button>
+          <button class="opt-btn" data-quality="high">عالية (15 Mbps)</button>
+          <button class="opt-btn" data-quality="ultra">فائقة (25 Mbps)</button>
         </div>
       </div>
       <div class="option-group"><label class="option-label">حجم الفيديو</label><div class="option-buttons" id="sizeOptions">
@@ -333,7 +307,10 @@
     <!-- ===== Panel: Elements ===== -->
     <div id="panel-elements" class="panel">
       <div class="panel-title">نصوص وملصقات</div>
-      <div class="option-group"><label class="option-label">📝 أضف نص</label>
+      <div class="option-group"><label class="option-label" style="display:flex;align-items:center;gap:6px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>
+        أضف نص
+      </label>
         <div class="auth-field" style="margin-bottom:8px;"><textarea id="textContent" rows="2" placeholder="اكتب النص هنا..."></textarea></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
           <select id="textFont" class="auth-field" style="padding:10px;border:1.5px solid #e2e8f0;border-radius:10px;font-weight:700;">
@@ -348,10 +325,28 @@
         <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;"><label style="font-size:12px;font-weight:700;">الحجم</label><input type="range" id="textSize" min="3" max="20" value="8" style="flex:1;"><span id="textSizeLabel" style="font-size:12px;font-weight:800;color:#0f172a;">8</span></div>
         <div style="margin-bottom:10px;"><label style="font-size:12px;font-weight:700;"><input type="checkbox" id="textShadow" checked> ظل</label></div>
         <label class="option-label">الموضع</label><div class="position-grid" id="textPositionGrid"></div>
-        <button class="btn btn-preview" style="margin-top:10px;padding:10px;font-size:13px;" onclick="addTextElement()">➕ إضافة النص</button>
+        <button class="btn btn-preview" style="margin-top:10px;padding:10px;font-size:13px;" onclick="addTextElement()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          إضافة النص
+        </button>
       </div>
-      <div class="option-group" style="margin-top:20px;"><label class="option-label">😀 أضف ملصق</label><div class="emoji-grid" id="emojiGrid"></div><label class="option-label" style="margin-top:10px;">الموضع</label><div class="position-grid" id="stickerPositionGrid"></div></div>
-      <div class="option-group" style="margin-top:20px;"><label class="option-label">📋 العناصر المضافة</label><div class="element-list" id="elementList"></div><div class="empty-hint" id="elementsEmpty">لا توجد عناصر</div></div>
+      <div class="option-group" style="margin-top:20px;">
+        <label class="option-label" style="display:flex;align-items:center;gap:6px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg>
+          أضف ملصق
+        </label>
+        <div class="emoji-grid" id="emojiGrid"></div>
+        <label class="option-label" style="margin-top:10px;">الموضع</label>
+        <div class="position-grid" id="stickerPositionGrid"></div>
+      </div>
+      <div class="option-group" style="margin-top:20px;">
+        <label class="option-label" style="display:flex;align-items:center;gap:6px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12H3"/><path d="M16 6H3"/><path d="M16 18H3"/><path d="m19 10-4 4-4-4"/></svg>
+          العناصر المضافة
+        </label>
+        <div class="element-list" id="elementList"></div>
+        <div class="empty-hint" id="elementsEmpty">لا توجد عناصر</div>
+      </div>
     </div>
 
     <!-- ===== Panel: Watermark ===== -->
@@ -372,7 +367,12 @@
           <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;"><label style="font-size:12px;font-weight:700;">الحجم</label><input type="range" id="wmSize" min="2" max="15" value="5" style="flex:1;"></div>
         </div>
         <div id="wmImageSection" class="section-hidden">
-          <div class="upload-area" onclick="document.getElementById('wmImageInput').click()"><div class="upload-icon">🖼️</div><div class="upload-text">ارفع صورة الشعار</div></div>
+          <div class="upload-area" onclick="document.getElementById('wmImageInput').click()">
+            <div class="upload-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+            </div>
+            <div class="upload-text">ارفع صورة الشعار</div>
+          </div>
           <input type="file" id="wmImageInput" accept="image/*" style="display:none;">
           <div id="wmPreviewInfo" class="music-info section-hidden"><span>✅ تم رفع الشعار</span><button class="music-remove" onclick="removeWmImage()">حذف</button></div>
         </div>
@@ -409,12 +409,22 @@
         <div class="recorder-actions section-hidden" id="recordActions"><button class="primary" onclick="useRecording()">استخدام</button><button class="danger" onclick="deleteRecording()">حذف</button></div>
       </div></div>
       <div id="audioTab-upload" class="section-hidden">
-        <div class="upload-area" onclick="document.getElementById('audioInput').click()"><div class="upload-icon">🎵</div><div class="upload-text">رفع ملف صوتي</div></div>
+        <div class="upload-area" onclick="document.getElementById('audioInput').click()">
+          <div class="upload-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <div class="upload-text">رفع ملف صوتي</div>
+        </div>
         <input type="file" id="audioInput" accept="audio/*" style="display:none;">
         <div id="audioUploadInfo" class="music-info section-hidden"><span id="audioUploadName">ملف صوتي</span><button class="music-remove" onclick="removeAudioUpload()">حذف</button></div>
       </div>
       <div id="audioTab-music" class="section-hidden">
-        <div class="upload-area" onclick="document.getElementById('musicInput').click()"><div class="upload-icon">🎼</div><div class="upload-text">رفع موسيقى خلفية</div></div>
+        <div class="upload-area" onclick="document.getElementById('musicInput').click()">
+          <div class="upload-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="18" r="4"/><path d="M12 18V2l7 4"/></svg>
+          </div>
+          <div class="upload-text">رفع موسيقى خلفية</div>
+        </div>
         <input type="file" id="musicInput" accept="audio/*" style="display:none;">
         <div id="musicInfo" class="music-info section-hidden"><span id="musicName">موسيقى</span><button class="music-remove" onclick="removeMusic()">حذف</button></div>
       </div>
@@ -434,7 +444,12 @@
       <div class="info-row"><span>😀 الملصقات</span><span class="info-row-value" id="infoStickers">0</span></div>
       <div class="info-row"><span>💧 الشعار</span><span class="info-row-value" id="infoWatermark">معطّل</span></div>
       <div class="info-row"><span>🎵 الصوت</span><span class="info-row-value" id="infoAudio">بدون</span></div>
-      <div style="margin-top:16px;"><button class="btn btn-reset" onclick="resetAll()" style="width:100%;">🔄 إعادة تعيين الكل</button></div>
+      <div style="margin-top:16px;">
+        <button class="btn btn-reset" onclick="resetAll()" style="width:100%;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          إعادة تعيين الكل
+        </button>
+      </div>
     </div>
 
   </div><!-- /tab-panels -->
@@ -456,18 +471,28 @@
 <!-- ============ CAMERA OVERLAY ============ -->
 <div id="cameraOverlay">
   <div class="camera-top-bar">
-    <button onclick="closeCamera()">✕ إغلاق</button>
+    <button onclick="closeCamera()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:4px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      إغلاق
+    </button>
     <span class="camera-timer" id="cameraTimer">00:00</span>
-    <button onclick="switchCamera()">🔄 تبديل</button>
+    <button onclick="switchCamera()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:4px;"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+      تبديل
+    </button>
   </div>
   <div class="camera-preview-wrap">
     <button class="camera-mute-btn" id="cameraMuteBtn" onclick="toggleCameraMute()">🔊 الصوت مفعّل</button>
     <video id="cameraPreview" autoplay playsinline muted></video>
   </div>
   <div class="camera-bottom-bar">
-    <button class="camera-side-btn" onclick="document.getElementById('cameraFileInput').click()">📁</button>
+    <button class="camera-side-btn" onclick="document.getElementById('cameraFileInput').click()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+    </button>
     <button class="camera-record-btn" id="cameraRecordBtn" onclick="toggleCameraRecording()"></button>
-    <button class="camera-side-btn" onclick="toggleCameraFlash()" id="cameraFlashBtn">⚡</button>
+    <button class="camera-side-btn" onclick="toggleCameraFlash()" id="cameraFlashBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+    </button>
   </div>
   <input type="file" id="cameraFileInput" accept="video/*" style="display:none;" onchange="handleCameraFileUpload(event)">
 </div>
@@ -509,8 +534,14 @@
     <div id="viewProjectPreview" style="background:#0a0a0a;border-radius:12px;min-height:250px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"></div>
     <div id="viewProjectInfo" style="margin-bottom:16px;"></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="btn btn-export" style="flex:1;padding:12px;" onclick="likeCurrentProject()">❤️ إعجاب</button>
-      <button class="btn btn-preview" style="flex:1;padding:12px;" onclick="copyCurrentProject()">📋 نسخ للتعديل</button>
+      <button class="btn btn-export" style="flex:1;padding:12px;" onclick="likeCurrentProject()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        إعجاب
+      </button>
+      <button class="btn btn-preview" style="flex:1;padding:12px;" onclick="copyCurrentProject()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        نسخ للتعديل
+      </button>
     </div>
   </div>
 </div>
