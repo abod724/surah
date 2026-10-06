@@ -30,8 +30,6 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
-
-/* ═══ Header ═══ */
 .header {
   background: #0f172a;
   padding: 16px 20px;
@@ -71,11 +69,7 @@ body {
   transition: all 0.2s;
 }
 .header-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.2); }
-
-/* ═══ Container ═══ */
 .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
-
-/* ═══ Canvas Area ═══ */
 .canvas-wrapper {
   background: var(--card);
   border-radius: var(--radius);
@@ -107,8 +101,6 @@ body {
   height: auto;
 }
 .canvas-container .upper-canvas { touch-action: none !important; }
-
-/* ═══ Tabs Bar ═══ */
 .tabs-bar {
   display: flex;
   gap: 6px;
@@ -140,8 +132,6 @@ body {
   color: #fff;
   border-color: #0f172a;
 }
-
-/* ═══ Tab Panels ═══ */
 .tab-panels {
   background: var(--card);
   border-radius: var(--radius);
@@ -173,8 +163,6 @@ body {
   background: #0f172a;
   border-radius: 2px;
 }
-
-/* ═══ Inputs ═══ */
 textarea {
   width: 100%;
   padding: 14px;
@@ -254,8 +242,6 @@ label {
   margin-bottom: 8px;
 }
 .field-value { font-weight: 900; color: #0f172a; font-size: 14px; }
-
-/* ═══ Buttons ═══ */
 .btn-col { display: flex; flex-direction: column; gap: 8px; }
 .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .btn {
@@ -285,8 +271,6 @@ label {
   color: var(--text);
   border: 1.5px solid var(--border);
 }
-
-/* ═══ Color Grid ═══ */
 .color-grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
@@ -302,8 +286,6 @@ label {
 }
 .color-swatch:active { transform: scale(0.9); }
 .color-swatch.active { border-color: #0f172a; transform: scale(1.05); }
-
-/* ═══ Font Grid ═══ */
 .font-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -341,8 +323,6 @@ label {
   border-radius: 6px;
   white-space: nowrap;
 }
-
-/* ═══ Table Picker ═══ */
 .table-picker-btn {
   width: 100%;
   padding: 14px;
@@ -403,8 +383,6 @@ label {
   background: #f1f5f9;
   border-radius: 8px;
 }
-
-/* ═══ Voice Input ═══ */
 .btn-voice {
   width: 100%;
   margin-top: 10px;
@@ -440,8 +418,6 @@ label {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
 }
-
-/* ═══ Footer ═══ */
 .footer {
   text-align: center;
   padding: 24px 16px;
@@ -449,11 +425,7 @@ label {
   font-size: 12px;
 }
 .footer a { color: #0f172a; text-decoration: none; font-weight: 700; }
-
-/* ═══ Divider ═══ */
 .divider { height: 1px; background: var(--border); margin: 16px 0; }
-
-/* ═══ Responsive ═══ */
 @media (min-width: 900px) {
   .editor-layout {
     display: grid;
@@ -1259,11 +1231,10 @@ window.addEventListener('load', function() {
   });
 
   /* ═══════════════════════════════════════
-     تحويل الكلام إلى نص
+     تحويل الكلام إلى نص (بدون تكرار)
      ═══════════════════════════════════════ */
   var isRecordingVoice = false;
   var voiceRecognition = null;
-  var voiceFinalText = '';
   var voiceBaseText = '';
 
   function initVoiceRecognition() {
@@ -1274,35 +1245,42 @@ window.addEventListener('load', function() {
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     voiceRecognition = new SR();
     voiceRecognition.lang = 'ar-SA';
-    voiceRecognition.continuous = true;
+    voiceRecognition.continuous = false;
     voiceRecognition.interimResults = true;
 
     voiceRecognition.onresult = function(event) {
+      var final = '';
       var interim = '';
-      for (var i = event.resultIndex; i < event.results.length; i++) {
+      for (var i = 0; i < event.results.length; i++) {
         var transcript = event.results[i][0].transcript;
         if (event.results[i].isFinal) {
-          voiceFinalText += transcript + ' ';
+          final += transcript;
         } else {
           interim += transcript;
         }
       }
-      document.getElementById('textInput').value = voiceBaseText + voiceFinalText + interim;
+      document.getElementById('textInput').value = voiceBaseText + final + interim;
     };
 
     voiceRecognition.onerror = function(event) {
       console.error('Voice error:', event.error);
       if (event.error === 'not-allowed') {
         alert('⚠️ الرجاء السماح للميكروفون من إعدادات المتصفح');
-      }
-      if (event.error !== 'no-speech') {
         stopVoiceInput();
       }
     };
 
     voiceRecognition.onend = function() {
       if (isRecordingVoice) {
-        try { voiceRecognition.start(); } catch(e) {}
+        voiceBaseText = document.getElementById('textInput').value;
+        if (voiceBaseText && !voiceBaseText.endsWith(' ') && !voiceBaseText.endsWith('\n')) {
+          voiceBaseText += ' ';
+        }
+        setTimeout(function() {
+          if (isRecordingVoice) {
+            try { voiceRecognition.start(); } catch(e) {}
+          }
+        }, 200);
       }
     };
 
@@ -1318,7 +1296,6 @@ window.addEventListener('load', function() {
     if (!voiceRecognition) {
       if (!initVoiceRecognition()) return;
     }
-    voiceFinalText = '';
     voiceBaseText = document.getElementById('textInput').value;
     if (voiceBaseText && !voiceBaseText.endsWith(' ') && !voiceBaseText.endsWith('\n')) {
       voiceBaseText += ' ';
