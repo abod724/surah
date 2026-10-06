@@ -22,7 +22,6 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .opt-btn{display:inline-flex;align-items:center;gap:6px}
 .camera-open-btn{display:flex!important;align-items:center;justify-content:center;gap:8px}
 .upload-icon svg{color:#94a3b8}
-.info-row svg{color:#64748b;margin-left:6px}
 </style>
 </head>
 <body>
@@ -44,9 +43,7 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
       <div class="social-divider"><span>أو</span></div>
       <button type="button" onclick="loginWithGoogle()" class="social-btn">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
-          <path d="M2 12h20"/>
+          <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
         </svg>
         الدخول عبر Google
       </button>
@@ -71,21 +68,38 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
     <div class="header-logo"><div class="header-icon">🎬</div><div><div class="header-text">المونتاج</div><div class="header-sub">صور → فيديو</div></div></div>
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
       <span class="user-chip" id="userChip">—</span>
+
       <button class="logout-btn" id="undoBtn" disabled title="تراجع">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
       </button>
+
       <button class="logout-btn" id="redoBtn" disabled title="إعادة">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13"/></svg>
       </button>
+
       <button class="logout-btn" id="saveProjectBtn" title="حفظ">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
       </button>
+
       <button class="logout-btn" id="myProjectsBtn" title="مشاريعي">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
       </button>
+
+      <button class="logout-btn" id="themeBtn" title="تبديل الوضع">
+        <span class="theme-icon-wrap">
+          <svg class="theme-svg theme-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 5h4"/><path d="M20 3v4"/><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
+          </svg>
+          <svg class="theme-svg theme-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/><path d="M12 3v1"/><path d="M12 20v1"/><path d="M3 12h1"/><path d="M20 12h1"/><path d="m18.364 5.636-.707.707"/><path d="m6.343 17.657-.707.707"/><path d="m5.636 5.636.707.707"/><path d="m17.657 17.657.707.707"/>
+          </svg>
+        </span>
+      </button>
+
       <button class="logout-btn" id="galleryBtn" title="المعرض">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
       </button>
+
       <button class="logout-btn" id="logoutBtn" title="خروج">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
       </button>
@@ -173,7 +187,7 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 
   <div class="tab-panels">
 
-    <!-- ===== Panel: Images ===== -->
+    <!-- Panel: Images -->
     <div id="panel-images" class="panel active">
       <div class="panel-title">الوسائط (صور + فيديو)</div>
       <button class="camera-open-btn" onclick="openCamera()">
@@ -192,14 +206,14 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
       <div class="empty-hint" id="imagesEmpty">لا توجد وسائط بعد</div>
     </div>
 
-    <!-- ===== Panel: Layouts ===== -->
+    <!-- Panel: Layouts -->
     <div id="panel-layouts" class="panel">
       <div class="panel-title">اختر التخطيط</div>
       <div class="layouts-grid" id="layoutsGrid"></div>
       <div class="info-row" style="margin-top:12px;"><span>🎨 التخطيط الحالي</span><span class="info-row-value" id="layoutName">صورة واحدة</span></div>
     </div>
 
-    <!-- ===== Panel: Animate ===== -->
+    <!-- Panel: Animate -->
     <div id="panel-animate" class="panel">
       <div class="panel-title">حركات العنصر</div>
       <div id="animateEmpty" class="empty-hint">لم تختر عنصراً</div>
@@ -266,7 +280,7 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
       </div>
     </div>
 
-    <!-- ===== Panel: Transitions ===== -->
+    <!-- Panel: Transitions -->
     <div id="panel-transitions" class="panel">
       <div class="panel-title">الانتقالات والأحجام</div>
       <div class="option-group">
@@ -304,13 +318,14 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
       </div></div>
     </div>
 
-    <!-- ===== Panel: Elements ===== -->
+    <!-- Panel: Elements -->
     <div id="panel-elements" class="panel">
       <div class="panel-title">نصوص وملصقات</div>
-      <div class="option-group"><label class="option-label" style="display:flex;align-items:center;gap:6px;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>
-        أضف نص
-      </label>
+      <div class="option-group">
+        <label class="option-label" style="display:flex;align-items:center;gap:6px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>
+          أضف نص
+        </label>
         <div class="auth-field" style="margin-bottom:8px;"><textarea id="textContent" rows="2" placeholder="اكتب النص هنا..."></textarea></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
           <select id="textFont" class="auth-field" style="padding:10px;border:1.5px solid #e2e8f0;border-radius:10px;font-weight:700;">
@@ -340,16 +355,13 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
         <div class="position-grid" id="stickerPositionGrid"></div>
       </div>
       <div class="option-group" style="margin-top:20px;">
-        <label class="option-label" style="display:flex;align-items:center;gap:6px;">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12H3"/><path d="M16 6H3"/><path d="M16 18H3"/><path d="m19 10-4 4-4-4"/></svg>
-          العناصر المضافة
-        </label>
+        <label class="option-label">📋 العناصر المضافة</label>
         <div class="element-list" id="elementList"></div>
         <div class="empty-hint" id="elementsEmpty">لا توجد عناصر</div>
       </div>
     </div>
 
-    <!-- ===== Panel: Watermark ===== -->
+    <!-- Panel: Watermark -->
     <div id="panel-watermark" class="panel">
       <div class="panel-title">Watermark (شعار)</div>
       <div class="option-group"><label class="option-label">تفعيل الشعار</label><div class="option-buttons">
@@ -386,14 +398,14 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
       </div>
     </div>
 
-    <!-- ===== Panel: Templates ===== -->
+    <!-- Panel: Templates -->
     <div id="panel-templates" class="panel">
       <div class="panel-title">القوالب الجاهزة</div>
       <div class="tabs-bar" id="templateCategories" style="padding-bottom:8px;"></div>
       <div class="templates-grid" id="templatesGrid"></div>
     </div>
 
-    <!-- ===== Panel: Audio ===== -->
+    <!-- Panel: Audio -->
     <div id="panel-audio" class="panel">
       <div class="panel-title">الصوت</div>
       <div class="audio-tabs">
@@ -430,7 +442,7 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
       </div>
     </div>
 
-    <!-- ===== Panel: Info ===== -->
+    <!-- Panel: Info -->
     <div id="panel-info" class="panel">
       <div class="panel-title">معلومات الفيديو</div>
       <div class="info-row"><span>📦 عدد الوسائط</span><span class="info-row-value" id="infoImages">0</span></div>
@@ -468,7 +480,7 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 </div>
 </div>
 
-<!-- ============ CAMERA OVERLAY ============ -->
+<!-- CAMERA OVERLAY -->
 <div id="cameraOverlay">
   <div class="camera-top-bar">
     <button onclick="closeCamera()">
@@ -497,20 +509,20 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
   <input type="file" id="cameraFileInput" accept="video/*" style="display:none;" onchange="handleCameraFileUpload(event)">
 </div>
 
-<!-- ============ CROP OVERLAY ============ -->
+<!-- CROP OVERLAY -->
 <div class="crop-overlay" id="cropOverlay">
   <div class="crop-header"><div class="crop-title">✂️ قص الصورة</div><button class="crop-close" onclick="closeCrop()">✕</button></div>
   <div class="crop-canvas-wrap"><canvas id="cropCanvas"></canvas></div>
   <div class="crop-controls"><button class="crop-btn crop-btn-cancel" onclick="closeCrop()">إلغاء</button><button class="crop-btn crop-btn-apply" onclick="applyCrop()">تطبيق</button></div>
 </div>
 
-<!-- ============ PROJECTS OVERLAY ============ -->
+<!-- PROJECTS OVERLAY -->
 <div class="crop-overlay" id="projectsOverlay">
   <div class="crop-header"><div class="crop-title">📁 مشاريعي</div><button class="crop-close" onclick="closeProjects()">✕</button></div>
   <div style="background:#fff;border-radius:16px;padding:16px;max-height:70vh;overflow-y:auto;"><div id="projectsList"><div class="empty-hint">لا توجد مشاريع</div></div></div>
 </div>
 
-<!-- ============ GALLERY OVERLAY ============ -->
+<!-- GALLERY OVERLAY -->
 <div class="crop-overlay" id="galleryOverlay">
   <div class="crop-header"><div class="crop-title">🌐 معرض الأعمال</div><button class="crop-close" onclick="closeGallery()">✕</button></div>
   <div style="background:#fff;border-radius:16px;padding:16px;max-height:80vh;overflow-y:auto;">
@@ -527,7 +539,7 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
   </div>
 </div>
 
-<!-- ============ VIEW PROJECT OVERLAY ============ -->
+<!-- VIEW PROJECT OVERLAY -->
 <div class="crop-overlay" id="viewProjectOverlay">
   <div class="crop-header"><div class="crop-title" id="viewProjectTitle">المشروع</div><button class="crop-close" onclick="closeViewProject()">✕</button></div>
   <div style="background:#fff;border-radius:16px;padding:16px;max-height:85vh;overflow-y:auto;">
@@ -546,7 +558,7 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
   </div>
 </div>
 
-<!-- ============ RESET PASSWORD OVERLAY ============ -->
+<!-- RESET PASSWORD OVERLAY -->
 <div id="resetOverlay">
   <div class="auth-card">
     <div class="auth-logo">🔑</div>
@@ -561,17 +573,16 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
   </div>
 </div>
 
-<!-- ============ LOADING OVERLAY ============ -->
+<!-- LOADING OVERLAY -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="spinner"></div>
   <div id="loadingText">جاري التحميل...</div>
   <button id="cancelLoadingBtn" onclick="window._cancelLoading&&window._cancelLoading()" style="margin-top:8px;padding:10px 22px;background:#ef4444;color:#fff;border:none;border-radius:10px;font-family:'Cairo',sans-serif;font-weight:800;font-size:14px;cursor:pointer;">✕ إلغاء</button>
 </div>
 
-<!-- ============ TOAST ============ -->
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- ============ SCRIPT ============ -->
 <script src="montage.js" defer></script>
 </body>
 </html>
