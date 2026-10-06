@@ -12,6 +12,13 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Lalezar&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="montage.css">
+
+<style>
+/* أيقونات SVG تتأثر بحجم الزر */
+.logout-btn svg{display:block;pointer-events:none}
+.btn svg{display:block}
+.tab-btn svg{display:block}
+</style>
 </head>
 <body>
 
@@ -46,12 +53,56 @@
     <div class="header-logo"><div class="header-icon">🎬</div><div><div class="header-text">المونتاج</div><div class="header-sub">صور → فيديو</div></div></div>
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
       <span class="user-chip" id="userChip">—</span>
-      <button class="logout-btn" id="undoBtn" disabled>↩️</button>
-      <button class="logout-btn" id="redoBtn" disabled>↪️</button>
-      <button class="logout-btn" id="saveProjectBtn">💾</button>
-      <button class="logout-btn" id="myProjectsBtn">📁</button>
-      <button class="logout-btn" id="galleryBtn">🌐</button>
-      <button class="logout-btn" id="logoutBtn">خروج</button>
+
+      <!-- زر تراجع -->
+      <button class="logout-btn" id="undoBtn" disabled title="تراجع">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 14 4 9l5-5"/>
+          <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/>
+        </svg>
+      </button>
+
+      <!-- زر إعادة -->
+      <button class="logout-btn" id="redoBtn" disabled title="إعادة">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 14 5-5-5-5"/>
+          <path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13"/>
+        </svg>
+      </button>
+
+      <!-- زر حفظ -->
+      <button class="logout-btn" id="saveProjectBtn" title="حفظ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/>
+          <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/>
+          <path d="M7 3v4a1 1 0 0 0 1 1h7"/>
+        </svg>
+      </button>
+
+      <!-- زر مشاريعي -->
+      <button class="logout-btn" id="myProjectsBtn" title="مشاريعي">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
+        </svg>
+      </button>
+
+      <!-- زر المعرض -->
+      <button class="logout-btn" id="galleryBtn" title="المعرض">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+          <path d="M2 12h20"/>
+        </svg>
+      </button>
+
+      <!-- زر خروج -->
+      <button class="logout-btn" id="logoutBtn" title="خروج">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" x2="9" y1="12" y2="12"/>
+        </svg>
+      </button>
     </div>
   </div>
 
@@ -64,8 +115,20 @@
       <div class="drag-hint">💡 اسحب النص لأي مكان</div>
     </div>
     <div class="actions">
-      <button class="btn btn-preview" id="previewBtn" onclick="previewVideo()" disabled>▶ معاينة</button>
-      <button class="btn btn-export" id="exportBtn" onclick="exportVideo()" disabled>💾 تصدير</button>
+      <button class="btn btn-preview" id="previewBtn" onclick="previewVideo()" disabled>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="6 3 20 12 6 21 6 3"/>
+        </svg>
+        <span>معاينة</span>
+      </button>
+      <button class="btn btn-export" id="exportBtn" onclick="exportVideo()" disabled>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" x2="12" y1="15" y2="3"/>
+        </svg>
+        <span>تصدير</span>
+      </button>
     </div>
     <div class="share-row section-hidden" id="shareRow">
       <button class="share-btn share-wa" onclick="shareWhatsApp()">واتساب</button>
@@ -78,15 +141,83 @@
 
   <!-- Tabs Bar -->
   <div class="tabs-bar">
-    <button class="tab-btn active" onclick="switchTab('images', this)">🖼️ الوسائط</button>
-    <button class="tab-btn" onclick="switchTab('layouts', this)">🎨 تخطيطات</button>
-    <button class="tab-btn" onclick="switchTab('animate', this)">🎬 حركات</button>
-    <button class="tab-btn" onclick="switchTab('transitions', this)">🎞️ انتقالات</button>
-    <button class="tab-btn" onclick="switchTab('elements', this)">✍️ عناصر</button>
-    <button class="tab-btn" onclick="switchTab('watermark', this)">💧 شعار</button>
-    <button class="tab-btn" onclick="switchTab('templates', this)">📋 قوالب</button>
-    <button class="tab-btn" onclick="switchTab('audio', this)">🎵 صوت</button>
-    <button class="tab-btn" onclick="switchTab('info', this)">ℹ️ معلومات</button>
+    <button class="tab-btn active" onclick="switchTab('images', this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+        <circle cx="9" cy="9" r="2"/>
+        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+      </svg>
+      <span>الوسائط</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('layouts', this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect width="7" height="9" x="3" y="3" rx="1"/>
+        <rect width="7" height="5" x="14" y="3" rx="1"/>
+        <rect width="7" height="9" x="14" y="12" rx="1"/>
+        <rect width="7" height="5" x="3" y="16" rx="1"/>
+      </svg>
+      <span>تخطيطات</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('animate', this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m3 21 9-9"/>
+        <path d="M15 4V2"/>
+        <path d="M15 16v-2"/>
+        <path d="M8 9h2"/>
+        <path d="M20 9h2"/>
+        <path d="M17.8 11.8 19 13"/>
+        <path d="M15 9h.01"/>
+        <path d="M17.8 6.2 19 5"/>
+        <path d="m3 3 9 9"/>
+      </svg>
+      <span>حركات</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('transitions', this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect width="18" height="18" x="3" y="3" rx="2"/>
+        <path d="M7 3v18"/>
+        <path d="M17 3v18"/>
+      </svg>
+      <span>انتقالات</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('elements', this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="4 7 4 4 20 4 20 7"/>
+        <line x1="9" x2="15" y1="20" y2="20"/>
+        <line x1="12" x2="12" y1="4" y2="20"/>
+      </svg>
+      <span>عناصر</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('watermark', this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>
+      </svg>
+      <span>شعار</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('templates', this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect width="18" height="7" x="3" y="3" rx="1"/>
+        <rect width="9" height="7" x="3" y="14" rx="1"/>
+        <rect width="5" height="7" x="16" y="14" rx="1"/>
+      </svg>
+      <span>قوالب</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('audio', this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18V5l12-2v13"/>
+        <circle cx="6" cy="18" r="3"/>
+        <circle cx="18" cy="16" r="3"/>
+      </svg>
+      <span>صوت</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('info', this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 16v-4"/>
+        <path d="M12 8h.01"/>
+      </svg>
+      <span>معلومات</span>
+    </button>
   </div>
 
   <div class="tab-panels">
